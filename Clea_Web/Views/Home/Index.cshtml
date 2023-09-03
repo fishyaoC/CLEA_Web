@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+<a href="@Url.Action("Index","B_Account")">測試-列表</a>
+<a href="@Url.Action("Modify","B_Account")">測試-內頁</a>
+<a href="@Url.Action("Index","Sys_Login")">測試-登入</a>
+<a href="@Url.Action("Index","Sys_Role")">測試-ROLE-列表</a>
+<a href="@Url.Action("Modify","Sys_Role")">測試-ROLE-內頁</a>

@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Clea_Web.props" />
+</Project>

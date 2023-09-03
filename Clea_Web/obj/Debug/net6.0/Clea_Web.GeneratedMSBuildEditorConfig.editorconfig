@@ -1,0 +1,85 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Clea_Web
+build_property.RootNamespace = Clea_Web
+build_property.ProjectDir = D:\workspace\Clea_Web\Clea_Web\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\workspace\Clea_Web\Clea_Web
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_Account/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_Account/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XE1vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Ib21lXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Sys_Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX0xvZ2luXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Sys_Role/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX1JvbGVcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Sys_Role/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX1JvbGVcTW9kaWZ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-nywug57uy8
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEnd.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-jlhas8bwzk
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEndFooter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kRm9vdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = b-kond2mnnpg
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEndLogin.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-6j7jh3xa0u
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEndMenu.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kTWVudS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-xa1k6hvylb
