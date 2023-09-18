@@ -5,6 +5,8 @@ namespace Clea_Web.Models;
 
 public partial class SysRole
 {
+    public Guid RUid { get; set; }
+
     /// <summary>
     /// 角色代碼
     /// </summary>
@@ -33,7 +35,7 @@ public partial class SysRole
 
     public DateTime? Upddate { get; set; }
 
-    public virtual ICollection<PNews> PNews { get; set; } = new List<PNews>();
-
     public virtual ICollection<SysPower> SysPowers { get; set; } = new List<SysPower>();
+
+    public virtual ICollection<SysUser> SysUsers { get; set; } = new List<SysUser>();
 }

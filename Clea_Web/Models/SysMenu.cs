@@ -11,6 +11,11 @@ public partial class SysMenu
     public long MId { get; set; }
 
     /// <summary>
+    /// P=前台，B=後台
+    /// </summary>
+    public string MType { get; set; } = null!;
+
+    /// <summary>
     /// 選單名稱
     /// </summary>
     public string MName { get; set; } = null!;

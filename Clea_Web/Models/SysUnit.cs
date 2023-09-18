@@ -27,6 +27,4 @@ public partial class SysUnit
     public Guid? Upduser { get; set; }
 
     public DateTime? Upddate { get; set; }
-
-    public virtual ICollection<SysUser> SysUsers { get; set; } = new List<SysUser>();
 }

@@ -53,7 +53,7 @@ namespace Clea_Web.Controllers
         {
             UserRoleViewModel.UserRole model = new UserRoleViewModel.UserRole();
             model.lst_sysMenu = db.SysMenus.ToList();
-            HttpContext.Session.SetString("role","admin");
+            
 
             BaseViewModel.errorMsg errorMsg = new BaseViewModel.errorMsg();        
 
@@ -61,15 +61,16 @@ namespace Clea_Web.Controllers
 
             if (claims.Count > 0)
             {
+                HttpContext.Session.SetString("role", claims[2].Value);
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 var authProps = new AuthenticationProperties { IsPersistent = true };
 
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity), authProps);
 
-                _baseService.user = User;
-
-                _baseService.GetUserID(User);
+                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                Thread.CurrentPrincipal = claimsPrincipal;
+                _baseService.user = claimsPrincipal;
 
                 return RedirectToAction("Index", "B_Home");
             }
@@ -88,7 +89,7 @@ namespace Clea_Web.Controllers
         public IActionResult Logout(int a)
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
+            Thread.CurrentPrincipal = null;
             return RedirectToAction("Index");
         }
         #endregion

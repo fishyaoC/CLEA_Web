@@ -89,3 +89,7 @@ D:\workspace\Clea_Web\Clea_Web\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutBa
 D:\workspace\Clea_Web\Clea_Web\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutBackEndMenu.cshtml.rz.scp.css
 D:\workspace\Clea_Web\Clea_Web\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutBackEndFooter.cshtml.rz.scp.css
 D:\workspace\Clea_Web\Clea_Web\obj\Debug\net6.0\scopedcss\Views\Shared\_LayoutBackEndLogin.cshtml.rz.scp.css
+D:\workspace\Clea_Web\Clea_Web\obj\Debug\net6.0\Clea_Web.MvcApplicationPartsAssemblyInfo.cs
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\JetBrains.Annotations.dll
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\X.PagedList.dll
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\X.PagedList.Mvc.Core.dll

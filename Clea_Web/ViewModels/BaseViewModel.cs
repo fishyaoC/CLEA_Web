@@ -23,5 +23,13 @@
 
         }
         #endregion
+
+        #region 選單模組
+        public class SearchDropDownItem
+        {
+            public String Text { get; set; }
+            public String Value { get; set; }
+        }
+        #endregion
     }
 }

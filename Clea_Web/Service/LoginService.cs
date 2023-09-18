@@ -27,6 +27,7 @@ namespace Clea_Web.Service
 
             SysUser? user = db.SysUsers.Where(x => x.UStatus.Equals(true) && x.UAccount.Equals(data.loginVM.Account) && x.UPassword.Equals(data.loginVM.PassWord)).FirstOrDefault();
 
+
             if (user is null)
             {
                 //null
@@ -35,17 +36,17 @@ namespace Clea_Web.Service
             {
                 result.Add(new Claim(ClaimTypes.NameIdentifier, user.UAccount));
                 result.Add(new Claim(ClaimTypes.Name, user.UName));
-                result.Add(new Claim(ClaimTypes.Role, "admin"));
+                result.Add(new Claim(ClaimTypes.Role, "86C6899D-18D5-414C-9BA9-F8F0E28146B9"));
                 result.Add(new Claim(ClaimTypes.Sid, user.UId.ToString()));
             }
             else
             {
                 result.Add(new Claim(ClaimTypes.NameIdentifier, user.UAccount));
                 result.Add(new Claim(ClaimTypes.Name, user.UName));
-                result.Add(new Claim(ClaimTypes.Role, "admin"));
+                result.Add(new Claim(ClaimTypes.Role, user.RUid.ToString()));
                 result.Add(new Claim(ClaimTypes.Sid, user.UId.ToString()));
             }
-
+            
 
             return result;
         }

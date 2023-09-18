@@ -9,7 +9,7 @@ namespace Clea_Web.Service
 {
     public class BaseService
     {
-        public ControllerBase Controller { get; set; }
+        //public ControllerBase Controller { get; set; }
         public ClaimsPrincipal user { get; set; }
         public BaseService() 
         {
@@ -45,7 +45,6 @@ namespace Clea_Web.Service
             else
             {
                 uid = userInfo.FindFirst(ClaimTypes.Sid).Value;
-
             }
 
             return uid;
@@ -72,6 +71,33 @@ namespace Clea_Web.Service
 
             return account;
         }
-        #endregion 
+        #endregion
+
+        #region 取得User RoleUid
+
+        public Guid GetUserRole()
+        {
+            return Guid.Parse(GetUserRoleUid(user));
+        }
+        public String GetUserRoleUid(ClaimsPrincipal userInfo)
+        {
+            String Role = string.Empty;
+            Guid R_UID = Guid.Empty;
+
+            ClaimsIdentity? claimsIdentity = userInfo.Identity as ClaimsIdentity;
+            if (claimsIdentity is null)
+            {
+                //uid = string.Empty;
+                R_UID = Guid.Empty;
+            }
+            else
+            {
+                Role = userInfo.FindFirst(ClaimTypes.Role).Value;
+            }
+            return Role;
+        }
+
+        #endregion
+
     }
 }

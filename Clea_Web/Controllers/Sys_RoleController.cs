@@ -3,14 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Clea_Web.Service;
 using Clea_Web.ViewModels;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using Microsoft.VisualBasic;
 
 namespace Clea_Web.Controllers
 {
-    //後臺帳號管理
+    //後臺角色權限管理
     public class Sys_RoleController : BaseController
     {
         private readonly ILogger<Sys_RoleController> _logger;
-        private RoleService _roleService;        
+        private RoleService _roleService;
 
         public Sys_RoleController(ILogger<Sys_RoleController> logger, dbContext dbCLEA, RoleService Service)
         {
@@ -19,16 +22,17 @@ namespace Clea_Web.Controllers
             _roleService = Service;
         }
 
-        
+
         #region 新增、編輯
         //public IActionResult Modify(String Type, String? R_ID)
-        public IActionResult Modify(String? R_ID)
+        public IActionResult Modify(Guid R_UID)
         {
             UserRoleViewModel.Modify? vm = null;
-            if (!string.IsNullOrEmpty(R_ID))
+
+            if (R_UID != null)
             {
                 //編輯
-                
+                vm = _roleService.GetEditData(R_UID);
             }
             else
             {
@@ -45,30 +49,60 @@ namespace Clea_Web.Controllers
             _roleService.user = User;
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
             error = _roleService.SaveData(vm);
-            
-            return View(error);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Index");
         }
         #endregion
 
         #region 查詢
         public IActionResult Index()
         {
-            return View();
+            UserRoleViewModel.SchItem vm = new UserRoleViewModel.SchItem();
+            UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
+
+            //撈資料
+            //vmd.schPageList = _roleService.GetPageLists(vm);
+            vmd.schPageList2 = _roleService.schPages(vm,1,3);
+
+            return View(vmd);
         }
 
         [HttpPost]
-        public IActionResult Index(int a)
+        public IActionResult Index(UserRoleViewModel.SchModel vmd,Int32 page,Int32? pagesize = null)
         {
-            return View();
+            //UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
+            pagesize = pagesize.HasValue ? pagesize : 3;
+            //撈資料
+            //vmd.schPageList = _roleService.GetPageLists(vmd.schItem);
+            vmd.schPageList2 = _roleService.schPages(vmd.schItem, page, pagesize.Value);
+
+            return View(vmd);
         }
         #endregion
 
         #region 刪除
 
         [HttpPost]
-        public IActionResult Delete(int a)
+        public IActionResult Delete(Guid Uid)
         {
-            return View();
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _roleService.DelData(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
     }

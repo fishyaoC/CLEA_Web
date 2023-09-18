@@ -5189,6 +5189,10 @@
       "PackagePath": "staticwebassets\\backEnd\\vendors\\js\\bootstrap.min.js.map"
     },
     {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\vendors\\js\\perfect-scrollbar.min.js.map",
+      "PackagePath": "staticwebassets\\backEnd\\vendors\\js\\perfect-scrollbar.min.js.map"
+    },
+    {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\vendors\\js\\vendor.bundle.base.js",
       "PackagePath": "staticwebassets\\backEnd\\vendors\\js\\vendor.bundle.base.js"
     },
@@ -6121,6 +6125,186 @@
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap4.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap4.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap4.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap4.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap5.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap5.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap5.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bootstrap5.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bulma.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bulma.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bulma.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.bulma.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.dataTables.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.dataTables.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.foundation.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.foundation.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.foundation.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.foundation.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.jqueryui.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.jqueryui.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.jqueryui.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.jqueryui.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.semanticui.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.semanticui.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.semanticui.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\dataTables.semanticui.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\jquery.dataTables.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\jquery.dataTables.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\css\\jquery.dataTables.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\css\\jquery.dataTables.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_asc.png",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_asc.png"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_asc_disabled.png",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_asc_disabled.png"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_both.png",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_both.png"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_desc.png",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_desc.png"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_desc_disabled.png",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\images\\sort_desc_disabled.png"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap4.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap4.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap4.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap4.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap5.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap5.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap5.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bootstrap5.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bulma.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bulma.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bulma.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.bulma.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.dataTables.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.dataTables.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.dataTables.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.dataTables.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.foundation.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.foundation.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.foundation.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.foundation.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.jqueryui.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.jqueryui.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.jqueryui.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.jqueryui.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.semanticui.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.semanticui.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.semanticui.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\dataTables.semanticui.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\jquery.dataTables.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\jquery.dataTables.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\DataTables-1.13.6\\js\\jquery.dataTables.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\DataTables-1.13.6\\js\\jquery.dataTables.min.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\datatables.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\datatables.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\datatables.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\datatables.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\datatables.min.css",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\datatables.min.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\DataTables\\datatables.min.js",
+      "PackagePath": "staticwebassets\\lib\\DataTables\\datatables.min.js"
+    },
+    {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
@@ -6347,6 +6531,14 @@
     {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\sweetalert2\\sweetalert2.css",
+      "PackagePath": "staticwebassets\\lib\\sweetalert2\\sweetalert2.css"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\lib\\sweetalert2\\sweetalert2.min.js",
+      "PackagePath": "staticwebassets\\lib\\sweetalert2\\sweetalert2.min.js"
     },
     {
       "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.Clea_Web.Microsoft.AspNetCore.StaticWebAssets.props",

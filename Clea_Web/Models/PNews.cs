@@ -66,6 +66,4 @@ public partial class PNews
     public DateTime? Upddate { get; set; }
 
     public virtual ICollection<PNewsReadLog> PNewsReadLogs { get; set; } = new List<PNewsReadLog>();
-
-    public virtual SysRole RIdNavigation { get; set; } = null!;
 }

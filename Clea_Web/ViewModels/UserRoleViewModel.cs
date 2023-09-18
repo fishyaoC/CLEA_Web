@@ -1,4 +1,5 @@
 ﻿using Clea_Web.Models;
+using X.PagedList;
 using System.ComponentModel;
 
 namespace Clea_Web.ViewModels
@@ -7,6 +8,7 @@ namespace Clea_Web.ViewModels
     {
         public UserRole userRole { get; set; }
         public Modify modify { get; set; }
+        public SchModel schModel { get; set; }
 
         #region 選單
         public class UserRole
@@ -18,6 +20,12 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
+            /// <summary>
+            /// Uid
+            /// </summary>
+            [DisplayName("Uid")]
+            public Guid? RUId { get; set; }
+
             /// <summary>
             /// 角色代碼
             /// </summary>
@@ -47,6 +55,45 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; } = false;
+        }
+        #endregion
+
+        #region Index
+        public class SchModel
+        {
+            public SchItem schItem { get; set; }
+            public List<schPageList> schPageList { get; set; }
+            public IPagedList<schPageList> schPageList2 { get; set; }
+        }
+        #endregion
+
+        #region 搜尋條件
+        public class SchItem
+        {
+
+            public String? rId { get; set; }
+            public String? rName { get; set; }
+            public Int16? rOrder { get; set; }
+            public Boolean? rStatus { get; set; }
+
+        }
+        #endregion
+
+        #region 列表
+        public class schPageList
+        {
+            public String rUid { get; set; }
+            public String rId { get; set; }
+            public String rName { get; set; }
+            public Int16 rOrder { get; set; }
+            public String? rStatus { get; set; }
+            public String creUser { get; set; }
+            public String creDate { get; set; }
+            public String updUser { get; set; }
+            public String updDate { get; set; }
+            //public DateTime mbCredateE { get; set; }
+
+
         }
         #endregion
     }

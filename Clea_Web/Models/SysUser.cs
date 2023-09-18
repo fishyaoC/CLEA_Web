@@ -11,6 +11,11 @@ public partial class SysUser
     public Guid UId { get; set; }
 
     /// <summary>
+    /// 角色UID
+    /// </summary>
+    public Guid RUid { get; set; }
+
+    /// <summary>
     /// 帳號
     /// </summary>
     public string UAccount { get; set; } = null!;
@@ -77,5 +82,5 @@ public partial class SysUser
     /// </summary>
     public DateTime? Upddate { get; set; }
 
-    public virtual SysUnit Un { get; set; } = null!;
+    public virtual SysRole RU { get; set; } = null!;
 }

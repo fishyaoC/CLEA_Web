@@ -4,28 +4,26 @@
 @* @using Microsoft.AspNetCore.Authorization
 @inject IAuthorizationService AuthorizationService *@
 @using Clea_Web.Models;
-
+@using Clea_Web.Service;
 @{
-
     Layout = null;
-
     dbContext db = new dbContext();
-    List<SysMenu> sysMenus = new List<SysMenu>();
+    BaseService baseService = new BaseService();
+    List<ViewMenuRolePower> viewMenu = new List<ViewMenuRolePower>();
     //取得帳號權限
-    String tmp = HttpContextAccessor.HttpContext.Session.GetString("role");
+    //Guid R_UID = baseService.GetUserRole();
+     Guid R_UID = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString("role"));
+
     //取得權限menu
-    //sysMenus = ViewData["Menu"];
-    string ssss = string.Empty;
-    //HttpContextAccessor.HttpContext.Session.GetInt32("MySessionKey");
-    sysMenus = db.SysMenus.Where(x => x.MIsActice == true && x.MLevel == 1).OrderBy(x => x.MOrder).ToList();
+    viewMenu = db.ViewMenuRolePowers.Where(x => x.RUid == R_UID && x.MLevel == 1 && x.SearchData == true && x.MType.Equals("B")).OrderBy(x => x.MOrder).ToList();
 }
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
 
-        @if (sysMenus.Count > 0)
+        @if (viewMenu.Count > 0)
         {
             Int32 conum = 0;
-            foreach (SysMenu LV1 in sysMenus)
+            foreach (ViewMenuRolePower LV1 in viewMenu)
             {
                 String co = "ui-" + conum.ToString();
 
@@ -53,7 +51,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="@LV1.MUrl">
+                        <a class="nav-link" href="@LV1.MUrl"> 
                             <i class="icon-grid menu-icon"></i>
                             <span class="menu-title">@LV1.MName</span>
                         </a>

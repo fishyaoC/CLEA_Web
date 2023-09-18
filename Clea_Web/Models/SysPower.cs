@@ -11,9 +11,9 @@ public partial class SysPower
     public long Sn { get; set; }
 
     /// <summary>
-    /// 角色代碼
+    /// 角色代碼UID
     /// </summary>
-    public string RId { get; set; } = null!;
+    public Guid RUid { get; set; }
 
     /// <summary>
     /// 頁面代碼
@@ -58,5 +58,5 @@ public partial class SysPower
 
     public DateTime? Upddate { get; set; }
 
-    public virtual SysRole RIdNavigation { get; set; } = null!;
+    public virtual SysRole RU { get; set; } = null!;
 }
