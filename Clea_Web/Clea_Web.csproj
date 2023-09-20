@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\backEnd\css\" />
     <Folder Include="wwwroot\backEnd\js\" />
     <Folder Include="wwwroot\backEnd\fonts\" />
   </ItemGroup>

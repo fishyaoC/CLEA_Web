@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6Nz1Xw1E9oEd81ehuhxDDorkLTYUdEK47R9RXV/MGqM=",
+  "Hash": "XcJclGXHAXsec+t0PN6dySbnNQFx/cNMERSxSswzmRQ=",
   "Source": "Clea_Web",
   "BasePath": "_content/Clea_Web",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\workspace\\Clea_Web\\Clea_Web\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\Clea_Web.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\css\\main.css",
+      "SourceId": "Clea_Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\",
+      "BasePath": "_content/Clea_Web",
+      "RelativePath": "backEnd/css/main.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\backEnd\\css\\main.css"
     },
     {
       "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\css\\maps\\vertical-layout-light\\style.css.map",

@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\Clea_Web.bundle.scp.css"
     },
     {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\css\\main.css",
+      "PackagePath": "staticwebassets\\backEnd\\css\\main.css"
+    },
+    {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\css\\maps\\vertical-layout-light\\style.css.map",
       "PackagePath": "staticwebassets\\backEnd\\css\\maps\\vertical-layout-light\\style.css.map"
     },

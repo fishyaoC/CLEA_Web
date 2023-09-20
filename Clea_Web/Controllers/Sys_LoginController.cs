@@ -51,34 +51,47 @@ namespace Clea_Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Index(LoginViewModel vm)
         {
-            UserRoleViewModel.UserRole model = new UserRoleViewModel.UserRole();
-            model.lst_sysMenu = db.SysMenus.ToList();
-            
-
-            BaseViewModel.errorMsg errorMsg = new BaseViewModel.errorMsg();        
-
-            List<Claim> claims = _loginService.Login(vm);
-
-            if (claims.Count > 0)
-            {
-                HttpContext.Session.SetString("role", claims[2].Value);
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var authProps = new AuthenticationProperties { IsPersistent = true };
-
-                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity), authProps);
-
-                ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                Thread.CurrentPrincipal = claimsPrincipal;
-                _baseService.user = claimsPrincipal;
-
-                return RedirectToAction("Index", "B_Home");
-            }
-            else
+            BaseViewModel.errorMsg errorMsg = new BaseViewModel.errorMsg();
+            if (!ModelState.IsValid)
             {
                 errorMsg.ErrorMsg = "帳號密碼有誤!請檢查!";
                 return View(errorMsg);
             }
+            else
+            {
+                UserRoleViewModel.UserRole model = new UserRoleViewModel.UserRole();
+                model.lst_sysMenu = db.SysMenus.ToList();
+
+
+
+
+                List<Claim> claims = _loginService.Login(vm);
+
+                if (claims.Count > 0)
+                {
+                    HttpContext.Session.SetString("role", claims[2].Value);
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProps = new AuthenticationProperties { IsPersistent = true };
+
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity), authProps);
+
+                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                    Thread.CurrentPrincipal = claimsPrincipal;
+                    _baseService.user = claimsPrincipal;
+
+                    return RedirectToAction("Index", "B_Home");
+                }
+                else
+                {
+
+                    TempData["TempMsgType"] = "error";
+                    TempData["TempMsgTitle"] = "登入失敗";
+                    TempData["TempMsg"] = "帳號密碼有誤!請檢查!";
+                    return RedirectToAction("Index");
+                }
+            }
+            
         }
         #endregion
 

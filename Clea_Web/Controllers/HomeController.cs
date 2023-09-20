@@ -20,7 +20,9 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToAction("Index", "Sys_Login");
+
         }
 
         //public IActionResult Privacy()
