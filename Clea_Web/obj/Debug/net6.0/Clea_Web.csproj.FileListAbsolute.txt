@@ -93,3 +93,4 @@ D:\workspace\Clea_Web\Clea_Web\obj\Debug\net6.0\Clea_Web.MvcApplicationPartsAsse
 D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\JetBrains.Annotations.dll
 D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\X.PagedList.dll
 D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\X.PagedList.Mvc.Core.dll
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\Newtonsoft.Json.dll

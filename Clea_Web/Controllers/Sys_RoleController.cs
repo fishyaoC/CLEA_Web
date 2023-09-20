@@ -6,6 +6,7 @@ using Clea_Web.ViewModels;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.VisualBasic;
+using Newtonsoft.Json;
 
 namespace Clea_Web.Controllers
 {
@@ -68,27 +69,44 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region 查詢
-        public IActionResult Index()
+        public IActionResult Index(String? data, Int32? page)
         {
-            UserRoleViewModel.SchItem vm = new UserRoleViewModel.SchItem();
             UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
+            page = page ?? 1;
 
-            //撈資料
-            //vmd.schPageList = _roleService.GetPageLists(vm);
-            vmd.schPageList2 = _roleService.schPages(vm,1,3);
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<UserRoleViewModel.SchItem>(value: data);
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new UserRoleViewModel.SchItem();
+            }
+
+            vmd.schPageList2 = _roleService.schPages(vmd.schItem, page.Value, 2);
 
             return View(vmd);
+            //UserRoleViewModel.SchItem vm = new UserRoleViewModel.SchItem();
+            //UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
+
+            ////撈資料
+            ////vmd.schPageList = _roleService.GetPageLists(vm);
+            //vmd.schPageList2 = _roleService.schPages(vm,1,3);
+
+            //return View(vmd);
         }
 
         [HttpPost]
-        public IActionResult Index(UserRoleViewModel.SchModel vmd,Int32 page,Int32? pagesize = null)
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(UserRoleViewModel.SchModel vmd,Int32 page = 1,Int32? pagesize = null)
         {
             //UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
             pagesize = pagesize.HasValue ? pagesize : 3;
             //撈資料
             //vmd.schPageList = _roleService.GetPageLists(vmd.schItem);
             vmd.schPageList2 = _roleService.schPages(vmd.schItem, page, pagesize.Value);
-
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
         }
         #endregion

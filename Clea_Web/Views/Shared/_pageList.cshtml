@@ -8,12 +8,13 @@
 @using X.PagedList.Web.Common;
 @model IPagedList
 @{
+    var PageData = ViewBag.schPageList;
 }
 <div>
     <div>
         <ul>
             
-            @Html.PagedListPager(Model, page => Url.Action("", new {  }),
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { data = PageData, page }),
             new PagedListRenderOptions
             {
             DisplayItemSliceAndTotal = true,
@@ -28,7 +29,7 @@
             PageCountAndCurrentLocationFormat = "第 {0} 頁，共 {1} 頁　 ",
             })
 
-            @Html.PagedListPager(Model, page => Url.Action("", new {  }),
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { data = PageData, page }),
             new PagedListRenderOptions
             {
             LinkToFirstPageFormat = "第一頁",
