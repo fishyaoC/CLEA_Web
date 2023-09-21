@@ -87,25 +87,13 @@ namespace Clea_Web.Controllers
             vmd.schPageList2 = _roleService.schPages(vmd.schItem, page.Value, 2);
 
             return View(vmd);
-            //UserRoleViewModel.SchItem vm = new UserRoleViewModel.SchItem();
-            //UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
-
-            ////撈資料
-            ////vmd.schPageList = _roleService.GetPageLists(vm);
-            //vmd.schPageList2 = _roleService.schPages(vm,1,3);
-
-            //return View(vmd);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(UserRoleViewModel.SchModel vmd,Int32 page = 1,Int32? pagesize = null)
+        public IActionResult Index(UserRoleViewModel.SchModel vmd)
         {
-            //UserRoleViewModel.SchModel vmd = new UserRoleViewModel.SchModel();
-            pagesize = pagesize.HasValue ? pagesize : 3;
-            //撈資料
-            //vmd.schPageList = _roleService.GetPageLists(vmd.schItem);
-            vmd.schPageList2 = _roleService.schPages(vmd.schItem, page, pagesize.Value);
+            vmd.schPageList2 = _roleService.schPages(vmd.schItem, 1, 15);
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
         }
