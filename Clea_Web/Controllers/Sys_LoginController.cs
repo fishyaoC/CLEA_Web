@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using System.Web;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clea_Web.Controllers
 {
@@ -41,6 +42,7 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region 查詢
+        [AllowAnonymous]
         public IActionResult Index()
         {
             LoginViewModel vm = new LoginViewModel();
@@ -99,10 +101,11 @@ namespace Clea_Web.Controllers
 
         #region Logout
        
-        public IActionResult Logout(int a)
+        public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             Thread.CurrentPrincipal = null;
+            HttpContext.Session.Clear();
             return RedirectToAction("Index");
         }
         #endregion

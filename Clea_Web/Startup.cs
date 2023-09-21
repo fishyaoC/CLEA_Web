@@ -62,7 +62,8 @@ namespace Clea_Web
             //services.AddMvc(options =>
             //{
             //    options.Filters.Add(new AuthorizeFilter());
-            //}).AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new DateTimeOffsetJsonConverter())).AddControllersAsServices();
+            //});
+            //.AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new DateTimeOffsetJsonConverter())).AddControllersAsServices();
             services.AddControllersWithViews();
             //Ū��appsetting
             //string TicketAuthTimeout = APUtils.ConfigData("AppConfiguration:TicketAuthTimeout");

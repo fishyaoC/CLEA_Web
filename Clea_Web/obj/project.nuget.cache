@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "oE0kLAHKaL0OTUT/vRbE8eAoasr+fzwxdGn8C8kWdhAqcqkwhCw9m4O9ZALX2FhoEkWwATHN97VtBuCXTxDlug==",
+  "dgSpecHash": "gKU7xbw7rXZRz+94WolLfhr/tvKK3sJxVlWjDGzCO7ZuIEkVEBodfZTDtMIAEjmwdjIllCM4n/rGP7gCz/2tiw==",
   "success": true,
-  "projectFilePath": "C:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+  "projectFilePath": "D:\\workspace\\Clea_Web\\Clea_Web\\Clea_Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\eric1\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

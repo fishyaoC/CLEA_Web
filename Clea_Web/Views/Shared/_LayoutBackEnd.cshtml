@@ -1,4 +1,11 @@
 ﻿<!--後臺底板-->
+@using Microsoft.AspNetCore.Http;
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+    String msg_titleF = HttpContextAccessor.HttpContext.Session.GetString("TempMsgTitle");
+    String msg_typeF = HttpContextAccessor.HttpContext.Session.GetString("TempMsgType");
+    String msg_textF = HttpContextAccessor.HttpContext.Session.GetString("TempMsg");
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -97,6 +104,9 @@
                                 </div>
                             </a>
                         </div>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("Logout","Sys_Login")">登出</a>
                     </li>
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
@@ -993,13 +1003,20 @@
     <script src="~/backEnd/js/dashboard.js"></script>
     <script src="~/backEnd/js/Chart.roundedBarCharts.js"></script>
     <!-- End custom js for this page-->
-
     <script type="text/javascript">
 
         var swal_type = ['warning', 'error', 'success', 'question', 'info'];
         var msg_title = '@(TempData["TempMsgTitle"] != null ? TempData["TempMsgTitle"].ToString() : "")';
         var msg_text = '@(TempData["TempMsg"] != null ? TempData["TempMsg"].ToString() : "")';
         var msg_type = '@(TempData["TempMsgType"] != null ? TempData["TempMsgType"].ToString().ToLower() : "")';
+
+        var msg_titleD = '@msg_titleF';
+        var msg_textD = '@msg_textF'';
+        var msg_typeD = '' @msg_typeF'';
+
+        if (msg_titleD 1 = '') {
+            alert('ss');
+        }
 
         if ((typeof msg_text === 'string' && msg_text.trim() != '') || (typeof msg_title === 'string' && msg_title.trim() != '')) {
             Swal.fire({
@@ -1011,6 +1028,11 @@
                 text: msg_text
             });
         }
+
+
+
+
+
 
     </script>
 
