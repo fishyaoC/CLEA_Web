@@ -21,6 +21,7 @@ namespace WebApplication1.Controllers
         public IActionResult Index()
         {
             //return View();
+            //導向登入頁面
             return RedirectToAction("Index", "Sys_Login");
 
         }

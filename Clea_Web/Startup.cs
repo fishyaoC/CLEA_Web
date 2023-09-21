@@ -20,6 +20,7 @@ namespace Clea_Web
             services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
 
+            //註冊services
             services.AddDbContext<dbContext>();
             services.AddTransient<BaseService>();
             services.AddTransient<RoleService>();

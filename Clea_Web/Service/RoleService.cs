@@ -5,7 +5,7 @@ using X.PagedList;
 
 namespace Clea_Web.Service
 {
-    //後臺帳號管理
+    //後臺角色權限管理
     public class RoleService : BaseService
     {
         private UserRoleViewModel.Modify vm = new UserRoleViewModel.Modify();
