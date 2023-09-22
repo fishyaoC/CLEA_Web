@@ -1,4 +1,5 @@
 ﻿<!--後台menu-->
+@using Azure;
 @using Microsoft.AspNetCore.Http;
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @* @using Microsoft.AspNetCore.Authorization
@@ -7,16 +8,22 @@
 @using Clea_Web.Service;
 @{
     Layout = null;
+
     dbContext db = new dbContext();
     BaseService baseService = new BaseService();
     List<ViewMenuRolePower> viewMenu = new List<ViewMenuRolePower>();
-    //取得帳號權限
-    //Guid R_UID = baseService.GetUserRole();
-     Guid R_UID = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString("role"));
-
-    //取得權限menu
-    viewMenu = db.ViewMenuRolePowers.Where(x => x.RUid == R_UID && x.MLevel == 1 && x.SearchData == true && x.MType.Equals("B")).OrderBy(x => x.MOrder).ToList();
+    Guid R_UID = Guid.Empty;
+    if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("role")))
+    {
+        Context.Response.Redirect(Url.Action("Index","Sys_Login"));       
+    }
+    else
+    {
+        R_UID = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString("role"));
+        viewMenu = db.ViewMenuRolePowers.Where(x => x.RUid == R_UID && x.MLevel == 1 && x.SearchData == true && x.MType.Equals("B")).OrderBy(x => x.MOrder).ToList();
+    }   
 }
+
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
 
@@ -51,7 +58,7 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="@LV1.MUrl"> 
+                        <a class="nav-link" href="@LV1.MUrl">
                             <i class="icon-grid menu-icon"></i>
                             <span class="menu-title">@LV1.MName</span>
                         </a>

@@ -7,10 +7,12 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
+using Clea_Web.Filters;
 
 namespace Clea_Web.Controllers
 {
     //後臺角色權限管理
+    [UserPowerFilterAttribute]
     public class Sys_RoleController : BaseController
     {
         private readonly ILogger<Sys_RoleController> _logger;
@@ -84,7 +86,7 @@ namespace Clea_Web.Controllers
                 vmd.schItem = new UserRoleViewModel.SchItem();
             }
 
-            vmd.schPageList2 = _roleService.schPages(vmd.schItem, page.Value, 2);
+            vmd.schPageList2 = _roleService.schPages(vmd.schItem, page.Value, 15);
 
             return View(vmd);
         }
