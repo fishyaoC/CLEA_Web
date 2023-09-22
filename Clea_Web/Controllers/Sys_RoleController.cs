@@ -8,10 +8,12 @@ using System;
 using Microsoft.VisualBasic;
 using Newtonsoft.Json;
 using Clea_Web.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clea_Web.Controllers
 {
     //後臺角色權限管理
+    [Authorize]
     [UserPowerFilterAttribute]
     public class Sys_RoleController : BaseController
     {

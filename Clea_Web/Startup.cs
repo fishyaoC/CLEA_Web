@@ -17,7 +17,7 @@ namespace Clea_Web
         {
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddMvc().AddSessionStateTempDataProvider();
+            //services.AddMvc().AddSessionStateTempDataProvider();
             services.AddSession();
 
             //註冊services
@@ -59,15 +59,17 @@ namespace Clea_Web
             //    options.SerializerSettings.DateFormatString = "dd/MM/yyyy";
             //});
 
-            //services.AddMvc(options =>
-            //{
-            //    options.Filters.Add(new AuthorizeFilter());
-            //});
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter());
+            });
             //.AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new DateTimeOffsetJsonConverter())).AddControllersAsServices();
             services.AddControllersWithViews();
             //Ū��appsetting
             //string TicketAuthTimeout = APUtils.ConfigData("AppConfiguration:TicketAuthTimeout");
             //double AuthTimeout = double.Parse(TicketAuthTimeout);
+
+            Double AuthTimeout = Configuration.GetValue<double>("TimeConfig:TimeOut");
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
@@ -75,14 +77,15 @@ namespace Clea_Web
                 options.Events.OnRedirectToLogin = context =>
                 {
                     context.Response.StatusCode = 403;
+                    context.Response.Redirect("/Sys_Login/Index");
                     //context.Response.WriteAsJsonAsync(new ErrorViewModel { errorMessage = "您已被登出，若要繼續操作請關閉視窗，重新連結!" });
                     return Task.CompletedTask;
                 };
                 //options.LoginPath = new PathString("/Account/Login");
                 //options.LoginPath = new PathString("/Account/UnauthorizedMsg");
-                options.LogoutPath = new PathString("/Account/Logout?Msg=您已被登出，若要繼續操作請關閉視窗，重新連結");
+                options.LogoutPath = new PathString("/Sys_Login/Index");
                 //options.AccessDeniedPath = new PathString("/Account/Logout?Msg=您已被登出，若要繼續操作請關閉視窗，重新連結");
-                //options.ExpireTimeSpan = TimeSpan.FromMinutes(AuthTimeout);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(AuthTimeout);
                 options.SlidingExpiration = true;
             });
 

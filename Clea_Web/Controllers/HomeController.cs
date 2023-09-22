@@ -3,6 +3,7 @@ using Clea_Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Clea_Web.Service;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers
 {
@@ -18,6 +19,7 @@ namespace WebApplication1.Controllers
             db = a;
         }
 
+        [AllowAnonymous]
         public IActionResult Index()
         {
             //return View();
