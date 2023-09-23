@@ -64,16 +64,18 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary mr-2">搜尋</button>
-                            <button class="btn btn-light mr-2">清除條件</button>
-                            @* <button class="btn btn-light">清除條件</button> *@
+                            <div class="d-flex">
+                                <button class="btn btn-light mr-2">清除條件</button>
+                                <button type="submit" class="btn btn-primary mr-2">搜尋</button>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>
             </div>
             <!--搜尋End-->
             <!--動作-->
-            <div>
+            <div class="mb-2">
                 <a href="@Url.Action("Modify","Sys_Role")" class="btn btn-info">新增</a>
                 @*<button type="button" class="btn btn-info">新增</button>*@
                 @* <button type="button" class="btn btn-danger">刪除</button> *@
