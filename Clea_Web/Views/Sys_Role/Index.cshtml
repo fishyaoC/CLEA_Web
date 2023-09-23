@@ -15,59 +15,64 @@
     <div class="content-wrapper">
         <div class="row">
             <!--搜尋-->
-            <div class="col-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">搜尋條件</h4>
-                        @*<p class="card-description">
-                        Basic form elements
-                        </p> *@
-                        <form class="forms-sample" method="post" action="@Url.Action("Index","Sys_Role")">
-                            @Html.AntiForgeryToken()
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">角色代碼</label>
-                                        @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
-                                        @Html.TextBoxFor(x=> x.schItem.rId, new { @class="form-control form-control", placeholder="角色代碼"})
+            <div class="col-12 mb-3">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                <h4 class="m-0">搜尋條件</h4>
+                            </button>
+                        </h2>
+                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                            <div class="accordion-body">
+                                <form class="forms-sample" method="post" action="@Url.Action("Index","Sys_Role")">
+                                    @Html.AntiForgeryToken()
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">角色代碼</label>
+                                                @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
+                                                @Html.TextBoxFor(x => x.schItem.rId, new { @class = "form-control form-control", placeholder = "角色代碼" })
 
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail3">角色名稱</label>
-                                        @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
-                                        @Html.TextBoxFor(x=> x.schItem.rName, new { @class="form-control form-control", placeholder="角色名稱"})
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">角色排序</label>
-                                        @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色排序"> *@
-                                        @Html.TextBoxFor(x=> x.schItem.rOrder, new { @class="form-control form-control", placeholder="角色排序"})
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail3">是否啟用</label>
-                                        <div class="form-check form-check-flat form-check-primary">
-                                            <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input">
-                                                是否啟用
-                                                <!--暫時不用-->
-                                            </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail3">角色名稱</label>
+                                                @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
+                                                @Html.TextBoxFor(x => x.schItem.rName, new { @class = "form-control form-control", placeholder = "角色名稱" })
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">角色排序</label>
+                                                @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色排序"> *@
+                                                @Html.TextBoxFor(x => x.schItem.rOrder, new { @class = "form-control form-control", placeholder = "角色排序" })
 
-                            <button type="submit" class="btn btn-primary mr-2">搜尋</button>
-                            <button class="btn btn-light mr-2">清除條件</button>
-                            @* <button class="btn btn-light">清除條件</button> *@
-                        </form>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail3">是否啟用</label>
+                                                <div class="form-check form-check-flat form-check-primary">
+                                                    <label class="form-check-label">
+                                                        <input type="checkbox" class="form-check-input">
+                                                        是否啟用
+                                                        <!--暫時不用-->
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary mr-2">搜尋</button>
+                                    <button class="btn btn-light mr-2">清除條件</button>
+                                    @* <button class="btn btn-light">清除條件</button> *@
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
