@@ -64,22 +64,16 @@
                                         <label class="col-sm-3 col-form-label">角色啟用狀態</label>
                                         @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
 
-                                        <div class="col-sm-4">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    @* <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked>                                                   *@
-                                                    @Html.RadioButtonFor(x => x.RStatus, true, new { id="optionsRadios1", @class="form-check-input" ,@name="optionsRadios"})<label for="S1">是</label>
-                                                </label>
-                                            </div>
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.RStatus, true, new { type = "radio", id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            <label class="form-check-label ms-0" for="optionsRadios1">是</label>
                                         </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    @* <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2"> *@
-                                                    @Html.RadioButtonFor(x => x.RStatus, false, new { id="optionsRadios1", @class="form-check-input" ,@name="optionsRadios"})<label for="S0">否</label>
-                                                </label>
-                                            </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.RStatus, false, new { type = "radio", id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            <label class="form-check-label ms-0" for="optionsRadios1">否</label>
                                         </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
