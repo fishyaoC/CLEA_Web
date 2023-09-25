@@ -3645,25 +3645,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/tsengwanzhe/.nuget/packages/": {}
+    "C:\\Users\\pette\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj",
+      "projectUniqueName": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
       "projectName": "Clea_Web",
-      "projectPath": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj",
-      "packagesPath": "/Users/tsengwanzhe/.nuget/packages/",
-      "outputPath": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/obj/",
+      "projectPath": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+      "packagesPath": "C:\\Users\\pette\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/tsengwanzhe/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\pette\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3724,7 +3725,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
       }
     }
   }
