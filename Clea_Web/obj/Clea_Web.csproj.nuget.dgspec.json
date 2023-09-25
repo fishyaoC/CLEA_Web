@@ -1,27 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj": {}
+    "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj": {
+    "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+        "projectUniqueName": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj",
         "projectName": "Clea_Web",
-        "projectPath": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
-        "packagesPath": "C:\\Users\\pette\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\obj\\",
+        "projectPath": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj",
+        "packagesPath": "/Users/tsengwanzhe/.nuget/packages/",
+        "outputPath": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\pette\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/tsengwanzhe/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -82,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
         }
       }
     }
