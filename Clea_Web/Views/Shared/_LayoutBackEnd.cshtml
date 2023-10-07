@@ -38,22 +38,23 @@
             background: white !important;
         }
 
-        .sidebar .nav.sub-menu .nav-item {
-            border-radius: 20px !important;
-        }
-
             .sidebar .nav.sub-menu .nav-item .nav-link {
                 color: black !important;
             }
 
+        .sidebar .nav.sub-menu{
+            padding:0;
+            padding-bottom: 0;
+        }
+
                 .sidebar .nav.sub-menu .nav-item .nav-link.active {
                     background-color: #4B49AC;
-                    color: #fff !important;
+                    color: black !important;
                 }
 
         .active-highlight {
             background-color: #4B49AC;
-            color: #fff !important;
+            color: black !important;
         }
     </style>
 </head>
@@ -318,6 +319,7 @@
             <!-- partial -->
             <!-- partial:partials/_sidebar.html -->
             @Html.Partial("_LayoutBackEndMenu")
+            @Html.Partial("~/Views/Shared/_LayoutBackEndFooter.cshtml")
             <!-- partial -->
             @RenderBody()
             @*<div class="main-panel">
