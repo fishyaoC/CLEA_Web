@@ -40,7 +40,7 @@
                 String co = "ui-" + conum.ToString();
 
                 List<SysMenu> LV2 = new List<SysMenu>();
-                LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId).ToList();
+                LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
 
                 if (LV2.Count > 0)
                 {
