@@ -937,6 +937,10 @@
       "PackagePath": "staticwebassets\\backEnd\\js\\ace.js"
     },
     {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\active.js",
+      "PackagePath": "staticwebassets\\backEnd\\js\\active.js"
+    },
+    {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\alerts.js",
       "PackagePath": "staticwebassets\\backEnd\\js\\alerts.js"
     },
@@ -983,6 +987,10 @@
     {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\codemirror.js",
       "PackagePath": "staticwebassets\\backEnd\\js\\codemirror.js"
+    },
+    {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\collapse.js",
+      "PackagePath": "staticwebassets\\backEnd\\js\\collapse.js"
     },
     {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\context-menu.js",

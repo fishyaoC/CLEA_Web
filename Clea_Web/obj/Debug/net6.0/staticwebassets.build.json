@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "XcJclGXHAXsec+t0PN6dySbnNQFx/cNMERSxSswzmRQ=",
+  "Hash": "RxWZ8Sot+JUWHrbBlXdlD8bo99P94hAjzYFqz9sHcLE=",
   "Source": "Clea_Web",
   "BasePath": "_content/Clea_Web",
   "Mode": "Default",
@@ -3995,6 +3995,23 @@
       "OriginalItemSpec": "wwwroot\\backEnd\\js\\ace.js"
     },
     {
+      "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\active.js",
+      "SourceId": "Clea_Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\",
+      "BasePath": "_content/Clea_Web",
+      "RelativePath": "backEnd/js/active.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\backEnd\\js\\active.js"
+    },
+    {
       "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\alerts.js",
       "SourceId": "Clea_Web",
       "SourceType": "Discovered",
@@ -4214,6 +4231,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\backEnd\\js\\codemirror.js"
+    },
+    {
+      "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\collapse.js",
+      "SourceId": "Clea_Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\",
+      "BasePath": "_content/Clea_Web",
+      "RelativePath": "backEnd/js/collapse.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\backEnd\\js\\collapse.js"
     },
     {
       "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\js\\context-menu.js",
