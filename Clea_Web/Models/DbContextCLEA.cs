@@ -15,27 +15,19 @@ public partial class DbContextCLEA : DbContext
     {
     }
 
-    public virtual DbSet<CClass> CClasses { get; set; }
+    public virtual DbSet<CBook> CBooks { get; set; }
 
-    public virtual DbSet<CClassDetail> CClassDetails { get; set; }
+    public virtual DbSet<CClass> CClasses { get; set; }
 
     public virtual DbSet<CClassLector> CClassLectors { get; set; }
 
-    public virtual DbSet<CCourseDetail> CCourseDetails { get; set; }
+    public virtual DbSet<CClassSubject> CClassSubjects { get; set; }
 
-    public virtual DbSet<CCourseMain> CCourseMains { get; set; }
+    public virtual DbSet<CEvaluation> CEvaluations { get; set; }
 
     public virtual DbSet<CLector> CLectors { get; set; }
 
-    public virtual DbSet<CLectorDateBook> CLectorDateBooks { get; set; }
-
-    public virtual DbSet<CLectorHistory> CLectorHistories { get; set; }
-
-    public virtual DbSet<CLectorSkill> CLectorSkills { get; set; }
-
-    public virtual DbSet<CMaterial> CMaterials { get; set; }
-
-    public virtual DbSet<CTrainingCourse> CTrainingCourses { get; set; }
+    public virtual DbSet<CLectorAdvInfo> CLectorAdvInfos { get; set; }
 
     public virtual DbSet<PBanner> PBanners { get; set; }
 
@@ -46,6 +38,8 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<PNews> PNews { get; set; }
 
     public virtual DbSet<PNewsReadLog> PNewsReadLogs { get; set; }
+
+    public virtual DbSet<SysCode> SysCodes { get; set; }
 
     public virtual DbSet<SysFile> SysFiles { get; set; }
 
@@ -59,6 +53,8 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<SysUser> SysUsers { get; set; }
 
+    public virtual DbSet<ViewClassLector> ViewClassLectors { get; set; }
+
     public virtual DbSet<ViewMenuRolePower> ViewMenuRolePowers { get; set; }
 
     public virtual DbSet<ViewRole> ViewRoles { get; set; }
@@ -69,370 +65,229 @@ public partial class DbContextCLEA : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<CClass>(entity =>
+        modelBuilder.Entity<CBook>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("C_Class");
+            entity.HasKey(e => e.MId);
 
-            entity.Property(e => e.CId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ID");
-            entity.Property(e => e.CIsActive)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_IsActive");
-            entity.Property(e => e.CMemo)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Memo");
-            entity.Property(e => e.CName)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Name");
-            entity.Property(e => e.COrder)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Order");
-            entity.Property(e => e.CType)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Type");
+            entity.ToTable("C_Book");
+
+            entity.Property(e => e.MId)
+                .ValueGeneratedNever()
+                .HasColumnName("M_ID");
             entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.MIndex)
+                .HasComment("教材編號")
+                .HasColumnName("M_Index");
+            entity.Property(e => e.MMemo)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasComment("備註")
+                .HasColumnName("M_Memo");
+            entity.Property(e => e.MName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("教材名稱")
+                .HasColumnName("M_Name");
+            entity.Property(e => e.MNumber)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("證號")
+                .HasColumnName("M_Number");
+            entity.Property(e => e.MOrder)
+                .HasComment("優先順序")
+                .HasColumnName("M_Order");
+            entity.Property(e => e.MPublish)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("出版者")
+                .HasColumnName("M_Publish");
+            entity.Property(e => e.MVersion)
+                .HasComment("版本")
+                .HasColumnType("datetime")
+                .HasColumnName("M_Version");
             entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
-        modelBuilder.Entity<CClassDetail>(entity =>
+        modelBuilder.Entity<CClass>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("C_ClassDetail");
+            entity.HasKey(e => e.CUid);
 
+            entity.ToTable("C_Class");
+
+            entity.Property(e => e.CUid)
+                .ValueGeneratedNever()
+                .HasColumnName("C_UID");
+            entity.Property(e => e.CBookNum)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("教材編號")
+                .HasColumnName("C_BookNum");
             entity.Property(e => e.CId)
                 .HasMaxLength(10)
-                .IsFixedLength()
+                .IsUnicode(false)
+                .HasComment("課程ID")
                 .HasColumnName("C_ID");
+            entity.Property(e => e.CName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("課程名稱")
+                .HasColumnName("C_Name");
+            entity.Property(e => e.CType)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("課程類別")
+                .HasColumnName("C_Type");
             entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.DHour)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_Hour");
-            entity.Property(e => e.DHourlyRate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_HourlyRate");
-            entity.Property(e => e.DId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_ID");
-            entity.Property(e => e.DIsTest)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_IsTest");
-            entity.Property(e => e.DMemo)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_Memo");
-            entity.Property(e => e.DName)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_Name");
-            entity.Property(e => e.DType)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_Type");
-            entity.Property(e => e.DUid)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_UID");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
         modelBuilder.Entity<CClassLector>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("C_ClassLector");
+            entity.HasKey(e => e.ClUid);
 
-            entity.Property(e => e.CId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ID");
+            entity.ToTable("C_ClassLector");
+
+            entity.Property(e => e.ClUid)
+                .ValueGeneratedNever()
+                .HasColumnName("CL_UID");
+            entity.Property(e => e.CUid)
+                .HasComment("課程種類ID")
+                .HasColumnName("C_UID");
             entity.Property(e => e.ClHourlyRate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("授課鐘點費")
                 .HasColumnName("CL_HourlyRate");
             entity.Property(e => e.ClId)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("編號")
                 .HasColumnName("CL_ID");
-            entity.Property(e => e.ClIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CL_Index");
             entity.Property(e => e.ClIsActive)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("是否停止授課")
                 .HasColumnName("CL_IsActive");
             entity.Property(e => e.ClOrder)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("上課順序")
                 .HasColumnName("CL_Order");
             entity.Property(e => e.ClQualify)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("講師資格")
                 .HasColumnName("CL_Qualify");
             entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.LId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("L_ID");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.DUid)
+                .HasComment("課程明細ID")
+                .HasColumnName("D_UID");
+            entity.Property(e => e.LUid)
+                .HasComment("講師ID")
+                .HasColumnName("L_UID");
             entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
-        modelBuilder.Entity<CCourseDetail>(entity =>
+        modelBuilder.Entity<CClassSubject>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("C_CourseDetail");
+            entity.HasKey(e => e.DUid);
 
-            entity.Property(e => e.CId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ID");
-            entity.Property(e => e.CdClass)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_Class");
-            entity.Property(e => e.CdClassName)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_ClassName");
-            entity.Property(e => e.CdDate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_Date");
-            entity.Property(e => e.CdEndTime)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_EndTime");
-            entity.Property(e => e.CdHour)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_Hour");
-            entity.Property(e => e.CdId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_ID");
-            entity.Property(e => e.CdIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_Index");
-            entity.Property(e => e.CdIsTest)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_IsTest");
-            entity.Property(e => e.CdLector)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_Lector");
-            entity.Property(e => e.CdStartTime)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_StartTime");
-            entity.Property(e => e.CdType)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CD_Type");
-            entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
-        });
+            entity.ToTable("C_ClassSubject");
 
-        modelBuilder.Entity<CCourseMain>(entity =>
-        {
-            entity.HasKey(e => e.CId).HasName("PK_P_CourseMain");
-
-            entity.ToTable("C_CourseMain");
-
-            entity.Property(e => e.CId)
+            entity.Property(e => e.DUid)
                 .ValueGeneratedNever()
-                .HasColumnName("C_ID");
-            entity.Property(e => e.CAmount)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Amount");
-            entity.Property(e => e.CApprovalDate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ApprovalDate");
-            entity.Property(e => e.CApprovalNum)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ApprovalNum");
-            entity.Property(e => e.CBookNum)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_BookNum");
-            entity.Property(e => e.CBreakTime)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_BreakTime");
-            entity.Property(e => e.CClassCode)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ClassCode");
-            entity.Property(e => e.CClassDateE)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ClassDateE");
-            entity.Property(e => e.CClassDateS)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ClassDateS");
-            entity.Property(e => e.CHeaderCheck)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_HeaderCheck");
-            entity.Property(e => e.CHour)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Hour");
-            entity.Property(e => e.CInum)
-                .HasComment("內部編號")
-                .HasColumnName("C_INum");
-            entity.Property(e => e.CIsShow)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_IsShow");
-            entity.Property(e => e.CIsWebSignUp)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_IsWebSignUp");
-            entity.Property(e => e.CMemo)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Memo");
-            entity.Property(e => e.CNumOfPeople)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_NumOfPeople");
-            entity.Property(e => e.COpenDate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_OpenDate");
-            entity.Property(e => e.COpenNum)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_OpenNum");
-            entity.Property(e => e.CPhase)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Phase");
-            entity.Property(e => e.CReportingAuthority)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ReportingAuthority");
-            entity.Property(e => e.CReportingDate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ReportingDate");
-            entity.Property(e => e.CStatus)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_Status");
-            entity.Property(e => e.CSubjectP)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_SubjectP");
-            entity.Property(e => e.CSurgeryP)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_SurgeryP");
-            entity.Property(e => e.CTestSchedule)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_TestSchedule");
-            entity.Property(e => e.CUnderTaker)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_UnderTaker");
-            entity.Property(e => e.CWebSignUpDeadLine)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_WebSignUpDeadLine");
+                .HasColumnName("D_UID");
+            entity.Property(e => e.CUid).HasColumnName("C_UID");
             entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.DHour)
+                .HasComment("時數")
+                .HasColumnName("D_Hour");
+            entity.Property(e => e.DHourlyRate)
+                .HasComment("鐘點費")
+                .HasColumnName("D_HourlyRate");
+            entity.Property(e => e.DId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("課程編號")
+                .HasColumnName("D_ID");
+            entity.Property(e => e.DIsTest)
+                .HasComment("是否測驗")
+                .HasColumnName("D_IsTest");
+            entity.Property(e => e.DMemo)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasComment("備註")
+                .HasColumnName("D_Memo");
+            entity.Property(e => e.DName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("課程名稱")
+                .HasColumnName("D_Name");
+            entity.Property(e => e.DType)
+                .HasMaxLength(1)
+                .IsUnicode(false)
+                .HasComment("學/術科")
+                .HasColumnName("D_Type");
             entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<CEvaluation>(entity =>
+        {
+            entity.HasKey(e => e.LevId);
+
+            entity.ToTable("C_Evaluation");
+
+            entity.Property(e => e.LevId)
+                .ValueGeneratedNever()
+                .HasColumnName("LEv_ID");
+            entity.Property(e => e.CId)
+                .HasComment("開課ID")
+                .HasColumnName("C_ID");
+            entity.Property(e => e.ClUid)
+                .HasComment("課程ID")
+                .HasColumnName("CL_UID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.LevType)
+                .HasComment("0:課程 1:教材")
+                .HasColumnName("LEv_Type");
+            entity.Property(e => e.LevUserId)
+                .HasComment("評鑑人ID")
+                .HasColumnName("LEv_UserID");
+            entity.Property(e => e.Remark)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+            entity.Property(e => e.ScoreA).HasColumnName("Score_A");
+            entity.Property(e => e.ScoreB).HasColumnName("Score_B");
+            entity.Property(e => e.ScoreC).HasColumnName("Score_C");
+            entity.Property(e => e.ScoreD).HasColumnName("Score_D");
+            entity.Property(e => e.ScoreE).HasColumnName("Score_E");
+            entity.Property(e => e.ScoreF).HasColumnName("Score_F");
+            entity.Property(e => e.ScoreI).HasColumnName("Score_I");
+            entity.Property(e => e.ScoreJ).HasColumnName("Score_J");
+            entity.Property(e => e.ScroeH).HasColumnName("Scroe_H");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
         modelBuilder.Entity<CLector>(entity =>
@@ -442,368 +297,125 @@ public partial class DbContextCLEA : DbContext
             entity.ToTable("C_Lector");
 
             entity.Property(e => e.LUid)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .ValueGeneratedNever()
                 .HasColumnName("L_UID");
             entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.LActive)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("是否啟用")
                 .HasColumnName("L_Active");
             entity.Property(e => e.LAddress)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasComment("聯絡地址")
                 .HasColumnName("L_Address");
             entity.Property(e => e.LBrithday)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("生日")
+                .HasColumnType("date")
                 .HasColumnName("L_BRITHDAY");
             entity.Property(e => e.LCaddress)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasComment("戶籍地址")
                 .HasColumnName("L_CAddress");
             entity.Property(e => e.LCellPhone)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("行動電話")
                 .HasColumnName("L_CellPhone");
             entity.Property(e => e.LCposCode)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("戶籍地址郵遞區號")
                 .HasColumnName("L_CPosCode");
             entity.Property(e => e.LEdu)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasComment("學歷")
                 .HasColumnName("L_Edu");
             entity.Property(e => e.LEduSchool)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasComment("畢業學校")
                 .HasColumnName("L_EduSchool");
             entity.Property(e => e.LEmail)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("電子郵件")
                 .HasColumnName("L_Email");
             entity.Property(e => e.LId)
                 .HasMaxLength(10)
-                .IsFixedLength()
+                .IsUnicode(false)
+                .HasComment("身分證")
                 .HasColumnName("L_ID");
             entity.Property(e => e.LIsCheck)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("總會是否核准")
                 .HasColumnName("L_IsCheck");
             entity.Property(e => e.LMemo)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasComment("備註")
                 .HasColumnName("L_Memo");
             entity.Property(e => e.LName)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasComment("姓名")
                 .HasColumnName("L_NAME");
             entity.Property(e => e.LPhone)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("聯絡電話")
                 .HasColumnName("L_Phone");
             entity.Property(e => e.LPosCode)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("聯絡地址郵遞區號")
                 .HasColumnName("L_PosCode");
             entity.Property(e => e.LTravelExpenses)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("差旅費")
                 .HasColumnName("L_TravelExpenses");
             entity.Property(e => e.LType)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("講師類別")
                 .HasColumnName("L_Type");
             entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
-        modelBuilder.Entity<CLectorDateBook>(entity =>
+        modelBuilder.Entity<CLectorAdvInfo>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("C_LectorDateBook");
+            entity.HasKey(e => e.LaUid);
 
+            entity.ToTable("C_LectorAdvInfo");
+
+            entity.Property(e => e.LaUid)
+                .ValueGeneratedNever()
+                .HasColumnName("LA_UID");
             entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("建立時間")
+                .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("建立者")
                 .HasColumnName("CREUSER");
-            entity.Property(e => e.DId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("D_ID");
-            entity.Property(e => e.HIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("H_Index");
-            entity.Property(e => e.HMemo)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("H_Memo");
-            entity.Property(e => e.LId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("L_ID");
+            entity.Property(e => e.LUid)
+                .HasComment("講師UID")
+                .HasColumnName("L_UID");
+            entity.Property(e => e.LaTitle)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("標題")
+                .HasColumnName("LA_Title");
+            entity.Property(e => e.LaYear)
+                .HasComment("進修年度")
+                .HasColumnName("LA_Year");
             entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("更新時間")
+                .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
             entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
-        });
-
-        modelBuilder.Entity<CLectorHistory>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("C_LectorHistory");
-
-            entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.FMatchKey)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("F_MatchKey");
-            entity.Property(e => e.HHistroy)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("H_Histroy");
-            entity.Property(e => e.HId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("H_ID");
-            entity.Property(e => e.HIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("H_Index");
-            entity.Property(e => e.LId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("L_ID");
-            entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
-        });
-
-        modelBuilder.Entity<CLectorSkill>(entity =>
-        {
-            entity.HasKey(e => e.SId);
-
-            entity.ToTable("C_LectorSkill");
-
-            entity.Property(e => e.SId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_ID");
-            entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.FMatchKey)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("F_MatchKey");
-            entity.Property(e => e.LId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("L_ID");
-            entity.Property(e => e.SClass)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_Class");
-            entity.Property(e => e.SHourlRate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_HourlRate");
-            entity.Property(e => e.SIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_Index");
-            entity.Property(e => e.SIsActive)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_IsActive");
-            entity.Property(e => e.SQualify)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_Qualify");
-            entity.Property(e => e.STeachOrder)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("S_TeachOrder");
-            entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
-        });
-
-        modelBuilder.Entity<CMaterial>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToTable("C_Material");
-
-            entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.MId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_ID");
-            entity.Property(e => e.MIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_Index");
-            entity.Property(e => e.MMemo)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_Memo");
-            entity.Property(e => e.MNumber)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_Number");
-            entity.Property(e => e.MOrder)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_Order");
-            entity.Property(e => e.MPublish)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_Publish");
-            entity.Property(e => e.MVersion)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("M_Version");
-            entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDUSER");
-        });
-
-        modelBuilder.Entity<CTrainingCourse>(entity =>
-        {
-            entity.HasKey(e => e.TId).HasName("PK_P_TrainingCourses");
-
-            entity.ToTable("C_TrainingCourses");
-
-            entity.Property(e => e.TId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_ID");
-            entity.Property(e => e.CId)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("C_ID");
-            entity.Property(e => e.Credate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("CREUSER");
-            entity.Property(e => e.TDate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Date");
-            entity.Property(e => e.THour)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Hour");
-            entity.Property(e => e.TIndex)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Index");
-            entity.Property(e => e.TName)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Name");
-            entity.Property(e => e.TTeacher1)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Teacher1");
-            entity.Property(e => e.TTeacher2)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Teacher2");
-            entity.Property(e => e.TTeacher3)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Teacher3");
-            entity.Property(e => e.TTeacher4)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Teacher4");
-            entity.Property(e => e.TTest)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Test");
-            entity.Property(e => e.TTimeE)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_TimeE");
-            entity.Property(e => e.TTimeS)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_TimeS");
-            entity.Property(e => e.TType)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("T_Type");
-            entity.Property(e => e.Upddate)
-                .HasMaxLength(10)
-                .IsFixedLength()
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser)
-                .HasMaxLength(10)
-                .IsFixedLength()
+                .HasComment("更新者")
                 .HasColumnName("UPDUSER");
         });
 
@@ -1008,6 +620,64 @@ public partial class DbContextCLEA : DbContext
                 .HasForeignKey(d => d.NewsId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_P_NewsReadLog_P_News");
+        });
+
+        modelBuilder.Entity<SysCode>(entity =>
+        {
+            entity.HasKey(e => e.Uid);
+
+            entity.ToTable("SYS_Code");
+
+            entity.Property(e => e.Uid).ValueGeneratedNever();
+            entity.Property(e => e.CItemCode)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("代號")
+                .HasColumnName("C_itemCode");
+            entity.Property(e => e.CItemName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("代碼名稱")
+                .HasColumnName("C_itemName");
+            entity.Property(e => e.CItemOrder)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("排序")
+                .HasColumnName("C_itemOrder");
+            entity.Property(e => e.CParentCode)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("父層代號")
+                .HasColumnName("C_ParentCode");
+            entity.Property(e => e.CParentUid)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("父層Uid")
+                .HasColumnName("C_ParentUid");
+            entity.Property(e => e.Credate)
+                .HasComment("建立時間")
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasComment("建立者")
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.IsActive)
+                .IsRequired()
+                .HasDefaultValueSql("((1))")
+                .HasComment("開啟狀態")
+                .HasColumnName("isActive");
+            entity.Property(e => e.IsShow)
+                .IsRequired()
+                .HasDefaultValueSql("((1))")
+                .HasComment("顯示狀態")
+                .HasColumnName("isShow");
+            entity.Property(e => e.Upddate)
+                .HasComment("更新時間")
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasComment("更新者")
+                .HasColumnName("UPDUSER");
         });
 
         modelBuilder.Entity<SysFile>(entity =>
@@ -1264,7 +934,9 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.USex)
                 .HasComment("使用者性別:0女、1男")
                 .HasColumnName("U_Sex");
-            entity.Property(e => e.UStatus).HasColumnName("U_Status");
+            entity.Property(e => e.UStatus)
+                .HasComment("狀態")
+                .HasColumnName("U_Status");
             entity.Property(e => e.UnId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -1282,6 +954,31 @@ public partial class DbContextCLEA : DbContext
                 .HasForeignKey(d => d.RUid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SYS_User_SYS_User");
+        });
+
+        modelBuilder.Entity<ViewClassLector>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_ClassLector");
+
+            entity.Property(e => e.CKey).HasColumnName("C_Key");
+            entity.Property(e => e.ClassName)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.LName)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("L_Name");
+            entity.Property(e => e.SubId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("Sub_ID");
+            entity.Property(e => e.SubKey).HasColumnName("Sub_Key");
+            entity.Property(e => e.SubName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("Sub_Name");
         });
 
         modelBuilder.Entity<ViewMenuRolePower>(entity =>

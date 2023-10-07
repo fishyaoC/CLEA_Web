@@ -5,27 +5,53 @@ namespace Clea_Web.Models;
 
 public partial class CClassLector
 {
-    public string ClId { get; set; } = null!;
+    public Guid ClUid { get; set; }
 
-    public string? CId { get; set; }
+    /// <summary>
+    /// 課程種類ID
+    /// </summary>
+    public Guid? CUid { get; set; }
 
-    public string? LId { get; set; }
+    /// <summary>
+    /// 課程明細ID
+    /// </summary>
+    public Guid? DUid { get; set; }
 
-    public string? ClIndex { get; set; }
+    /// <summary>
+    /// 講師ID
+    /// </summary>
+    public Guid? LUid { get; set; }
 
-    public string? ClOrder { get; set; }
+    /// <summary>
+    /// 編號
+    /// </summary>
+    public int? ClId { get; set; }
 
-    public string? ClHourlyRate { get; set; }
+    /// <summary>
+    /// 上課順序
+    /// </summary>
+    public int? ClOrder { get; set; }
 
+    /// <summary>
+    /// 授課鐘點費
+    /// </summary>
+    public int? ClHourlyRate { get; set; }
+
+    /// <summary>
+    /// 講師資格
+    /// </summary>
     public string? ClQualify { get; set; }
 
-    public string? ClIsActive { get; set; }
+    /// <summary>
+    /// 是否停止授課
+    /// </summary>
+    public bool? ClIsActive { get; set; }
 
-    public string? Creuser { get; set; }
+    public Guid? Creuser { get; set; }
 
-    public string? Credate { get; set; }
+    public DateTime? Credate { get; set; }
 
-    public string? Upduser { get; set; }
+    public Guid? Upduser { get; set; }
 
-    public string? Upddate { get; set; }
+    public DateTime? Upddate { get; set; }
 }

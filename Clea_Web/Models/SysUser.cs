@@ -43,23 +43,26 @@ public partial class SysUser
     /// <summary>
     /// 使用者地址
     /// </summary>
-    public string UAddress { get; set; } = null!;
+    public string? UAddress { get; set; }
 
     /// <summary>
     /// 使用者性別:0女、1男
     /// </summary>
-    public byte USex { get; set; }
+    public byte? USex { get; set; }
 
     /// <summary>
     /// 使用者生日
     /// </summary>
-    public DateTime UBirthday { get; set; }
+    public DateTime? UBirthday { get; set; }
 
     /// <summary>
     /// 使用者單位
     /// </summary>
     public string UnId { get; set; } = null!;
 
+    /// <summary>
+    /// 狀態
+    /// </summary>
     public bool UStatus { get; set; }
 
     /// <summary>
