@@ -337,6 +337,10 @@
       "PackagePath": "staticwebassets\\backEnd\\fonts\\Roboto\\Roboto-Regular.woff2"
     },
     {
+      "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\images\\LOGO標準字(W).png",
+      "PackagePath": "staticwebassets\\backEnd\\images\\LOGO標準字(W).png"
+    },
+    {
       "Id": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\images\\LOGO標準字.png",
       "PackagePath": "staticwebassets\\backEnd\\images\\LOGO標準字.png"
     },

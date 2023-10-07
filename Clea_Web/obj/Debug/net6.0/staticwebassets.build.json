@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "RxWZ8Sot+JUWHrbBlXdlD8bo99P94hAjzYFqz9sHcLE=",
+  "Hash": "rj1DuXhg84RVCuLE6er19AaWiZEsOlInc/7wIftQybo=",
   "Source": "Clea_Web",
   "BasePath": "_content/Clea_Web",
   "Mode": "Default",
@@ -3330,6 +3330,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\backEnd\\images\\logo-white.svg"
+    },
+    {
+      "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\images\\LOGO標準字(W).png",
+      "SourceId": "Clea_Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\",
+      "BasePath": "_content/Clea_Web",
+      "RelativePath": "backEnd/images/LOGO標準字(W).png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\backEnd\\images\\LOGO標準字(W).png"
     },
     {
       "Identity": "D:\\workspace\\Clea_Web\\Clea_Web\\wwwroot\\backEnd\\images\\LOGO標準字.png",
