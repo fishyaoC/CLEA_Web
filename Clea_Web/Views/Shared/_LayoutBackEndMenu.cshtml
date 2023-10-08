@@ -13,15 +13,20 @@
     BaseService baseService = new BaseService();
     List<ViewMenuRolePower> viewMenu = new List<ViewMenuRolePower>();
     Guid R_UID = Guid.Empty;
-    if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString("role")))
+
+    var claims = Context.User.Identities.FirstOrDefault().Claims.ToArray();
+
+    String RoleId = claims[2].Value;
+    if (string.IsNullOrEmpty(RoleId))
     {
-        Context.Response.Redirect(Url.Action("Index","Sys_Login"));       
+        Context.Response.Redirect(Url.Action("Index", "Sys_Login"));
     }
     else
     {
-        R_UID = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString("role"));
+        R_UID = Guid.Parse(RoleId);
+        // R_UID = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString("role"));
         viewMenu = db.ViewMenuRolePowers.Where(x => x.RUid == R_UID && x.MLevel == 1 && x.SearchData == true && x.MType.Equals("B")).OrderBy(x => x.MOrder).ToList();
-    }   
+    }
 }
 
 <nav class="sidebar sidebar-offcanvas" id="sidebar">

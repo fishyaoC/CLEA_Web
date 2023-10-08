@@ -38,6 +38,7 @@ namespace Clea_Web.Filters
             String _action = context.RouteData.Values["action"].ToString();
             //組合Url
             String Url = "/" + _controller + "/Index" ;
+            String _QString = context.HttpContext.Request.QueryString.Value;
             //String Url = "/" + _controller + "/" + _action;
             //取得USER POWER
             var user = context.HttpContext.User;
@@ -50,26 +51,40 @@ namespace Clea_Web.Filters
             if (!(rp is null) && rp.SearchData) //Index
             {
                 Boolean PowerChk = false;
-                if (_action.Equals("Modify") && rp.ModifyData)
-                {
-                    PowerChk = true;
-                }
-                else if (_action.Equals("Delete") && rp.DeleteData)
-                {
-                    PowerChk = true;
-                }
-                else if (_action.Equals("Import") && rp.ImportData)
-                {
-                    PowerChk = true;
-                }
-                else if (_action.Equals("Export") && rp.Exportdata)
+                if (!string.IsNullOrEmpty(_QString) && _QString.Contains("page"))
                 {
                     PowerChk = true;
                 }
                 else
                 {
-                    //Index
-                    PowerChk = true;
+                    if (_action.Equals("Index") && rp.SearchData)
+                    {
+                        PowerChk = true;
+                    }
+                    else if (_action.Equals("Modify") && string.IsNullOrEmpty(_QString) && rp.CreateData)
+                    {
+                        PowerChk = true;
+                    }
+                    else if (_action.Equals("Modify") && !string.IsNullOrEmpty(_QString) && rp.ModifyData)
+                    {
+                        PowerChk = true;
+                    }
+                    else if (_action.Equals("Delete") && rp.DeleteData)
+                    {
+                        PowerChk = true;
+                    }
+                    else if (_action.Equals("Import") && rp.ImportData)
+                    {
+                        PowerChk = true;
+                    }
+                    else if (_action.Equals("Export") && rp.Exportdata)
+                    {
+                        PowerChk = true;
+                    }
+                    else
+                    {
+                        PowerChk = false;
+                    }
                 }
 
                 if (!PowerChk)

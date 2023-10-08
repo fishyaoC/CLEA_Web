@@ -13,17 +13,20 @@ using Microsoft.AspNetCore.Authorization;
 namespace Clea_Web.Controllers
 {
     //後臺登入頁面
+    [AllowAnonymous]
     public class Sys_LoginController : BaseController
     {
         private readonly ILogger<Sys_LoginController> _logger;
         private LoginService _loginService = new LoginService();
         private BaseService _baseService;
+        private IConfiguration _configuration;
 
-        public Sys_LoginController(ILogger<Sys_LoginController> logger, dbContext dbCLEA,BaseService baseService)
+        public Sys_LoginController(ILogger<Sys_LoginController> logger, dbContext dbCLEA,BaseService baseService, IConfiguration configuration)
         {
             _logger = logger;
             db = dbCLEA;
              _baseService = baseService;
+            _configuration = configuration;
         }
 
         //註冊頁面、登入頁面、變更密碼
@@ -71,9 +74,11 @@ namespace Clea_Web.Controllers
 
                 if (claims.Count > 0)
                 {
+                    Int32 settimeout = _configuration.GetValue<int>("TimeConfig:TimeOut");
+
                     HttpContext.Session.SetString("role", claims[2].Value);
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProps = new AuthenticationProperties { IsPersistent = true };
+                    var authProps = new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(settimeout) };
 
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), authProps);
