@@ -31,6 +31,30 @@
     <link rel="stylesheet" href="~/backEnd/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="~/backEnd/images/favicon.ico" />
+
+    <style>
+        .sub-menu{
+            background: white !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item{
+            border-radius: 20px !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link {
+            color: black !important;
+        }
+
+        .sidebar .nav.sub-menu .nav-item .nav-link.active{
+                background-color: #4B49AC;
+                color: #fff !important;
+        }
+
+        .active-highlight {
+            background-color: #4B49AC; 
+            color: #fff !important; 
+        }
+    </style>
 </head>
 <body>
     <div class="container-scroller">
@@ -1039,5 +1063,7 @@
 
     </script>
 
+    <script src="~/backEnd/js/active.js"></script>
+    <script src="~/backEnd/js/collapse.js"></script>
 </body>
 </html>
