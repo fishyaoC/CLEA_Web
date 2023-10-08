@@ -10,39 +10,6 @@
     <div class="content-wrapper">
         <div class="row">
             <!--搜尋-->
-            <div class="col-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">搜尋條件</h4>
-                        @*<p class="card-description">
-                            Basic form elements
-                            </p> *@
-                        <form class="forms-sample" method="post" action="@Url.Action("Index","B_Account")">
-                            @Html.AntiForgeryToken()
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputName1">帳號名稱</label>
-                                        @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
-                                        @Html.TextBoxFor(x => x.schItem.rId, new { @class = "form-control form-control", placeholder = "角色代碼" })
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputEmail3">角色權限</label>
-                                        @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
-                                        @* @Html.TextBoxFor(x=> x.schItem.rName, new { @class="form-control form-control", placeholder="角色名稱"}) *@
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary mr-2">搜尋</button>
-                            @* <button class="btn btn-light">清除條件</button> *@
-                        </form>
-                    </div>
-                </div>
-            </div>
             <div class="col-12 mb-3">
                 <div class="accordion" id="accordionPanelsStayOpenExample">
                     <div class="accordion-item">
