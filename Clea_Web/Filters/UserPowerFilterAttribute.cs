@@ -57,27 +57,27 @@ namespace Clea_Web.Filters
                 }
                 else
                 {
-                    if (_action.Equals("Index") && rp.SearchData)
+                    if (_action.Contains("Index") && rp.SearchData)
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Equals("Modify") && string.IsNullOrEmpty(_QString) && rp.CreateData)
+                    else if (_action.Contains("Modify") && string.IsNullOrEmpty(_QString) && rp.CreateData)
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Equals("Modify") && !string.IsNullOrEmpty(_QString) && rp.ModifyData)
+                    else if (_action.Contains("Modify") && !string.IsNullOrEmpty(_QString) && rp.ModifyData)
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Equals("Delete") && rp.DeleteData)
+                    else if (_action.Contains("Delete") && rp.DeleteData)
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Equals("Import") && rp.ImportData)
+                    else if (_action.Contains("Import") && rp.ImportData)
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Equals("Export") && rp.Exportdata)
+                    else if (_action.Contains("Export") && rp.Exportdata)
                     {
                         PowerChk = true;
                     }
