@@ -42,7 +42,8 @@ button.accept-policy[b-kond2mnnpg] {
 .footer[b-kond2mnnpg] {
     position: absolute;
     bottom: 0;
-    width: 85%;
+    width: 100%;
+    margin-left:100px;
     white-space: nowrap;
     line-height: 60px;
     padding: 0;

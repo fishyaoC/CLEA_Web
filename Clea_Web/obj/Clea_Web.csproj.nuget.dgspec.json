@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "D:\\workspace\\Clea_Web\\Clea_Web\\Clea_Web.csproj": {}
   },
   "projects": {
@@ -12,20 +13,37 @@
         "projectPath": "D:\\workspace\\Clea_Web\\Clea_Web\\Clea_Web.csproj",
         "packagesPath": "C:\\Users\\eric1\\.nuget\\packages\\",
         "outputPath": "D:\\workspace\\Clea_Web\\Clea_Web\\obj\\",
+=======
+    "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj": {}
+  },
+  "projects": {
+    "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj",
+        "projectName": "Clea_Web",
+        "projectPath": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/Clea_Web.csproj",
+        "packagesPath": "/Users/tsengwanzhe/.nuget/packages/",
+        "outputPath": "/Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/obj/",
+>>>>>>> pr/25
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\eric1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+=======
+          "/Users/tsengwanzhe/.nuget/NuGet/NuGet.Config"
+>>>>>>> pr/25
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "/usr/local/share/dotnet/sdk/7.0.308/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -86,7 +104,11 @@
               "privateAssets": "all"
             }
           },
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.308/RuntimeIdentifierGraph.json"
+>>>>>>> pr/25
         }
       }
     }
