@@ -77,52 +77,46 @@
                                     </div>
                             </div>
                         </div>
+                        <div class="row">
+                                <nav class="sidebar sidebar-offcanvas w-100" id="sidebar" style="background:white">
+                                    <ul class="nav">
+                                        <li class="nav-item">
+                                            <a class="nav-link bg-light" data-toggle="collapse" href="#item1" aria-expanded="false" aria-controls="ui-basic">
+                                                <i class="menu-arrow ms-0 me-1"></i>
+                                                <span class="menu-title text-dark">母項目</span>
+                                            </a>
+                                            <div class="collapse" id="item1">
+                                                <ul class="nav flex-column sub-menu bg-light" style="list-style-type: none">
+                                                    <li class="d-flex justify-content-between">
+                                                        @{
+                                                            bool isOpen = false;
+                                                        }
+                                                        <div>
+                                                            <input type="checkbox" id="toggleCheckbox" @Html.Raw(isOpen ? "checked" : "")>
+                                                            <label for="toggleCheckbox">子項目</label>
+                                                        </div>
+
+                                                        <div id="contentDiv" style="display: @(isOpen ? "block" : "none");">
+                                                            <label class="mx-1"><input type="checkbox" name="action" value="閱覽"> 閱覽</label>
+                                                            <label class="mx-1"><input type="checkbox" name="action" value="新增"> 新增</label>
+                                                            <label class="mx-1"><input type="checkbox" name="action" value="編輯"> 編輯</label>
+                                                            <label class="mx-1"><input type="checkbox" name="action" value="刪除"> 刪除</label>
+                                                            <label class="mx-1"><input type="checkbox" name="action" value="上傳"> 上傳</label>
+                                                            <label class="mx-1"><input type="checkbox" name="action" value="匯出"> 匯出</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </nav>
+                        </div>
                         <div class="d-flex justify-content-end m-3">
                             <a href="@Url.Action("Index","Sys_Role")" class="btn btn-secondary me-2">取消</a>
                             <button type="submit" class="btn btn-info">儲存</button>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-
-                            <nav class="sidebar sidebar-offcanvas w-100" id="sidebar" style="background:white">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a class="nav-link bg-light" data-toggle="collapse" href="#item1" aria-expanded="false" aria-controls="ui-basic">
-                                            <i class="menu-arrow ms-0 me-1"></i>
-                                            <span class="menu-title text-dark">母項目</span>
-                                        </a>
-                                        <div class="collapse" id="item1">
-                                            <ul class="nav flex-column sub-menu bg-light" style="list-style-type: none">
-                                                <li class="d-flex justify-content-between">
-                                                    @{
-                                                        bool isOpen = false;
-                                                    }
-                                                    <div>
-                                                        <input type="checkbox" id="toggleCheckbox" @Html.Raw(isOpen ? "checked" : "")>
-                                                        <label for="toggleCheckbox">子項目</label>
-                                                    </div>
-
-                                                    <div id="contentDiv" style="display: @(isOpen ? "block" : "none");">
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="閱覽"> 閱覽</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="新增"> 新增</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="編輯"> 編輯</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="刪除"> 刪除</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="上傳"> 上傳</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="匯出"> 匯出</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </nav>
-
-                        </div>
-                    </div>
-                </div>
+                </div>               
             </div>
         </form>
     </div>
