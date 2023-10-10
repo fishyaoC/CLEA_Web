@@ -1,0 +1,139 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+}
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Fluent;
+@using X.PagedList.Web.Common;
+@model Clea_Web.ViewModels.ViewClassViewModel.SchSubLecModel_V
+<div class="main-panel">
+	<div class="content-wrapper">
+		<div class="row">
+			<!--搜尋-->
+			<div class="col-12 mb-3">
+				<div class="accordion" id="accordionPanelsStayOpenExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="panelsStayOpen-headingOne">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+								<h4 class="m-0">搜尋條件</h4>
+							</button>
+						</h2>
+						<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+							<div class="accordion-body">
+								<form class="forms-sample" method="post" action="@Url.Action("L_Index","B_ViewClass")">
+									@Html.AntiForgeryToken()
+									@Html.HiddenFor(x => x.EvaluationActonInfo.ControllerName)
+									@Html.HiddenFor(x => x.EvaluationActonInfo.Key)
+									@Html.HiddenFor(x => x.EvaluationActonInfo.Year)
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputName1">科目代碼</label>
+												@Html.TextBoxFor(x => x.schSubLecItem_V.SubID, new { @class = "form-control form-control", placeholder = "科目代碼" })
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputEmail3">科目名稱</label>
+												@Html.TextBoxFor(x => x.schSubLecItem_V.SubName, new { @class = "form-control form-control", placeholder = "科目名稱" })
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										@* 										<div class="col-md-6">
+										<div class="form-group">
+										<label for="exampleInputName1">教師代碼</label>
+										@Html.TextBoxFor(x => x.schSubLecItem.SubLectorNumber, new { @class = "form-control form-control", placeholder = "教師代碼" })
+										</div>
+										</div> *@
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputEmail3">教師名稱</label>
+												@Html.TextBoxFor(x => x.schSubLecItem_V.SubLector, new { @class = "form-control form-control", placeholder = "教師名稱" })
+											</div>
+										</div>
+									</div>
+									<div class="d-flex">
+										<button class="btn btn-light mr-2">清除條件</button>
+										<button type="submit" class="btn btn-primary mr-2">搜尋</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!--搜尋End-->
+					<!--動作-->
+
+					<div class="mb-2 mt-2">
+
+						@* <a href="@Url.Action("Modify","Sys_Role")" class="btn btn-info">新增</a> *@
+						@*<button type="button" class="btn btn-info">新增</button>*@
+						@* <button type="button" class="btn btn-danger">刪除</button> *@
+					</div>
+					<!--動作End-->
+					<!--資料Table-->
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">評鑑 - 科目授課資訊</h4>
+								@*<p class="card-description">
+								Add class <code>.table</code>
+								</p> *@
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>序</th>
+												@* <th>科目代碼</th> *@
+												<th>科目名稱</th>
+												<th>授課教師</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											@if (!(Model.getSubLecPageLists_V is null) && Model.getSubLecPageLists_V.Count > 0)
+											{
+												Int32 rowCount = 0;
+												foreach (var SubLec in Model.getSubLecPageLists_V)
+												{
+													rowCount++;
+													<tr>
+														<td>@rowCount</td>
+														@* <td>@Class.ClassID</td> *@
+														<td>@SubLec.SubName</td>
+														<td>@SubLec.SubLector</td>
+														<td>
+															<a href="@Url.Action("P_Index","B_ViewClass", new { C_ID = SubLec.C_UID, Sub_UID = SubLec.SUB_UID, Year = SubLec.Year })" class="btn btn-success">檢視授課教師</a>
+														</td>
+													</tr>
+												}
+											}
+											else
+											{
+												<tr>
+													<td colspan="6" align="center">查無資料!</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+									<!--換頁模組-->
+									@if (!(Model.getSubLecPageLists_V is null) && Model.getSubLecPageLists_V.Count > 0)
+									{
+										@Html.Partial("../Shared/_pageList", Model.getSubLecPageLists_V)
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--資料Table End-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+
+</script>

@@ -1,5 +1,7 @@
 ﻿using Clea_Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
+using X.PagedList;
 
 namespace Clea_Web.ViewModels
 {
@@ -8,6 +10,7 @@ namespace Clea_Web.ViewModels
         public UserRole userRole { get; set; }
         public Modify modify { get; set; }
         public SchModel schModel { get; set; }
+        public List<SelectListItem> DropDownItem { get; set; }
 
         #region 選單
         public class UserRole
@@ -38,51 +41,51 @@ namespace Clea_Web.ViewModels
             public string UAccount { get; set; } = null!;
 
             /// <summary>
-            /// 密碼
+            /// 密碼(非必填)
             /// </summary>
             [DisplayName("密碼")] 
-            public string UPassword { get; set; } = null!;
+            public string? UPassword { get; set; } = null!;
 
             /// <summary>
-            /// 使用者名稱
+            /// 帳號名稱
             /// </summary>
-            [DisplayName("使用者名稱")] 
+            [DisplayName("帳號名稱")] 
             public string UName { get; set; } = null!;
 
             /// <summary>
-            /// 使用者電子郵件
+            /// 帳號電子郵件
             /// </summary>
-            [DisplayName("使用者電子郵件")] 
+            [DisplayName("帳號電子郵件")] 
             public string UEmail { get; set; } = null!;
 
             /// <summary>
-            /// 使用者連絡電話
+            /// 帳號連絡電話
             /// </summary>
-            [DisplayName("使用者連絡電話")] 
+            [DisplayName("帳號連絡電話")] 
             public string UPhone { get; set; } = null!;
 
             /// <summary>
-            /// 使用者地址
+            /// 帳號地址
             /// </summary>
-            [DisplayName("使用者地址")] 
+            [DisplayName("帳號地址")] 
             public string UAddress { get; set; } = null!;
 
             /// <summary>
-            /// 使用者性別:0女、1男
+            /// 帳號性別:0女、1男
             /// </summary>
-            [DisplayName("使用者性別")] 
+            [DisplayName("帳號性別")] 
             public byte USex { get; set; }
 
             /// <summary>
-            /// 使用者生日
+            /// 帳號生日
             /// </summary>
-            [DisplayName("使用者生日")] 
+            [DisplayName("帳號生日")] 
             public DateTime UBirthday { get; set; }
 
             /// <summary>
-            /// 使用者單位
+            /// 帳號單位
             /// </summary>
-            [DisplayName("使用者單位")] 
+            [DisplayName("帳號單位")] 
             public string UnId { get; set; } = null!;
 
             /// <summary>
@@ -104,15 +107,18 @@ namespace Clea_Web.ViewModels
         {
             public SchItem schItem { get; set; }
             public List<schPageList> schPageList { get; set; }
+            public IPagedList<schPageList> schPageList2 { get; set; }
+            public List<SelectListItem> DropDownItem { get; set; }
         }
         #endregion
 
         #region 搜尋條件
         public class SchItem
         {
-
-            public String? uId { get; set; }
-            public String? rId { get; set; }
+            //帳號名稱
+            public String? uuId { get; set; }
+            //帳號權限
+            public Guid? urId { get; set; }
 
         }
         #endregion
@@ -121,9 +127,10 @@ namespace Clea_Web.ViewModels
         public class schPageList
         {
             public String uUId { get; set; }
+            public String rUId { get; set; }
             public String uAccount { get; set; }
-            public String uPassWord { get; set; }
-            public Int16 uName { get; set; }
+            public String? uPassWord { get; set; }
+            public String uName { get; set; }
             public String? uEmail { get; set; }
             public String? uPhone { get; set; }
             public String? uAddress { get; set; }
@@ -135,7 +142,9 @@ namespace Clea_Web.ViewModels
             public String creDate { get; set; }
             public String updUser { get; set; }
             public String updDate { get; set; }
-            //public DateTime mbCredateE { get; set; }
+            public DateTime Date { get; set; }
+            public String updUserC { get; set; }
+
 
 
         }

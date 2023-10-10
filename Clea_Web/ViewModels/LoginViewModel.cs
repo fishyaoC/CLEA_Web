@@ -26,5 +26,16 @@ namespace Clea_Web.ViewModels
             public Boolean IsTest { get; set; }=false;
         }
         #endregion
+
+        #region LoginRole
+        public class LoginRoleInfo
+        {
+            public String U_Account { get; set; }
+            public String U_Name { get; set; }
+            public String R_UID { get; set; }
+            public String U_ID { get; set; }
+            public String R_BackEnd { get; set; }
+        }
+        #endregion
     }
 }

@@ -17,6 +17,7 @@
     var claims = Context.User.Identities.FirstOrDefault().Claims.ToArray();
 
     String RoleId = claims[2].Value;
+    String Type = claims[4].Value.Equals("True") ? "B" : "P";
     if (string.IsNullOrEmpty(RoleId))
     {
         Context.Response.Redirect(Url.Action("Index", "Sys_Login"));
@@ -25,7 +26,7 @@
     {
         R_UID = Guid.Parse(RoleId);
         // R_UID = Guid.Parse(HttpContextAccessor.HttpContext.Session.GetString("role"));
-        viewMenu = db.ViewMenuRolePowers.Where(x => x.RUid == R_UID && x.MLevel == 1 && x.SearchData == true && x.MType.Equals("B")).OrderBy(x => x.MOrder).ToList();
+        viewMenu = db.ViewMenuRolePowers.Where(x => x.RUid == R_UID && x.MLevel == 1 && x.SearchData == true && x.MType.Equals(Type)).OrderBy(x => x.MOrder).ToList();
     }
 }
 

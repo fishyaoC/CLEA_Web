@@ -24,8 +24,48 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XE1vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/L_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xMX0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/L_Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xMX01vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/P_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xQX0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/V_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xWX0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/workspace/Clea_Web/Clea_Web/Views/B_Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Ib21lXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/G_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcR19JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/L_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcTF9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/L_Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcTF9Nb2RpZnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/P_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcUF9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/workspace/Clea_Web/Clea_Web/Views/Home/Index.cshtml]
@@ -34,6 +74,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [D:/workspace/Clea_Web/Clea_Web/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/P_Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9Ib21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/workspace/Clea_Web/Clea_Web/Views/Shared/Error.cshtml]

@@ -18,6 +18,10 @@ namespace Clea_Web.Service
 
         public dbContext db;
 
+        #region 分頁顯示數量
+        public static Int32 pagesize = 15;
+        #endregion
+
         #region 連線字串
         public String ConfigData(String path)
         {

@@ -13,6 +13,11 @@ public partial class SysRole
     public string RId { get; set; } = null!;
 
     /// <summary>
+    /// 是否為後台帳號
+    /// </summary>
+    public bool RBackEnd { get; set; }
+
+    /// <summary>
     /// 角色名稱
     /// </summary>
     public string RName { get; set; } = null!;

@@ -27,7 +27,9 @@ namespace Clea_Web
             services.AddTransient<AccountService>();
             services.AddTransient<LoginService>();
             services.AddTransient<HomeService>();
-
+            services.AddTransient<AssignClassService>();
+            services.AddTransient<ViewClassService>();
+            services.AddTransient<SMTPService>();
 
             ////加入Mapper
             //var mapperConfig = new MapperConfiguration(mc =>

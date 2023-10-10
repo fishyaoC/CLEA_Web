@@ -45,6 +45,8 @@ public partial class SysFile
     /// </summary>
     public int? FOrder { get; set; }
 
+    public string? FRemark { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }
