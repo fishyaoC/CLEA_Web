@@ -80,6 +80,30 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 col-form-label">是否為後台帳號</label>
+                                        @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                        <div class="col-sm-9 d-flex justify-content-around">
+                                            <div class="form-check">
+                                                @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                                <label for="S1">
+                                                    是
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                                <label for="S0">
+                                                    否
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="row">
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">

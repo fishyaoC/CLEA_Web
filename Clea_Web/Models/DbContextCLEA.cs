@@ -601,7 +601,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.RId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasComment("角色代碼")
+                .HasComment("角色代碼(觀看權限)")
                 .HasColumnName("R_ID");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
@@ -714,9 +714,21 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("檔案描述")
                 .HasColumnName("F_Description");
+            entity.Property(e => e.FExt)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("F_Ext");
+            entity.Property(e => e.FFullName)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("F_FullName");
             entity.Property(e => e.FMatchKey)
                 .HasComment("功能主KEY")
                 .HasColumnName("F_MatchKey");
+            entity.Property(e => e.FMimeType)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("F_MimeType");
             entity.Property(e => e.FModule)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -1159,6 +1171,7 @@ public partial class DbContextCLEA : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("CREUSER");
+            entity.Property(e => e.RBackEnd).HasColumnName("R_BackEnd");
             entity.Property(e => e.RId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -1169,7 +1182,7 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnName("R_Name");
             entity.Property(e => e.ROrder).HasColumnName("R_Order");
             entity.Property(e => e.RStatus).HasColumnName("R_Status");
-            entity.Property(e => e.RUid).HasColumnName("R_Uid");
+            entity.Property(e => e.RUid).HasColumnName("R_UID");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");

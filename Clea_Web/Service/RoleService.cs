@@ -47,6 +47,7 @@ namespace Clea_Web.Service
                           rId = r.RId,
                           rName = r.RName,
                           rOrder = r.ROrder,
+                          rBackEnd = r.RBackEnd == true ? "是" : "否",
                           rStatus = r.RStatus == true ? "是" : "否",
                           //creDate = r.Credate.ToShortDateString(),
                           //creUser = r.Creuser,
@@ -74,6 +75,7 @@ namespace Clea_Web.Service
                 userRole.RId = vm.RId;
                 userRole.RName = vm.RName;
                 userRole.ROrder = Convert.ToByte(vm.ROrder);
+                userRole.RBackEnd = vm.RBackEnd;
                 userRole.RStatus = vm.RStatus;
 
                 if (vm != null && vm.IsEdit == true)
@@ -116,6 +118,7 @@ namespace Clea_Web.Service
                 vm.RName = sysRole.RName;
                 vm.ROrder = sysRole.ROrder;
                 vm.RStatus = sysRole.RStatus;
+                vm.RBackEnd = sysRole.RBackEnd;
                 vm.IsEdit = true;
             }
             return vm;
