@@ -58,7 +58,7 @@ public partial class SysUser
     /// <summary>
     /// 使用者單位
     /// </summary>
-    public string UnId { get; set; } = null!;
+    public string? UnId { get; set; }
 
     /// <summary>
     /// 狀態

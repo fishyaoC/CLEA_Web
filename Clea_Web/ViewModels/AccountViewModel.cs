@@ -7,21 +7,15 @@ namespace Clea_Web.ViewModels
 {
     public class AccountViewModel : BaseViewModel
     {
-        public UserRole userRole { get; set; }
         public Modify modify { get; set; }
         public SchModel schModel { get; set; }
-        public List<SelectListItem> DropDownItem { get; set; }
 
-        #region 選單
-        public class UserRole
-        {
-            public List<SysMenu> lst_sysMenu { get; set; }
-        }
-        #endregion
 
         #region 編輯頁面
         public class Modify
         {
+            public List<SelectListItem> DropDownItem { get; set; }
+
             /// <summary>
             /// Uid
             /// </summary>
@@ -29,9 +23,9 @@ namespace Clea_Web.ViewModels
             public Guid UId { get; set; }
 
             /// <summary>
-            /// 角色UID
+            /// 角色權限
             /// </summary>
-            [DisplayName("角色UID")] 
+            [DisplayName("角色權限")] 
             public Guid RUid { get; set; }
 
             /// <summary>
@@ -116,7 +110,7 @@ namespace Clea_Web.ViewModels
         public class SchItem
         {
             //帳號名稱
-            public String? uuId { get; set; }
+            public String? uName { get; set; }
             //帳號權限
             public Guid? urId { get; set; }
 
