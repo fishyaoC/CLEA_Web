@@ -54,20 +54,6 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region 查詢
-        //public IActionResult Index(BaseViewModel.errorMsg msg)
-        //{
-        //    //搜尋條件
-        //    AccountViewModel.SchItem vm = new AccountViewModel.SchItem();
-        //    //index列表
-        //    AccountViewModel.SchModel vmd = new AccountViewModel.SchModel();
-
-        //    //撈資料
-        //    vmd.schPageList = _accountService.GetPageLists(vm);
-        //    vmd.DropDownItem = _accountService.getSysRoleItem();
-
-        //    return View(vmd);
-        //}
-
         public IActionResult Index(String? data, Int32? page)
         {
             AccountViewModel.SchModel vmd = new AccountViewModel.SchModel();

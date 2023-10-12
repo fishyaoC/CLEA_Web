@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj": {}
+    "C:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj": {
+    "C:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+        "projectUniqueName": "C:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
         "projectName": "Clea_Web",
-        "projectPath": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
-        "packagesPath": "C:\\Users\\pette\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pette\\OneDrive\\桌面\\CLEA_Web\\Clea_Web\\obj\\",
+        "projectPath": "C:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+        "packagesPath": "C:\\Users\\eric1\\.nuget\\packages\\",
+        "outputPath": "C:\\workspace\\CLEA_Web\\Clea_Web\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\pette\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\eric1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -90,7 +94,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.414\\RuntimeIdentifierGraph.json"
         }
       }
     }

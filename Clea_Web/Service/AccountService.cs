@@ -1,8 +1,11 @@
 ﻿using Clea_Web.Models;
 using Clea_Web.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics.Contracts;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Text;
 using X.PagedList;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -74,10 +77,15 @@ namespace Clea_Web.Service
                 {
                     SysUser = new SysUser();
                 }
-                
+
                 SysUser.RUid = vm.RUid;
                 SysUser.UAccount = vm.UAccount;
-                SysUser.UPassword = vm.UPassword;
+                //SysUser.UPassword = vm.UPassword; //加密
+                if (vm.UPassword != null)
+                {
+                    SysUser.UPassword = HashPassword(vm.UPassword);
+                }
+
                 SysUser.UName = vm.UName;
                 SysUser.UEmail = vm.UEmail;
                 SysUser.UPhone = vm.UPhone;
@@ -172,6 +180,30 @@ namespace Clea_Web.Service
             return result;
         }
         #endregion
+
+        #region 密碼加密
+        public static string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // 將密碼轉為字節數組
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+
+                // 計算hash
+                byte[] hashBytes = sha256.ComputeHash(passwordBytes);
+
+                //將hash轉為十六進制字符串
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
+            }
+
+            #endregion
+        }
     }
 
 
