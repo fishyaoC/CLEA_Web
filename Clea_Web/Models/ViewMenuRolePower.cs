@@ -5,7 +5,7 @@ namespace Clea_Web.Models;
 
 public partial class ViewMenuRolePower
 {
-    public Guid? RUid { get; set; }
+    public Guid RUid { get; set; }
 
     public long? MId { get; set; }
 
