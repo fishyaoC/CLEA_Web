@@ -20,13 +20,13 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <form class="forms-sample" method="post" action="@Url.Action("Index","B_Account")">
+                            <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","B_Account")">
                                 @Html.AntiForgeryToken()
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="exampleInputName1">帳號名稱</label>
-                                            @Html.TextBoxFor(x => x.schItem.uName, new { @class = "form-control form-control", placeholder = "帳號名稱" })
+                                            @Html.TextBoxFor(x => x.schItem.uName, new { @class = "form-control form-control" placeholder = "帳號名稱" })
 
                                         </div>
                                     </div>
@@ -40,7 +40,7 @@
                                 </div>
 
                                 <button type="submit" class="btn btn-primary mr-2">搜尋</button>
-                                @* <button class="btn btn-light">清除條件</button> *@
+                                <button class="btn btn-light" onclick="clearForm()">清除條件</button>
                             </form>
                         </div>
                     </div>
@@ -171,5 +171,9 @@
             }
 
         })
+    }
+
+    function clearForm() {
+        document.getElementById("search-form").reset();
     }
 </script>
