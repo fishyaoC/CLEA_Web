@@ -19,15 +19,15 @@ public partial class ViewMenuRolePower
 
     public string? MUrl { get; set; }
 
-    public bool? CreateData { get; set; }
+    public bool CreateData { get; set; }
 
-    public bool? SearchData { get; set; }
+    public bool SearchData { get; set; }
 
-    public bool? ModifyData { get; set; }
+    public bool ModifyData { get; set; }
 
-    public bool? DeleteData { get; set; }
+    public bool DeleteData { get; set; }
 
-    public bool? ImportData { get; set; }
+    public bool ImportData { get; set; }
 
-    public bool? Exportdata { get; set; }
+    public bool Exportdata { get; set; }
 }
