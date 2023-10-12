@@ -20,6 +20,9 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
+            public List<ViewMenuRolePower> rolePowerListB { get; set; }
+            public List<ViewMenuRolePower> rolePowerListP { get; set; }
+
             /// <summary>
             /// Uid
             /// </summary>

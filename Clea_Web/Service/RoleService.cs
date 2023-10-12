@@ -121,6 +121,11 @@ namespace Clea_Web.Service
                 vm.RBackEnd = sysRole.RBackEnd;
                 vm.IsEdit = true;
             }
+
+            //vm.rolePowerListP = db.ViewMenuRolePowers.Where(x=>x.MType.Equals("P")).ToList();
+            //vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B")).ToList();
+
+
             return vm;
         }
         #endregion
