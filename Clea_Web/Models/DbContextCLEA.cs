@@ -53,6 +53,8 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<SysUser> SysUsers { get; set; }
 
+    public virtual DbSet<ViewBookEvaluationP> ViewBookEvaluationPs { get; set; }
+
     public virtual DbSet<ViewClassLectorEvaluate> ViewClassLectorEvaluates { get; set; }
 
     public virtual DbSet<ViewClassLectorUnFileLoad> ViewClassLectorUnFileLoads { get; set; }
@@ -262,6 +264,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.LevId)
                 .ValueGeneratedNever()
                 .HasColumnName("LEv_ID");
+            entity.Property(e => e.BUid).HasColumnName("B_UID");
             entity.Property(e => e.CUid)
                 .HasComment("開課ID")
                 .HasColumnName("C_UID");
@@ -941,7 +944,7 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("使用者名稱")
                 .HasColumnName("U_Name");
             entity.Property(e => e.UPassword)
-                .HasMaxLength(50)
+                .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasComment("密碼")
                 .HasColumnName("U_Password");
@@ -973,6 +976,32 @@ public partial class DbContextCLEA : DbContext
                 .HasForeignKey(d => d.RUid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SYS_User_SYS_User");
+        });
+
+        modelBuilder.Entity<ViewBookEvaluationP>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_BookEvaluationP");
+
+            entity.Property(e => e.FMatchKey).HasColumnName("F_MatchKey");
+            entity.Property(e => e.MId).HasColumnName("M_ID");
+            entity.Property(e => e.MIndex).HasColumnName("M_Index");
+            entity.Property(e => e.MName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("M_Name");
+            entity.Property(e => e.MNumber)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("M_Number");
+            entity.Property(e => e.MPublish)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("M_Publish");
+            entity.Property(e => e.MVersion)
+                .HasColumnType("datetime")
+                .HasColumnName("M_Version");
         });
 
         modelBuilder.Entity<ViewClassLectorEvaluate>(entity =>

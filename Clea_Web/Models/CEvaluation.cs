@@ -14,27 +14,29 @@ public partial class CEvaluation
 
     public int LevYear { get; set; }
 
+    public Guid? BUid { get; set; }
+
     /// <summary>
     /// 被評鑑教師
     /// </summary>
-    public Guid LUid { get; set; }
+    public Guid? LUid { get; set; }
 
     /// <summary>
     /// 評鑑人ID
     /// </summary>
-    public Guid LUidEv { get; set; }
+    public Guid? LUidEv { get; set; }
 
     /// <summary>
     /// 開課ID
     /// </summary>
-    public Guid CUid { get; set; }
+    public Guid? CUid { get; set; }
 
-    public Guid DUid { get; set; }
+    public Guid? DUid { get; set; }
 
     /// <summary>
     /// 課程ID
     /// </summary>
-    public Guid ClUid { get; set; }
+    public Guid? ClUid { get; set; }
 
     public int? ScoreA { get; set; }
 
