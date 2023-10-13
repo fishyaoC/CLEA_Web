@@ -20,6 +20,10 @@
   <ItemGroup>
     <Folder Include="wwwroot\backEnd\js\" />
     <Folder Include="wwwroot\backEnd\fonts\" />
+    <Folder Include="wwwroot\backEnd\css\maps\vertical-layout-light\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\backEnd\css\maps\vertical-layout-light\" />
+  </ItemGroup>
 </Project>
