@@ -129,7 +129,7 @@ namespace Clea_Web.Service
             List<AssignClassViewModel.M_EvTeacher> result = new List<AssignClassViewModel.M_EvTeacher>();
             result = (from Ev in db.CEvaluations
                       join lec in db.CLectors on Ev.LUid equals lec.LUid
-                      where Ev.LevYear == LocalYear && Ev.LevType == mType && Ev.CUid == C_UID && Ev.DUid == Sub_UID
+                      where Ev.LevType == 0 && Ev.LevYear == LocalYear && Ev.LevType == mType && Ev.CUid == C_UID && Ev.DUid == Sub_UID
                       select new AssignClassViewModel.M_EvTeacher()
                       {
                           CEv_UID = Ev.LevId,
@@ -191,7 +191,6 @@ namespace Clea_Web.Service
                 foreach (CLector L in lst_cLectors)
                 {
                     result.Add(new SelectListItem() { Text = L.LName, Value = L.LUid.ToString() });
-                    //result1.Add(new BaseViewModel.SearchDropDownItem() { Text = L.LName, Value = L.LUid.ToString() });
                 }
             }
             return result;
@@ -215,7 +214,7 @@ namespace Clea_Web.Service
             {
                 CEvaluation cEvaluation = new CEvaluation();
                 cEvaluation.LevId = Guid.NewGuid();
-                cEvaluation.LevYear = DateTime.Now.Year + 1;
+                cEvaluation.LevYear = DateTime.Now.Year + 1;                
                 cEvaluation.LUid = cClassLector.LUid.Value;
                 cEvaluation.LUidEv = data.lModify.L_UID_Ev;
                 cEvaluation.LevType = mType; // 0:課程 1:教材

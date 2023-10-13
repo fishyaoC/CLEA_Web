@@ -10,6 +10,7 @@ using NPOI.OpenXmlFormats.Wordprocessing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using Novacode;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Clea_Web.Controllers
 {
@@ -20,12 +21,13 @@ namespace Clea_Web.Controllers
     {
         private readonly ILogger<B_ViewClassController> _logger;
         private ViewClassService _viewClassService;
-
-        public B_ViewClassController(ILogger<B_ViewClassController> logger, dbContext dbCLEA, ViewClassService Service)
+        private FileService _fileService;
+        public B_ViewClassController(ILogger<B_ViewClassController> logger, dbContext dbCLEA, ViewClassService Service, FileService fileService)
         {
             _logger = logger;
             db = dbCLEA;
             _viewClassService = Service;
+            _fileService = fileService;
         }
 
         #region 開課列表
@@ -132,8 +134,9 @@ namespace Clea_Web.Controllers
             CClassLector? cClassLector = db.CClassLectors.Find(cEvaluation.ClUid) ?? null;
 
             ViewClassViewModel.Modify_Score vmd = new ViewClassViewModel.Modify_Score();
+            vmd.picPath = _fileService.GetImageBase64List(CEvUid);
             vmd.cSTinfo_V = _viewClassService.GetCSTInfo_V(cEvaluation.LevYear, cClassLector.ClUid, cClassLector.CUid.Value, cClassLector.DUid.Value, cClassLector.LUid.Value);
-            vmd.picPath = _viewClassService.GetClassSubPic(cClassLector.ClUid, 0);
+            //vmd.picPath = _viewClassService.GetClassSubPic(cClassLector.ClUid, 0);
             vmd.scoreModify = _viewClassService.Get_EvaData(CEvUid);
 
             return View(vmd);

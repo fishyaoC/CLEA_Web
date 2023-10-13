@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Itpajz3kaElkzkCCzU2sNzKjHzp7Bm/p5DSbMR5FqH/oDtSENHJUC4UwcE4I5RFOr8twEM5AO6V2Vbc7fCB6pQ==",
+  "dgSpecHash": "g8+OlyEx9DKPKxWQFOaffncNW2hCPSFOIw0rejVeJAdO8tfjyze/QlXtAs/MyasETvS25VsG2nLMqEVr4ewShw==",
   "success": true,
-  "projectFilePath": "C:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+  "projectFilePath": "D:\\workspace\\Clea_Web\\Clea_Web\\Clea_Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\eric1\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
@@ -44,6 +44,7 @@
     "C:\\Users\\eric1\\.nuget\\packages\\microsoft.io.recyclablememorystream\\2.3.2\\microsoft.io.recyclablememorystream.2.3.2.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\eric1\\.nuget\\packages\\microsoft.office.interop.powerpoint\\15.0.4420.1018\\microsoft.office.interop.powerpoint.15.0.4420.1018.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\eric1\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",

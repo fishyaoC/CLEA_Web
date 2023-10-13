@@ -79,8 +79,8 @@
 														<td>@Ev.L_ID_Ev</td>
 														<td>@Ev.L_Name_Ev</td>
 														<td>
-															<a href="@Url.Action("L_Modify", "B_ViewClass", new { CEvUid = Ev.CEv_UID })" class="btn btn-success">檢視審查表</a>
-															<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("Export_ScoreWord", "B_ViewClass", new { CEvUid = Ev.CEv_UID })'" @(Ev.IsEvaluation ? "" : "disabled")> @(Ev.IsEvaluation ? "匯出審查表" : "尚未完成評分") </button>
+															<a href="@Url.Action("L_Modify", "B_ViewClass", new { CEvUid = Ev.CEv_UID })" class="btn btn-success">檢視課程審查表</a>
+															<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("Export_ScoreWord", "B_ViewClass", new { CEvUid = Ev.CEv_UID })'" @(Ev.IsEvaluation ? "" : "disabled")> @(Ev.IsEvaluation ? "匯出課程審查表" : "尚未完成評分") </button>
 														</td>
 													</tr>
 												}

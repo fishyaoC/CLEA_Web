@@ -5,128 +5,153 @@ build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Clea_Web
 build_property.RootNamespace = Clea_Web
-build_property.ProjectDir = C:\workspace\CLEA_Web\Clea_Web\
+build_property.ProjectDir = D:\workspace\Clea_Web\Clea_Web\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\workspace\CLEA_Web\Clea_Web
+build_property.MSBuildProjectDirectory = D:\workspace\Clea_Web\Clea_Web
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_Account/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_Account/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_Account/Modify.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_Account/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XE1vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignBook/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignBook/Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXE1vZGlmeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignBook/P_Modify.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXFBfTW9kaWZ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/L_Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/L_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xMX0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/L_Modify.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/L_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xMX01vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/P_Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/P_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xQX0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/V_Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_AssignClass/V_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xWX0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_Home/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Ib21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_ViewClass/G_Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewBook/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Qm9va1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewBook/P_Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Qm9va1xQX0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/G_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcR19JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_ViewClass/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_ViewClass/L_Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/L_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcTF9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_ViewClass/L_Modify.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/L_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcTF9Nb2RpZnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/B_ViewClass/P_Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/B_ViewClass/P_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9WaWV3Q2xhc3NcUF9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Home/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Home/Privacy.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/P_Home/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/P_Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9Ib21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/Error.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/P_LectorClass/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JDbGFzc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_pageList.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_pageList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9wYWdlTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Sys_Login/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Sys_Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX0xvZ2luXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Sys_Role/Index.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Sys_Role/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX1JvbGVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Sys_Role/Modify.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Sys_Role/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX1JvbGVcTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/_ViewImports.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/_ViewStart.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_Layout.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nywug57uy8
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEnd.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEnd.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-jlhas8bwzk
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEndFooter.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEndFooter.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kRm9vdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-kond2mnnpg
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEndLogin.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEndLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-6j7jh3xa0u
 
-[C:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEndMenu.cshtml]
+[D:/workspace/Clea_Web/Clea_Web/Views/Shared/_LayoutBackEndMenu.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kTWVudS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = b-xa1k6hvylb

@@ -422,3 +422,4 @@ C:\workspace\CLEA_Web\Clea_Web\obj\Debug\net6.0\refint\Clea_Web.dll
 C:\workspace\CLEA_Web\Clea_Web\obj\Debug\net6.0\Clea_Web.pdb
 C:\workspace\CLEA_Web\Clea_Web\obj\Debug\net6.0\Clea_Web.genruntimeconfig.cache
 C:\workspace\CLEA_Web\Clea_Web\obj\Debug\net6.0\ref\Clea_Web.dll
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\Microsoft.Office.Interop.PowerPoint.dll
