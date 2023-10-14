@@ -145,7 +145,7 @@ namespace Clea_Web.Controllers
         {
             AssignClassViewModel.errorMsg result = new BaseViewModel.errorMsg();
             _assignService.user = User;
-            CEvaluation? cEvaluation = db.CEvaluations.Where(x => x.ClUid == data.cSTinfo.CL_UID && x.LUidEv == data.lModify.L_UID_Ev).FirstOrDefault();
+            CEvaluation? cEvaluation = db.CEvaluations.Where(x => x.LevYear == (DateTime.Now.Year + 1) && x.LevYear == (DateTime.Now.Year + 1) && x.LevType == 0 && x.ClUid == data.cSTinfo.CL_UID && x.LUidEv == data.lModify.L_UID_Ev).FirstOrDefault();
 
             if (cEvaluation is null)
             {

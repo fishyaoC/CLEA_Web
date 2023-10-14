@@ -38,11 +38,9 @@ namespace Clea_Web.Service
 
 
             result = (from u in db.SysUsers
-                          //join role in db.SysRoles on u.RUid equals role.RUid
                       where
                       (
-                      //
-                      (string.IsNullOrEmpty(data.uuId) || u.UId.ToString().Contains(data.uuId)) &&
+                      (string.IsNullOrEmpty(data.uName) || u.UName.Contains(data.uName)) &&
                       (string.IsNullOrEmpty(data.urId.ToString()) || u.RUid == data.urId)
 
                       )
@@ -100,7 +98,7 @@ namespace Clea_Web.Service
                 else if (vm != null && vm.IsEdit == false)
                 {
                     //新增
-                    SysUser.RUid = Guid.NewGuid();
+                    SysUser.UId = Guid.NewGuid();
                     SysUser.Creuser = Guid.Parse(GetUserID(user));
                     SysUser.Credate = DateTime.Now;
                     db.SysUsers.Add(SysUser);
@@ -126,6 +124,7 @@ namespace Clea_Web.Service
             vm = new AccountViewModel.Modify();
             if (sysUser != null)
             {
+                vm.UId = sysUser.UId;
                 vm.UAccount = sysUser.UAccount;
                 vm.UPassword = sysUser.UPassword;
                 vm.UName = sysUser.UName;
@@ -140,17 +139,17 @@ namespace Clea_Web.Service
         #endregion
 
         #region 刪除
-        public BaseViewModel.errorMsg DelData(Guid R_UID)
+        public BaseViewModel.errorMsg DelData(Guid U_ID)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            SysRole sysRole = db.SysRoles.Find(R_UID);
+            SysUser sysUser = db.SysUsers.Find(U_ID);
             vm = new AccountViewModel.Modify();
 
             try
             {
-                db.SysRoles.Remove(sysRole);
+                db.SysUsers.Remove(sysUser);
             }
             catch (Exception e)
             {
@@ -161,24 +160,6 @@ namespace Clea_Web.Service
             return result;
         }
 
-        #endregion
-
-        #region 取得權限下拉選單
-        public List<SelectListItem> getSysRoleItem()
-        {
-            List<SelectListItem> result = new List<SelectListItem>();
-            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysRole> lst_sysRole = db.SysRoles.ToList();
-            if (lst_sysRole != null && lst_sysRole.Count() > 0)
-            {
-                foreach (SysRole R in lst_sysRole)
-                {
-                    result.Add(new SelectListItem() { Text = R.RName, Value = R.RUid.ToString() });
-                    //result1.Add(new BaseViewModel.SearchDropDownItem() { Text = L.LName, Value = L.LUid.ToString() });
-                }
-            }
-            return result;
-        }
         #endregion
 
         #region 密碼加密
@@ -202,8 +183,26 @@ namespace Clea_Web.Service
                 return builder.ToString();
             }
 
-            #endregion
         }
+        #endregion
+
+        #region 取得權限下拉選單
+        public List<SelectListItem> getSysRoleItem()
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+            List<SysRole> lst_sysRole = db.SysRoles.ToList();
+            if (lst_sysRole != null && lst_sysRole.Count() > 0)
+            {
+                foreach (SysRole R in lst_sysRole)
+                {
+                    result.Add(new SelectListItem() { Text = R.RName, Value = R.RUid.ToString() });
+                    //result1.Add(new BaseViewModel.SearchDropDownItem() { Text = L.LName, Value = L.LUid.ToString() });
+                }
+            }
+            return result;
+        }
+        #endregion
     }
 
 

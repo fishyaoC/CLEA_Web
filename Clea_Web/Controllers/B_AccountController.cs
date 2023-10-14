@@ -32,11 +32,13 @@ namespace Clea_Web.Controllers
             {
                 //編輯
                 vm = _accountService.GetEditData(U_ID);
+                vm.DropDownItem = _accountService.getSysRoleItem();
             }
             else
             {
                 //新增
                 vm = new AccountViewModel.Modify();
+                vm.DropDownItem = _accountService.getSysRoleItem();
             }
             return View(vm);
         }
@@ -49,7 +51,22 @@ namespace Clea_Web.Controllers
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
             error = _accountService.SaveData(vm);
 
-            return RedirectToAction("Index", new { msg = error });
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Index");
+
+            //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
 
@@ -92,11 +109,6 @@ namespace Clea_Web.Controllers
         {
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
             error = _accountService.DelData(Uid);
-
-            TempData["TempMsgType"] = "success";
-            TempData["TempMsgTitle"] = "訊息";
-            TempData["TempMsg"] = error.ErrorMsg;
-
 
             return Json(new { chk = true, msg = "" });
             //return RedirectToAction("Index", new { msg = error });

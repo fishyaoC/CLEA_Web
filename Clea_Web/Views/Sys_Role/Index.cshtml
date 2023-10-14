@@ -24,7 +24,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <form class="forms-sample" method="post" action="@Url.Action("Index","Sys_Role")">
+                            <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","Sys_Role")">
                                 @Html.AntiForgeryToken()
                                 <div class="row">
                                     <div class="col-md-6">
@@ -64,11 +64,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="d-flex">
-                                    <button class="btn btn-light mr-2">清除條件</button>
-                                    <button type="submit" class="btn btn-primary mr-2">搜尋</button>
-                                </div>
                             </form>
+                            <div class="d-flex">
+                                <button type="submit" class="btn btn-primary mr-2">搜尋</button>
+                                <button class="btn btn-light mr-2" onclick="clearForm()">清除條件</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -89,8 +89,8 @@
                     <div class="card-body">
                         <h4 class="card-title">角色權限管理 - 列表</h4>
                         @*<p class="card-description">
-                        Add class <code>.table</code>
-                        </p> *@
+                            Add class <code>.table</code>
+                            </p> *@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -99,6 +99,7 @@
                                         <th>角色名稱</th>
                                         <th>角色排序</th>
                                         <th>是否啟用</th>
+                                        <th>是否為後台帳號</th>
                                         <th>最後編輯人員</th>
                                         <th>最後編輯時間</th>
                                         <th>操作</th>
@@ -116,6 +117,7 @@
                                                 <td>@item.rName</td>
                                                 <td>@item.rOrder</td>
                                                 <td>@item.rStatus</td>
+                                                <td>@item.rBackEnd</td>
                                                 <td>@item.updUser</td>
                                                 <td>@item.updDate</td>
                                                 <td>
@@ -135,6 +137,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
             <script type="text/javascript">
                 function del(Uid) {
                     //刪除按紐
@@ -194,5 +199,10 @@
                         }
 
                     })
+                }
+
+                function clearForm() {
+                    //清除
+                    document.getElementById("search-form").reset();
                 }
             </script>

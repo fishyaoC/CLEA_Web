@@ -386,7 +386,6 @@ Clea_Web/[Ll]ogs/
 *.v2
 .vs/Clea_Web/v17/.suo
 .vs/Clea_Web/DesignTimeBuild/.dtbcache.v2
-.vs/Clea_Web/v17/.suo
 *.json
 *.dll
 Clea_Web/bin/Debug/net6.0/Clea_Web.exe
@@ -396,3 +395,4 @@ Clea_Web/bin/Debug/net6.0/Clea_Web.staticwebassets.runtime.json
 *.targets
 *.cache
 Clea_Web/obj/Debug/net6.0/Clea_Web.MvcApplicationPartsAssemblyInfo.cs
+.vs/Clea_Web/v17/

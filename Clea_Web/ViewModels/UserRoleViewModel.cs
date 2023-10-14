@@ -20,6 +20,9 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
+            public List<ViewMenuRolePower> rolePowerListB { get; set; }
+            public List<ViewMenuRolePower> rolePowerListP { get; set; }
+
             /// <summary>
             /// Uid
             /// </summary>
@@ -31,6 +34,12 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("角色代碼")]
             public String? RId { get; set; }
+
+            /// <summary>
+            /// 是否為後台帳號
+            /// </summary>
+            [DisplayName("是否為後台帳號")]
+            public Boolean RBackEnd { get; set; } = true;
 
             /// <summary>
             /// 角色名稱
@@ -84,6 +93,7 @@ namespace Clea_Web.ViewModels
         {
             public String rUid { get; set; }
             public String rId { get; set; }
+            public String? rBackEnd { get; set; }
             public String rName { get; set; }
             public Int16 rOrder { get; set; }
             public String? rStatus { get; set; }

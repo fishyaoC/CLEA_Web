@@ -9,6 +9,8 @@ public partial class ViewRole
 
     public string RId { get; set; } = null!;
 
+    public bool RBackEnd { get; set; }
+
     public string RName { get; set; } = null!;
 
     public byte ROrder { get; set; }

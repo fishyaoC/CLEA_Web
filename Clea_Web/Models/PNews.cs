@@ -25,12 +25,12 @@ public partial class PNews
     /// <summary>
     /// 起始日
     /// </summary>
-    public DateTime? NStartDate { get; set; }
+    public DateTime NStartDate { get; set; }
 
     /// <summary>
     /// 結束日
     /// </summary>
-    public DateTime? NEndDate { get; set; }
+    public DateTime NEndDate { get; set; }
 
     /// <summary>
     /// 是否置頂
@@ -50,10 +50,10 @@ public partial class PNews
     /// <summary>
     /// 內文
     /// </summary>
-    public string? NContent { get; set; }
+    public string NContent { get; set; } = null!;
 
     /// <summary>
-    /// 角色代碼
+    /// 角色代碼(觀看權限)
     /// </summary>
     public string RId { get; set; } = null!;
 

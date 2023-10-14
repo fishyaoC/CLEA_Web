@@ -53,6 +53,8 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<SysUser> SysUsers { get; set; }
 
+    public virtual DbSet<ViewAssignViewP> ViewAssignViewPs { get; set; }
+
     public virtual DbSet<ViewBookEvaluationP> ViewBookEvaluationPs { get; set; }
 
     public virtual DbSet<ViewClassLectorEvaluate> ViewClassLectorEvaluates { get; set; }
@@ -601,7 +603,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.RId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
-                .HasComment("角色代碼")
+                .HasComment("角色代碼(觀看權限)")
                 .HasColumnName("R_ID");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
@@ -714,9 +716,21 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("檔案描述")
                 .HasColumnName("F_Description");
+            entity.Property(e => e.FExt)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("F_Ext");
+            entity.Property(e => e.FFullName)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("F_FullName");
             entity.Property(e => e.FMatchKey)
                 .HasComment("功能主KEY")
                 .HasColumnName("F_MatchKey");
+            entity.Property(e => e.FMimeType)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("F_MimeType");
             entity.Property(e => e.FModule)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -978,6 +992,32 @@ public partial class DbContextCLEA : DbContext
                 .HasConstraintName("FK_SYS_User_SYS_User");
         });
 
+        modelBuilder.Entity<ViewAssignViewP>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_AssignView_P");
+
+            entity.Property(e => e.CName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("C_Name");
+            entity.Property(e => e.ClUid).HasColumnName("CL_UID");
+            entity.Property(e => e.DName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("D_Name");
+            entity.Property(e => e.FMatchKey).HasColumnName("F_MatchKey");
+            entity.Property(e => e.LUid).HasColumnName("L_UID");
+            entity.Property(e => e.LUidEv).HasColumnName("L_UID_Ev");
+            entity.Property(e => e.LevId).HasColumnName("LEv_ID");
+            entity.Property(e => e.LevType).HasColumnName("LEv_Type");
+            entity.Property(e => e.LevYear).HasColumnName("LEv_Year");
+            entity.Property(e => e.Remark)
+                .HasMaxLength(250)
+                .IsUnicode(false);
+        });
+
         modelBuilder.Entity<ViewBookEvaluationP>(entity =>
         {
             entity
@@ -1159,6 +1199,7 @@ public partial class DbContextCLEA : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("CREUSER");
+            entity.Property(e => e.RBackEnd).HasColumnName("R_BackEnd");
             entity.Property(e => e.RId)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -1169,7 +1210,7 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnName("R_Name");
             entity.Property(e => e.ROrder).HasColumnName("R_Order");
             entity.Property(e => e.RStatus).HasColumnName("R_Status");
-            entity.Property(e => e.RUid).HasColumnName("R_Uid");
+            entity.Property(e => e.RUid).HasColumnName("R_UID");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
