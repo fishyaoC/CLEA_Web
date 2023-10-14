@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Clea_Web.ViewModels.B_LectorBtnViewModel.Modify
+@model Clea_Web.ViewModels.UserRoleViewModel.Modify
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
@@ -22,7 +22,7 @@
                         @*回傳狀態*@
                         @Html.HiddenFor(x => x.IsEdit)
                         @*回傳Uid*@
-                        @Html.HiddenFor(x => x.R_ID)
+                        @Html.HiddenFor(x => x.RUId)
                         @* <p class="card-description">
                         公佈欄管理-編輯
                         </p> *@
@@ -30,10 +30,10 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                    @Html.LabelFor(x => x.N_Title, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.RId, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.N_Title, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                        @Html.TextBoxFor(x => x.RId, new { @class = "form-control form-control", placeholder = "公告標題" })
                                     </div>
                                 </div>
                             </div>
@@ -44,13 +44,13 @@
 
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            @Html.CheckBoxFor(x => x.RStatus, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
                                             <label for="S1">
                                                 是否置頂
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsShow, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            @Html.CheckBoxFor(x => x.RStatus, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
                                             <label for="S0">
                                                 是否顯示
                                             </label>
@@ -63,21 +63,22 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @* <label class="col-sm-3 col-form-label">角色排序</label> *@
-                                    @Html.LabelFor(x => x.N_Type, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.ROrder, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.N_Type, new { @class = "form-control form-control", placeholder = "公告類型" })
+                                        @Html.TextBoxFor(x => x.ROrder, new { @class = "form-control form-control", placeholder = "公告類型" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x=> x.User1, new { @class="col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.RId, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.User1, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @* <input type="text" class="form-control" /> *@
+                                        @*@Html.DropDownListFor(x => x.RId, new { @class = "form-control form-control", placeholder = "發布對象" })*@
                                     </div>
                                 </div>
                             </div>
-                        @*<div class="row">
+                        <div class="row">
                             <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                 <ul class="nav">
                                     <li class="nav-item">
@@ -110,24 +111,26 @@
                                     </li>
                                 </ul>
                             </nav>
-                        </div>*@
+                        </div>
                     </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                    @Html.LabelFor(x => x.N_StartDate, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.RId, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.N_StartDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.TextBoxFor(x => x.RId, new { @class = "form-control form-control", placeholder = "公告標題" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x=> x.User2, new { @class="col-sm-3 col-form-label" })
+                                    @* <label class="col-sm-3 col-form-label">角色名稱</label> *@
+                                    @Html.LabelFor(x => x.RName, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.User2, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RName, new { @class = "form-control form-control", placeholder = "角色名稱" })
                                     </div>
                                 </div>
                             </div>
@@ -135,35 +138,65 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_EndDate, new { @class = "col-sm-3 col-form-label" })
+                                    @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                    @Html.LabelFor(x => x.RId, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.N_EndDate, new { @class = "form-control form-control date-picker" })
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RId, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @* <label class="col-sm-3 col-form-label">角色名稱</label> *@
+                                    @Html.LabelFor(x => x.RName, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RName, new { @class = "form-control form-control", placeholder = "角色名稱" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleInputName1">上傳檔案</label>
-                                    @if (string.IsNullOrEmpty(Model.FilePath))
-                                    {
-                                        <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
-                                    }
-                                    @* <button type="@(!string.IsNullOrEmpty(Model.FilePath) ? "button":"submit")" class="form-control form-control btn @(!string.IsNullOrEmpty(Model.FilePath) ?"btn-danger":"btn-info") mr-2">@(!string.IsNullOrEmpty(Model.FilePath) ? "刪除檔案" : "上傳檔案")</button> *@
+                                <div class="form-group row">
+                                    @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                    @Html.LabelFor(x => x.RId, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RId, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @* <label class="col-sm-3 col-form-label">角色名稱</label> *@
+                                    @Html.LabelFor(x => x.RName, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RName, new { @class = "form-control form-control", placeholder = "角色名稱" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-3 col-form-label" })
+                                    @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                    @Html.LabelFor(x => x.RId, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextAreaFor(x => x.N_Content, new { @class = "form-control form-control" })
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RId, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @* <label class="col-sm-3 col-form-label">角色名稱</label> *@
+                                    @Html.LabelFor(x => x.RName, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.RName, new { @class = "form-control form-control", placeholder = "角色名稱" })
                                     </div>
                                 </div>
                             </div>

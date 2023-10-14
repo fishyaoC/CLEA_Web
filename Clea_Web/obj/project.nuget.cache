@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pNeX6ra6nqnPyRlaDWpt7z7FJl15LL+7zi1meDdUKyVqeovct/nRtr018nwkNpV2ClmXV4IME0WGVEp3zSi6Dw==",
+  "dgSpecHash": "UpIU0Uu+REtG6sTjHqb8GsgDKDTKf+hK0LSl9jFBBmcusCtWQNeyJbuDZV5iNgAzjZchTMbx3EJJcvh82vi2sA==",
   "success": true,
   "projectFilePath": "D:\\桌機資料\\Project\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
   "expectedPackageFiles": [
@@ -44,6 +44,7 @@
     "C:\\Users\\p3344\\.nuget\\packages\\microsoft.io.recyclablememorystream\\2.3.2\\microsoft.io.recyclablememorystream.2.3.2.nupkg.sha512",
     "C:\\Users\\p3344\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\p3344\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
+    "C:\\Users\\p3344\\.nuget\\packages\\microsoft.office.interop.powerpoint\\15.0.4420.1018\\microsoft.office.interop.powerpoint.15.0.4420.1018.nupkg.sha512",
     "C:\\Users\\p3344\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\p3344\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\p3344\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
