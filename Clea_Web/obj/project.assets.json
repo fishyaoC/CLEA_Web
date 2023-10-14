@@ -3737,5 +3737,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "讀取快取檔案 D:\\桌機資料\\Project\\CLEA_Web\\Clea_Web\\obj\\project.nuget.cache 時發生問題: Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
