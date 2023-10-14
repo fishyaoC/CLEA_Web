@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Clea_Web.Service;
+using Clea_Web.ViewModels;
 
 namespace Clea_Web.Controllers
 {
@@ -10,6 +11,7 @@ namespace Clea_Web.Controllers
     {
         private readonly ILogger<B_LectorBtnController> _logger;
         private AccountService _accountService;
+        private RoleService _roleService;
 
         public B_LectorBtnController(ILogger<B_LectorBtnController> logger, dbContext dbCLEA, AccountService Service)
         {
@@ -27,6 +29,49 @@ namespace Clea_Web.Controllers
             //menuList = db.SysMenus.ToList();
             //ViewBag.MenuList = menuList;
             return View();
+        }
+        #endregion
+        #region 新增、編輯
+        //public IActionResult Modify(String Type, String? R_ID)
+        public IActionResult Modify(Guid NewsID)
+        {
+            UserRoleViewModel.Modify? vm = null;
+
+            if (NewsID != null)
+            {
+                //編輯
+                vm = _roleService.GetEditData(NewsID);
+            }
+            else
+            {
+                //新增
+                vm = new UserRoleViewModel.Modify();
+            }
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Modify(UserRoleViewModel.Modify vm)
+        {
+            _roleService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _roleService.SaveData(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Index");
         }
         #endregion
 
