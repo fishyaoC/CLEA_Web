@@ -4,79 +4,73 @@
 @{
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.AssignClassViewModel.Modify_Model
+@model Clea_Web.ViewModels.ViewBookViewModel.P_TeacherInfo
 	<div class="content-wrapper">
 		<div class="row">
 
 			<div class="col-12 mb-3">
 				<div class="accordion" id="accordionPanelsStayOpenExample">
 					<!--搜尋-->
-					<form class="forms-sample" method="post" action="@Url.Action("L_Modify","B_AssignClass")">
-						@Html.AntiForgeryToken()
-						@Html.HiddenFor(x => x.cSTinfo.CL_UID)
-						<div class="col-lg-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<h3>評鑑內容</h3>
-											</div>
+					<div class="col-lg-12 grid-margin stretch-card">
+						<a class="btn btn-primary mr-2" href="@Url.Action("Index","B_ViewBook")">回前頁</a>
+					</div>
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h3 class="card-title">教材內容</h3>
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<h3>評鑑年度: @(Model.cSTinfo.Ev_Year) 年</h3>
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<h3>教師名稱: @(Model.cSTinfo.L_Name) ( @(Model.cSTinfo.L_ID) )</h3>
-											</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="exampleInputEmail3">教材名稱</label>
+											@Html.TextBoxFor(x => x.bookInfo.B_Name, new { @class = "form-control form-control", placeholder = "教材名稱", disabled = "disabled" })
 										</div>
 									</div>
-									<div class="row">
-										<div class="col-md-4">
-											<div class="form-group">
-												<h3>課程名稱: @(Model.cSTinfo.ClassName) ( @(Model.cSTinfo.ClassID) )</h3>
-											</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="exampleInputEmail3">教材代碼</label>
+											@Html.TextBoxFor(x => x.bookInfo.B_ID, new { @class = "form-control form-control", placeholder = "教材代碼", disabled = "disabled" })
 										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<h3>科目名稱: @(Model.cSTinfo.SubName) ( @(Model.cSTinfo.SubID) )</h3>
-											</div>
-										</div>
+									</div>
+								</div>
+								@* <div class="row">
+								<div class="col-md-6">
+								<div class="form-group">
+								<label for="exampleInputEmail3">教材版本</label>
+								@Html.TextBoxFor(x => x.bookInfo.B_Version, new { @class = "form-control form-control", placeholder = "教材版本", disabled = "disabled" })
+								</div>
+								</div>
+								<div class="col-md-6">
+								<div class="form-group">
+								<label for="exampleInputEmail3">教材出版人</label>
+								@Html.TextBoxFor(x => x.bookInfo.B_Publish, new { @class = "form-control form-control", placeholder = "教材出版人", disabled = "disabled" })
+								</div>
+								</div>
+								</div> *@
+								@* <div class="row">
+								<div class="col-md-6">
+								<div class="form-group">
+								<label for="exampleInputEmail3">教材證號</label>
+								@Html.TextBoxFor(x => x.bookInfo.B_Name, new { @class = "form-control form-control", placeholder = "教材證號", disabled = "disabled" })
+								</div>
+								</div>
+								<div class="col-md-6">
+								<div class="form-group">
+								<label for="exampleInputEmail3">備註</label>
+								@Html.TextAreaFor(x => x.bookInfo.B_ID, new { @class = "form-control form-control", placeholder = "備註", disabled = "disabled" })
+								</div>
+								</div>
+								</div> *@
+							</div>
+						</div>
+					</div>
 
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-12 grid-margin stretch-card">
-							<a class="btn btn-primary mr-2" href="@Url.Action("P_Index","B_AssignClass", new{ C_ID = Model.cSTinfo.C_UID, Sub_UID = Model.cSTinfo.Sub_UID })">回前頁</a>
-						</div>
-						<div class="col-lg-12 grid-margin stretch-card">
-							<div class="card">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md-8">
-											<div class="form-group">
-												<label for="exampleInputName1">指定評鑑教師</label>
-												@Html.DropDownListFor(x=>x.lModify.L_UID_Ev, Model.DropDownItem, new { @class = "form-control form-control" })
-												@Html.ValidationMessageFor(x=>x.lModify.L_UID_Ev)
-											</div>
-										</div>
-										<div class="col-md-4">
-											<div class="form-group">
-												<label for="exampleInputName1">操作</label>
-												<button class="form-control form-control btn btn-primary mr-2" type="submit">儲存</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</form>
+
 					<!--搜尋End-->
 					<!--資料Table-->
 					<div class="col-lg-12 grid-margin stretch-card">
@@ -97,10 +91,10 @@
 											</tr>
 										</thead>
 										<tbody>
-											@if (!(Model.m_EvTeacherPageLists is null) && Model.m_EvTeacherPageLists.Count > 0)
+											@if (!(Model.p_TeachersPageList is null) && Model.p_TeachersPageList.Count > 0)
 											{
 												Int32 rowCount = 0;
-												foreach (var Ev in Model.m_EvTeacherPageLists)
+												foreach (var Ev in Model.p_TeachersPageList)
 												{
 													rowCount++;
 													<tr>
@@ -108,8 +102,8 @@
 														<td>@Ev.L_ID_Ev</td>
 														<td>@Ev.L_Name_Ev</td>
 														<td>
-															@* <a href="@Url.Action("L_Delete","B_AssignClass", new { Ev_UID = Ev.CEv_UID })" class="btn btn-success">移除</a> *@
-															<button type="button" class="btn btn-danger" onclick="del('@Ev.CEv_UID')">刪除</button>
+															<a href="@Url.Action("Modify", "B_ViewBook")" class="btn btn-info">檢視教材審查表</a>
+															<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("Export_ScoreWord", "B_ViewBook", new { ClvUid = Ev.LEv_UID })'" @(Ev.IsEvaluation ? "" : "disabled")> @(Ev.IsEvaluation ? "匯出教材審查表" : "尚未完成評分") </button>
 														</td>
 													</tr>
 												}
@@ -156,7 +150,7 @@
 			else {
 				$.ajax({
 					type: "POST",
-					url: '../B_AssignClass/L_Delete',
+					url: '../B_AssignBook/P_Delete',
 					data: { LevId: Uid },
 					dataType: "json",
 					success: function (response) {

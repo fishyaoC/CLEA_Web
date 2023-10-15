@@ -53,6 +53,8 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<SysUser> SysUsers { get; set; }
 
+    public virtual DbSet<ViewAssignViewP> ViewAssignViewPs { get; set; }
+
     public virtual DbSet<ViewBookEvaluationP> ViewBookEvaluationPs { get; set; }
 
     public virtual DbSet<ViewClassLectorEvaluate> ViewClassLectorEvaluates { get; set; }
@@ -988,6 +990,32 @@ public partial class DbContextCLEA : DbContext
                 .HasForeignKey(d => d.RUid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SYS_User_SYS_User");
+        });
+
+        modelBuilder.Entity<ViewAssignViewP>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_AssignView_P");
+
+            entity.Property(e => e.CName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("C_Name");
+            entity.Property(e => e.ClUid).HasColumnName("CL_UID");
+            entity.Property(e => e.DName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("D_Name");
+            entity.Property(e => e.FMatchKey).HasColumnName("F_MatchKey");
+            entity.Property(e => e.LUid).HasColumnName("L_UID");
+            entity.Property(e => e.LUidEv).HasColumnName("L_UID_Ev");
+            entity.Property(e => e.LevId).HasColumnName("LEv_ID");
+            entity.Property(e => e.LevType).HasColumnName("LEv_Type");
+            entity.Property(e => e.LevYear).HasColumnName("LEv_Year");
+            entity.Property(e => e.Remark)
+                .HasMaxLength(250)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<ViewBookEvaluationP>(entity =>

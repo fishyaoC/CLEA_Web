@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Clea_Web.Service;
+using Clea_Web.ViewModels;
+using Newtonsoft.Json;
 
 namespace Clea_Web.Controllers
 {
@@ -9,26 +11,48 @@ namespace Clea_Web.Controllers
     public class P_LectorClassController : BaseController
     {
         private readonly ILogger<P_LectorClassController> _logger;
-        private AccountService _accountService;
+        private LectorClassService _lectorClassService;
 
-        public P_LectorClassController(ILogger<P_LectorClassController> logger, dbContext dbCLEA, AccountService Service)
+        public P_LectorClassController(ILogger<P_LectorClassController> logger, dbContext dbCLEA, LectorClassService Service)
         {
             _logger = logger;
             db = dbCLEA;
-            _accountService = Service;
+			_lectorClassService = Service;
         }
 
 
-        #region 首頁
-        public IActionResult Index()
+        #region Index
+        public IActionResult Index(String? data, Int32? page)
         {
-            String tmp = HttpContext.Session.GetString("role");
-            //List<SysMenu> menuList = new List<SysMenu>();
-            //menuList = db.SysMenus.ToList();
-            //ViewBag.MenuList = menuList;
+			LectorClassViewModel vmd = new LectorClassViewModel();
+			_lectorClassService.user = User;
+			page = page ?? 1;
+			vmd.classMenuPageList = _lectorClassService.GetClassMenuPageList(page.Value);
+			return View(vmd);
+		}
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		public IActionResult Index(String? data)
+		{
+
+			return View();
+		}
+		#endregion
+
+		#region Modify
+		public IActionResult Modify(Guid CL_UID)
+        {
             return View();
         }
-        #endregion
 
-    }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Modify(String Data)
+		{
+			return View();
+		}
+		#endregion
+
+	}
 }
