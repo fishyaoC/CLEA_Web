@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Clea_Web.Service;
 using Clea_Web.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace Clea_Web.Controllers
 {
@@ -22,19 +24,21 @@ namespace Clea_Web.Controllers
 
         #region 新增、編輯
         //public IActionResult Modify(String Type, String? R_ID)
-        public IActionResult Modify(Guid R_UID)
+        public IActionResult Modify(Guid U_ID)
         {
             AccountViewModel.Modify? vm = null;
 
-            if (R_UID != null)
+            if (U_ID != null)
             {
                 //編輯
-                vm = _accountService.GetEditData(R_UID);
+                vm = _accountService.GetEditData(U_ID);
+                vm.DropDownItem = _accountService.getSysRoleItem();
             }
             else
             {
                 //新增
                 vm = new AccountViewModel.Modify();
+                vm.DropDownItem = _accountService.getSysRoleItem();
             }
             return View(vm);
         }
@@ -47,30 +51,53 @@ namespace Clea_Web.Controllers
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
             error = _accountService.SaveData(vm);
 
-            return RedirectToAction("Index", new { msg = error });
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Index");
+
+            //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
 
         #region 查詢
-        public IActionResult Index(BaseViewModel.errorMsg msg)
+        public IActionResult Index(String? data, Int32? page)
         {
-            AccountViewModel.SchItem vm = new AccountViewModel.SchItem();
             AccountViewModel.SchModel vmd = new AccountViewModel.SchModel();
+            page = page ?? 1;
 
-            //撈資料
-            vmd.schPageList = _accountService.GetPageLists(vm);
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<AccountViewModel.SchItem>(value: data);
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new AccountViewModel.SchItem();
+            }
+            vmd.DropDownItem = _accountService.getSysRoleItem();
+            vmd.schPageList2 = _accountService.schPages(vmd.schItem, page.Value, 15);
 
             return View(vmd);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Index(AccountViewModel.SchModel vmd)
         {
-            //AccountViewModel.SchModel vmd = new AccountViewModel.SchModel();
-
-            //撈資料
-            vmd.schPageList = _accountService.GetPageLists(vmd.schItem);
-
+            vmd.schPageList2 = _accountService.schPages(vmd.schItem, 1, 15);
+            vmd.DropDownItem = _accountService.getSysRoleItem();
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
         }
         #endregion
@@ -83,14 +110,11 @@ namespace Clea_Web.Controllers
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
             error = _accountService.DelData(Uid);
 
-            TempData["TempMsgType"] = "success";
-            TempData["TempMsgTitle"] = "訊息";
-            TempData["TempMsg"] = error.ErrorMsg;
-
-
             return Json(new { chk = true, msg = "" });
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
+
+
     }
 }

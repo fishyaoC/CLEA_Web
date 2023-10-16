@@ -87,7 +87,14 @@ namespace Clea_Web.Controllers
                     Thread.CurrentPrincipal = claimsPrincipal;
                     _baseService.user = claimsPrincipal;
 
-                    return RedirectToAction("Index", "B_Home");
+                    if (claims[4].Value.Equals("True"))
+                    {
+                        return RedirectToAction("Index", "B_Home");
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "P_Home");
+                    }
                 }
                 else
                 {

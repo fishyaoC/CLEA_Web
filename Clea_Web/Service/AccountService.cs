@@ -1,6 +1,13 @@
 ﻿using Clea_Web.Models;
 using Clea_Web.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics.Contracts;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Text;
+using X.PagedList;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Clea_Web.Service
 {
@@ -16,34 +23,41 @@ namespace Clea_Web.Service
         }
 
         #region 查詢
+        public IPagedList<AccountViewModel.schPageList> schPages(AccountViewModel.SchItem data, Int32 page, Int32 pagesize)
+        {
+            //var result = GetPageLists(data);
+
+            //return result.ToPagedList(page, pagesize);
+            return GetPageLists(data).ToPagedList(page, pagesize);
+
+        }
+
         public List<AccountViewModel.schPageList> GetPageLists(AccountViewModel.SchItem data)
         {
             List<AccountViewModel.schPageList> result = new List<AccountViewModel.schPageList>();
 
 
-            //result = (from r in db.ViewRoles
-            //              //join user in db.SysUsers on r.Creuser equals user.UName
-            //          where
-            //          (
-            //          //
-            //          (string.IsNullOrEmpty(data.rId) || r.RId.Contains(data.rId)) &&
-            //          (string.IsNullOrEmpty(data.rName) || r.RName.Contains(data.rName)) &&
-            //          (string.IsNullOrEmpty(data.rOrder.ToString()) || r.ROrder == data.rOrder) &&
-            //          (data.rStatus == null || r.RStatus == data.rStatus)
+            result = (from u in db.SysUsers
+                      where
+                      (
+                      (string.IsNullOrEmpty(data.uName) || u.UName.Contains(data.uName)) &&
+                      (string.IsNullOrEmpty(data.urId.ToString()) || u.RUid == data.urId)
 
-            //          )
-            //          select new AccountViewModel.schPageList
-            //          {
-            //              rUid = r.RUid.ToString(),
-            //              rId = r.RId,
-            //              rName = r.RName,
-            //              rOrder = r.ROrder,
-            //              rStatus = r.RStatus == true ? "是" : "否",
-            //              //creDate = r.Credate.ToShortDateString(),
-            //              //creUser = r.Creuser,
-            //              updDate = r.Upddate == null ? r.Credate.ToShortDateString() : r.Upddate.Value.ToShortDateString(),
-            //              updUser = string.IsNullOrEmpty(r.Upduser) ? r.Creuser : r.Upduser
-            //          }).OrderBy(x => x.rOrder).ToList();
+                      )
+                      select new AccountViewModel.schPageList
+                      {
+                          uUId = u.UId.ToString(),
+                          rUId = (from role in db.SysRoles where u.RUid.Equals(role.RUid) select role).FirstOrDefault().RName,
+                          uAccount = u.UAccount,
+                          uPassWord = u.UPassword,
+                          uName = u.UName,
+                          uEmail = u.UEmail,
+                          uPhone = u.UPhone,
+                          uStatus = u.UStatus == true ? "是" : "否",
+                          updDate = (u.Upddate == null ? u.Credate.ToShortDateString() : u.Upddate.Value.ToShortDateString()),
+                          updUser = (from user in db.SysUsers where (u.Upduser == null ? u.Creuser : u.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
+                          Date = u.Upddate == null ? u.Credate : u.Upddate.Value
+                      }).OrderByDescending(x => x.Date).ToList();
 
             return result;
         }
@@ -53,78 +67,89 @@ namespace Clea_Web.Service
         public BaseViewModel.errorMsg SaveData(AccountViewModel.Modify vm)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
-            //try
-            //{
-            //    SysRole? userRole = db.SysRoles.Find(vm.RUId);
+            try
+            {
+                SysUser? SysUser = db.SysUsers.Find(vm.UId);
 
-            //    if (userRole is null)
-            //    {
-            //        userRole = new SysRole();
-            //    }
+                if (SysUser is null)
+                {
+                    SysUser = new SysUser();
+                }
 
-            //    userRole.RId = vm.RId;
-            //    userRole.RName = vm.RName;
-            //    userRole.ROrder = Convert.ToByte(vm.ROrder);
-            //    userRole.RStatus = vm.RStatus;
+                SysUser.RUid = vm.RUid;
+                SysUser.UAccount = vm.UAccount;
+                //SysUser.UPassword = vm.UPassword; //加密
+                if (vm.UPassword != null)
+                {
+                    SysUser.UPassword = HashPassword(vm.UPassword);
+                }
 
-            //    if (vm != null && vm.IsEdit == true)
-            //    {
-            //        //編輯
-            //        userRole.Upduser = Guid.Parse(GetUserID(user));
-            //        userRole.Upddate = DateTime.Now;
-            //    }
-            //    else if (vm != null && vm.IsEdit == false)
-            //    {
-            //        //新增
-            //        userRole.RUid = Guid.NewGuid();
-            //        userRole.Creuser = Guid.Parse(GetUserID(user));
-            //        userRole.Credate = DateTime.Now;
-            //        db.SysRoles.Add(userRole);
-            //    }
+                SysUser.UName = vm.UName;
+                SysUser.UEmail = vm.UEmail;
+                SysUser.UPhone = vm.UPhone;
+                SysUser.UStatus = vm.UStatus;
 
-                //result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-            //}
-            //catch (Exception e)
-            //{
-            //    result.ErrorMsg = e.Message;
-            //    //return false;
-            //}
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    SysUser.Upduser = Guid.Parse(GetUserID(user));
+                    SysUser.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    SysUser.UId = Guid.NewGuid();
+                    SysUser.Creuser = Guid.Parse(GetUserID(user));
+                    SysUser.Credate = DateTime.Now;
+                    db.SysUsers.Add(SysUser);
+                }
+
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
             return result;
 
         }
         #endregion
 
         #region 編輯
-        public AccountViewModel.Modify GetEditData(Guid R_UID)
+        public AccountViewModel.Modify GetEditData(Guid U_ID)
         {
             //撈資料
-            SysRole sysRole = db.SysRoles.Where(x => x.RUid.Equals(R_UID)).FirstOrDefault();
+            SysUser sysUser = db.SysUsers.Where(x => x.UId.Equals(U_ID)).FirstOrDefault();
             vm = new AccountViewModel.Modify();
-            if (sysRole != null)
+            if (sysUser != null)
             {
-                //vm.RUId = sysRole.RUid;
-                //vm.RId = sysRole.RId;
-                //vm.RName = sysRole.RName;
-                //vm.ROrder = sysRole.ROrder;
-                //vm.RStatus = sysRole.RStatus;
-                //vm.IsEdit = true;
+                vm.UId = sysUser.UId;
+                vm.UAccount = sysUser.UAccount;
+                vm.UPassword = sysUser.UPassword;
+                vm.UName = sysUser.UName;
+                vm.UEmail = sysUser.UEmail;
+                vm.UPhone = sysUser.UPhone;
+                vm.UStatus = sysUser.UStatus;
+                vm.RUid = sysUser.RUid;
+                vm.IsEdit = true;
             }
             return vm;
         }
         #endregion
 
         #region 刪除
-        public BaseViewModel.errorMsg DelData(Guid R_UID)
+        public BaseViewModel.errorMsg DelData(Guid U_ID)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            SysRole sysRole = db.SysRoles.Find(R_UID);
+            SysUser sysUser = db.SysUsers.Find(U_ID);
             vm = new AccountViewModel.Modify();
 
             try
             {
-                db.SysRoles.Remove(sysRole);
+                db.SysUsers.Remove(sysUser);
             }
             catch (Exception e)
             {
@@ -135,33 +160,50 @@ namespace Clea_Web.Service
             return result;
         }
 
+        #endregion
+
+        #region 密碼加密
+        public static string HashPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                // 將密碼轉為字節數組
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+
+                // 計算hash
+                byte[] hashBytes = sha256.ComputeHash(passwordBytes);
+
+                //將hash轉為十六進制字符串
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    builder.Append(hashBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
+            }
+
+        }
+        #endregion
+
+        #region 取得權限下拉選單
+        public List<SelectListItem> getSysRoleItem()
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+            List<SysRole> lst_sysRole = db.SysRoles.ToList();
+            if (lst_sysRole != null && lst_sysRole.Count() > 0)
+            {
+                foreach (SysRole R in lst_sysRole)
+                {
+                    result.Add(new SelectListItem() { Text = R.RName, Value = R.RUid.ToString() });
+                    //result1.Add(new BaseViewModel.SearchDropDownItem() { Text = L.LName, Value = L.LUid.ToString() });
+                }
+            }
+            return result;
+        }
+        #endregion
     }
-    #endregion
 
-    #region 選單
-    /// <summary>
-    /// 取得單位選單
-    /// </summary>
-    /// <returns></returns>
-    //public List<AccountViewModel.SearchDropDownItem> UnitDropDownList()
-    //{
-    //    List<AccountViewModel.SearchDropDownItem> result = new List<AccountViewModel.SearchDropDownItem>();
-    //        List<SysUnit> lst_Unit = new List<SysUnit>();
-    //        lst_Unit = db.SysUnits.Where(x => x.UnStatus == true).ToList();
 
-    //        if (lst_Unit.Count > 0)
-    //        {
-    //            foreach (SysUnit code in lst_Unit)
-    //            {
-    //                result.Add(new AccountViewModel.SearchDropDownItem
-    //                {
-    //                    Text = code.UnName,
-    //                    Value = code.UnId
-    //                });
-    //            }
-    //        }
-
-    //        return result;
-    //}
-    #endregion
 }

@@ -5,81 +5,102 @@
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-<div class="main-panel">
-    <div class="content-wrapper">
-        <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Role")">
-            <button type="submit" class="btn btn-info">儲存</button>
-            @* <button type="button" class="btn btn-secondary">取消</button> *@
-            <a href="@Url.Action("Index","Sys_Role")" class="btn btn-secondary">取消</a>
-            <div class="row">
 
-                <div class="col-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                角色權限管理 - @(Model.IsEdit ? "編輯" : "新增")
-                            </h4>
-                            @Html.AntiForgeryToken()
-                            @*回傳狀態*@
-                            @* @Html.HiddenFor(x => x.IsEdit) *@
-                            @*回傳Uid*@
-                            @* @Html.HiddenFor(x => x.RUId) *@
-                            @* <p class="card-description">
-                            後臺帳號管理-編輯
-                            </p> *@
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                        @* @Html.LabelFor(x=> x.RId, new { @class="col-sm-3 col-form-label" }) *@
-                                        <div class="col-sm-9">
-                                            @* <input type="text" class="form-control" /> *@
-                                            @* @Html.TextBoxFor(x=> x.RId, new { @class="form-control form-control", placeholder="角色代碼"}) *@
-                                        </div>
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("Modify","B_Account")">
+        <button type="submit" class="btn btn-info">儲存</button>
+        @* <button type="button" class="btn btn-secondary">取消</button> *@
+        <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a>
+        <div class="row">
+
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            帳號管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.UId)
+                        @* <p class="card-description">
+                        後臺帳號管理-編輯
+                        </p> *@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x=> x.UAccount, new { @class="col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x=> x.UAccount, new { @class="form-control form-control", placeholder="帳號"})
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        @* <label class="col-sm-3 col-form-label">角色名稱</label> *@
-                                        @* @Html.LabelFor(x=> x.RName, new { @class="col-sm-3 col-form-label" }) *@
-                                        <div class="col-sm-9">
-                                            @* <input type="text" class="form-control" /> *@
-                                            @* @Html.TextBoxFor(x=> x.RName, new { @class="form-control form-control", placeholder="角色名稱"}) *@
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x=> x.UPassword, new { @class="col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.PasswordFor(x=> x.UPassword, new { @class="form-control form-control", placeholder="密碼"})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x=> x.UName, new { @class="col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x=> x.UName, new { @class="form-control form-control", placeholder="帳號名稱"})
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">帳號啟用狀態</label>
+                                    @* @Html.LabelFor(x=> x.UStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                    <div class="col-sm-4 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.UStatus, true, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            <label for="S1">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.UStatus, false, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            <label for="S0">
+                                                否
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        @* <label class="col-sm-3 col-form-label">角色排序</label> *@
-                                        @* @Html.LabelFor(x=> x.ROrder, new { @class="col-sm-3 col-form-label" }) *@
-                                        <div class="col-sm-9">
-                                            @* @Html.TextBoxFor(x=> x.ROrder, new { @class="form-control form-control", placeholder="角色排序"}) *@
-                                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x=> x.UEmail, new { @class="col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x=> x.UEmail, new { @class="form-control form-control", placeholder="電子信箱"})
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">角色啟用狀態</label>
-                                        @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
-
-                                        <div class="col-sm-4">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    @* <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios1" value="" checked>                                                   *@
-                                                    @* @Html.RadioButtonFor(x => x.RStatus, true, new { id="optionsRadios1", @class="form-check-input" ,@name="optionsRadios"})<label for="S1">是</label> *@
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-5">
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    @* <input type="radio" class="form-check-input" name="membershipRadios" id="membershipRadios2" value="option2"> *@
-                                                    @* @Html.RadioButtonFor(x => x.RStatus, false, new { id="optionsRadios1", @class="form-check-input" ,@name="optionsRadios"})<label for="S0">否</label> *@
-                                                </label>
-                                            </div>
-                                        </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x=> x.UPhone, new { @class="col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x=> x.UPhone, new { @class="form-control form-control", placeholder="電話"})
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x=> x.RUid, new { @class="col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x=>x.RUid, Model.DropDownItem, new { @class = "form-control form-control" })
+                                        @*@Html.TextBoxFor(x=> x.RUid, new { @class="form-control form-control", placeholder="帳號權限"})*@
                                     </div>
                                 </div>
                             </div>
@@ -87,6 +108,6 @@
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>

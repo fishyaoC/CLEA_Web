@@ -20,6 +20,8 @@ public partial class SysFile
     /// </summary>
     public Guid FMatchKey { get; set; }
 
+    public string FFullName { get; set; } = null!;
+
     /// <summary>
     /// 檔案實體名稱
     /// </summary>
@@ -29,6 +31,10 @@ public partial class SysFile
     /// 儲存後名稱
     /// </summary>
     public string FNameDl { get; set; } = null!;
+
+    public string FMimeType { get; set; } = null!;
+
+    public string FExt { get; set; } = null!;
 
     /// <summary>
     /// 檔案路徑
@@ -44,6 +50,8 @@ public partial class SysFile
     /// 排序
     /// </summary>
     public int? FOrder { get; set; }
+
+    public string? FRemark { get; set; }
 
     public Guid Creuser { get; set; }
 

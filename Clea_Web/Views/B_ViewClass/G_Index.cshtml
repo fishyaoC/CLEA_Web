@@ -1,0 +1,104 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+}
+@model Clea_Web.ViewModels.ViewClassViewModel.Modify_Model_V
+	<div class="content-wrapper">
+		<div class="row">
+			<div class="col-12 mb-3">
+				<div class="accordion" id="accordionPanelsStayOpenExample">
+					<!--搜尋-->
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h3>評鑑內容</h3>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h3>評鑑年度: @(Model.cSTinfo_V.Ev_Year) 年</h3>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h3>教師名稱: @(Model.cSTinfo_V.L_Name) ( @(Model.cSTinfo_V.L_ID) )</h3>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<h3>課程名稱: @(Model.cSTinfo_V.ClassName) ( @(Model.cSTinfo_V.ClassID) )</h3>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<h3>科目名稱: @(Model.cSTinfo_V.SubName) ( @(Model.cSTinfo_V.SubID) )</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-12 grid-margin stretch-card">
+						<a class="btn btn-primary mr-2" href="@Url.Action("P_Index","B_ViewClass", new{ C_ID = Model.cSTinfo_V.C_UID, Sub_UID = Model.cSTinfo_V.Sub_UID, Year = Model.cSTinfo_V.Year })">回前頁</a>
+					</div>
+					<!--搜尋End-->
+					<!--資料Table-->
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">評鑑教師</h4>
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>序</th>
+												<th>教師代碼</th>
+												<th>教師名稱</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											@if (!(Model.m_EvTeacherPageLists_V is null) && Model.m_EvTeacherPageLists_V.Count > 0)
+											{
+												Int32 rowCount = 0;
+												foreach (var Ev in Model.m_EvTeacherPageLists_V)
+												{
+													rowCount++;
+													<tr>
+														<td>@rowCount</td>
+														<td>@Ev.L_ID_Ev</td>
+														<td>@Ev.L_Name_Ev</td>
+														<td>
+															<a href="@Url.Action("L_Modify", "B_ViewClass", new { CEvUid = Ev.CEv_UID })" class="btn btn-success">檢視課程審查表</a>
+															<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("Export_ScoreWord", "B_ViewClass", new { CEvUid = Ev.CEv_UID })'" @(Ev.IsEvaluation ? "" : "disabled")> @(Ev.IsEvaluation ? "匯出課程審查表" : "尚未完成評分") </button>
+														</td>
+													</tr>
+												}
+											}
+											else
+											{
+												<tr>
+													<td colspan="6" align="center">查無資料!</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--資料Table-->
+				</div>
+			</div>
+		</div>
+	</div>
+

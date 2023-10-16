@@ -38,12 +38,16 @@ namespace Clea_Web.Controllers
             {
                 //編輯
                 vm = _roleService.GetEditData(R_UID);
+
             }
             else
             {
                 //新增
                 vm = new UserRoleViewModel.Modify();
             }
+            vm.rolePowerListP = db.ViewMenuRolePowers.Where(x => x.MType.Equals("P")).ToList();
+            vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B")).ToList();
+
             return View(vm);
         }
 

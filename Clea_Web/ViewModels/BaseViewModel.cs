@@ -31,5 +31,15 @@
             public String Value { get; set; }
         }
         #endregion
+
+        #region 課程
+        public class EvaluationActonInfo
+        {
+            public Guid Key { get; set; }
+            public Int32? Type { get; set; }
+            public String ControllerName { get; set; }
+            public Int32? Year { get; set; }
+        }
+        #endregion
     }
 }
