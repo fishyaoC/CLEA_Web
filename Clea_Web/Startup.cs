@@ -35,7 +35,9 @@ namespace Clea_Web
             services.AddTransient<LectorEvaluationService>();
             services.AddTransient<SMTPService>();
             services.AddTransient<FileService>();
-
+            services.AddTransient<B_LectorBtnService>();
+            services.AddTransient<P_LectorBtnService>();
+            services.AddTransient<B_LectorAdvService>();
             ////加入Mapper
             //var mapperConfig = new MapperConfiguration(mc =>
             //{

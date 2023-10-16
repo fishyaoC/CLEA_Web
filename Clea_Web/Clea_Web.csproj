@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
     <Folder Include="SampleFile\Output\" />
     <Folder Include="wwwroot\backEnd\js\" />
     <Folder Include="wwwroot\backEnd\fonts\" />
