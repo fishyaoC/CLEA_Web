@@ -17,6 +17,10 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<CBook> CBooks { get; set; }
 
+    public virtual DbSet<CBookDetail> CBookDetails { get; set; }
+
+    public virtual DbSet<CBookPublish> CBookPublishes { get; set; }
+
     public virtual DbSet<CClass> CClasses { get; set; }
 
     public virtual DbSet<CClassLector> CClassLectors { get; set; }
@@ -28,6 +32,10 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<CLector> CLectors { get; set; }
 
     public virtual DbSet<CLectorAdvInfo> CLectorAdvInfos { get; set; }
+
+    public virtual DbSet<EEvaluate> EEvaluates { get; set; }
+
+    public virtual DbSet<EEvaluateDetail> EEvaluateDetails { get; set; }
 
     public virtual DbSet<PBanner> PBanners { get; set; }
 
@@ -56,6 +64,10 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<ViewAssignViewP> ViewAssignViewPs { get; set; }
 
     public virtual DbSet<ViewBookEvaluationP> ViewBookEvaluationPs { get; set; }
+
+    public virtual DbSet<ViewClassEvaluate> ViewClassEvaluates { get; set; }
+
+    public virtual DbSet<ViewClassLector> ViewClassLectors { get; set; }
 
     public virtual DbSet<ViewClassLectorEvaluate> ViewClassLectorEvaluates { get; set; }
 
@@ -118,6 +130,54 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("版本")
                 .HasColumnType("datetime")
                 .HasColumnName("M_Version");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<CBookDetail>(entity =>
+        {
+            entity.HasKey(e => e.MdId);
+
+            entity.ToTable("C_BookDetail");
+
+            entity.Property(e => e.MdId)
+                .ValueGeneratedNever()
+                .HasColumnName("MD_ID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.MId).HasColumnName("M_ID");
+            entity.Property(e => e.MdPublish).HasColumnName("MD_Publish");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<CBookPublish>(entity =>
+        {
+            entity.HasKey(e => e.BpId);
+
+            entity.ToTable("C_BookPublish");
+
+            entity.Property(e => e.BpId)
+                .ValueGeneratedNever()
+                .HasColumnName("BP_ID");
+            entity.Property(e => e.BpName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("BP_Name");
+            entity.Property(e => e.BpNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("BP_Number");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
@@ -434,6 +494,58 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.Upduser)
                 .HasComment("更新者")
                 .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<EEvaluate>(entity =>
+        {
+            entity.HasKey(e => e.EId);
+
+            entity.ToTable("E_Evaluate");
+
+            entity.Property(e => e.EId)
+                .ValueGeneratedNever()
+                .HasColumnName("E_ID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.EType).HasColumnName("E_Type");
+            entity.Property(e => e.EYear).HasColumnName("E_Year");
+            entity.Property(e => e.MatchKey).HasColumnName("matchKey");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<EEvaluateDetail>(entity =>
+        {
+            entity.HasKey(e => e.EdId).HasName("PK_E_E_EvaluateDetail");
+
+            entity.ToTable("E_EvaluateDetail");
+
+            entity.Property(e => e.EdId)
+                .ValueGeneratedNever()
+                .HasColumnName("ED_ID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.ERemark)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("E_Remark");
+            entity.Property(e => e.EScoreA).HasColumnName("E_ScoreA");
+            entity.Property(e => e.EScoreB).HasColumnName("E_ScoreB");
+            entity.Property(e => e.EScoreC).HasColumnName("E_ScoreC");
+            entity.Property(e => e.EScoreD).HasColumnName("E_ScoreD");
+            entity.Property(e => e.EScoreE).HasColumnName("E_ScoreE");
+            entity.Property(e => e.MatchKey2).HasColumnName("matchKey2");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
         modelBuilder.Entity<PBanner>(entity =>
@@ -1044,6 +1156,48 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnName("M_Version");
         });
 
+        modelBuilder.Entity<ViewClassEvaluate>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_ClassEvaluate");
+
+            entity.Property(e => e.CId)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("C_ID");
+            entity.Property(e => e.CName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("C_Name");
+            entity.Property(e => e.CUid).HasColumnName("C_UID");
+            entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.EType).HasColumnName("E_Type");
+            entity.Property(e => e.EYear).HasColumnName("E_Year");
+        });
+
+        modelBuilder.Entity<ViewClassLector>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_ClassLector");
+
+            entity.Property(e => e.CName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("C_Name");
+            entity.Property(e => e.CUid).HasColumnName("C_UID");
+            entity.Property(e => e.ClUid).HasColumnName("CL_UID");
+            entity.Property(e => e.DName)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("D_Name");
+            entity.Property(e => e.LName)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("L_NAME");
+        });
+
         modelBuilder.Entity<ViewClassLectorEvaluate>(entity =>
         {
             entity
@@ -1102,19 +1256,16 @@ public partial class DbContextCLEA : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("D_Name");
-            entity.Property(e => e.FNameDl)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("F_NameDL");
-            entity.Property(e => e.FRemark)
-                .HasMaxLength(250)
-                .IsUnicode(false)
-                .HasColumnName("F_Remark");
+            entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.EType).HasColumnName("E_Type");
+            entity.Property(e => e.EYear).HasColumnName("E_Year");
+            entity.Property(e => e.EdId).HasColumnName("ED_ID");
+            entity.Property(e => e.FMatchKey).HasColumnName("F_MatchKey");
             entity.Property(e => e.LName)
                 .HasMaxLength(300)
                 .IsUnicode(false)
                 .HasColumnName("L_NAME");
-            entity.Property(e => e.LevYear).HasColumnName("LEv_Year");
+            entity.Property(e => e.MatchKey2).HasColumnName("matchKey2");
         });
 
         modelBuilder.Entity<ViewClassSubLectorP>(entity =>

@@ -4,7 +4,7 @@
 @{
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.AssignClassViewModel.Modify_Model
+@model Clea_Web.ViewModels.AssignClassViewModel.TC_ModifyModel
 <div class="main-panel">
 	<div class="content-wrapper">
 		<div class="row">
@@ -12,9 +12,8 @@
 			<div class="col-12 mb-3">
 				<div class="accordion" id="accordionPanelsStayOpenExample">
 					<!--搜尋-->
-					<form class="forms-sample" method="post" action="@Url.Action("L_Modify","B_AssignClass")">
-						@Html.AntiForgeryToken()
-						@Html.HiddenFor(x => x.cSTinfo.CL_UID)
+					<form class="forms-sample" method="post" action="@Url.Action("TC_Modify","B_AssignClass")">
+						@Html.AntiForgeryToken()						
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
@@ -28,24 +27,24 @@
 									<div class="row">
 										<div class="col-md-4">
 											<div class="form-group">
-												<h3>評鑑年度: @(Model.cSTinfo.Ev_Year) 年</h3>
+												<h3>評鑑年度: @(Model.cLInfo.Year) 年</h3>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
-												<h3>教師名稱: @(Model.cSTinfo.L_Name) ( @(Model.cSTinfo.L_ID) )</h3>
+												<h3>教師名稱: @(Model.cLInfo.L_Name) ( @(Model.cLInfo.L_ID) )</h3>
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-4">
 											<div class="form-group">
-												<h3>課程名稱: @(Model.cSTinfo.ClassName) ( @(Model.cSTinfo.ClassID) )</h3>
+												<h3>課程名稱: @(Model.cLInfo.C_Name) ( @(Model.cLInfo.C_ID) )</h3>
 											</div>
 										</div>
 										<div class="col-md-4">
 											<div class="form-group">
-												<h3>科目名稱: @(Model.cSTinfo.SubName) ( @(Model.cSTinfo.SubID) )</h3>
+												<h3>科目名稱: @(Model.cLInfo.S_Name) ( @(Model.cLInfo.S_ID) )</h3>
 											</div>
 										</div>
 
@@ -54,17 +53,19 @@
 							</div>
 						</div>
 						<div class="col-lg-12 grid-margin stretch-card">
-							<a class="btn btn-primary mr-2" href="@Url.Action("P_Index","B_AssignClass", new{ C_ID = Model.cSTinfo.C_UID, Sub_UID = Model.cSTinfo.Sub_UID })">回前頁</a>
+							@* <a class="btn btn-primary mr-2" href="@Url.Action("P_Index","B_AssignClass", new{ C_ID = Model.cSTinfo.C_UID, Sub_UID = Model.cSTinfo.Sub_UID })">回前頁</a> *@
 						</div>
 						<div class="col-lg-12 grid-margin stretch-card">
+							@Html.HiddenFor(x=>x.tCModify.E_ID)
+							@Html.HiddenFor(x=>x.tCModify.CL_UID)
 							<div class="card">
 								<div class="card-body">
 									<div class="row">
 										<div class="col-md-8">
 											<div class="form-group">
 												<label for="exampleInputName1">指定評鑑教師</label>
-												@Html.DropDownListFor(x=>x.lModify.L_UID_Ev, Model.DropDownItem, new { @class = "form-control form-control" })
-												@Html.ValidationMessageFor(x=>x.lModify.L_UID_Ev)
+												@Html.DropDownListFor(x=>x.tCModify.L_UID_Ev, Model.selectListItems, new { @class = "form-control form-control" })
+												@Html.ValidationMessageFor(x=>x.tCModify.L_UID_Ev)
 											</div>
 										</div>
 										<div class="col-md-4">
@@ -98,19 +99,18 @@
 											</tr>
 										</thead>
 										<tbody>
-											@if (!(Model.m_EvTeacherPageLists is null) && Model.m_EvTeacherPageLists.Count > 0)
+											@if (!(Model.lst_EvTeachers is null) && Model.lst_EvTeachers.Count > 0)
 											{
 												Int32 rowCount = 0;
-												foreach (var Ev in Model.m_EvTeacherPageLists)
+												foreach (var Ev in Model.lst_EvTeachers)
 												{
 													rowCount++;
 													<tr>
-														<td>@rowCount</td>
-														<td>@Ev.L_ID_Ev</td>
-														<td>@Ev.L_Name_Ev</td>
+														<td>@rowCount</td>														
+														<td>@Ev.L_Ev_ID</td>
+														<td>@Ev.L_Ev_Name</td>
 														<td>
-															@* <a href="@Url.Action("L_Delete","B_AssignClass", new { Ev_UID = Ev.CEv_UID })" class="btn btn-success">移除</a> *@
-															<button type="button" class="btn btn-danger" onclick="del('@Ev.CEv_UID')">刪除</button>
+															<button type="button" class="btn btn-danger" onclick="del('@Ev.ED_ID')">刪除</button>
 														</td>
 													</tr>
 												}
@@ -123,11 +123,7 @@
 											}
 										</tbody>
 									</table>
-									<!--換頁模組-->
-									@* 									@if (!(Model.getClassLectorPageLists is null) && Model.getClassLectorPageLists.Count > 0)
-									{
-									@Html.Partial("../Shared/_pageList", Model.getClassLectorPageLists)
-									} *@
+
 								</div>
 							</div>
 						</div>
@@ -158,8 +154,8 @@
 			else {
 				$.ajax({
 					type: "POST",
-					url: '../B_AssignClass/L_Delete',
-					data: { LevId: Uid },
+					url: '../B_AssignClass/TC_Delete',
+					data: { ED_ID: Uid },
 					dataType: "json",
 					success: function (response) {
 						if (response.chk) {
