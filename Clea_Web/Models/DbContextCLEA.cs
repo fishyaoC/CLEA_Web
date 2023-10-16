@@ -17,6 +17,10 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<CBook> CBooks { get; set; }
 
+    public virtual DbSet<CBookDetail> CBookDetails { get; set; }
+
+    public virtual DbSet<CBookPublish> CBookPublishes { get; set; }
+
     public virtual DbSet<CClass> CClasses { get; set; }
 
     public virtual DbSet<CClassLector> CClassLectors { get; set; }
@@ -118,6 +122,54 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("版本")
                 .HasColumnType("datetime")
                 .HasColumnName("M_Version");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<CBookDetail>(entity =>
+        {
+            entity.HasKey(e => e.MdId);
+
+            entity.ToTable("C_BookDetail");
+
+            entity.Property(e => e.MdId)
+                .ValueGeneratedNever()
+                .HasColumnName("MD_ID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.MId).HasColumnName("M_ID");
+            entity.Property(e => e.MdPublish).HasColumnName("MD_Publish");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<CBookPublish>(entity =>
+        {
+            entity.HasKey(e => e.BpId);
+
+            entity.ToTable("C_BookPublish");
+
+            entity.Property(e => e.BpId)
+                .ValueGeneratedNever()
+                .HasColumnName("BP_ID");
+            entity.Property(e => e.BpName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("BP_Name");
+            entity.Property(e => e.BpNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("BP_Number");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
