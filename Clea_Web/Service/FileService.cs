@@ -179,9 +179,9 @@ namespace Clea_Web.Service
 		{
 
 			Microsoft.Office.Interop.PowerPoint.Application appPpt = new Microsoft.Office.Interop.PowerPoint.Application();
-			//Microsoft.Office.Interop.PowerPoint.Presentation objActivePresentation = appPpt.Presentations.Open(sourcePath, Microsoft.Office.Core.MsoTriState.msoCTrue,
-			//							Microsoft.Office.Core.MsoTriState.msoTriStateMixed,
-			//							Microsoft.Office.Core.MsoTriState.msoFalse);
+			Microsoft.Office.Interop.PowerPoint.Presentation objActivePresentation = appPpt.Presentations.Open(sourcePath, Microsoft.Office.Core.MsoTriState.msoCTrue,
+										Microsoft.Office.Core.MsoTriState.msoTriStateMixed,
+										Microsoft.Office.Core.MsoTriState.msoFalse);
 
 
 
@@ -191,16 +191,16 @@ namespace Clea_Web.Service
 			//							Microsoft.Office.Core.MsoTriState.msoTriStateMixed,
 			//							Microsoft.Office.Core.MsoTriState.msoFalse);
 
-			//int i = 0;
-			//foreach (Microsoft.Office.Interop.PowerPoint.Slide objSlide in objActivePresentation.Slides)
-			//{
-			//	//Names are generated based on timestamp. 
-			//	//objSlide.Export("Slide" + i, "PNG", 960, 720);
-			//	objSlide.Export(savePath + @"\Slide" + i + ".GIF", "GIF", 960, 720);
-			//	i++;
-			//}
-			////objActivePresentation.Close();
-			//appPpt.Quit();
+			int i = 0;
+			foreach (Microsoft.Office.Interop.PowerPoint.Slide objSlide in objActivePresentation.Slides)
+			{
+				//Names are generated based on timestamp. 
+				//objSlide.Export("Slide" + i, "PNG", 960, 720);
+				objSlide.Export(savePath + @"\Slide" + i + ".GIF", "GIF", 960, 720);
+				i++;
+			}
+			//objActivePresentation.Close();
+			appPpt.Quit();
 
 			return true;
 		}

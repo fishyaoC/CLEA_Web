@@ -103,7 +103,9 @@ namespace Clea_Web.ViewModels
 
 		public class EvTeacher
 		{
+			public Guid? E_ID { get; set; }
 			public Guid ED_ID { get; set; }
+			public Guid? L_UID_Ev { get; set; }
 			public String L_Ev_ID { get; set; }
 			public String L_Ev_Name { get; set; }
 		}

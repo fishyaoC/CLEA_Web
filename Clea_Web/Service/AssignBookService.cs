@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using NPOI.XSSF.UserModel;
+using Org.BouncyCastle.Cms;
 using X.PagedList;
 
 namespace Clea_Web.Service
@@ -19,6 +21,226 @@ namespace Clea_Web.Service
 		}
 
 		#region BackEnd
+
+		#region NEW
+
+		#region IndexPage
+		public IPagedList<AssignBookViewModel.BookInfor> GetSchBookItemPageList(AssignBookViewModel.SchBookItems data, Int32 page)
+		{
+			List<AssignBookViewModel.BookInfor> result = new List<AssignBookViewModel.BookInfor>();
+
+			result = (from book in db.ViewBookEvaluates
+					  where
+					  (
+					  (book.EType == 1) &&
+					  (data.Year == null || book.EYear == data.Year) &&
+					  (string.IsNullOrEmpty(data.B_ID) || book.MIndex.ToString().Contains(data.B_ID)) &&
+					  (string.IsNullOrEmpty(data.B_Name) || book.MName.Contains(data.B_Name))
+					  )
+					  select new AssignBookViewModel.BookInfor()
+					  {
+						  Year = book.EYear,
+						  B_UID = book.MId,
+						  B_ID = book.MIndex.ToString(),
+						  B_Name = book.MName,
+						  E_ID = book.EId
+					  }).OrderByDescending(x => x.Year).ToList();
+
+			return result.ToPagedList(page, pagesize);
+		}
+		#endregion
+
+		#region 取得評鑑年度
+		public List<SelectListItem> GetYearSelectItems()
+		{
+			List<SelectListItem> result = new List<SelectListItem>();
+			Int32 Start = (DateTime.Now.Year + 1) - 10;
+			Int32 End = (DateTime.Now.Year + 1);
+
+			result.Add(new SelectListItem() { Text = "請選擇", Value = null });
+			for (int x = End; x > Start; x--)
+			{
+				result.Add(new SelectListItem() { Text = x.ToString() + "年", Value = x.ToString() });
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region 取得課程列表
+		public List<SelectListItem> GetSelectListItemsBook()
+		{
+			List<SelectListItem> result = new List<SelectListItem>();
+
+			List<CBook> lst_Book = new List<CBook>();
+			lst_Book = db.CBooks.ToList();
+
+			if (lst_Book.Count > 0)
+			{
+				foreach (CBook bk in lst_Book.OrderBy(x => x.MOrder))
+				{
+					result.Add(new SelectListItem() { Text = bk.MName, Value = bk.MId.ToString() });
+				}
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region SaveAddData
+		public BaseViewModel.errorMsg SaveAddData(AssignBookViewModel.AddModify data)
+		{
+			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
+
+			List<CBookDetail> lst_BD = new List<CBookDetail>();
+			lst_BD = db.CBookDetails.Where(x => x.MId == data.B_UID).ToList();
+
+			try
+			{
+				EEvaluate eEvaluate = new EEvaluate()
+				{
+					EId = Guid.NewGuid(),
+					EType = 1,
+					EYear = data.Year,
+					MatchKey = data.B_UID,
+					Creuser = Guid.Parse(GetUserID(user)),
+					Credate = DateTime.Now
+				};
+				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+			}
+			catch (Exception ex)
+			{
+				result.CheckMsg = false;
+				result.ErrorMsg = ex.Message;
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region 取得教材基本資訊
+		public AssignBookViewModel.BookInfor GetBookInfor(Guid E_ID)
+		{
+			AssignBookViewModel.BookInfor result = new AssignBookViewModel.BookInfor();
+
+			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
+			CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
+
+			if (eEvaluate != null)
+			{
+				result.E_ID = E_ID;
+				result.Year = eEvaluate.EYear;
+				result.B_ID = cBook.MIndex.ToString();
+				result.B_Name = cBook.MName;
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region 取得評鑑教師列表
+		public List<AssignClassViewModel.EvTeacher> getEvTeacherList(Guid E_ID, Guid B_UID)
+		{
+			List<AssignClassViewModel.EvTeacher> result = new List<AssignClassViewModel.EvTeacher>();
+
+			result = (from ed in db.ViewBookEvaluateTeachers
+
+					  where (ed.EId == E_ID && ed.MatchKey2 == B_UID)
+					  select new AssignClassViewModel.EvTeacher()
+					  {
+						  E_ID = ed.EId.Value,
+						  L_UID_Ev = ed.LUid,
+						  L_Ev_ID = ed.LId,
+						  L_Ev_Name = ed.LName
+					  }).ToList();
+
+			return result;
+		}
+		#endregion
+
+		#region 取得評鑑教師item
+		public List<SelectListItem> selectListItemsTeacher()
+		{
+			List<SelectListItem> result = new List<SelectListItem>();
+			List<CLector> lst_lec = db.CLectors.ToList();
+			result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+
+			if (lst_lec != null && lst_lec.Count > 0)
+			{
+				foreach (CLector lec in lst_lec)
+				{
+					result.Add(new SelectListItem() { Text = lec.LName, Value = lec.LUid.ToString() });
+				}
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region SaveModify
+		public BaseViewModel.errorMsg SaveModify(AssignBookViewModel.Modify data)
+		{
+			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
+			try
+			{
+				List<CBookDetail> lst_BD = db.CBookDetails.Where(x => x.MId == data.B_UID).ToList();
+				if (lst_BD != null && lst_BD.Count > 0)
+				{
+					foreach (CBookDetail BD in lst_BD)
+					{
+						EEvaluateDetail eEvaluateDetail = new EEvaluateDetail()
+						{
+							EdId = Guid.NewGuid(),
+							EId = data.E_ID,
+							MatchKey2 = data.B_UID,
+							Evaluate = data.L_UID_Ev,
+							Creuser = Guid.Parse(GetUserID(user)),
+							Credate = DateTime.Now
+						};
+						db.EEvaluateDetails.Add(eEvaluateDetail);
+					}
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
+				else
+				{
+					result.CheckMsg = false;
+					result.ErrorMsg = "尚無教材版本資料!";
+				}
+			}
+			catch (Exception ex)
+			{
+				result.CheckMsg = false;
+				result.ErrorMsg = ex.Message;
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region V_Index
+		public List<AssignBookViewModel.EDInfo> getEDInfoList(Guid E_ID, Guid B_UID)
+		{
+			List<AssignBookViewModel.EDInfo> result = new List<AssignBookViewModel.EDInfo>();
+			List<EEvaluateDetail> lst_BD = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.MatchKey2 == B_UID).ToList();
+
+			result = (from ed in db.EEvaluateDetails
+					  where (ed.EId == E_ID && ed.MatchKey2 == B_UID)					  
+					  select new AssignBookViewModel.EDInfo()
+					  {
+						  ED_ID = ed.EdId,
+						  B_Name = (from cb in db.CBooks where cb.MId == ed.MatchKey2 select cb).FirstOrDefault().MName,
+						  BD_Publish = (from cb in db.CBookDetails where cb.MId == ed.MatchKey2 select cb).FirstOrDefault().MdPublish.ToString(),
+						  IsEvaluate = ed.EScoreA == null ? false : true,
+						  IsUpload = db.SysFiles.Where(x => x.FMatchKey == ed.EdId).Count() == 0 ? false : true,
+					  }).ToList();
+
+			return result;
+		}
+		#endregion
+
+		#endregion
+
+		#region OLD
 
 		#region Index
 		public IPagedList<AssignBookViewModel.BookInfo> GetbookInfosPageList(AssignBookViewModel.SchBookItem data, Int32 page)
@@ -167,6 +389,10 @@ namespace Clea_Web.Service
 			return result;
 		}
 		#endregion
+
+		#endregion
+
+
 
 		#endregion
 

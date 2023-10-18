@@ -11,9 +11,9 @@ public partial class EEvaluateDetail
 
     public Guid MatchKey2 { get; set; }
 
-    public Guid Reception { get; set; }
+    public Guid? Reception { get; set; }
 
-    public Guid Evaluate { get; set; }
+    public Guid? Evaluate { get; set; }
 
     public int? EScoreA { get; set; }
 

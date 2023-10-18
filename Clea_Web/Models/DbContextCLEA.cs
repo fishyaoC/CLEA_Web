@@ -63,6 +63,10 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<ViewAssignViewP> ViewAssignViewPs { get; set; }
 
+    public virtual DbSet<ViewBookEvaluate> ViewBookEvaluates { get; set; }
+
+    public virtual DbSet<ViewBookEvaluateTeacher> ViewBookEvaluateTeachers { get; set; }
+
     public virtual DbSet<ViewBookEvaluationP> ViewBookEvaluationPs { get; set; }
 
     public virtual DbSet<ViewClassEvaluate> ViewClassEvaluates { get; set; }
@@ -76,6 +80,8 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<ViewClassSubLectorP> ViewClassSubLectorPs { get; set; }
 
     public virtual DbSet<ViewClassSubLectorV> ViewClassSubLectorVs { get; set; }
+
+    public virtual DbSet<ViewEvaluateDetailInfo> ViewEvaluateDetailInfos { get; set; }
 
     public virtual DbSet<ViewMenuRolePower> ViewMenuRolePowers { get; set; }
 
@@ -1130,6 +1136,42 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<ViewBookEvaluate>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_BookEvaluate");
+
+            entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.EType).HasColumnName("E_Type");
+            entity.Property(e => e.EYear).HasColumnName("E_Year");
+            entity.Property(e => e.MId).HasColumnName("M_ID");
+            entity.Property(e => e.MIndex).HasColumnName("M_Index");
+            entity.Property(e => e.MName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("M_Name");
+        });
+
+        modelBuilder.Entity<ViewBookEvaluateTeacher>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_BookEvaluateTeacher");
+
+            entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.LId)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("L_ID");
+            entity.Property(e => e.LName)
+                .HasMaxLength(300)
+                .IsUnicode(false)
+                .HasColumnName("L_NAME");
+            entity.Property(e => e.LUid).HasColumnName("L_UID");
+            entity.Property(e => e.MatchKey2).HasColumnName("matchKey2");
+        });
+
         modelBuilder.Entity<ViewBookEvaluationP>(entity =>
         {
             entity
@@ -1312,6 +1354,23 @@ public partial class DbContextCLEA : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("Sub_Name");
+        });
+
+        modelBuilder.Entity<ViewEvaluateDetailInfo>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_EvaluateDetailInfo");
+
+            entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.EScoreA).HasColumnName("E_ScoreA");
+            entity.Property(e => e.EdId).HasColumnName("ED_ID");
+            entity.Property(e => e.FMatchKey).HasColumnName("F_MatchKey");
+            entity.Property(e => e.MName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("M_Name");
+            entity.Property(e => e.MdPublish).HasColumnName("MD_Publish");
         });
 
         modelBuilder.Entity<ViewMenuRolePower>(entity =>
