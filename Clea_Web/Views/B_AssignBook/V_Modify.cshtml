@@ -4,7 +4,8 @@
 @{
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.ViewClassViewModel.Modify_Score
+@model Clea_Web.ViewModels.AssignBookViewModel.V_ModifyModel
+<div class="main-panel">
 	<div class="content-wrapper">
 		<div class="row">
 
@@ -25,33 +26,25 @@
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<h3>評鑑年度: @(Model.cSTinfo_V.Ev_Year) 年</h3>
+											<h3>評鑑年度: @(Model.bookInfor.Year) 年</h3>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<h3>教師名稱: @(Model.cSTinfo_V.L_Name) ( @(Model.cSTinfo_V.L_ID) )</h3>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-4">
-										<div class="form-group">
-											<h3>課程名稱: @(Model.cSTinfo_V.ClassName) ( @(Model.cSTinfo_V.ClassID) )</h3>
+											<h3>教材名稱: @(Model.bookInfor.B_Name) ( @(Model.bookInfor.B_ID) )</h3>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<h3>科目名稱: @(Model.cSTinfo_V.SubName) ( @(Model.cSTinfo_V.SubID) )</h3>
+											<h3>版本名稱: @(Model.bookInfor.B_Publish) ( @(Model.bookInfor.BP_ID) )</h3>
 										</div>
 									</div>
-
-								</div>
+								</div>								
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-12 grid-margin stretch-card">
-						<a class="btn btn-primary mr-2" href="@Url.Action("G_Index","B_ViewClass", new{ CLUid = Model.cSTinfo_V.CL_UID, Year = Model.cSTinfo_V.Year })">回前頁</a>
+						@* <a class="btn btn-primary mr-2" href="@Url.Action("G_Index","B_ViewClass", new{ CLUid = Model.cLInfo.CL_UID, Year = Model.cSTinfo_V.Year })">回前頁</a> *@
 					</div>
 
 					<!--搜尋End-->
@@ -68,22 +61,22 @@
 										<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
 									</ol>
 									<div class="carousel-inner">
-										@if (Model.picPath.Count() >0)
+										@if (Model.picPath.Count() > 0)
 										{
 											foreach (String path in Model.picPath)
 											{
 												<div class="carousel-item active">
-													<img class="@path" src="..." alt="First slideFFFF">
+													<img class="" src="@path" alt="First slideFFFF">
 												</div>
 											}
 
 										}
 
-@* 										<div class="carousel-item">
-											<img class="d-block w-100" src="..." alt="Second slide">
+										@* 										<div class="carousel-item">
+										<img class="d-block w-100" src="..." alt="Second slide">
 										</div>
 										<div class="carousel-item">
-											<img class="d-block w-100" src="..." alt="Third slide">
+										<img class="d-block w-100" src="..." alt="Third slide">
 										</div> *@
 									</div>
 									<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -101,11 +94,10 @@
 					</div>
 					<!--圖片檢視-->
 					<!--評分表&綜合意見-->
-					<form class="forms-sample" method="post" action="@Url.Action("L_Modify","B_ViewClass")">
+					<form class="forms-sample" method="post" action="@Url.Action("V_Modify","B_AssignBook")">
 						@Html.AntiForgeryToken()
-						@Html.HiddenFor(x => x.scoreModify.CLeID)
-						@Html.HiddenFor(x => x.cSTinfo_V.CL_UID)
-						@Html.HiddenFor(x => x.cSTinfo_V.Year)
+						@Html.HiddenFor(x => x.scoreModify.E_ID)
+						@Html.HiddenFor(x => x.scoreModify.ED_ID)
 						<div class="col-lg-12 grid-margin stretch-card">
 							<div class="card">
 								<div class="card-body">
@@ -114,52 +106,69 @@
 										<table class="table">
 											<thead>
 												<tr>
-													<th>項目</th>
-													<th>分數比例</th>
+													<th>性質</th>
+													<th>評分項目</th>
 													<th>評分</th>
 												</tr>
 											</thead>
 											<tbody>
 												<tr>
-													<td>1.簡報/實習內容符合核定教材版本</td>
-													<td>60</td>
+													<td>
+														<span>正確性</span>
+														<br />
+														<span>(60%)</span>
+													</td>
+													<td>
+														<span>A1.主軸：可達到教學目標、有助於核心能力培養</span>
+														<br />
+														<span>A2.教材章節：符合最新職業安全衛生相關法規、組織架構良好、循序漸進</span>
+														<br />
+														<span>A3.教材內容：文意清楚、文字流暢、可適切傳遞知識技能、實用價值高</span>
+													</td>
 													<td>
 														@Html.TextBoxFor(x => x.scoreModify.Score_A, new { @class = "form-control form-control" })
 														@Html.ValidationMessageFor(x => x.scoreModify.Score_A)
 													</td>
 												</tr>
 												<tr>
-													<td>2.教學大綱與簡報內容正確性與關連性</td>
-													<td>10</td>
+													<td>
+														<span>適用性</span>
+														<br />
+														<span>(20%)</span>													
+													</td>
+													<td>
+														<span>B1.內容深度：教材適合學習對象</span>
+														<br />
+														<span>B2.進度編排：淺顯易懂之內容編排方式、各單元內容份量適宜且完整、</span>
+														<br />
+														<span>B3.與產業實務需求人才培育連結性</span>
+													</td>
 													<td>
 														@Html.TextBoxFor(x => x.scoreModify.Score_B, new { @class = "form-control form-control" })
 														@Html.ValidationMessageFor(x => x.scoreModify.Score_B)
 													</td>
 												</tr>
 												<tr>
-													<td>3.補充教材/法令更新</td>
-													<td>10</td>
+													<td>
+														<span>豐富性</span>
+														<br />
+														<span>(20%)</span>
+
+													</td>
+													<td>
+														<span>C1.教材內容充實、圖文並茂、編排美觀</span>
+														<br />
+														<span>C2.教材內容創新、合時宜、有特色，能引發學生學習動機</span>
+														<br />
+														<span>C3.印刷清晰</span>
+														<br />
+														<span>C4.字體大小合宜性</span>
+													</td>
 													<td>
 														@Html.TextBoxFor(x => x.scoreModify.Score_C, new { @class = "form-control form-control" })
 														@Html.ValidationMessageFor(x => x.scoreModify.Score_C)
 													</td>
-												</tr>
-												<tr>
-													<td>4.相關案例說明</td>
-													<td>10</td>
-													<td>
-														@Html.TextBoxFor(x => x.scoreModify.Score_D, new { @class = "form-control form-control" })
-														@Html.ValidationMessageFor(x => x.scoreModify.Score_D)
-													</td>
-												</tr>
-												<tr>
-													<td>5.字體大小、美編色彩、適度圖案比例</td>
-													<td>10</td>
-													<td>
-														@Html.TextBoxFor(x => x.scoreModify.Score_E, new { @class = "form-control form-control" })
-														@Html.ValidationMessageFor(x => x.scoreModify.Score_E)
-													</td>
-												</tr>
+												</tr>												
 											</tbody>
 										</table>
 									</div>
@@ -179,3 +188,4 @@
 			</div>
 		</div>
 	</div>
+</div>

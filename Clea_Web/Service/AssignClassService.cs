@@ -320,6 +320,9 @@ namespace Clea_Web.Service
 				result.Score_D = eEvaluateDetail.EScoreD;
 				result.Score_E = eEvaluateDetail.EScoreE;
 				result.Remark = eEvaluateDetail.ERemark;
+				result.Syllabus = eEvaluateDetail.ETeachSyllabus;
+				result.Object = eEvaluateDetail.ETeachObject;
+				result.Abstract = eEvaluateDetail.ETeachAbstract;
 			}
 
 			return result;
@@ -347,6 +350,9 @@ namespace Clea_Web.Service
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 				if (eEvaluateDetail != null)
 				{
+					//eEvaluateDetail.ETeachSyllabus = data.Syllabus;
+					//eEvaluateDetail.ETeachObject = data.Object;
+					//eEvaluateDetail.ETeachAbstract = data.Abstract;
 					eEvaluateDetail.EScoreA = data.Score_A;
 					eEvaluateDetail.EScoreB = data.Score_B;
 					eEvaluateDetail.EScoreC = data.Score_C;

@@ -5,6 +5,7 @@
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
 @model Clea_Web.ViewModels.LectorClassViewModel
+<div class="main-panel">
 	<div class="content-wrapper">
 		<div class="row">
 			<!--搜尋-->
@@ -60,6 +61,7 @@
 										<thead>
 											<tr>
 												<th>序</th>
+												<th>年度</th>
 												<th>課程名稱</th>
 												<th>科目名稱</th>
 												<th>檔案上傳</th>
@@ -75,11 +77,12 @@
 													rowCount++;
 													<tr>
 														<td>@rowCount</td>
+														<td>@cMenu.Year</td>
 														<td>@cMenu.ClassName</td>
 														<td>@cMenu.SubName</td>
 														<td>@(cMenu.IsUpload ? "已上傳" : "未上傳")</td>
 														<td>
-															<a href="@Url.Action("Modify", "P_LectorClass", new { CL_UID = cMenu.CL_UID })" class="btn btn-info">編輯</a>
+															<a href="@Url.Action("Modify", "P_LectorClass", new { ED_ID = cMenu.ED_ID })" class="btn btn-info">編輯教學資料</a>
 														</td>
 													</tr>
 												}
@@ -106,6 +109,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 <script type="text/javascript">
 	function resetItem() {
 

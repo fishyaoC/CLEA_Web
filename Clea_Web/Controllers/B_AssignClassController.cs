@@ -20,12 +20,13 @@ namespace Clea_Web.Controllers
 	{
 		private readonly ILogger<B_AssignClassController> _logger;
 		private AssignClassService _assignService;
-
-		public B_AssignClassController(ILogger<B_AssignClassController> logger, dbContext dbCLEA, AssignClassService Service)
+		private FileService _fileService;
+		public B_AssignClassController(ILogger<B_AssignClassController> logger, dbContext dbCLEA, AssignClassService Service, FileService fileService)
 		{
 			_logger = logger;
 			db = dbCLEA;
 			_assignService = Service;
+			_fileService = fileService;
 		}
 
 		#region NEW
@@ -217,7 +218,7 @@ namespace Clea_Web.Controllers
 			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
 
 			vmd.cLInfo = _assignService.getCLinfo(eEvaluateDetail.EId, eEvaluateDetail.MatchKey2);
-			vmd.picPath = _assignService.GetPicList(ED_ID);
+			vmd.picPath = _fileService.GetImageBase64List_PNG(ED_ID);
 			vmd.v_ScoreModel = _assignService.GetVModel(ED_ID);
 			return View(vmd);
 		}
@@ -283,9 +284,9 @@ namespace Clea_Web.Controllers
 				doc.SaveAs(SavePath);
 			}
 
-			FileInfo fi = new FileInfo(SavePath);
-			FileStream fs = new FileStream(fi.FullName, FileMode.Open, FileAccess.Read);
-			return File(fs, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", L_Name + "-教學內容審查表.docx");
+			Byte[] result = System.IO.File.ReadAllBytes(SavePath);
+			System.IO.File.Delete(SavePath);
+			return File(result, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", L_Name + "-教學內容審查表.docx");
 		}
 		#endregion
 

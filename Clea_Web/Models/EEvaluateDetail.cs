@@ -27,6 +27,12 @@ public partial class EEvaluateDetail
 
     public string? ERemark { get; set; }
 
+    public string? ETeachSyllabus { get; set; }
+
+    public string? ETeachObject { get; set; }
+
+    public string? ETeachAbstract { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }
