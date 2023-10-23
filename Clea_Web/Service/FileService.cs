@@ -73,17 +73,112 @@ namespace Clea_Web.Service
 			/// </summary>
 			public string PhysicalFilePath { get; set; } = string.Empty;
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// 檔案上傳
-		/// </summary>
-		/// <param name="mType">功能模組ID 0:課程 1:教材</param>
-		/// <param name="matchKey">MatchKey</param>
-		/// <param name="file">檔案</param>
-		/// <param name="overwrite">是否複寫檔案</param>
-		/// <returns></returns>
-		public bool UploadFile(Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
+        /// <summary>
+        /// 講師進修資料_檔案上傳
+        /// </summary>
+        /// <param name="matchKey">MatchKey</param>
+        /// <param name="file">檔案</param>
+        /// <param name="overwrite">是否複寫檔案</param>
+        /// <returns></returns>
+        public bool UploadAdvFile(Guid matchKey, IFormFile file, bool overwrite = false)
+        {
+
+            //搜尋檔案資料表
+            SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+
+            //刪除
+
+            //如果已經有檔案又沒開複寫就失敗
+            if (sysFile != null && !overwrite)
+            {
+                return false;
+            }
+
+            //取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
+            String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+            //String directory = mType == 0 ? "Handouts" : "Books";
+
+            //取得失敗
+            if (string.IsNullOrEmpty(directory.ToString()))
+            {
+                return false;
+            }
+
+            string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+
+            //如果不存在建立目錄
+            if (!Directory.Exists(physicalPath))
+            {
+                Directory.CreateDirectory(physicalPath);
+            }
+            else
+            {
+
+            }
+
+            if (sysFile == null)
+            {
+                //新檔案
+                sysFile = new SysFile()
+                {
+                    FileId = Guid.NewGuid(),
+                    FModule = "B_LectorAdv",
+                    FMatchKey = matchKey,
+                    FMimeType = GetMimeType(file.FileName),
+                    FFullName = file.FileName,
+                    FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
+                    FNameDl = Guid.NewGuid().ToString(),
+                    FExt = Path.GetExtension(file.FileName).Replace(".", ""),
+                    FPath = directory.ToString(),
+                    FDescription = null,
+                    FOrder = null,
+                    FRemark = null,
+                    Creuser = Guid.Parse(GetUserID(user)),
+                    Credate = DateTime.Now
+                };
+
+                db.SysFiles.Add(sysFile);
+            }
+            else
+            {
+                //已經有檔案
+                sysFile.FFullName = file.FileName;
+                sysFile.FMimeType = GetMimeType(file.FileName);
+                sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
+                sysFile.FNameDl = Guid.NewGuid().ToString();
+                sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
+                sysFile.FPath = directory.ToString();
+                sysFile.Upduser = Guid.Parse(GetUserID(user));
+                sysFile.Upddate = DateTime.Now;
+
+                db.SysFiles.Update(sysFile);
+            }
+
+            //上傳
+            string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+            //string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
+            //String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
+            using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+            {
+                file.CopyTo(fileStream);
+            }
+            db.SaveChanges();
+
+
+            return true;
+        }
+
+        /// <summary>
+        /// 檔案上傳含PPT轉PNG
+        /// </summary>
+        /// <param name="mType">功能模組ID 0:課程 1:教材</param>
+        /// <param name="matchKey">MatchKey</param>
+        /// <param name="file">檔案</param>
+        /// <param name="overwrite">是否複寫檔案</param>
+        /// <returns></returns>
+        public bool UploadFile(Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
 		{
 
 

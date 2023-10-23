@@ -5,6 +5,7 @@ using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using MathNet.Numerics;
 using NPOI.HPSF;
+using NPOI.POIFS.Crypt.Dsig;
 using X.PagedList;
 
 namespace Clea_Web.Service
@@ -13,10 +14,12 @@ namespace Clea_Web.Service
     public class P_LectorAdvService : BaseService
     {
         private B_LectorAdvViewModel.Modify vm = new B_LectorAdvViewModel.Modify();
+        private FileService _fileservice;
 
-        public P_LectorAdvService(dbContext dbContext)
+        public P_LectorAdvService(dbContext dbContext, FileService fileservice)
         {
             db = dbContext;
+            _fileservice = fileservice;
         }
 
         #region Index
@@ -105,6 +108,91 @@ namespace Clea_Web.Service
             return vm;
         }
         #endregion
+
+        #region Save
+        public BaseViewModel.errorMsg SaveData(B_LectorAdvViewModel.Modify vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                CLectorAdvInfo? cl = db.CLectorAdvInfos.Find(vm.LaUid);
+
+                if (cl is null)
+                {
+                    cl = new CLectorAdvInfo();
+                }
+
+                cl.LUid = Guid.Parse(GetUserID(user));
+                cl.LaTitle = vm.LaTitle;
+                cl.LaYear = vm.LaYear;
+
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    cl.Upduser = Guid.Parse(GetUserID(user));
+                    cl.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    cl.LaUid = Guid.NewGuid();
+                    cl.Creuser = Guid.Parse(GetUserID(user));
+                    cl.Credate = DateTime.Now;
+                    db.CLectorAdvInfos.Add(cl);
+                }
+
+                if ( vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if ( vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadAdvFile(cl.LaUid, vm.file);
+                    if (result.CheckMsg)
+                    {
+                        
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
+
+        #region Del
+        public BaseViewModel.errorMsg DelData(Guid U_ID)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            CLectorAdvInfo cl = db.CLectorAdvInfos.Find(U_ID);
+            vm = new B_LectorAdvViewModel.Modify();
+
+            try
+            {
+                db.CLectorAdvInfos.Remove(cl);
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
     }
 }
-

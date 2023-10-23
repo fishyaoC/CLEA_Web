@@ -72,7 +72,7 @@
                                                 @if (item.YearNow == item.LaYear)
                                                 {
                                                     <a href="@Url.Action("Modify","P_LectorAdv", new{LaUid = item.LaUid,YearNow = item.LaYear})" class="btn btn-success">編輯</a>
-                                                    <button type="button" class="btn btn-danger" onclick="del('@item.LUid')">刪除</button>
+                                                    <button type="button" class="btn btn-danger" onclick="del('@item.LaUid')">刪除</button>
                                                 }
                                                 @if (item.YearNow != item.LaYear)
                                                 {
@@ -99,3 +99,69 @@
     </div>
 </div>
 
+<script type="text/javascript">
+    function del(LaUid) {
+        //刪除按紐
+        Swal.fire({
+            title: '是否確定要刪除？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            heightAuto: false
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '../P_LectorAdv/Delete',
+                    data: { LaUid: LaUid },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.chk) {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'success',
+                                title: '刪除成功'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'warning',
+                                title: '刪除失敗',
+                                text: response.msg
+                            });
+                        }
+                    },
+                    error: function (thrownError) {
+                        Swal.fire({
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '確定',
+                            heightAuto: false,
+                            icon: 'warning',
+                            title: '刪除失敗',
+                            text: '系統異常，請洽管理員'
+                        });
+                    }
+                });
+            }
+
+        })
+    }
+
+    function clearForm() {
+        //清除
+        document.getElementById("search-form").reset();
+    }
+</script>

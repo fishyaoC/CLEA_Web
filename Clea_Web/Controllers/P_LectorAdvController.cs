@@ -93,6 +93,32 @@ namespace Clea_Web.Controllers
             }
             return View(vm);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Modify(B_LectorAdvViewModel.Modify vm)
+        {
+            _P_LectorAdvService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _P_LectorAdvService.SaveData(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Index");
+
+            //return RedirectToAction("Index", new { msg = error });
+        }
         #endregion
 
         #region DownloadFile
@@ -107,6 +133,19 @@ namespace Clea_Web.Controllers
             {
                 return Content("<script>alert('查無此檔案');window.close()</script>");
             }
+        }
+        #endregion
+
+        #region Del
+
+        [HttpPost]
+        public IActionResult Delete(Guid LaUid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _P_LectorAdvService.DelData(LaUid);
+
+            return Json(new { chk = true, msg = "" });
+            //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
 
