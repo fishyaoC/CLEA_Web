@@ -101,11 +101,11 @@
                                                     @*<button type="button" class="btn btn-danger" onclick="del('@item.LUid')">刪除</button>*@
                                                     @if (item.YearNow == item.LaYear)
                                                     {
-                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.YearNow})" class="btn btn-success">編輯</a>
+                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-success">編輯</a>
                                                     }
                                                     @if (item.YearNow != item.LaYear)
                                                     {
-                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.YearNow})" class="btn btn-success">閱覽</a>
+                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-success">閱覽</a>
                                                     }
 
                                                 </td>
