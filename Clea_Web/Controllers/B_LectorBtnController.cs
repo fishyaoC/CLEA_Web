@@ -25,7 +25,7 @@ namespace Clea_Web.Controllers
         }
 
 
-        #region 首頁
+        #region 查詢
         public IActionResult Index(String? data, Int32? page)
         {
             B_LectorBtnViewModel.SchModel vmd = new B_LectorBtnViewModel.SchModel();

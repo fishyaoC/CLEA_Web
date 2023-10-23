@@ -117,7 +117,12 @@ namespace Clea_Web.Service
 		{
 			List<AssignClassViewModel.CL> result = new List<AssignClassViewModel.CL>();
 
-			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID);
+			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
+
+
+
+
+			List<EEvaluateDetail> lst_ED = db.EEvaluateDetails.Where(x => x.EId == E_ID).ToList();
 
 			result = (from CL in db.ViewClassLectors
 					  where
@@ -126,16 +131,19 @@ namespace Clea_Web.Service
 					  (string.IsNullOrEmpty(data.S_Name) || CL.CName.Contains(data.S_Name)) &&
 					  (string.IsNullOrEmpty(data.L_Name) || CL.LName.Contains(data.L_Name))
 					  )
-					  join ed in db.EEvaluateDetails on CL.ClUid equals ed.MatchKey2
+					  //join ed in db.EEvaluateDetails on CL.ClUid equals ed.MatchKey2
 					  select new AssignClassViewModel.CL()
 					  {
-						  ED_ID = ed.EdId,
+						  ED_ID = E_ID,
 						  CL_UID = CL.ClUid,
 						  C_Name = CL.CName,
 						  S_Name = CL.DName,
 						  L_Name = CL.LName,
-						  IsEvaluate = ed.EScoreA == null ? false : true
+						  IsEvaluate = (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault() == null ? false : (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault().EScoreA == null ? false : true
 					  }).OrderBy(x => x.S_Name).ThenBy(x => x.L_Name).ToList();
+
+
+
 
 			return result.ToPagedList(page, pagesize);
 		}

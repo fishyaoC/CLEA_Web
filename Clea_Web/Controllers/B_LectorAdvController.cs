@@ -6,10 +6,12 @@ using Clea_Web.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using NPOI.POIFS.Crypt.Dsig;
+using NPOI.HPSF;
+using System.IO;
 
 namespace Clea_Web.Controllers
 {
-    //後台講師專區-公佈欄
+    //後台講師專區-講師進修資料管理
     public class B_LectorAdvController : BaseController
     {
         private readonly ILogger<B_LectorAdvController> _logger;
@@ -25,7 +27,7 @@ namespace Clea_Web.Controllers
         }
 
 
-        #region 首頁
+        #region Index
         public IActionResult Index(String? data, Int32? page)
         {
             B_LectorAdvViewModel.SchModel vmd = new B_LectorAdvViewModel.SchModel();
@@ -54,184 +56,48 @@ namespace Clea_Web.Controllers
             return View(vmd);
         }
         #endregion
-        #region 新增、編輯
-        //public IActionResult Modify(String Type, String? R_ID)
-        public IActionResult Modify(string Uid)
+
+        #region D_Index
+        public IActionResult D_Index(String LUid, int YearNow, String? data, Int32? page)
+        {
+            B_LectorAdvViewModel.D_Model vmd = new B_LectorAdvViewModel.D_Model();
+            page = page ?? 1;
+
+
+            vmd.D_PageList = _B_LectorAdvService.D_schPages(LUid, YearNow, page.Value, 15);
+            vmd.YearNow = YearNow;
+
+            CLector cl = db.CLectors.Where(x => x.LUid.ToString() == LUid).FirstOrDefault();
+            vmd.LName = cl.LName;
+
+            return View(vmd);
+        }
+        #endregion
+
+        #region Modify
+        public IActionResult Modify(string LUid)
         {
             B_LectorAdvViewModel.Modify? vm = null;
-            
-            if (!string.IsNullOrEmpty(Uid))
-            {
-                //編輯
-                vm = _B_LectorAdvService.GetEditData(Uid);
-                vm.IsEdit = true;
-            }
-            else
-            {
-                //新增
-                vm = new B_LectorAdvViewModel.Modify();
-            }
 
-            //vm.DropDownList = getTeacherItem();
+            if (!string.IsNullOrEmpty(LUid))
+            {
+                vm = _B_LectorAdvService.GetEditData(LUid);
+            }
             return View(vm);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Modify(B_LectorAdvViewModel.Modify vm)
-        {
-            _B_LectorAdvService.user = User;
-            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _B_LectorAdvService.SaveData(vm);
-
-            //SWAL儲存成功
-            if (error.CheckMsg)
-            {
-                TempData["TempMsgType"] = "success";
-                TempData["TempMsgTitle"] = "儲存成功";
-            }
-            else
-            {
-                TempData["TempMsgType"] = "error";
-                TempData["TempMsgTitle"] = "儲存失敗";
-                TempData["TempMsg"] = error.ErrorMsg;
-            }
-
-            return RedirectToAction("Index");
-        }
         #endregion
-        #region 教師下拉選單
-        public List<SelectListItem> getTeacherItem()
-        {
-            List<SelectListItem> result = new List<SelectListItem>();
-            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysCode> lst_cLectors = db.SysCodes.Where(x=>x.CParentCode== "L_Tpye").ToList();
-            if (lst_cLectors != null && lst_cLectors.Count() > 0)
+
+        #region DownloadFile
+        public ActionResult DownloadFile(String FilePath) {
+            try
             {
-                foreach (SysCode L in lst_cLectors)
-                {
-                    result.Add(new SelectListItem() { Text = L.CItemName, Value = L.Uid.ToString() });
-                }
+                FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return File(stream, "application/octet-stream", FilePath); //MME 格式 可上網查 此為通用設定
             }
-            return result;
-        }
-        public List<SelectListItem> getsysuserItem()
-        {
-            List<SelectListItem> result = new List<SelectListItem>();
-            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysUser> lst_sysuser = db.SysUsers.ToList();
-            if (lst_sysuser != null && lst_sysuser.Count() > 0)
+            catch (System.Exception)
             {
-                foreach (SysUser L in lst_sysuser)
-                {
-                    result.Add(new SelectListItem() { Text = L.UName, Value = L.UId.ToString() });
-                }
+                return Content("<script>alert('查無此檔案');window.close()</script>");
             }
-            return result;
-        }
-        public List<SelectListItem> getTypeItem()
-        {
-            List<SelectListItem> result = new List<SelectListItem>();
-            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysCode> lst_cLectors = db.SysCodes.Where(x => x.CParentCode == "btnType").ToList();
-            if (lst_cLectors != null && lst_cLectors.Count() > 0)
-            {
-                foreach (SysCode L in lst_cLectors)
-                {
-                    result.Add(new SelectListItem() { Text = L.CItemName, Value = L.CItemCode.ToString() });
-                }
-            }
-            return result;
-        }
-        #endregion
-        //#region 上傳檔案
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Modify([FromForm] B_LectorAdvViewModel.Modify data)
-        //{
-        //    BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
-        //    _B_LectorAdvService.user = User;
-        //    _fileService.user = User;
-
-        //    String chkExt = Path.GetExtension(data.file.FileName);
-
-        //    if (!string.IsNullOrEmpty(chkExt))
-        //    {
-        //        result.CheckMsg = Convert.ToBoolean(_fileService.UploadFile(1, data.R_ID, data.file, true));
-        //    }
-        //    else
-        //    {
-        //        result.CheckMsg = false;
-        //        result.ErrorMsg = "請選擇檔案!";
-        //    }
-
-        //    if (result.CheckMsg)
-        //    {
-        //        TempData["TempMsgType"] = "success";
-        //        TempData["TempMsgTitle"] = "檔案上傳成功";
-        //    }
-        //    else
-        //    {
-        //        TempData["TempMsgType"] = "error";
-        //        TempData["TempMsgTitle"] = "檔案上傳失敗";
-        //        TempData["TempMsg"] = result.ErrorMsg;
-        //    }
-
-        //    if (!string.IsNullOrEmpty(result.ErrorMsg))
-        //    {
-        //        return RedirectToAction("Modify", new { News_ID = data.News_ID });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //}
-        //#endregion
-        //#region 刪除檔案
-        //public IActionResult Delete(Guid File_ID)
-        //{
-        //    BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
-        //    Guid B_UID = Guid.Empty;
-        //    SysFile? sysFile = db.SysFiles.Find(File_ID) ?? null;
-
-        //    if (sysFile != null)
-        //    {
-        //        B_UID = sysFile.FMatchKey;
-        //        db.SysFiles.Remove(sysFile);
-        //        result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-        //    }
-        //    else
-        //    {
-        //        result.CheckMsg = false;
-        //        result.ErrorMsg = "查無此筆資料!";
-        //    }
-
-        //    if (result.CheckMsg)
-        //    {
-        //        TempData["TempMsgType"] = "success";
-        //        TempData["TempMsgTitle"] = "刪除成功";
-        //    }
-        //    else
-        //    {
-        //        TempData["TempMsgType"] = "error";
-        //        TempData["TempMsgTitle"] = "刪除失敗";
-        //        TempData["TempMsg"] = result.ErrorMsg;
-        //    }
-
-        //    return RedirectToAction("Modify", new { B_UID = B_UID });
-        //}
-        //#endregion
-        #region 刪除
-
-        [HttpPost]
-        public IActionResult Delete(Guid Uid)
-        {
-            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _B_LectorAdvService.DelData(Uid);
-
-            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
-            //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
     }

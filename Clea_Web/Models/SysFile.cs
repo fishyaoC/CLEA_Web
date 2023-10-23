@@ -20,6 +20,8 @@ public partial class SysFile
     /// </summary>
     public Guid FMatchKey { get; set; }
 
+    public string? FMatchKey2 { get; set; }
+
     public string FFullName { get; set; } = null!;
 
     /// <summary>

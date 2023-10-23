@@ -37,7 +37,7 @@ namespace Clea_Web.Service
 					{
 						CClass? cClass = db.CClasses.Find(eEvaluate.MatchKey) ?? null;
 						CClassLector? cClassLector = db.CClassLectors.Find(eEvaluateDetail.MatchKey2) ?? null;
-						CClassSubject? cClassSubject = db.CClassSubjects.Where(x => x.CUid == cClassLector.DUid).FirstOrDefault();
+						CClassSubject? cClassSubject = db.CClassSubjects.Where(x => x.DUid == cClassLector.DUid).FirstOrDefault();
 						traf.ClassName_BookName = cClass.CName;
 						traf.SubName_PName = cClassSubject.DName;
 					}

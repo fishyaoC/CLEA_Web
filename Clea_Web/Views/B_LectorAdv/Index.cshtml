@@ -32,7 +32,7 @@
                                             <label for="exampleInputName1" class="col-sm-3 col-form-label">年度</label>
                                             @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(x => x.LaYear, new { @class = "form-control form-control", placeholder = "年度" })
+                                                @Html.TextBoxFor(x => x.schItem.LaYear, new { @class = "form-control form-control", placeholder = "年度" })
                                             </div>
                                         </div>
                                     </div>
@@ -41,7 +41,7 @@
                                             <label for="exampleInputEmail3" class="col-sm-3 col-form-label">講師</label>
                                             @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
                                             <div class="col-sm-9">
-                                                @Html.TextBoxFor(x => x.schItem.s_type, new { @class = "form-control form-control", placeholder = "講師" })
+                                                @Html.TextBoxFor(x => x.schItem.LName, new { @class = "form-control form-control", placeholder = "講師" })
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +61,7 @@
 
             <div class="mb-2 mt-2">
 
-                <a href="@Url.Action("Modify","B_LectorAdv", new{NewsID = ""})" class="btn btn-info">新增</a>
+                @*<a href="@Url.Action("Modify","B_LectorAdv", new{NewsID = ""})" class="btn btn-info">新增</a>*@
                 @*<button type="button" class="btn btn-info">新增</button>*@
                 @* <button type="button" class="btn btn-danger">刪除</button> *@
             </div>
@@ -79,25 +79,35 @@
                                 <thead>
                                     <tr>
                                         <th>序</th>
-                                        <th>標題</th>
-                                        <th>檔案名稱</th>
+                                        <th>年度</th>
+                                        <th>講師</th>
                                         <th>動作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @if (Model.schPageList2.Count > 0)
                                     {
+                                        Int32 rowCount = 0;
                                         foreach (var item in Model.schPageList2)
                                         {
+                                            rowCount++;
                                             <tr>
-                                                <td></td>
-                                                <td>@item.LaTitle</td>
-                                                <td></td>
+                                                <td>@rowCount</td>
+                                                <td>@item.LaYear</td>
+                                                <td>@item.LName</td>
                                                 <td>
-                                                    @*編輯、刪除*@
+                                                    @*編輯、閱覽*@
                                                     @* <button type="button" class="btn btn-success">編輯</button> *@
-                                                    <a href="@Url.Action("Modify","B_LectorAdv", new{Uid = item.LUid})" class="btn btn-success">編輯</a>
-                                                    <button type="button" class="btn btn-danger" onclick="del('@item.LUid')">刪除</button>
+                                                    @*<button type="button" class="btn btn-danger" onclick="del('@item.LUid')">刪除</button>*@
+                                                    @if (item.YearNow == item.LaYear)
+                                                    {
+                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.YearNow})" class="btn btn-success">編輯</a>
+                                                    }
+                                                    @if (item.YearNow != item.LaYear)
+                                                    {
+                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.YearNow})" class="btn btn-success">閱覽</a>
+                                                    }
+
                                                 </td>
                                             </tr>
                                         }

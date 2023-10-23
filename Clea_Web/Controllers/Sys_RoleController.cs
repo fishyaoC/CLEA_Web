@@ -46,7 +46,7 @@ namespace Clea_Web.Controllers
                 vm = new UserRoleViewModel.Modify();
             }
             vm.rolePowerListP = db.ViewMenuRolePowers.Where(x => x.MType.Equals("P")).ToList();
-            vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B")).ToList();
+            vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B") && x.MLevel == 1 ).OrderBy(x => x.MOrder).ToList();
 
             return View(vm);
         }

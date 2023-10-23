@@ -872,6 +872,10 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.FMatchKey)
                 .HasComment("功能主KEY")
                 .HasColumnName("F_MatchKey");
+            entity.Property(e => e.FMatchKey2)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("F_MatchKey2");
             entity.Property(e => e.FMimeType)
                 .HasMaxLength(150)
                 .IsUnicode(false)

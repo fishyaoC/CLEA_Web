@@ -110,7 +110,9 @@ namespace Clea_Web.Service
 					Creuser = Guid.Parse(GetUserID(user)),
 					Credate = DateTime.Now
 				};
+				db.EEvaluates.Add(eEvaluate);
 				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				//db.SaveChanges();
 			}
 			catch (Exception ex)
 			{
@@ -342,7 +344,7 @@ namespace Clea_Web.Service
 					}
 				}
 
-				CellRangeAddress range0 = new CellRangeAddress(0, 0, 1, PublishCount);
+				CellRangeAddress range0 = new CellRangeAddress(0, 0, 1, PublishCount == 0 ? 3 : PublishCount);
 				sheet.AddMergedRegion(range0);
 
 				for (int x = 0; x < lst_Header.Length; x++)

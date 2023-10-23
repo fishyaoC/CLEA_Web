@@ -50,7 +50,8 @@ namespace Clea_Web.Controllers
 			{
 				CLector? cLector = db.CLectors.Find(eEvaluateDetail.Reception) ?? null;
 				CClass? cClass = db.CClasses.Find(eEvaluate.MatchKey) ?? null;
-				CClassSubject? cClassSubject = db.CClassSubjects.Where(x => x.CUid == cClass.CUid).FirstOrDefault();
+				CClassLector? cClassLector = db.CClassLectors.Find(eEvaluateDetail.MatchKey2) ?? null;
+				CClassSubject? cClassSubject = db.CClassSubjects.Where(x => x.DUid == cClassLector.DUid).FirstOrDefault();
 				L_name = cLector.LName;
 				C_B_name = cClass.CName;
 				S_P_name = cClassSubject.DName;
