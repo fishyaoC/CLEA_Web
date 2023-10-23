@@ -53,6 +53,8 @@ namespace Clea_Web.ViewModels
 
         public class D_PageList
         {
+            public String LaUid { get; set; }
+
             public String LUid { get; set; }
             public String LName { get; set; }
             public int? LaYear { get; set; }
@@ -83,6 +85,15 @@ namespace Clea_Web.ViewModels
             public String? FExt { get; set; }
             [DisplayName("檔案PK")]
             public Guid? FileID { get; set; }
+            /// <summary>
+            /// 編輯狀態 True = 編輯 ; False = 新增
+            /// </summary>
+            [DisplayName("編輯狀態")]
+            public Boolean IsEdit { get; set; } = false;
+
+            [DisplayName("上傳檔案")]
+            [Required(ErrorMessage = "請選擇上傳檔案!")]
+            public IFormFile file { get; set; }
         }
         #endregion
 

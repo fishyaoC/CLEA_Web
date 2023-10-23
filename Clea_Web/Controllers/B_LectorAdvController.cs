@@ -75,13 +75,13 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region Modify
-        public IActionResult Modify(string LUid)
+        public IActionResult Modify(string LaUid)
         {
             B_LectorAdvViewModel.Modify? vm = null;
 
-            if (!string.IsNullOrEmpty(LUid))
+            if (!string.IsNullOrEmpty(LaUid))
             {
-                vm = _B_LectorAdvService.GetEditData(LUid);
+                vm = _B_LectorAdvService.GetEditData(LaUid);
             }
             return View(vm);
         }

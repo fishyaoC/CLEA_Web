@@ -36,13 +36,13 @@
         </div>
         <!--資訊End-->
         <div class="mb-2 mt-2">
-            <a class="btn btn-primary mr-2" href="@Url.Action("Index","B_LectorAdv")">回前頁</a>
+            <a class="btn btn-primary mr-2" href="@Url.Action("Index","P_LectorAdv")">回前頁</a>
         </div>
         <!--資料Table-->
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">講師進修資料管理 - @(Model.LName) 的 @(Model.YearNow) 年 進修資料</h4>
+                    <h4 class="card-title">@(Model.YearNow) 年進修資料</h4>
                     @*<p class="card-description">
                     Add class <code>.table</code>
                     </p> *@
@@ -68,8 +68,16 @@
                                             <td>@item.LaTitle</td>
                                             <td>@item.FileName</td>
                                             <td>
-                                                @*閱覽*@
-                                                <a href="@Url.Action("Modify","B_LectorAdv", new{LaUid = item.LaUid,YearNow = item.YearNow})" class="btn btn-success">閱覽</a>
+                                                @*編輯、刪除*@
+                                                @if (item.YearNow == item.LaYear)
+                                                {
+                                                    <a href="@Url.Action("Modify","P_LectorAdv", new{LaUid = item.LaUid,YearNow = item.LaYear})" class="btn btn-success">編輯</a>
+                                                    <button type="button" class="btn btn-danger" onclick="del('@item.LUid')">刪除</button>
+                                                }
+                                                @if (item.YearNow != item.LaYear)
+                                                {
+                                                    <a href="@Url.Action("V_Modify","P_LectorAdv", new{LaUid = item.LaUid,YearNow = item.LaYear})" class="btn btn-success">閱覽</a>
+                                                }
                                             </td>
                                         </tr>
                                     }

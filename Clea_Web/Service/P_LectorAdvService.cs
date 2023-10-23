@@ -9,12 +9,12 @@ using X.PagedList;
 
 namespace Clea_Web.Service
 {
-    //後台講師專區-講師進修資料管理
-    public class B_LectorAdvService : BaseService
+    //前台講師專區-我的進修資料
+    public class P_LectorAdvService : BaseService
     {
         private B_LectorAdvViewModel.Modify vm = new B_LectorAdvViewModel.Modify();
 
-        public B_LectorAdvService(dbContext dbContext)
+        public P_LectorAdvService(dbContext dbContext)
         {
             db = dbContext;
         }
@@ -32,16 +32,12 @@ namespace Clea_Web.Service
         public List<B_LectorAdvViewModel.schPageList> GetPageLists(B_LectorAdvViewModel.SchItem data)
         {
             List<B_LectorAdvViewModel.schPageList> result = new List<B_LectorAdvViewModel.schPageList>();
-
+            Guid userId = Guid.Parse(GetUserID(user));
 
             result = (from la in db.CLectorAdvInfos
                       join l in db.CLectors on la.LUid equals l.LUid
                       group la by new { l.LUid, l.LName, la.LaYear } into grp
-                      where
-                      (
-                      (string.IsNullOrEmpty(data.LaYear) || grp.Key.LaYear.ToString().Contains(data.LaYear)) &&
-                      (string.IsNullOrEmpty(data.LName) || grp.Key.LName.Contains(data.LName))
-                      )
+                      where (grp.Key.LUid.ToString() == "C9516EA2-F895-4AA6-A7BF-902DE58161E3")
                       select new B_LectorAdvViewModel.schPageList
                       {
                           //LUid = (from lector in db.CLectors where grp.Key.LName.Equals(lector.LUid) select lector).FirstOrDefault().LName,
@@ -74,14 +70,16 @@ namespace Clea_Web.Service
                           LaUid = la.LaUid.ToString(),
                           LUid = la.LUid.ToString(),
                           LaTitle = la.LaTitle,
+                          LaYear = la.LaYear,
                           FileName = sf.FNameReal + sf.FExt,
+                          YearNow = DateTime.Now.Year - 1911,
                       }).ToList();
 
             return result;
         }
         #endregion
 
-        #region Modify
+        #region V_Modify
         public B_LectorAdvViewModel.Modify GetEditData(string LaUid)
         {
             //撈資料
@@ -101,12 +99,12 @@ namespace Clea_Web.Service
                 vm.FNameReal = sf.FNameReal;
                 vm.FilePath = sf.FPath;
                 vm.FExt = sf.FExt;
+                vm.IsEdit = true;
                 vm.UptDate = la.Upddate == null ? la.Credate.ToShortDateString() : la.Upddate.Value.ToShortDateString();
             }
             return vm;
         }
         #endregion
-
     }
 }
 
