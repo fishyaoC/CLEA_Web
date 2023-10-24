@@ -122,12 +122,12 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region DownloadFile
-        public ActionResult DownloadFile(String FilePath)
+        public ActionResult DownloadFile(String FilePath, String FileName)
         {
             try
             {
                 FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                return File(stream, "application/octet-stream", FilePath); //MME 格式 可上網查 此為通用設定
+                return File(stream, "application/octet-stream", FileName); //MME 格式 可上網查 此為通用設定
             }
             catch (System.Exception)
             {

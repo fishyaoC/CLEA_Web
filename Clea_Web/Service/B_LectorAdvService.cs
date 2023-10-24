@@ -13,10 +13,13 @@ namespace Clea_Web.Service
     public class B_LectorAdvService : BaseService
     {
         private B_LectorAdvViewModel.Modify vm = new B_LectorAdvViewModel.Modify();
+        private IConfiguration configuration;
 
-        public B_LectorAdvService(dbContext dbContext)
+
+        public B_LectorAdvService(dbContext dbContext, IConfiguration configuration)
         {
             db = dbContext;
+            this.configuration = configuration;
         }
 
         #region Index
@@ -74,7 +77,7 @@ namespace Clea_Web.Service
                           LaUid = la.LaUid.ToString(),
                           LUid = la.LUid.ToString(),
                           LaTitle = la.LaTitle,
-                          FileName = sf.FNameReal + sf.FExt,
+                          FileName = sf.FFullName,
                       }).ToList();
 
             return result;
@@ -89,6 +92,9 @@ namespace Clea_Web.Service
             SysFile sf = db.SysFiles.Where(x => x.FMatchKey.ToString() == la.LaUid.ToString()).FirstOrDefault();
             CLector l = db.CLectors.Where(x => x.LUid == la.LUid).FirstOrDefault();
 
+            string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath , fileNameDL);
+
             vm = new B_LectorAdvViewModel.Modify();
             if (la != null && sf != null && l != null)
             {
@@ -98,9 +104,10 @@ namespace Clea_Web.Service
                 vm.LaTitle = la.LaTitle;
                 vm.LName = l.LName;
                 vm.FileID = sf.FileId;
-                vm.FNameReal = sf.FNameReal;
-                vm.FilePath = sf.FPath;
-                vm.FExt = sf.FExt;
+                //vm.FNameReal = sf.FNameReal;
+                vm.FileName = sf.FFullName;
+                vm.FilePath = filePath;
+                //vm.FExt = sf.FExt;
                 vm.UptDate = la.Upddate == null ? la.Credate.ToShortDateString() : la.Upddate.Value.ToShortDateString();
             }
             return vm;

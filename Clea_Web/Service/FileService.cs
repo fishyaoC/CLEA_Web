@@ -82,7 +82,7 @@ namespace Clea_Web.Service
         /// <param name="file">檔案</param>
         /// <param name="overwrite">是否複寫檔案</param>
         /// <returns></returns>
-        public bool UploadAdvFile(Guid matchKey, IFormFile file, bool overwrite = false)
+        public bool UploadAdvFile(Guid matchKey, IFormFile file, bool overwrite = true)
         {
 
             //搜尋檔案資料表

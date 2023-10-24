@@ -86,7 +86,7 @@
                                     <div class="form-group row">
                                         <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
                                         <div class="col-sm-9">
-                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath})" class="btn btn-success">@Model.FNameReal @Model.FExt</a>
+                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
                                         </div>
                                     </div>
                                 </div>

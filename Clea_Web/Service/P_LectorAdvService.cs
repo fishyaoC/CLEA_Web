@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using Clea_Web.Models;
@@ -15,11 +16,13 @@ namespace Clea_Web.Service
     {
         private B_LectorAdvViewModel.Modify vm = new B_LectorAdvViewModel.Modify();
         private FileService _fileservice;
+        private IConfiguration configuration;
 
-        public P_LectorAdvService(dbContext dbContext, FileService fileservice)
+        public P_LectorAdvService(dbContext dbContext, FileService fileservice, IConfiguration configuration)
         {
             db = dbContext;
             _fileservice = fileservice;
+            this.configuration = configuration;
         }
 
         #region Index
@@ -40,7 +43,7 @@ namespace Clea_Web.Service
             result = (from la in db.CLectorAdvInfos
                       join l in db.CLectors on la.LUid equals l.LUid
                       group la by new { l.LUid, l.LName, la.LaYear } into grp
-                      where (grp.Key.LUid.ToString() == "C9516EA2-F895-4AA6-A7BF-902DE58161E3")
+                      where (grp.Key.LUid == userId)
                       select new B_LectorAdvViewModel.schPageList
                       {
                           //LUid = (from lector in db.CLectors where grp.Key.LName.Equals(lector.LUid) select lector).FirstOrDefault().LName,
@@ -74,7 +77,7 @@ namespace Clea_Web.Service
                           LUid = la.LUid.ToString(),
                           LaTitle = la.LaTitle,
                           LaYear = la.LaYear,
-                          FileName = sf.FNameReal + sf.FExt,
+                          FileName = sf.FFullName,
                           YearNow = DateTime.Now.Year - 1911,
                       }).ToList();
 
@@ -89,6 +92,8 @@ namespace Clea_Web.Service
             CLectorAdvInfo la = db.CLectorAdvInfos.Where(x => x.LaUid.ToString() == LaUid).FirstOrDefault();
             SysFile sf = db.SysFiles.Where(x => x.FMatchKey.ToString() == la.LaUid.ToString()).FirstOrDefault();
             CLector l = db.CLectors.Where(x => x.LUid == la.LUid).FirstOrDefault();
+            string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
 
             vm = new B_LectorAdvViewModel.Modify();
             if (la != null && sf != null && l != null)
@@ -99,9 +104,10 @@ namespace Clea_Web.Service
                 vm.LaTitle = la.LaTitle;
                 vm.LName = l.LName;
                 vm.FileID = sf.FileId;
-                vm.FNameReal = sf.FNameReal;
-                vm.FilePath = sf.FPath;
-                vm.FExt = sf.FExt;
+                //vm.FNameReal = sf.FNameReal;
+                vm.FilePath = filePath;
+                vm.FileName = sf.FFullName;
+                //vm.FExt = sf.FExt;
                 vm.IsEdit = true;
                 vm.UptDate = la.Upddate == null ? la.Credate.ToShortDateString() : la.Upddate.Value.ToShortDateString();
             }
@@ -122,7 +128,6 @@ namespace Clea_Web.Service
                     cl = new CLectorAdvInfo();
                 }
 
-                cl.LUid = Guid.Parse(GetUserID(user));
                 cl.LaTitle = vm.LaTitle;
                 cl.LaYear = vm.LaYear;
 
@@ -136,22 +141,24 @@ namespace Clea_Web.Service
                 {
                     //新增
                     cl.LaUid = Guid.NewGuid();
+                    cl.LUid = Guid.Parse(GetUserID(user));
                     cl.Creuser = Guid.Parse(GetUserID(user));
                     cl.Credate = DateTime.Now;
                     db.CLectorAdvInfos.Add(cl);
                 }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 
-                if ( vm.file == null)
+                if (vm.file == null)
                 {
                     result.CheckMsg = true;
                 }
-                else if ( vm.file != null)
+                else if (vm.file != null)
                 {
                     _fileservice.user = user;
                     result.CheckMsg = _fileservice.UploadAdvFile(cl.LaUid, vm.file);
                     if (result.CheckMsg)
                     {
-                        
+
                     }
                     else
                     {
@@ -159,7 +166,6 @@ namespace Clea_Web.Service
                         result.ErrorMsg = "檔案上傳失敗";
                     }
                 }
-                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
             }
             catch (Exception e)
             {
