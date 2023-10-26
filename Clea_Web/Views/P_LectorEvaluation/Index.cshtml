@@ -45,7 +45,14 @@
 															@(ev.ClassName_BookName + " / " + ev.SubName_PName)
 														</td>
 														<td>
-															<a href="@Url.Action("Modify","P_LectorEvaluation", new { ED_ID = ev.ED_ID })" class="btn btn-info">評分</a>
+															@if (ev.IsUpload)
+															{
+																<a href="@Url.Action("Modify","P_LectorEvaluation", new { ED_ID = ev.ED_ID })" class="btn btn-info">評分</a>
+															}
+															else
+															{
+																<button type="button" class="btn btn-info" disabled="disabled">待授課教師上傳檔案</button>
+															}
 														</td>
 													</tr>
 												}

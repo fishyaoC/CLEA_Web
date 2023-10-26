@@ -5,6 +5,8 @@ namespace Clea_Web.Models;
 
 public partial class ViewClassLector
 {
+    public Guid? EdId { get; set; }
+
     public Guid ClUid { get; set; }
 
     public Guid? CUid { get; set; }

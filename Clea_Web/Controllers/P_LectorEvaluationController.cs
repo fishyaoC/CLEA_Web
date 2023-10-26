@@ -92,6 +92,7 @@ namespace Clea_Web.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult Modify(LectorEvaluationViewModel.ScoreModel data)
 		{
+			_lectorEvaluationService.user = User;
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			result = _lectorEvaluationService.SaveScoreData(data.scoreModify);
 

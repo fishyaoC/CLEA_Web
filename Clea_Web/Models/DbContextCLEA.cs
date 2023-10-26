@@ -507,10 +507,14 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser).HasColumnName("CREUSER");
-            entity.Property(e => e.EdId).HasColumnName("ED_ID");
+            entity.Property(e => e.EdId)
+                .HasComment("評核PK")
+                .HasColumnName("ED_ID");
             entity.Property(e => e.FileFullName)
                 .HasMaxLength(150)
-                .IsUnicode(false);
+                .IsUnicode(false)
+                .HasComment("檔案全名");
+            entity.Property(e => e.IsUpdate).HasComment("是否為重大更新");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
@@ -530,9 +534,15 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser).HasColumnName("CREUSER");
-            entity.Property(e => e.EType).HasColumnName("E_Type");
-            entity.Property(e => e.EYear).HasColumnName("E_Year");
-            entity.Property(e => e.MatchKey).HasColumnName("matchKey");
+            entity.Property(e => e.EType)
+                .HasComment("0:課程 1:教材")
+                .HasColumnName("E_Type");
+            entity.Property(e => e.EYear)
+                .HasComment("評核年度")
+                .HasColumnName("E_Year");
+            entity.Property(e => e.MatchKey)
+                .HasComment("BOOK OR CLASS PK")
+                .HasColumnName("matchKey");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
@@ -556,6 +566,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.ERemark)
                 .HasMaxLength(500)
                 .IsUnicode(false)
+                .HasComment("審核意見")
                 .HasColumnName("E_Remark");
             entity.Property(e => e.EScoreA).HasColumnName("E_ScoreA");
             entity.Property(e => e.EScoreB).HasColumnName("E_ScoreB");
@@ -565,16 +576,23 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.ETeachAbstract)
                 .HasMaxLength(1000)
                 .IsUnicode(false)
+                .HasComment("教學內容")
                 .HasColumnName("E_TeachAbstract");
             entity.Property(e => e.ETeachObject)
                 .HasMaxLength(1000)
                 .IsUnicode(false)
+                .HasComment("課程目標")
                 .HasColumnName("E_TeachObject");
             entity.Property(e => e.ETeachSyllabus)
                 .HasMaxLength(1000)
                 .IsUnicode(false)
+                .HasComment("課程大綱")
                 .HasColumnName("E_TeachSyllabus");
-            entity.Property(e => e.MatchKey2).HasColumnName("matchKey2");
+            entity.Property(e => e.Evaluate).HasComment("評核人員");
+            entity.Property(e => e.MatchKey2)
+                .HasComment("CL OR BOOKDETAIL PK")
+                .HasColumnName("matchKey2");
+            entity.Property(e => e.Reception).HasComment("受評人員");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
@@ -864,10 +882,12 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.FExt)
                 .HasMaxLength(50)
                 .IsUnicode(false)
+                .HasComment("副檔名")
                 .HasColumnName("F_Ext");
             entity.Property(e => e.FFullName)
                 .HasMaxLength(150)
                 .IsUnicode(false)
+                .HasComment("檔案全名")
                 .HasColumnName("F_FullName");
             entity.Property(e => e.FMatchKey)
                 .HasComment("功能主KEY")
@@ -879,6 +899,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.FMimeType)
                 .HasMaxLength(150)
                 .IsUnicode(false)
+                .HasComment("檔案類型")
                 .HasColumnName("F_MimeType");
             entity.Property(e => e.FModule)
                 .HasMaxLength(50)
@@ -906,6 +927,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.FRemark)
                 .HasMaxLength(250)
                 .IsUnicode(false)
+                .HasComment("檔案備註")
                 .HasColumnName("F_Remark");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
@@ -1212,6 +1234,7 @@ public partial class DbContextCLEA : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("D_Name");
+            entity.Property(e => e.EdId).HasColumnName("ED_ID");
             entity.Property(e => e.LName)
                 .HasMaxLength(300)
                 .IsUnicode(false)

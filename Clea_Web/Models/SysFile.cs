@@ -22,6 +22,9 @@ public partial class SysFile
 
     public string? FMatchKey2 { get; set; }
 
+    /// <summary>
+    /// 檔案全名
+    /// </summary>
     public string FFullName { get; set; } = null!;
 
     /// <summary>
@@ -34,8 +37,14 @@ public partial class SysFile
     /// </summary>
     public string FNameDl { get; set; } = null!;
 
+    /// <summary>
+    /// 檔案類型
+    /// </summary>
     public string FMimeType { get; set; } = null!;
 
+    /// <summary>
+    /// 副檔名
+    /// </summary>
     public string FExt { get; set; } = null!;
 
     /// <summary>
@@ -53,6 +62,9 @@ public partial class SysFile
     /// </summary>
     public int? FOrder { get; set; }
 
+    /// <summary>
+    /// 檔案備註
+    /// </summary>
     public string? FRemark { get; set; }
 
     public Guid Creuser { get; set; }

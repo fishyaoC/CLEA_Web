@@ -24,7 +24,8 @@ namespace Clea_Web.Service
 					  {
 						  ED_ID = ed.EdId,
 						  Year = (from e in db.EEvaluates where e.EId == ed.EId select e).FirstOrDefault().EYear,
-						  mType = (from e in db.EEvaluates where e.EId == ed.EId select e).FirstOrDefault().EType == 0 ? "課程" : "教材"
+						  mType = (from e in db.EEvaluates where e.EId == ed.EId select e).FirstOrDefault().EType == 0 ? "課程" : "教材",
+						  IsUpload = (from fi in db.SysFiles where fi.FMatchKey == ed.EdId select fi).FirstOrDefault() == null ? false : true
 					  }).OrderByDescending(x => x.Year).ToList();
 
 			if (result.Count > 0)

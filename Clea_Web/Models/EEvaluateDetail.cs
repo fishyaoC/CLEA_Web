@@ -9,10 +9,19 @@ public partial class EEvaluateDetail
 
     public Guid EId { get; set; }
 
+    /// <summary>
+    /// CL OR BOOKDETAIL PK
+    /// </summary>
     public Guid MatchKey2 { get; set; }
 
+    /// <summary>
+    /// 受評人員
+    /// </summary>
     public Guid? Reception { get; set; }
 
+    /// <summary>
+    /// 評核人員
+    /// </summary>
     public Guid? Evaluate { get; set; }
 
     public int? EScoreA { get; set; }
@@ -25,12 +34,24 @@ public partial class EEvaluateDetail
 
     public int? EScoreE { get; set; }
 
+    /// <summary>
+    /// 審核意見
+    /// </summary>
     public string? ERemark { get; set; }
 
+    /// <summary>
+    /// 課程大綱
+    /// </summary>
     public string? ETeachSyllabus { get; set; }
 
+    /// <summary>
+    /// 課程目標
+    /// </summary>
     public string? ETeachObject { get; set; }
 
+    /// <summary>
+    /// 教學內容
+    /// </summary>
     public string? ETeachAbstract { get; set; }
 
     public Guid Creuser { get; set; }

@@ -17,7 +17,7 @@ namespace Clea_Web.ViewModels
 			public Int32 Year { get; set; }
 			public String ClassName_BookName { get; set; }
 			public String SubName_PName { get; set; }
-
+			public Boolean IsUpload { get; set; }
 		}
 
 		#endregion
