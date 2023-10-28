@@ -51,7 +51,7 @@
 															}
 															else
 															{
-																<button type="button" class="btn btn-info" disabled="disabled">待授課教師上傳檔案</button>
+																<button type="button" class="btn btn-info" disabled="disabled">@(ev.mType.Equals("課程") ? "待授課教師上傳檔案" : "待中心承辦人上傳檔案") </button>
 															}
 														</td>
 													</tr>

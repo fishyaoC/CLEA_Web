@@ -462,6 +462,7 @@ namespace Clea_Web.Service
 								String RemarkTotle = string.Empty;
 								foreach (var sc in scoreTable)
 								{
+									
 									switch (c)
 									{
 										case 1:
@@ -484,7 +485,8 @@ namespace Clea_Web.Service
 									doc.ReplaceText("[@S" + m + "1$]", sc.P_ScoreA);
 									doc.ReplaceText("[@S" + m + "2$]", sc.P_ScoreB);
 									doc.ReplaceText("[@S" + m + "3$]", sc.P_ScoreC);
-									doc.ReplaceText("[@St" + m + "$]", string.IsNullOrEmpty(sc.P_ScoreRemark) ? string.Empty : sc.P_ScoreRemark);
+									Int32 ScoreTotal = Convert.ToInt32(sc.P_ScoreA) + Convert.ToInt32(sc.P_ScoreB) + Convert.ToInt32(sc.P_ScoreC);
+									doc.ReplaceText("[@St" + m + "$]", ScoreTotal.ToString());
 									RemarkTotle += string.IsNullOrEmpty(sc.P_ScoreRemark) ? string.Empty : sc.P_ScoreRemark;
 									c++;
 								}
