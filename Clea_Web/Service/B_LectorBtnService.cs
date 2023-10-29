@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
+using MathNet.Numerics;
 using X.PagedList;
 
 namespace Clea_Web.Service
@@ -17,7 +18,7 @@ namespace Clea_Web.Service
         }
 
         #region 查詢
-        public IPagedList<UserRoleViewModel.schPageList> schPages (UserRoleViewModel.SchItem data, Int32 page, Int32 pagesize) 
+        public IPagedList<B_LectorBtnViewModel.schPageList> schPages(B_LectorBtnViewModel.SchItem data, Int32 page, Int32 pagesize)
         {
             //var result = GetPageLists(data);
 
@@ -26,71 +27,95 @@ namespace Clea_Web.Service
 
         }
 
-        public List<UserRoleViewModel.schPageList> GetPageLists(UserRoleViewModel.SchItem data)
+        public List<B_LectorBtnViewModel.schPageList> GetPageLists(B_LectorBtnViewModel.SchItem data)
         {
-            List<UserRoleViewModel.schPageList> result = new List<UserRoleViewModel.schPageList>();
+            B_LectorBtnViewModel.schPageList model;
+            List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
+            db.PNews.ToList().ForEach(x =>
+            {
+                model = new B_LectorBtnViewModel.schPageList();
+                model.NTitle = x.NTitle;
+                model.Upddate = x.Upddate;
+                model.Upduser = x.Upduser;
+                model.Creuser = x.Creuser;
+                model.Curdate = x.Curdate;
+                model.NStatus = x.NStatus;
+                model.RId = x.RId;
+                model.NContent = x.NContent;
+                model.NClass = x.NClass;
+                model.NEndDate = x.NEndDate;
+                model.NStartDate = x.NStartDate;
+                model.NewsId = x.NewsId;
+                model.NIsShow = x.NIsShow;
+                model.NIsTop = x.NIsTop;
+                model.NType = x.NType;
+                result.Add(model);
+            });
 
+            //result = (from r in db.PNews
+            //              //join user in db.SysUsers on r.Creuser equals user.UName
+            //          where
+            //          (
+            //          //
+            //          (string.IsNullOrEmpty(data.rId) || r.RId.Contains(data.rId)) &&
+            //          (string.IsNullOrEmpty(data.s_Title) || r.NTitle.Contains(data.s_Title)) &&
+            //          (string.IsNullOrEmpty(data.s_StartDate.ToString()) || r.NStartDate == data.s_StartDate) &&
+            //          (string.IsNullOrEmpty(data.s_type.ToString()) || r.NTitle.Contains(data.s_type.ToString()))
+            //          )
+            //          select new B_LectorBtnViewModel.schPageList
+            //          {
+            //              News_ID = r.NewsId.ToString(),
+            //              rId = r.RId,
+            //              s_Title = r.NTitle,
+            //              s_StartDate = r.NStartDate,
+            //              s_EndDate = r.NEndDate,
+            //              s_type = r.NType,
+            //              //creDate = r.Credate.ToShortDateString(),
+            //              //creUser = r.Creuser,
+            //              updDate = r.Upddate == null ? r.Curdate.ToShortDateString() : r.Upddate.Value.ToShortDateString(),
+            //              updUser = string.IsNullOrEmpty(r.Upduser.ToString()) ? r.Creuser : r.Upduser
+            //          }).OrderBy(x => x.updDate).ToList();
 
-            result = (from r in db.ViewRoles
-                          //join user in db.SysUsers on r.Creuser equals user.UName
-                      where
-                      (
-                      //
-                      (string.IsNullOrEmpty(data.rId) || r.RId.Contains(data.rId)) &&
-                      (string.IsNullOrEmpty(data.rName) || r.RName.Contains(data.rName)) &&
-                      (string.IsNullOrEmpty(data.rOrder.ToString()) || r.ROrder == data.rOrder) &&
-                      (data.rStatus == null || r.RStatus == data.rStatus)
-                      )
-                      select new UserRoleViewModel.schPageList
-                      {
-                          rUid = r.RUid.ToString(),
-                          rId = r.RId,
-                          rName = r.RName,
-                          rOrder = r.ROrder,
-                          rBackEnd = r.RBackEnd == true ? "是" : "否",
-                          rStatus = r.RStatus == true ? "是" : "否",
-                          //creDate = r.Credate.ToShortDateString(),
-                          //creUser = r.Creuser,
-                          updDate = r.Upddate == null ? r.Credate.ToShortDateString() : r.Upddate.Value.ToShortDateString(),
-                          updUser = string.IsNullOrEmpty(r.Upduser) ? r.Creuser : r.Upduser
-                      }).OrderBy(x => x.rOrder).ToList();
-            
             return result;
         }
         #endregion
 
         #region 儲存
-        public BaseViewModel.errorMsg SaveData(UserRoleViewModel.Modify vm)
+        public BaseViewModel.errorMsg SaveData(B_LectorBtnViewModel.Modify vm)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
             try
             {
-                SysRole? userRole = db.SysRoles.Find(vm.RUId);
+                PNews? PNews = db.PNews.Find(vm.R_ID);
 
-                if (userRole is null)
+                if (PNews is null)
                 {
-                    userRole = new SysRole();
+                    PNews = new PNews();
                 }
 
-                userRole.RId = vm.RId;
-                userRole.RName = vm.RName;
-                userRole.ROrder = Convert.ToByte(vm.ROrder);
-                userRole.RBackEnd = vm.RBackEnd;
-                userRole.RStatus = vm.RStatus;
+                PNews.NType = vm.N_Type;
+                PNews.NTitle = vm.N_Title;
+                PNews.NClass = vm.N_Class;
+                PNews.NStartDate = vm.N_StartDate.Date;
+                PNews.NEndDate = vm.N_EndDate.Date;
+                PNews.NIsShow = vm.N_IsShow;
+                PNews.NStatus = vm.N_Status;
+                PNews.NContent = vm.N_Content;
 
                 if (vm != null && vm.IsEdit == true)
                 {
                     //編輯
-                    userRole.Upduser = Guid.Parse(GetUserID(user));
-                    userRole.Upddate = DateTime.Now;
+                    PNews.Upduser = Guid.Parse(GetUserID(user));
+                    PNews.Upddate = DateTime.Now;
                 }
                 else if (vm != null && vm.IsEdit == false)
                 {
                     //新增
-                    userRole.RUid = Guid.NewGuid();
-                    userRole.Creuser = Guid.Parse(GetUserID(user));
-                    userRole.Credate = DateTime.Now;
-                    db.SysRoles.Add(userRole);
+                    PNews.NewsId = Guid.NewGuid();
+                    PNews.RId = vm.R_ID.ToString();
+                    PNews.Creuser = Guid.Parse(GetUserID(user));
+                    PNews.Curdate = DateTime.Now;
+                    db.PNews.Add(PNews);
                 }
 
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
@@ -106,42 +131,45 @@ namespace Clea_Web.Service
         #endregion
 
         #region 編輯
-        public B_LectorBtnViewModel.Modify GetEditData(Guid R_UID)
+        public B_LectorBtnViewModel.Modify GetEditData(string NewsID)
         {
             //撈資料
-            SysRole sysRole = db.SysRoles.Where(x => x.RUid.Equals(R_UID)).FirstOrDefault();
-            vm = new B_LectorBtnViewModel.Modify();
-            //if (sysRole != null)
-            //{
-            //    vm.RUId = sysRole.RUid;
-            //    vm.RId = sysRole.RId;
-            //    vm.RName = sysRole.RName;
-            //    vm.ROrder = sysRole.ROrder;
-            //    vm.RStatus = sysRole.RStatus;
-            //    vm.RBackEnd = sysRole.RBackEnd;
-            //    vm.IsEdit = true;
-            //}
-
-            //vm.rolePowerListP = db.ViewMenuRolePowers.Where(x=>x.MType.Equals("P")).ToList();
-            //vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B")).ToList();
-
-
-            return vm;
+            B_LectorBtnViewModel.Modify model;
+            //List<B_LectorBtnViewModel.Modify> result = new List<B_LectorBtnViewModel.Modify>();
+          var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
+            
+                model = new B_LectorBtnViewModel.Modify();
+                model.N_Title = _PNews.NTitle;
+                model.Upddate = _PNews.Upddate;
+                model.Upduser = _PNews.Upduser;
+                model.Creuser = _PNews.Creuser;
+                model.Curdate = _PNews.Curdate;
+                model.NStatus = _PNews.NStatus;
+                model.RId = _PNews.RId;
+                model.NContent = _PNews.NContent;
+                model.NClass = _PNews.NClass;
+                model.NEndDate = _PNews.NEndDate;
+                model.NStartDate = _PNews.NStartDate;
+                model.NewsId = _PNews.NewsId;
+                model.NIsShow = _PNews.NIsShow;
+                model.NIsTop = _PNews.NIsTop;
+                model.NType = _PNews.NType;
+            return model;
         }
         #endregion
 
         #region 刪除
-        public BaseViewModel.errorMsg DelData(Guid R_UID)
+        public BaseViewModel.errorMsg DelData(Guid NewsId)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            SysRole sysRole = db.SysRoles.Find(R_UID);
+            PNews _PNews = db.PNews.Where(x=>x.NewsId== NewsId).FirstOrDefault();
             vm = new B_LectorBtnViewModel.Modify();
 
             try
             {
-                db.SysRoles.Remove(sysRole);
+                db.PNews.Remove(_PNews);
             }
             catch (Exception e)
             {

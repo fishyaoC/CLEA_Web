@@ -21,8 +21,8 @@
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
                         @Html.HiddenFor(x => x.IsEdit)
-                        @*回傳Uid*@
-                        @Html.HiddenFor(x => x.R_ID)
+                        @*回傳NewsId*@
+                        @Html.HiddenFor(x => x.NewsId)
                         @* <p class="card-description">
                         公佈欄管理-編輯
                         </p> *@
@@ -62,56 +62,55 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @* <label class="col-sm-3 col-form-label">角色排序</label> *@
-                                    @Html.LabelFor(x => x.N_Type, new { @class = "col-sm-3 col-form-label" })
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">公告類型</label>
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.N_Type, new { @class = "form-control form-control", placeholder = "公告類型" })
+                                        @Html.DropDownListFor(x=>x.N_Type, Model.DropDownListType, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x=> x.User1, new { @class="col-sm-3 col-form-label" })
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.User1, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x=>x.R_ID, Model.DropDownList, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
-                        @*<div class="row">
+                            @*<div class="row">
                             <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
-                                <ul class="nav">
-                                    <li class="nav-item">
-                                        <a class="nav-link bg-light" data-toggle="collapse" href="#item1" aria-expanded="false" aria-controls="ui-basic">
-                                            <i class="menu-arrow ms-0 me-1 text-dark"></i>
-                                            <span class="menu-title text-dark">母項目</span>
-                                        </a>
-                                        <div class="collapse" id="item1">
-                                            <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
-                                                <li class="d-flex justify-content-between">
-                                                    @{
-                                                        bool isOpen = false;
-                                                    }
-                                                    <div>
-                                                        <input type="checkbox" id="toggleCheckbox" @Html.Raw(isOpen ? "checked" : "")>
-                                                        <label for="toggleCheckbox">子項目</label>
-                                                    </div>
+                            <ul class="nav">
+                            <li class="nav-item">
+                            <a class="nav-link bg-light" data-toggle="collapse" href="#item1" aria-expanded="false" aria-controls="ui-basic">
+                            <i class="menu-arrow ms-0 me-1 text-dark"></i>
+                            <span class="menu-title text-dark">母項目</span>
+                            </a>
+                            <div class="collapse" id="item1">
+                            <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
+                            <li class="d-flex justify-content-between">
+                            @{
+                            bool isOpen = false;
+                            }
+                            <div>
+                            <input type="checkbox" id="toggleCheckbox" @Html.Raw(isOpen ? "checked" : "")>
+                            <label for="toggleCheckbox">子項目</label>
+                            </div>
 
-                                                    <div id="contentDiv" style="display: @(isOpen ? "block" : "none");">
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="閱覽"> 閱覽</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="新增"> 新增</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="編輯"> 編輯</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="刪除"> 刪除</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="上傳"> 上傳</label>
-                                                        <label class="mx-1"><input type="checkbox" name="action" value="匯出"> 匯出</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                </ul>
+                            <div id="contentDiv" style="display: @(isOpen ? "block" : "none");">
+                            <label class="mx-1"><input type="checkbox" name="action" value="閱覽"> 閱覽</label>
+                            <label class="mx-1"><input type="checkbox" name="action" value="新增"> 新增</label>
+                            <label class="mx-1"><input type="checkbox" name="action" value="編輯"> 編輯</label>
+                            <label class="mx-1"><input type="checkbox" name="action" value="刪除"> 刪除</label>
+                            <label class="mx-1"><input type="checkbox" name="action" value="上傳"> 上傳</label>
+                            <label class="mx-1"><input type="checkbox" name="action" value="匯出"> 匯出</label>
+                            </div>
+                            </li>
+                            </ul>
+                            </div>
+                            </li>
+                            </ul>
                             </nav>
-                        </div>*@
-                    </div>
+                            </div>*@
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -119,15 +118,15 @@
                                     @Html.LabelFor(x => x.N_StartDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.N_StartDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.EditorFor(x => x.N_StartDate,new { @class = "form-control form-control date-picker"})
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x=> x.User2, new { @class="col-sm-3 col-form-label" })
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布講師</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.User2, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x=>x.R_ID, Model.DropDownListUser, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -137,15 +136,20 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.N_EndDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.N_EndDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.EditorFor(x => x.N_EndDate, new { @class = "form-control form-control date-picker"})
                                     </div>
                                 </div>
                             </div>
                         </div>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="exampleInputName1">上傳檔案</label>
+                                    <div class="col-sm-8">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.FileName, new { @class = "form-control form-control"})
+                                    </div>
+                                    <div class="col-sm-4">
                                     @if (string.IsNullOrEmpty(Model.FilePath))
                                     {
                                         <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
@@ -154,35 +158,74 @@
                                     {
                                         <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
                                     }
+                                   
                                     @* <button type="@(!string.IsNullOrEmpty(Model.FilePath) ? "button":"submit")" class="form-control form-control btn @(!string.IsNullOrEmpty(Model.FilePath) ?"btn-danger":"btn-info") mr-2">@(!string.IsNullOrEmpty(Model.FilePath) ? "刪除檔案" : "上傳檔案")</button> *@
                                 </div>
                             </div>
                         </div>
-                         <div class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextAreaFor(x => x.N_Content, new { @class = "form-control form-control" })
+                                        @Html.TextAreaFor(x => x.N_Content,20,35, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                </div>               
+                    </div>
+                </div>
             </div>
-        </div>
     </form>
 </div>
 
 
-<script>
-    const toggleCheckbox = document.getElementById("toggleCheckbox");
-    const contentDiv = document.getElementById("contentDiv");
-    toggleCheckbox.addEventListener("change", function () {
-        if (toggleCheckbox.checked) {
-            contentDiv.style.display = "block";
-        } else {
-            contentDiv.style.display = "none";
-        }
-    });
+<script type="text/javascript">
+    function pageLoad() {
+        init();
+    }
+    function init() {
+        debugger;
+        datetime();
+    }
+    //const toggleCheckbox = document.getElementById("toggleCheckbox");
+    //const contentDiv = document.getElementById("contentDiv");
+    //toggleCheckbox.addEventListener("change", function () {
+    //    if (toggleCheckbox.checked) {
+    //        contentDiv.style.display = "block";
+    //    } else {
+    //        contentDiv.style.display = "none";
+    //    }
+    //});
 </script>
+@*<script type="text/javascript">
+    
+        function datetime() {
+            //年份選擇器
+            $('.year-picker').datepicker({
+                startView: 'decade',
+                minView: 'decade',
+                format: 'yyyy',
+                maxViewMode: 2,
+                minViewMode: 2,
+                autoclose: true
+            });
+            //日期選擇器
+            $('.date-picker').datepicker({
+                language: 'zh-TW',
+                autoclose: true,
+                todayHighlight: true,
+            }).next().on(ace.click_event, function () { $(this).prev().focus(); });
+            //月份選擇器
+            $(".month-picker").datepicker({
+                language: 'zh-TW', //(台灣)
+                format: "yyyy/mm",
+                viewMode: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+            //日期範圍選擇器
+            $('.input-daterange').datepicker({ autoclose: true });
+           
+        };
+</script>*@

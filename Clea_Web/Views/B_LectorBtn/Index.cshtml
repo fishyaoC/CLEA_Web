@@ -28,47 +28,63 @@
                                 @Html.AntiForgeryToken()
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputName1">角色代碼</label>
+                                        <div class="form-group row">
+                                            <label for="exampleInputName1" class="col-sm-3 col-form-label">分類</label>
                                             @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
-                                            @Html.TextBoxFor(x => x.schItem.rId, new { @class = "form-control form-control", placeholder = "角色代碼" })
-
+                                            <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.schItem.s_type, new { @class = "form-control form-control", placeholder = "分類" })
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail3">角色名稱</label>
+                                        <div class="form-group row">
+                                            <label for="exampleInputEmail3" class="col-sm-3 col-form-label">公告對象</label>
                                             @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
-                                            @Html.TextBoxFor(x => x.schItem.rName, new { @class = "form-control form-control", placeholder = "角色名稱" })
+                                            <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.schItem.s_type, new { @class = "form-control form-control", placeholder = "公告對象" })
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputName1">角色排序</label>
-                                            @* <input type="text" class="form-contr角色啟用狀態ol" id="exampleInputName1" placeholder="角色排序"> *@
-                                            @Html.TextBoxFor(x => x.schItem.rOrder, new { @class = "form-control form-control", placeholder = "角色排序" })
-
+                                        <div class="form-group row">
+                                            @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                            <label for="exampleInputEmail4" class="col-sm-3 col-form-label">開始日期</label>
+                                            <div class="col-sm-9">
+                                                @* <input type="text" class="form-control" /> *@
+                                                @Html.EditorFor(x => x.schItem.s_StartDate,new { @class = "form-control form-control date-picker"})
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="exampleInputEmail3">是否啟用</label>
-                                            <div class="form-check ms-5">
-                                                <input class="form-check-input" type="checkbox" value="" id="exampleInputEmail3">
-                                                <label class="form-check-label" for="exampleInputEmail3">
-                                                    是否啟用
-                                                </label>
+                                        <div class="form-group row">
+                                            @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                            <label for="exampleInputEmail4" class="col-sm-3 col-form-label">結束日期</label>
+                                            <div class="col-sm-9">
+                                                @* <input type="text" class="form-control" /> *@
+                                                @Html.EditorFor(x => x.schItem.s_EndDate,new { @class = "form-control form-control date-picker"})
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="exampleInputName5" class="col-sm-3 col-form-label">主旨(標題)</label>
+                                            <div class="col-sm-9">
+                                            @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
+                                            @Html.TextBoxFor(x => x.schItem.s_Title, new { @class = "form-control form-control", placeholder = "主旨(標題)" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                                 <div class="d-flex">
                                     <button class="btn btn-light mr-2">清除條件</button>
                                     <button type="submit" class="btn btn-primary mr-2">搜尋</button>
                                 </div>
-                            </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -78,7 +94,7 @@
 
             <div class="mb-2 mt-2">
 
-                <a href="@Url.Action("Modify","B_LectorBtn")" class="btn btn-info">新增</a>
+                <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = ""})" class="btn btn-info">新增</a>
                 @*<button type="button" class="btn btn-info">新增</button>*@
                 @* <button type="button" class="btn btn-danger">刪除</button> *@
             </div>
@@ -103,12 +119,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                   
+                                    @if (Model.schPageList2.Count > 0)
+                                    {
+                                        foreach (var item in Model.schPageList2)
+                                        {
+                                            <tr>
+                                                <td>@item.NType</td>
+                                                <td>@item.NTitle</td>
+                                                <td></td>
+                                                <td>@item.Curdate</td>
+                                                <td>
+                                                    @*編輯、刪除*@
+                                                    @* <button type="button" class="btn btn-success">編輯</button> *@
+                                                    <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
+                                                    <button type="button" class="btn btn-danger" onclick="del('@item.NewsId')">刪除</button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
                                 </tbody>
                             </table>
                             <!--換頁模組-->
-                            
+                            @Html.Partial("../Shared/_pageList", Model.schPageList2)
                         </div>
                     </div>
                 </div>
@@ -132,7 +164,7 @@
                         else {
                             $.ajax({
                                 type: "POST",
-                                url: '../Sys_Role/Delete',
+                                url: '../B_LectorBtn/Delete',
                                 data: { Uid: Uid },
                                 dataType: "json",
                                 success: function (response) {

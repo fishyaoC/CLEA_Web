@@ -8,7 +8,6 @@ namespace Clea_Web.ViewModels
 {
     public class B_LectorBtnViewModel : BaseViewModel
     {
-        public UserRole userRole { get; set; }
         public Modify modify { get; set; }
         public SchModel schModel { get; set; }
 
@@ -20,11 +19,13 @@ namespace Clea_Web.ViewModels
         #endregion
 
         #region 編輯頁面
-        public class Modify
+        public class Modify :PNews
         {
             public List<ViewMenuRolePower> rolePowerListB { get; set; }
             public List<ViewMenuRolePower> rolePowerListP { get; set; }
             public List<SelectListItem> DropDownList { get; set; }
+            public List<SelectListItem> DropDownListUser { get; set; }
+            public List<SelectListItem> DropDownListType { get; set; }
             /// <summary>
             /// Uid
             /// </summary>
@@ -47,23 +48,25 @@ namespace Clea_Web.ViewModels
             /// 公告標題
             /// </summary>
             [DisplayName("公告標題")]
-            public String? N_Title { get; set; }
+            public String N_Title { get; set; }
 
             /// <summary>
             /// 公告類別
             /// </summary>
             [DisplayName("公告類別")]
-            public Int16? N_Class { get; set; }
+            public Int16 N_Class { get; set; }
 
             /// <summary>
             /// 開始日期
             /// </summary>
+            [DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
             [DisplayName("開始日期")]
             public DateTime N_StartDate { get; set; }
 
             /// <summary>
             /// 結束日期
             /// </summary>
+            [DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
             [DisplayName("結束日期")]
             public DateTime N_EndDate { get; set; }
             /// <summary>
@@ -84,7 +87,7 @@ namespace Clea_Web.ViewModels
             /// 公告內容
             /// </summary>
             [DisplayName("公告內容")]
-            public String? N_Content { get; set; }
+            public String N_Content { get; set; }
             /// <summary>
             /// 編輯狀態 True = 編輯 ; False = 新增
             /// </summary>
@@ -125,28 +128,21 @@ namespace Clea_Web.ViewModels
         public class SchItem
         {
 
+            public String? News_ID { get; set; }
             public String? rId { get; set; }
-            public String? rName { get; set; }
-            public Int16? rOrder { get; set; }
-            public Boolean? rStatus { get; set; }
-
+            public int? s_type { get; set; }
+            public String? s_Title { get; set; }
+            public DateTime s_StartDate { get; set; }
+            public DateTime s_EndDate { get; set; }
+            public String updDate { get; set; }
+            public Guid? updUser { get; set; }
         }
         #endregion
 
         #region 列表
-        public class schPageList
+        public class schPageList :PNews 
         {
-            public String rUid { get; set; }
-            public String rId { get; set; }
-            public String? rBackEnd { get; set; }
-            public String rName { get; set; }
-            public Int16 rOrder { get; set; }
-            public String? rStatus { get; set; }
-            public String creUser { get; set; }
-            public String creDate { get; set; }
-            public String updUser { get; set; }
-            public String updDate { get; set; }
-            //public DateTime mbCredateE { get; set; }
+
 
 
         }
