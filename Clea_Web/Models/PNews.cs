@@ -10,7 +10,7 @@ public partial class PNews
     /// <summary>
     /// 功能模組代碼
     /// </summary>
-    public int NType { get; set; }
+    public string NType { get; set; } = null!;
 
     /// <summary>
     /// 標題名稱

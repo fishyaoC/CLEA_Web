@@ -761,6 +761,8 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("標題名稱")
                 .HasColumnName("N_Title");
             entity.Property(e => e.NType)
+                .HasMaxLength(5)
+                .IsUnicode(false)
                 .HasComment("功能模組代碼")
                 .HasColumnName("N_Type");
             entity.Property(e => e.RId)
