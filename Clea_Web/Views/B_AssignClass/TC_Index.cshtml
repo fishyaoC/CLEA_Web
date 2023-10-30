@@ -1,0 +1,133 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+}
+@model Clea_Web.ViewModels.AssignClassViewModel.TC_Model
+<div class="main-panel">
+	<div class="content-wrapper">
+		<div class="row">
+			<!--搜尋-->
+			<div class="col-12 mb-3">
+				<div class="accordion" id="accordionPanelsStayOpenExample">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="panelsStayOpen-headingOne">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+								<h4 class="m-0">搜尋條件</h4>
+							</button>
+						</h2>
+						<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+							<div class="accordion-body">
+								<form class="forms-sample" method="post" action="@Url.Action("L_Index","B_AssignClass")">
+									@Html.AntiForgeryToken()
+									@Html.HiddenFor(x => x.evaluationActonInfo.ControllerName)
+									@Html.HiddenFor(x => x.evaluationActonInfo.Key)
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputName1">科目名稱</label>
+												@Html.TextBoxFor(x => x.cLschItem.S_Name, new { id = "SN", @class = "form-control form-control", placeholder = "科目代碼" })
+											</div>
+										</div>
+										<div class="col-md-6">
+											<div class="form-group">
+												<label for="exampleInputEmail3">教師名稱</label>
+												@Html.TextBoxFor(x => x.cLschItem.L_Name, new { id = "LN",@class = "form-control form-control", placeholder = "科目名稱" })
+											</div>
+										</div>
+									</div>
+									<div class="d-flex">
+										<button type="button" class="btn btn-light mr-2" onclick="resetItem()">清除條件</button>
+										<button type="submit" class="btn btn-primary mr-2">搜尋</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!--搜尋End-->
+					<!--動作-->
+
+					<div class="mb-2 mt-2">
+
+						@* <a href="@Url.Action("Modify","Sys_Role")" class="btn btn-info">新增</a> *@
+						@*<button type="button" class="btn btn-info">新增</button>*@
+						@* <button type="button" class="btn btn-danger">刪除</button> *@
+					</div>
+					<!--動作End-->
+					<!--資料Table-->
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">評鑑 - 科目授課資訊</h4>
+								@*<p class="card-description">
+								Add class <code>.table</code>
+								</p> *@
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>序</th>
+												<th>課程名稱</th>
+												<th>科目名稱</th>
+												<th>授課教師</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											@if (!(Model.cLPageLists is null) && Model.cLPageLists.Count > 0)
+											{
+												Int32 rowCount = 0;
+												foreach (var cL in Model.cLPageLists)
+												{
+													rowCount++;
+													<tr>
+														<td>@rowCount</td>
+														<td>@cL.C_Name</td>
+														<td>@cL.S_Name</td>
+														<td>@cL.L_Name</td>
+														<td>
+															<a href="@Url.Action("TC_Modify","B_AssignClass", new { E_ID = Model.E_ID, CL_UID = cL.CL_UID })" class="btn btn-info">評鑑授課教師</a>
+															@if (!cL.IsEvaluate)
+															{
+																<button type="button" class="btn btn-success" disabled>尚未完成評分</button>
+																<button type="button" class="btn btn-warning" disabled>尚未完成評分</button>
+															}
+															else
+															{
+																<a href="@Url.Action("V_Modify","B_AssignClass", new { ED_ID = cL.ED_ID })" class="btn btn-success">檢視課程審查表</a>
+																<a href="@Url.Action("Export_ScoreWord","B_AssignClass", new { ED_ID = cL.ED_ID })" class="btn btn-warning">匯出課程審查表</a>
+															}
+														</td>
+													</tr>
+												}
+											}
+											else
+											{
+												<tr>
+													<td colspan="6" align="center">查無資料!</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+									<!--換頁模組-->
+									@if (!(Model.cLPageLists is null) && Model.cLPageLists.Count > 0)
+									{
+										@Html.Partial("../Shared/_pageList", Model.cLPageLists)
+									}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--資料Table End-->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function resetItem() {
+		$('#SN').val(null);
+		$('#LN').val(null);
+	}
+</script>

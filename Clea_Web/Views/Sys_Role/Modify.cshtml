@@ -26,8 +26,8 @@
                         @*回傳Uid*@
                         @Html.HiddenFor(x => x.RUId)
                         @* <p class="card-description">
-                            後臺腳色權限管理-編輯
-                            </p> *@
+                        後臺腳色權限管理-編輯
+                        </p> *@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -110,54 +110,59 @@
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
                                         <li class="nav-item">
-                                            @if (Model.rolePowerListB.Count > 0)
+                                            @if (Model.treeViewList.Count > 0)
                                             {
-                                                foreach (ViewMenuRolePower LV1 in Model.rolePowerListB)
+                                                foreach (var LV1 in Model.treeViewList)
                                                 {
-                                                    List<SysMenu> LV2 = new List<SysMenu>();
-                                                    LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
+                                                //List<SysMenu> LV2 = new List<SysMenu>();
+                                                    //LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
 
 
-                                                    @if (LV1.MLevel == 1)
+                                                    @if (LV1.MLevel == 1 && Model.RBackEnd == true && LV1.MType == "B")
                                                     {
-                                                        <a class="nav-link bg-light" data-toggle="collapse" href="#item-@LV1.MId" aria-expanded="false" aria-controls="ui-basic">
+                                                        <a class="nav-link bg-light" data-toggle="collapse" href="#item-@LV1.MID" aria-expanded="false" aria-controls="ui-basic">
                                                             <i class="menu-arrow ms-0 me-1 text-dark"></i>
                                                             <span class="menu-title text-dark">@LV1.MName</span>
                                                         </a>
-
-                                                        @foreach (SysMenu lv2 in LV2)
+                                                        var icount = 0;
+                                                        @foreach (var lv2 in Model.treeViewList)
                                                         {
-                                                            <div class="collapse" id="item-@LV1.MId">
-                                                                <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
-                                                                    <li class="d-flex justify-content-between">
-                                                                        <div>
-                                                                            <input type="checkbox" id="toggleCheckbox-@lv2.MId" class="toggle-checkbox" data-target="#contentDiv-@lv2.MId">
-                                                                            <label for="toggleCheckbox-@lv2.MId">@lv2.MName</label>
-                                                                        </div>
+                                                            
+                                                            @if (lv2.MLevel == 2 && lv2.MType == "B" && LV1.MID == lv2.MParentID)
+                                                            {
+                                                                <div class="collapse" id="item-@LV1.MID">
+                                                                    <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
+                                                                        <li class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                <input type="checkbox" id="toggleCheckbox-@lv2.MID" class="toggle-checkbox" data-target="#contentDiv-@lv2.MID">
+                                                                                <label for="toggleCheckbox-@lv2.MID">@lv2.MName</label>
+                                                                            </div>
 
-                                                                        <div class="action-checkboxes" id="contentDiv-@lv2.MId" style="display:none">
-                                                                            <label class="mx-1">
-                                                                                <input type="checkbox" name="action" value="閱覽" id="action1"> 閱覽
-                                                                            </label>
-                                                                            <label class="mx-1">
-                                                                                <input type="checkbox" name="action" value="新增" id="action2"> 新增
-                                                                            </label>
-                                                                            <label class="mx-1">
-                                                                                <input type="checkbox" name="action" value="編輯" id="action3"> 編輯
-                                                                            </label>
-                                                                            <label class="mx-1">
-                                                                                <input type="checkbox" name="action" value="刪除" id="action4"> 刪除
-                                                                            </label>
-                                                                            <label class="mx-1">
-                                                                                <input type="checkbox" name="action" value="上傳" id="action5"> 上傳
-                                                                            </label>
-                                                                            <label class="mx-1">
-                                                                                <input type="checkbox" name="action" value="匯出" id="action6"> 匯出
-                                                                            </label>
-                                                                        </div>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
+                                                                            <div class="action-checkboxes" id="contentDiv-@lv2.MID" style="display:none">
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => Model.treeViewList[icount].SearchData,new{name="action",value="lv2.SearchData", id="action1"})閱覽
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => Model.treeViewList[icount].CreateData,new{name="action",value="lv2.CreateData", id="action2"})新增
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => Model.treeViewList[icount].ModifyData,new{name="action",value="lv2.ModifyData", id="action3"})編輯
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => Model.treeViewList[icount].DeleteData,new{name="action",value="lv2.DeleteData", id="action4"})刪除
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => Model.treeViewList[icount].ImportData,new{name="action",value="lv2.ImportData", id="action5"})上傳
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => Model.treeViewList[icount].Exportdata,new{name="action",value="lv2.Exportdata", id="action6"})匯出
+                                                                                </label>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            }
+                                                            icount++;
                                                         }
                                                     }
 
@@ -175,7 +180,8 @@
             </div>
     </form>
 </div>
-<script>const toggleCheckboxes = document.querySelectorAll(".toggle-checkbox");
+<script>
+    const toggleCheckboxes = document.querySelectorAll(".toggle-checkbox");
 
     toggleCheckboxes.forEach(function (checkbox) {
         checkbox.addEventListener("change", function () {
@@ -211,4 +217,4 @@
             firstCheckbox.checked = allChecked;
         });
     });
-    </script>
+</script>

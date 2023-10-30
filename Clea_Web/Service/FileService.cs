@@ -73,18 +73,115 @@ namespace Clea_Web.Service
 			/// </summary>
 			public string PhysicalFilePath { get; set; } = string.Empty;
 		}
-		#endregion
+        #endregion
 
-		/// <summary>
-		/// 檔案上傳
-		/// </summary>
-		/// <param name="mType">功能模組ID 0:課程 1:教材</param>
-		/// <param name="matchKey">MatchKey</param>
-		/// <param name="file">檔案</param>
-		/// <param name="overwrite">是否複寫檔案</param>
-		/// <returns></returns>
-		public bool UploadFile(Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
+        /// <summary>
+        /// 講師進修資料_檔案上傳
+        /// </summary>
+        /// <param name="matchKey">MatchKey</param>
+        /// <param name="file">檔案</param>
+        /// <param name="overwrite">是否複寫檔案</param>
+        /// <returns></returns>
+        public bool UploadAdvFile(Guid matchKey, IFormFile file, bool overwrite = true)
+        {
+
+            //搜尋檔案資料表
+            SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+
+            //刪除
+
+            //如果已經有檔案又沒開複寫就失敗
+            if (sysFile != null && !overwrite)
+            {
+                return false;
+            }
+
+            //取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
+            String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+            //String directory = mType == 0 ? "Handouts" : "Books";
+
+            //取得失敗
+            if (string.IsNullOrEmpty(directory.ToString()))
+            {
+                return false;
+            }
+
+            string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+
+            //如果不存在建立目錄
+            if (!Directory.Exists(physicalPath))
+            {
+                Directory.CreateDirectory(physicalPath);
+            }
+            else
+            {
+
+            }
+
+            if (sysFile == null)
+            {
+                //新檔案
+                sysFile = new SysFile()
+                {
+                    FileId = Guid.NewGuid(),
+                    FModule = "B_LectorAdv",
+                    FMatchKey = matchKey,
+                    FMimeType = GetMimeType(file.FileName),
+                    FFullName = file.FileName,
+                    FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
+                    FNameDl = Guid.NewGuid().ToString(),
+                    FExt = Path.GetExtension(file.FileName).Replace(".", ""),
+                    FPath = directory.ToString(),
+                    FDescription = null,
+                    FOrder = null,
+                    FRemark = null,
+                    Creuser = Guid.Parse(GetUserID(user)),
+                    Credate = DateTime.Now
+                };
+
+                db.SysFiles.Add(sysFile);
+            }
+            else
+            {
+                //已經有檔案
+                sysFile.FFullName = file.FileName;
+                sysFile.FMimeType = GetMimeType(file.FileName);
+                sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
+                sysFile.FNameDl = Guid.NewGuid().ToString();
+                sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
+                sysFile.FPath = directory.ToString();
+                sysFile.Upduser = Guid.Parse(GetUserID(user));
+                sysFile.Upddate = DateTime.Now;
+
+                db.SysFiles.Update(sysFile);
+            }
+
+            //上傳
+            string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+            //string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
+            //String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
+            using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+            {
+                file.CopyTo(fileStream);
+            }
+            db.SaveChanges();
+
+
+            return true;
+        }
+
+        /// <summary>
+        /// 檔案上傳含PPT轉PNG
+        /// </summary>
+        /// <param name="mType">功能模組ID 0:課程 1:教材</param>
+        /// <param name="matchKey">MatchKey</param>
+        /// <param name="file">檔案</param>
+        /// <param name="overwrite">是否複寫檔案</param>
+        /// <returns></returns>
+        public bool UploadFile(Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
 		{
+
+
 			//檢查傳入的參數
 			if (string.IsNullOrEmpty(mType.ToString()) || string.IsNullOrEmpty(matchKey.ToString()) || file == null)
 			{
@@ -103,22 +200,25 @@ namespace Clea_Web.Service
 			}
 
 			//取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
-			String directory = mType == 0 ? "Handouts" : "Books";
+			String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+			//String directory = mType == 0 ? "Handouts" : "Books";
 
 			//取得失敗
-			if (string.IsNullOrEmpty(directory))
+			if (string.IsNullOrEmpty(directory.ToString()))
 			{
 				return false;
 			}
 
-			;
 			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
 
 			//如果不存在建立目錄
 			if (!Directory.Exists(physicalPath))
 			{
-				Directory.CreateDirectory(physicalPath + "\\File_PPT");
-				Directory.CreateDirectory(physicalPath + "\\File_PNG");
+				Directory.CreateDirectory(physicalPath);
+			}
+			else
+			{
+
 			}
 
 			if (sysFile == null)
@@ -134,7 +234,7 @@ namespace Clea_Web.Service
 					FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
 					FNameDl = Guid.NewGuid().ToString(),
 					FExt = Path.GetExtension(file.FileName).Replace(".", ""),
-					FPath = directory + "\\File_PPT",
+					FPath = directory.ToString(),
 					FDescription = null,
 					FOrder = null,
 					FRemark = null,
@@ -152,6 +252,7 @@ namespace Clea_Web.Service
 				sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
 				sysFile.FNameDl = Guid.NewGuid().ToString();
 				sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
+				sysFile.FPath = directory.ToString();
 				sysFile.Upduser = Guid.Parse(GetUserID(user));
 				sysFile.Upddate = DateTime.Now;
 
@@ -159,52 +260,39 @@ namespace Clea_Web.Service
 			}
 
 			//上傳
-			string savePath = physicalPath + "\\File_PPT\\" + sysFile.FNameDl + "." + sysFile.FExt;
-
+			string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+			//string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
+			//String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
 			using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
 			{
 				file.CopyTo(fileStream);
 			}
-
-			//Commit
 			db.SaveChanges();
 
-
+			pptToPng(Guid.NewGuid(), savePath, physicalPath);
 
 			return true;
 		}
 
 		#region PPT TO PNG
-		public Boolean pptToPng(Guid matchKey, String sourcePath, String savePath)
+		public void pptToPng(Guid matchKey, String sourcePath, String savePath)
 		{
-
 			Microsoft.Office.Interop.PowerPoint.Application appPpt = new Microsoft.Office.Interop.PowerPoint.Application();
-			//Microsoft.Office.Interop.PowerPoint.Presentation objActivePresentation = appPpt.Presentations.Open(sourcePath, Microsoft.Office.Core.MsoTriState.msoCTrue,
-			//							Microsoft.Office.Core.MsoTriState.msoTriStateMixed,
-			//							Microsoft.Office.Core.MsoTriState.msoFalse);
-
-
-
-			//Microsoft.Office.Interop.PowerPoint.Presentation objActivePresentation
-			//= appPpt.Presentations.Open(sourcePath,
-			//							Microsoft.Office.Core.MsoTriState.msoCTrue,
-			//							Microsoft.Office.Core.MsoTriState.msoTriStateMixed,
-			//							Microsoft.Office.Core.MsoTriState.msoFalse);
-
-			//int i = 0;
-			//foreach (Microsoft.Office.Interop.PowerPoint.Slide objSlide in objActivePresentation.Slides)
-			//{
-			//	//Names are generated based on timestamp. 
-			//	//objSlide.Export("Slide" + i, "PNG", 960, 720);
-			//	objSlide.Export(savePath + @"\Slide" + i + ".GIF", "GIF", 960, 720);
-			//	i++;
-			//}
-			////objActivePresentation.Close();
-			//appPpt.Quit();
-
-			return true;
+			Microsoft.Office.Interop.PowerPoint.Presentation objActivePresentation = appPpt.Presentations.Open(sourcePath, Microsoft.Office.Core.MsoTriState.msoCTrue,
+										Microsoft.Office.Core.MsoTriState.msoTriStateMixed,
+										Microsoft.Office.Core.MsoTriState.msoFalse);
+			int i = 0;
+			foreach (Microsoft.Office.Interop.PowerPoint.Slide objSlide in objActivePresentation.Slides)
+			{
+				//Names are generated based on timestamp. 
+				//objSlide.Export("Slide" + i, "PNG", 960, 720);
+				objSlide.Export(savePath + @"\" + i + matchKey + ".png", "png", 1280, 720);
+				i++;
+			}
+			objActivePresentation.Close();
+			appPpt.Quit();
 		}
-		#endregion		
+		#endregion
 
 		/// <summary>
 		/// 取得圖片Base64(matchKey)
@@ -212,29 +300,48 @@ namespace Clea_Web.Service
 		/// <param name="matchKey"></param>
 		/// <param name="IsTop">是否置頂/封面</param>
 		/// <returns></returns>
-		public List<String> GetImageBase64List(Guid matchKey)
+		public List<String> GetImageBase64List_PNG(Guid matchKey)
 		{
 			List<String> result = new List<string>();
+			SysFile? file = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
 
-			//找出檔案資訊
-			List<SysFile> lst_files = db.SysFiles.Where(x => x.FMatchKey == matchKey).OrderBy(x => x.FOrder).ToList();
-
-			if (lst_files != null && lst_files.Count > 0)
-			{
-				foreach (SysFile file in lst_files)
+			if (file != null)
+			{				
+				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
+				String[] dirFile = Directory.GetFiles(physicalPath, "*.png");
+				if (dirFile.Length > 0)
 				{
-					if (!IsImage(file.FFullName))
+					foreach (String p in dirFile)
 					{
-						continue;
-					}
-					else
-					{
-						string base64 = ImageToBase64(configuration.GetValue<String>("FileRootPath") + "\\" + file.FPath + "\\" + file.FNameDl + "." + file.FExt);
-						string base64WithPrefix = $"data:{file.FMimeType};base64,{base64}";
+						string base64 = ImageToBase64(p);
+						string base64WithPrefix = $"data:image/png;base64,{base64}";
 						result.Add(base64WithPrefix);
 					}
-				}
+				}				
 			}
+
+
+
+
+			////找出檔案資訊
+			//List<SysFile> lst_files = db.SysFiles.Where(x => x.FMatchKey == matchKey).OrderBy(x => x.FOrder).ToList();
+
+			//if (lst_files != null && lst_files.Count > 0)
+			//{
+			//	foreach (SysFile file in lst_files)
+			//	{
+			//		if (!IsImage(file.FFullName))
+			//		{
+			//			continue;
+			//		}
+			//		else
+			//		{
+			//			string base64 = ImageToBase64(configuration.GetValue<String>("FileRootPath") + "\\" + file.FPath + "\\" + file.FNameDl + "." + file.FExt);
+			//			string base64WithPrefix = $"data:{file.FMimeType};base64,{base64}";
+			//			result.Add(base64WithPrefix);
+			//		}
+			//	}
+			//}
 
 			//string base64 = ImageToBase64(sysFileInfo.PhysicalFilePath);
 
@@ -262,7 +369,7 @@ namespace Clea_Web.Service
 			}
 		}
 
-		
+
 
 		/// <summary>
 		/// 使用檔名取得MimeType
@@ -294,5 +401,27 @@ namespace Clea_Web.Service
 				return base64String;
 			}
 		}
+
+
+		#region 刪除檔案
+		public Boolean DeleteFile(SysFile file)
+		{
+			try
+			{
+				String directory = file.FPath;
+				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+				Directory.Delete(physicalPath, true);
+
+				db.SysFiles.Remove(file);
+				db.SaveChanges();
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				return false;
+			}
+		}
+		#endregion
 	}
 }

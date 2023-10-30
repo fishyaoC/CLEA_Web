@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics.Contracts;
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
+using NPOI.POIFS.Crypt.Dsig;
 using X.PagedList;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Clea_Web.Service
 {
@@ -17,7 +19,7 @@ namespace Clea_Web.Service
         }
 
         #region 查詢
-        public IPagedList<UserRoleViewModel.schPageList> schPages (UserRoleViewModel.SchItem data, Int32 page, Int32 pagesize) 
+        public IPagedList<UserRoleViewModel.schPageList> schPages(UserRoleViewModel.SchItem data, Int32 page, Int32 pagesize)
         {
             //var result = GetPageLists(data);
 
@@ -54,7 +56,7 @@ namespace Clea_Web.Service
                           updDate = r.Upddate == null ? r.Credate.ToShortDateString() : r.Upddate.Value.ToShortDateString(),
                           updUser = string.IsNullOrEmpty(r.Upduser) ? r.Creuser : r.Upduser
                       }).OrderBy(x => x.rOrder).ToList();
-            
+
             return result;
         }
         #endregion
@@ -122,8 +124,84 @@ namespace Clea_Web.Service
                 vm.IsEdit = true;
             }
 
-            //vm.rolePowerListP = db.ViewMenuRolePowers.Where(x=>x.MType.Equals("P")).ToList();
-            //vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B")).ToList();
+            vm.treeViewList = new List<UserRoleViewModel.treeView>();
+
+            if (R_UID != null && R_UID.ToString() != "00000000-0000-0000-0000-000000000000")
+            {
+                //編輯
+
+                var query = (from sp in db.SysPowers
+                             join sm in db.SysMenus on sp.MId equals sm.MId
+                             where sp.RUid == R_UID && sm.MIsActice == true && sm.MIsShow == true
+                             orderby sm.MType, sp.MId, sm.MOrder
+                             select new
+                             {
+                                 sp.Sn,
+                                 sp.RUid,
+                                 sp.MId,
+                                 sm.MName,
+                                 sm.MType,
+                                 sm.MParentId,
+                                 sm.MLevel,
+                                 sm.MUrl,
+                                 sm.MOrder,
+                                 sp.CreateData,
+                                 sp.SearchData,
+                                 sp.ModifyData,
+                                 sp.DeleteData,
+                                 sp.ImportData,
+                                 sp.Exportdata
+                             }).ToList();
+
+                foreach (var item in query)
+                {
+                    UserRoleViewModel.treeView treeView = new UserRoleViewModel.treeView();
+                    treeView.RUid = item.RUid;
+                    treeView.MID = item.MId;
+                    treeView.MName = item.MName;
+                    treeView.MType = item.MType;
+                    treeView.MParentID = item.MParentId;
+                    treeView.MLevel = item.MLevel;
+                    treeView.MUrl = item.MUrl;
+                    treeView.MOrder = item.MOrder;
+                    treeView.CreateData = item.CreateData;
+                    treeView.SearchData = item.SearchData;
+                    treeView.ModifyData = item.ModifyData;
+                    treeView.DeleteData = item.DeleteData;
+                    treeView.ImportData = item.ImportData;
+                    treeView.Exportdata = item.Exportdata;
+
+                    vm.treeViewList.Add(treeView);
+
+                }
+            }
+            else
+            {
+                //新增
+                List<SysMenu> sysMenu = db.SysMenus.Where(x => x.MIsActice == true && x.MIsShow == true).OrderBy(x => x.MType).ThenBy(x => x.MId).ThenBy(x => x.MOrder).ToList();
+                foreach (var item in sysMenu)
+                {
+                    UserRoleViewModel.treeView treeView = new UserRoleViewModel.treeView();
+                    treeView.RUid = new Guid();
+                    treeView.MID = item.MId;
+                    treeView.MName = item.MName;
+                    treeView.MType = item.MType;
+                    treeView.MParentID = item.MParentId;
+                    treeView.MLevel = item.MLevel;
+                    treeView.MUrl = item.MUrl;
+                    treeView.MOrder = item.MOrder;
+                    //treeView.CreateData = item.CreateData;
+                    //treeView.SearchData = item.SearchData;
+                    //treeView.ModifyData = item.ModifyData;
+                    //treeView.DeleteData = item.DeleteData;
+                    //treeView.ImportData = item.ImportData;
+                    //treeView.Exportdata = item.Exportdata;
+
+                    vm.treeViewList.Add(treeView);
+
+                }
+
+            }
 
 
             return vm;
@@ -152,7 +230,97 @@ namespace Clea_Web.Service
             return result;
         }
 
+        #endregion
+
+        //#region userPower
+        //public UserRoleViewModel.Modify GetUserPower(Guid R_UID)
+        //{
+
+
+        //    UserRoleViewModel.Modify vm = new UserRoleViewModel.Modify();
+        //    vm.treeViewList = new List<UserRoleViewModel.treeView>();
+
+        //    if (R_UID != null && R_UID.ToString() != "00000000-0000-0000-0000-000000000000")
+        //    {
+        //        //編輯
+
+        //        var query = (from sp in db.SysPowers
+        //                     join sm in db.SysMenus on sp.MId equals sm.MId
+        //                     where sp.RUid == R_UID && sm.MIsActice == true && sm.MIsShow == true
+        //                     orderby sm.MType, sp.MId, sm.MOrder
+        //                     select new
+        //                     {
+        //                         sp.Sn,
+        //                         sp.RUid,
+        //                         sp.MId,
+        //                         sm.MName,
+        //                         sm.MType,
+        //                         sm.MParentId,
+        //                         sm.MLevel,
+        //                         sm.MUrl,
+        //                         sm.MOrder,
+        //                         sp.CreateData,
+        //                         sp.SearchData,
+        //                         sp.ModifyData,
+        //                         sp.DeleteData,
+        //                         sp.ImportData,
+        //                         sp.Exportdata
+        //                     }).ToList();
+
+        //        foreach (var item in query)
+        //        {
+        //            UserRoleViewModel.treeView treeView = new UserRoleViewModel.treeView();
+        //            treeView.RUid = item.RUid;
+        //            treeView.MID = item.MId;
+        //            treeView.MName = item.MName;
+        //            treeView.MType = item.MType;
+        //            treeView.MParentID = item.MParentId;
+        //            treeView.MLevel = item.MLevel;
+        //            treeView.MUrl = item.MUrl;
+        //            treeView.MOrder = item.MOrder;
+        //            treeView.CreateData = item.CreateData;
+        //            treeView.SearchData = item.SearchData;
+        //            treeView.ModifyData = item.ModifyData;
+        //            treeView.DeleteData = item.DeleteData;
+        //            treeView.ImportData = item.ImportData;
+        //            treeView.Exportdata = item.Exportdata;
+
+        //            vm.treeViewList.Add(treeView);
+
+        //        }
+        //    }
+        //    else
+        //    {
+        //        //新增
+        //        List<SysMenu> sysMenu = db.SysMenus.Where(x => x.MIsActice == true && x.MIsShow == true).OrderBy(x=> x.MType).ThenBy(x=>x.MId).ThenBy(x => x.MOrder).ToList();
+        //        foreach (var item in sysMenu)
+        //        {
+        //            UserRoleViewModel.treeView treeView = new UserRoleViewModel.treeView();
+        //            treeView.RUid = new Guid();
+        //            treeView.MID = item.MId;
+        //            treeView.MName = item.MName;
+        //            treeView.MType = item.MType;
+        //            treeView.MParentID = item.MParentId;
+        //            treeView.MLevel = item.MLevel;
+        //            treeView.MUrl = item.MUrl;
+        //            treeView.MOrder = item.MOrder;
+        //            //treeView.CreateData = item.CreateData;
+        //            //treeView.SearchData = item.SearchData;
+        //            //treeView.ModifyData = item.ModifyData;
+        //            //treeView.DeleteData = item.DeleteData;
+        //            //treeView.ImportData = item.ImportData;
+        //            //treeView.Exportdata = item.Exportdata;
+
+        //            vm.treeViewList.Add(treeView);
+
+        //        }
+
+        //    }
+
+
+        //    return vm;
+        //}
+        //#endregion
     }
-    #endregion
 }
 

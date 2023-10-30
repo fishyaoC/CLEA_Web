@@ -34,19 +34,19 @@ namespace Clea_Web.Controllers
         {
             UserRoleViewModel.Modify? vm = null;
 
-            if (R_UID != null)
+            if (R_UID != null && R_UID.ToString() != "00000000-0000-0000-0000-000000000000")
             {
                 //編輯
                 vm = _roleService.GetEditData(R_UID);
+                //vm = _roleService.GetUserPower(R_UID);
 
             }
             else
             {
                 //新增
                 vm = new UserRoleViewModel.Modify();
+                //vm = _roleService.GetUserPower(R_UID);
             }
-            vm.rolePowerListP = db.ViewMenuRolePowers.Where(x => x.MType.Equals("P")).ToList();
-            vm.rolePowerListB = db.ViewMenuRolePowers.Where(x => x.MType.Equals("B")).ToList();
 
             return View(vm);
         }

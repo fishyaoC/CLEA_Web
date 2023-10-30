@@ -1,0 +1,238 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+}
+@model Clea_Web.ViewModels.LectorClassViewModel.ModifyModel
+<div class="main-panel">
+	<div class="content-wrapper">
+		<div class="row">
+
+			<div class="col-12 mb-3">
+				<div class="accordion" id="accordionPanelsStayOpenExample">
+					<!--搜尋-->
+					<form class="forms-sample" method="post" action="@Url.Action("Modify","P_LectorClass")" enctype='multipart/form-data'>
+						@Html.AntiForgeryToken()
+						@Html.HiddenFor(x=>x.modify.ED_ID)
+						<div class="col-lg-12 grid-margin stretch-card">
+							<div class="card">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<h3>課程內容</h3>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-4">
+											<div class="form-group">
+												<h3>評鑑年度: @(Model.modify.Year) 年</h3>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h3>課程名稱: @(Model.modify.C_Name)</h3>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<div class="form-group">
+												<h3>科目名稱: @(Model.modify.S_Name)</h3>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label for="exampleInputName1">教學大綱</label>
+												@Html.TextAreaFor(x => x.modify.Syllabus, new { @class = "form-control form-control", placeholder = "教學大綱" })
+												@Html.ValidationMessageFor(x => x.modify.Syllabus)
+											</div>
+											<div class="form-group">
+												<label for="exampleInputName1">教學目標</label>
+												@Html.TextAreaFor(x => x.modify.Object, new { @class = "form-control form-control", placeholder = "教學目標" })
+												@Html.ValidationMessageFor(x => x.modify.Object)
+											</div>
+											<div class="form-group">
+												<label for="exampleInputName1">教學內容摘要</label>
+												@Html.TextAreaFor(x => x.modify.Abstract, new { @class = "form-control form-control", placeholder = "教學內容摘要" })
+												@Html.ValidationMessageFor(x => x.modify.Abstract)
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										@if (string.IsNullOrEmpty(Model.modify.FileName))
+										{
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="exampleInputName1">教學檔案</label>
+													@Html.TextBoxFor(x => x.modify.file, new { @class = "form-control form-control", placeholder = "教學檔案", @type = "file" })
+													@Html.ValidationMessageFor(x => x.modify.file)
+												</div>
+											</div>
+										}
+										else
+										{
+											<div class="col-md-8">
+												<div class="form-group">
+													@Html.HiddenFor(x=>x.modify.FileName)
+													<label for="exampleInputName1">教學檔案</label>
+													<a class="form-control form-control">@Model.modify.FileName</a>
+												</div>
+											</div>
+											<div class="col-md-4">
+												<div class="form-group">
+													<label for="exampleInputName1">操作</label>
+													<button type="button" class="form-control form-control btn btn-danger" onclick="del('@Model.modify.F_ID')">刪除檔案</button>
+												</div>
+											</div>
+										}
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<label for="exampleInputName1">重大更新內容</label>
+												<div class="form-check">
+													@Html.RadioButtonFor(x=>x.modify.IsUpdate, false, new { @class="form-check-input", id = "N" })<lable for="N">否</lable>
+												</div>
+												<div class="form-check">
+													@Html.RadioButtonFor(x=>x.modify.IsUpdate, true, new { @class="form-check-input", id = "Y" })<lable for="Y">是</lable>
+												</div>
+												@Html.ValidationMessageFor(x => x.modify.IsUpdate)
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group">
+												<button type="submit" class="form-control form-control btn btn-primary" onclick="dela()">儲存</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</form>
+					<div class="col-lg-12 grid-margin stretch-card">
+						@* <a class="btn btn-primary mr-2" href="@Url.Action("P_Index","B_AssignClass", new{ C_ID = Model.cSTinfo.C_UID, Sub_UID = Model.cSTinfo.Sub_UID })">回前頁</a> *@
+					</div>
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">檔案上傳紀錄</h4>
+								<div class="table-responsive">
+									<table class="table">
+										<thead>
+											<tr>
+												<th>序</th>
+												<th>檔案名稱</th>
+												<th>重大內容更新</th>
+												<th>上傳時間</th>
+											</tr>
+										</thead>
+										<tbody>
+											@if (!(Model.uploadLogs is null) && Model.uploadLogs.Count > 0)
+											{
+												Int32 rowCount = 0;
+												foreach (var log in Model.uploadLogs)
+												{
+													rowCount++;
+													<tr>
+														<td>@rowCount</td>
+														<td>@log.F_Name</td>
+														<td>@(log.IsUpdate ? "是" : "否")</td>
+														<td>@log.CreDate</td>
+													</tr>
+												}
+											}
+											else
+											{
+												<tr>
+													<td colspan="4" align="center">查無資料!</td>
+												</tr>
+											}
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function dela() {
+		Swal.fire({
+			confirmButtonColor: '#3085d6',
+			confirmButtonText: '確定',
+			heightAuto: false,
+			icon: 'info',
+			title: '上傳檔案',
+			text: '如檔案大小太大，請靜待15~20秒，謝謝配合!'
+		});
+	}
+
+	function del(F_ID) {
+		//刪除按紐
+		Swal.fire({
+			title: '是否確定要刪除？',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: '是',
+			cancelButtonText: '否',
+			heightAuto: false
+		}).then((result) => {
+			if (!result.isConfirmed) {
+				return;
+			}
+			else {
+				$.ajax({
+					type: "POST",
+					url: '../P_LectorClass/Delete',
+					data: { F_ID: F_ID },
+					dataType: "json",
+					success: function (response) {
+						if (response.chk) {
+							Swal.fire({
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: '確定',
+								heightAuto: false,
+								icon: 'success',
+								title: '刪除成功'
+							}).then(() => {
+								location.reload();
+							});
+						}
+						else {
+							Swal.fire({
+								confirmButtonColor: '#3085d6',
+								confirmButtonText: '確定',
+								heightAuto: false,
+								icon: 'warning',
+								title: '刪除失敗',
+								text: response.msg
+							});
+						}
+					},
+					error: function (thrownError) {
+						console.log(thrownError);
+						Swal.fire({
+							confirmButtonColor: '#3085d6',
+							confirmButtonText: '確定',
+							heightAuto: false,
+							icon: 'warning',
+							title: '刪除失敗',
+							text: '系統異常，請洽管理員'
+						});
+					}
+				});
+			}
+
+		})
+	}
+</script>

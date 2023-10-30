@@ -4,7 +4,8 @@
 @{
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.AssignBookViewModel.schBookModel
+@model Clea_Web.ViewModels.AssignBookViewModel.SchBookModel
+<div class="main-panel">
 	<div class="content-wrapper">
 		<div class="row">
 			<!--搜尋-->
@@ -21,19 +22,25 @@
 								<form class="forms-sample" method="post" action="@Url.Action("Index","B_AssignBook")">
 									@Html.AntiForgeryToken()
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="exampleInputName1">評鑑年度</label>
+												@Html.DropDownListFor(x => x.schBookItems.Year, Model.selectListItems, new { id="Year", @class = "form-control form-control", placeholder = "評鑑年度" })
+											</div>
+										</div>
+										<div class="col-md-4">
 											<div class="form-group">
 												<label for="exampleInputName1">教材代碼</label>
-												@Html.TextBoxFor(x => x.schBookItem.B_ID, new { @class = "form-control form-control", placeholder = "教材代碼" })
+												@Html.TextBoxFor(x => x.schBookItems.B_ID, new { id="BID", @class = "form-control form-control", placeholder = "教材代碼" })
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-4">
 											<div class="form-group">
 												<label for="exampleInputEmail3">教材名稱</label>
-												@Html.TextBoxFor(x => x.schBookItem.B_Name, new { @class = "form-control form-control", placeholder = "教材名稱" })
+												@Html.TextBoxFor(x => x.schBookItems.B_Name, new {id="BN", @class = "form-control form-control", placeholder = "教材名稱" })
 											</div>
 										</div>
-									</div>									
+									</div>
 									<div class="d-flex">
 										<button class="btn btn-light mr-2" onclick="">清除條件</button>
 										<button type="submit" class="btn btn-primary mr-2">搜尋</button>
@@ -45,13 +52,15 @@
 					<!--搜尋End-->
 					<!--動作-->
 					<div class="mb-2 mt-2">
+						<a href="@Url.Action("Add", "B_AssignBook")" class="btn btn-info">新增評鑑</a>
+
 					</div>
 					<!--動作End-->
 					<!--資料Table-->
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">評鑑指定 - 課程資訊</h4>
+								<h4 class="card-title">評鑑指定 - 教材</h4>
 								@*<p class="card-description">
 								Add class <code>.table</code>
 								</p> *@
@@ -62,37 +71,38 @@
 												<th>序</th>
 												<th>教材代碼</th>
 												<th>教材名稱</th>
-												<th>教材版本</th>
-												<th>教材出版人</th>
-												<th>教材證號</th>
 												<th>操作</th>
 											</tr>
 										</thead>
 										<tbody>
-											@if (!(Model.bookInfosPageList is null) && Model.bookInfosPageList.Count > 0)
+											@if (!(Model.bookInforsPageList is null) && Model.bookInforsPageList.Count > 0)
 											{
 												Int32 rowCount = 0;
-												foreach (var book in Model.bookInfosPageList)
+												foreach (var book in Model.bookInforsPageList)
 												{
 													rowCount++;
 													<tr>
 														<td>@rowCount</td>
 														<td>@book.B_ID</td>
 														<td>@book.B_Name</td>
-														<td>@book.B_Version</td>
-														<td>@book.B_Publish</td>
-														<td>@book.B_CNumber</td>
 														<td>
-															<a href="@Url.Action("Modify", "B_AssignBook", new { B_UID = book.B_UID })" class="btn btn-info">編輯</a>
-															<a href="@Url.Action("P_Modify", "B_AssignBook", new { B_UID = book.B_UID })" class="btn btn-warning">指定評鑑教師(測試鈕)</a>
-															@if (book.IsUpload == true)
-															{
-																<a href="@Url.Action("Modify","B_AssignBook", new { B_UID = book.B_UID })" class="btn btn-warning">指定評鑑教師</a>
-															}
-															else
-															{
-																<button type="button" class="btn btn-warning" disabled>尚未上傳教材</button>
-															}
+															<a href="@Url.Action("Modify", "B_AssignBook", new { E_ID = book.E_ID })" class="btn btn-info">指定評鑑教師</a>
+															<a href="@Url.Action("V_Index", "B_AssignBook", new { E_ID = book.E_ID, B_UID = book.B_UID })" class="btn btn-success">檢視版本資訊</a>
+															@* 															<a href="" class="btn btn-warning">匯出教材統計表</a>
+													<a href="" class="btn btn-warning">匯出教材審查表</a> *@
+															<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("Export_ScoreExcel", "B_AssignBook", new { E_ID = book.E_ID })'">匯出教材統計表</button>
+															<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("Export_ScoreWord", "B_AssignBook", new { E_ID = book.E_ID })'">匯出教材審查表</button>
+
+															@* 															<a href="@Url.Action("Modify", "B_AssignBook", new { B_UID = book.B_UID })" class="btn btn-info">編輯</a>
+													<a href="@Url.Action("P_Modify", "B_AssignBook", new { B_UID = book.B_UID })" class="btn btn-warning">指定評鑑教師(測試鈕)</a>
+													@if (book.IsUpload == true)
+													{
+													<a href="@Url.Action("Modify","B_AssignBook", new { B_UID = book.B_UID })" class="btn btn-warning">指定評鑑教師</a>
+													}
+													else
+													{
+													<button type="button" class="btn btn-warning" disabled>尚未上傳教材</button>
+													} *@
 														</td>
 													</tr>
 												}
@@ -106,9 +116,9 @@
 										</tbody>
 									</table>
 									<!--換頁模組-->
-									@if (!(Model.bookInfosPageList is null) && Model.bookInfosPageList.Count > 0)
+									@if (!(Model.bookInforsPageList is null) && Model.bookInforsPageList.Count > 0)
 									{
-										@Html.Partial("../Shared/_pageList", Model.bookInfosPageList)
+										@Html.Partial("../Shared/_pageList", Model.bookInforsPageList)
 									}
 								</div>
 							</div>
@@ -119,8 +129,11 @@
 			</div>
 		</div>
 	</div>
+</div>
 <script type="text/javascript">
 	function resetItem() {
-
+		$('#Year').val('請選擇', null);
+		$('#BID').val(null);
+		$('#BN').val(null);
 	}
 </script>
