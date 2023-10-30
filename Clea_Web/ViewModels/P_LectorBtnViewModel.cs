@@ -43,7 +43,6 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("分類")]
             public int NType { get; set; }
-
             /// <summary>
             /// 主旨
             /// </summary>
@@ -62,8 +61,11 @@ namespace Clea_Web.ViewModels
             [DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
             [DisplayName("開始日期")]
             public DateTime N_StartDate { get; set; }
-
-          
+            /// <summary>
+            /// 分類名稱
+            /// </summary>
+            [DisplayName("分類名稱")]
+            public string NTypeName { get; set; }
             /// <summary>
             /// 是否置頂
             /// </summary>
@@ -142,6 +144,11 @@ namespace Clea_Web.ViewModels
             public DateTime s_EndDate { get; set; }
             public String updDate { get; set; }
             public Guid? updUser { get; set; }
+            /// <summary>
+            /// 分類名稱
+            /// </summary>
+            [DisplayName("分類名稱")]
+            public string NTypeName { get; set; }
         }
         #endregion
 
@@ -153,7 +160,11 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("發布日期")]
             public String N_CreateDate { get; set; }
-
+            /// <summary>
+            /// 分類名稱
+            /// </summary>
+            [DisplayName("分類名稱")]
+            public string NTypeName { get; set; }
 
         }
         #endregion

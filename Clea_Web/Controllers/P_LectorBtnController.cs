@@ -62,6 +62,7 @@ namespace Clea_Web.Controllers
             
             if (!string.IsNullOrEmpty(NewsID))
             {
+                _P_LectorBtnService.user = User;
                 //編輯
                 vm = _P_LectorBtnService.GetEditData(NewsID);
                 vm.IsEdit = true;

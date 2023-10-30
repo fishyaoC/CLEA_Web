@@ -31,7 +31,7 @@ namespace Clea_Web.Service
         {
             B_LectorBtnViewModel.schPageList model;
             List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
-            db.PNews.ToList().ForEach(x =>
+            db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true).ToList().ForEach(x =>
             {
                 model = new B_LectorBtnViewModel.schPageList();
                 model.NTitle = x.NTitle;
@@ -49,6 +49,7 @@ namespace Clea_Web.Service
                 model.NIsShow = x.NIsShow;
                 model.NIsTop = x.NIsTop;
                 model.NType = x.NType;
+                model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == x.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
                 result.Add(model);
             });
 
@@ -136,24 +137,26 @@ namespace Clea_Web.Service
             //撈資料
             B_LectorBtnViewModel.Modify model;
             //List<B_LectorBtnViewModel.Modify> result = new List<B_LectorBtnViewModel.Modify>();
-          var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
-            
-                model = new B_LectorBtnViewModel.Modify();
-                model.N_Title = _PNews.NTitle;
-                model.Upddate = _PNews.Upddate;
-                model.Upduser = _PNews.Upduser;
-                model.Creuser = _PNews.Creuser;
-                model.Curdate = _PNews.Curdate;
-                model.NStatus = _PNews.NStatus;
-                model.RId = _PNews.RId;
-                model.NContent = _PNews.NContent;
-                model.NClass = _PNews.NClass;
-                model.NEndDate = _PNews.NEndDate;
-                model.NStartDate = _PNews.NStartDate;
-                model.NewsId = _PNews.NewsId;
-                model.NIsShow = _PNews.NIsShow;
-                model.NIsTop = _PNews.NIsTop;
-                model.NType = _PNews.NType;
+            var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
+
+            model = new B_LectorBtnViewModel.Modify();
+            model.N_Title = _PNews.NTitle;
+            model.Upddate = _PNews.Upddate;
+            model.Upduser = _PNews.Upduser;
+            model.Creuser = _PNews.Creuser;
+            model.Curdate = _PNews.Curdate;
+            model.NStatus = _PNews.NStatus;
+            model.RId = _PNews.RId;
+            model.NContent = _PNews.NContent;
+            model.NClass = _PNews.NClass;
+            model.NEndDate = _PNews.NEndDate;
+            model.NStartDate = _PNews.NStartDate;
+            model.NewsId = _PNews.NewsId;
+            model.NIsShow = _PNews.NIsShow;
+            model.NIsTop = _PNews.NIsTop;
+            model.N_IsShow = _PNews.NIsShow;
+            model.N_IsTop = _PNews.NIsTop;
+            model.NType = _PNews.NType;
             return model;
         }
         #endregion
@@ -164,7 +167,7 @@ namespace Clea_Web.Service
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            PNews _PNews = db.PNews.Where(x=>x.NewsId== NewsId).FirstOrDefault();
+            PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
             vm = new B_LectorBtnViewModel.Modify();
 
             try

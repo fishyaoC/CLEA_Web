@@ -25,7 +25,7 @@ namespace Clea_Web.Controllers
         }
 
 
-        #region 查詢
+        #region 首頁
         public IActionResult Index(String? data, Int32? page)
         {
             B_LectorBtnViewModel.SchModel vmd = new B_LectorBtnViewModel.SchModel();
@@ -77,6 +77,7 @@ namespace Clea_Web.Controllers
             vm.DropDownListType = getTypeItem();
             vm.N_StartDate = DateTime.Now;
             vm.N_EndDate = DateTime.Now;
+           
             return View(vm);
         }
 

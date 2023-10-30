@@ -73,11 +73,13 @@ namespace Clea_Web.ViewModels
             /// 是否置頂
             /// </summary>
             [DisplayName("是否置頂")]
-            public Boolean N_IsTop { get; set; } = false;
+            [Range(typeof(bool), "true", "true", ErrorMessage = "You gotta tick the box!")]
+            public bool N_IsTop { get; set; } = false;
             /// <summary>
             /// 是否顯示
             /// </summary>
             [DisplayName("是否顯示")]
+            [Range(typeof(bool), "true", "true", ErrorMessage = "You gotta tick the box!")]
             public Boolean N_IsShow { get; set; } = false;
             /// 公告狀態
             /// </summary>
@@ -121,6 +123,11 @@ namespace Clea_Web.ViewModels
             public SchItem schItem { get; set; }
             public List<schPageList> schPageList { get; set; }
             public IPagedList<schPageList> schPageList2 { get; set; }
+            /// <summary>
+            /// 分類名稱
+            /// </summary>
+            [DisplayName("分類名稱")]
+            public string NTypeName { get; set; }
         }
         #endregion
 
@@ -136,6 +143,11 @@ namespace Clea_Web.ViewModels
             public DateTime s_EndDate { get; set; }
             public String updDate { get; set; }
             public Guid? updUser { get; set; }
+            /// <summary>
+            /// 分類名稱
+            /// </summary>
+            [DisplayName("分類名稱")]
+            public string NTypeName { get; set; }
         }
         #endregion
 
@@ -143,7 +155,11 @@ namespace Clea_Web.ViewModels
         public class schPageList :PNews 
         {
 
-
+            /// <summary>
+            /// 分類名稱
+            /// </summary>
+            [DisplayName("分類名稱")]
+            public string NTypeName { get; set; }
 
         }
         #endregion
