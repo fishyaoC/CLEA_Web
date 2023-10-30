@@ -37,7 +37,7 @@ namespace Clea_Web.Filters
             //取得目前action name
             String _action = context.RouteData.Values["action"].ToString();
             //組合Url
-            String Url = "/" + _controller + "/Index" ;
+            String Url = "/" + _controller + "/Index";
             String _QString = context.HttpContext.Request.QueryString.Value;
             //String Url = "/" + _controller + "/" + _action;
             //取得USER POWER
@@ -61,11 +61,13 @@ namespace Clea_Web.Filters
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Contains("Modify") && string.IsNullOrEmpty(_QString) && rp.CreateData)
+                    else if (_action.Contains("Add") && rp.CreateData)
+                    //else if (_action.Contains("Modify") && string.IsNullOrEmpty(_QString) && rp.CreateData)                      
                     {
                         PowerChk = true;
                     }
-                    else if (_action.Contains("Modify") && !string.IsNullOrEmpty(_QString) && rp.ModifyData)
+                    else if (_action.Contains("Modify") && rp.ModifyData)
+                    //else if (_action.Contains("Modify") && !string.IsNullOrEmpty(_QString) && rp.ModifyData)
                     {
                         PowerChk = true;
                     }
@@ -116,7 +118,7 @@ namespace Clea_Web.Filters
             else
             {
                 context.HttpContext.Session.Clear();
-            }            
+            }
 
             context.Result = new RedirectToRouteResult(dictionary);
         }

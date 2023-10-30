@@ -20,8 +20,11 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
-            public List<ViewMenuRolePower> rolePowerListB { get; set; }
-            public List<ViewMenuRolePower> rolePowerListP { get; set; }
+            //public List<ViewMenuRolePower> rolePowerListB { get; set; }
+            //public List<ViewMenuRolePower> rolePowerListP { get; set; }
+
+            public List<treeView> treeViewList { get; set; }
+            public treeView treeView { get; set; }
 
             /// <summary>
             /// Uid
@@ -64,6 +67,41 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; } = false;
+        }
+        #endregion
+
+        #region treeView
+        public class checkbox
+        {
+            public String? value { get; set; }
+            public String? text { get; set; }
+            public Boolean isChecked { get; set; }
+        }
+        public class treeView
+        {
+            //public List<checkbox> checkboxList { get; set; }
+            public Guid RUid { get; set; }
+            public long? MID { get; set; }
+            public String? MType { get; set; }
+            public String? MName { get; set; }
+            public long? MParentID { get; set; }
+            public long? MLevel { get; set; }
+            public String? MUrl { get; set; }
+            public int? MOrder { get; set; }
+
+            public bool SearchData { get; set; } = false;
+            public bool CreateData { get; set; } = false;
+            public bool ModifyData { get; set; } = false;
+            public bool DeleteData { get; set; } = false;
+            public bool ImportData { get; set; } = false;
+            public bool Exportdata { get; set; } = false;
+
+
+
+
+
+
+
         }
         #endregion
 

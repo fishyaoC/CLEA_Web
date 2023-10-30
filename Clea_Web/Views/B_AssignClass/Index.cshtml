@@ -4,7 +4,8 @@
 @{
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.AssignClassViewModel.SchClassModel
+@model Clea_Web.ViewModels.AssignClassViewModel.SearchModel
+<div class="main-panel">
 	<div class="content-wrapper">
 		<div class="row">
 			<!--搜尋-->
@@ -21,35 +22,27 @@
 								<form class="forms-sample" method="post" action="@Url.Action("Index","B_AssignClass")">
 									@Html.AntiForgeryToken()
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-4">
 											<div class="form-group">
-												<label for="exampleInputName1">課程代碼</label>
-												@Html.TextBoxFor(x => x.schClassItem.ClassID, new { @class = "form-control form-control", placeholder = "課程代碼" })
+												<label for="exampleInputName1">年度</label>
+												@Html.DropDownListFor(x => x.schClassItem.Year, Model.selectListItems, new { id = "year", @class = "form-control form-control", placeholder = "年度" })
 											</div>
 										</div>
-										<div class="col-md-6">
+										<div class="col-md-4">
+											<div class="form-group">
+												<label for="exampleInputEmail3">課程代碼</label>
+												@Html.TextBoxFor(x => x.schClassItem.C_Number, new {id = "num", @class = "form-control form-control", placeholder = "課程代碼" })
+											</div>
+										</div>
+										<div class="col-md-4">
 											<div class="form-group">
 												<label for="exampleInputEmail3">課程名稱</label>
-												@Html.TextBoxFor(x => x.schClassItem.ClassName, new { @class = "form-control form-control", placeholder = "課程名稱" })
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputName1">課程種類</label>
-												@Html.TextBoxFor(x => x.schClassItem.ClassType, new { @class = "form-control form-control", placeholder = "課程種類" })
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputEmail3">教材編號</label>
-												@Html.TextBoxFor(x => x.schClassItem.BookNumber, new { @class = "form-control form-control", placeholder = "教材編號" })
+												@Html.TextBoxFor(x => x.schClassItem.C_Name, new { id = "name",@class = "form-control form-control", placeholder = "課程名稱" })
 											</div>
 										</div>
 									</div>
 									<div class="d-flex">
-										<button class="btn btn-light mr-2" onclick="">清除條件</button>
+										<button type="button" class="btn btn-light mr-2" onclick="resetItem()">清除條件</button>
 										<button type="submit" class="btn btn-primary mr-2">搜尋</button>
 									</div>
 								</form>
@@ -60,6 +53,7 @@
 					<!--動作-->
 
 					<div class="mb-2 mt-2">
+						<a class="btn btn-warning mr-2" href="@Url.Action("Add")">新增評鑑</a>
 						<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("V_Export", "B_AssignClass")'">匯出未上傳資訊</button>
 					</div>
 					<!--動作End-->
@@ -76,28 +70,26 @@
 										<thead>
 											<tr>
 												<th>序</th>
+												<th>年度</th>
 												<th>課程代碼</th>
 												<th>課程名稱</th>
-												<th>課程種類</th>
-												<th>教材編號</th>
 												<th>操作</th>
 											</tr>
 										</thead>
 										<tbody>
-											@if (!(Model.getClassPageList is null) && Model.getClassPageList.Count > 0)
+											@if (!(Model.classInfoPageLists is null) && Model.classInfoPageLists.Count > 0)
 											{
 												Int32 rowCount = 0;
-												foreach (var Class in Model.getClassPageList)
+												foreach (var Class in Model.classInfoPageLists)
 												{
 													rowCount++;
 													<tr>
 														<td>@rowCount</td>
-														<td>@Class.ClassID</td>
-														<td>@Class.ClassName</td>
-														<td>@Class.ClassType</td>
-														<td>@Class.BookNumber</td>
+														<td>@Class.Year</td>
+														<td>@Class.C_ID</td>
+														<td>@Class.C_Name</td>
 														<td>
-															<a href="@Url.Action("L_Index","B_AssignClass", new { U_ID = Class.ClassUid })" class="btn btn-success">科目明細</a>
+															<a href="@Url.Action("TC_Index","B_AssignClass", new { U_ID = Class.E_ID })" class="btn btn-success">科目明細</a>
 														</td>
 													</tr>
 												}
@@ -111,9 +103,9 @@
 										</tbody>
 									</table>
 									<!--換頁模組-->
-									@if (!(Model.getClassPageList is null) && Model.getClassPageList.Count > 0)
+									@if (!(Model.classInfoPageLists is null) && Model.classInfoPageLists.Count > 0)
 									{
-										@Html.Partial("../Shared/_pageList", Model.getClassPageList)
+										@Html.Partial("../Shared/_pageList", Model.classInfoPageLists)
 									}
 								</div>
 							</div>
@@ -124,8 +116,12 @@
 			</div>
 		</div>
 	</div>
+</div>
 <script type="text/javascript">
 	function resetItem() {
-
-	}	
+		alert('AAA');
+		$('#year').val('請選擇', null);
+		$('#num').val(null);
+		$('#name').val(null);
+	}
 </script>

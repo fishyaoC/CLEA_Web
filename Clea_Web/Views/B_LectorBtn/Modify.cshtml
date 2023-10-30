@@ -37,6 +37,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @*<label class="col-sm-3 col-form-label">角色啟用狀態</label>*@
@@ -44,19 +45,22 @@
 
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
-                                            <label for="S1">
-                                                是否置頂
-                                            </label>
+                                            @Html.CheckBoxFor(x => x.N_IsTop,  new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            @Html.LabelFor(x => x.N_IsTop, new { @class = "col-sm-12 control-label" })
+                                            @*  <label for="S1">
+                                            是否置頂
+                                            </label>*@
                                         </div>
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsShow, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
-                                            <label for="S0">
-                                                是否顯示
-                                            </label>
+                                            @Html.CheckBoxFor(x => x.N_IsShow, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios"})
+                                            @Html.LabelFor(x => x.N_IsShow, new { @class = "col-sm-12 control-label" })
+                                            @*<label for="S0">
+                                            是否顯示
+                                            </label>*@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="row">
@@ -150,32 +154,32 @@
                                         @Html.TextBoxFor(x => x.FileName, new { @class = "form-control form-control"})
                                     </div>
                                     <div class="col-sm-4">
-                                    @if (string.IsNullOrEmpty(Model.FilePath))
-                                    {
-                                        <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
-                                    }
-                                    else
-                                    {
-                                        <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
-                                    }
-                                   
-                                    @* <button type="@(!string.IsNullOrEmpty(Model.FilePath) ? "button":"submit")" class="form-control form-control btn @(!string.IsNullOrEmpty(Model.FilePath) ?"btn-danger":"btn-info") mr-2">@(!string.IsNullOrEmpty(Model.FilePath) ? "刪除檔案" : "上傳檔案")</button> *@
+                                        @if (string.IsNullOrEmpty(Model.FilePath))
+                                        {
+                                            <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
+                                        }
+
+                                        @* <button type="@(!string.IsNullOrEmpty(Model.FilePath) ? "button":"submit")" class="form-control form-control btn @(!string.IsNullOrEmpty(Model.FilePath) ?"btn-danger":"btn-info") mr-2">@(!string.IsNullOrEmpty(Model.FilePath) ? "刪除檔案" : "上傳檔案")</button> *@
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextAreaFor(x => x.N_Content,20,35, new { @class = "form-control form-control" })
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-3 col-form-label" })
+                                        <div class="col-sm-9">
+                                            @Html.TextAreaFor(x => x.N_Content,20,35, new { @class = "form-control form-control" })
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
     </form>
 </div>
 
@@ -188,18 +192,18 @@
         debugger;
         datetime();
     }
-    //const toggleCheckbox = document.getElementById("toggleCheckbox");
-    //const contentDiv = document.getElementById("contentDiv");
-    //toggleCheckbox.addEventListener("change", function () {
-    //    if (toggleCheckbox.checked) {
-    //        contentDiv.style.display = "block";
-    //    } else {
-    //        contentDiv.style.display = "none";
-    //    }
-    //});
+            //const toggleCheckbox = document.getElementById("toggleCheckbox");
+            //const contentDiv = document.getElementById("contentDiv");
+            //toggleCheckbox.addEventListener("change", function () {
+            //    if (toggleCheckbox.checked) {
+            //        contentDiv.style.display = "block";
+            //    } else {
+            //        contentDiv.style.display = "none";
+            //    }
+            //});
 </script>
 @*<script type="text/javascript">
-    
+
         function datetime() {
             //年份選擇器
             $('.year-picker').datepicker({
@@ -226,6 +230,6 @@
             });
             //日期範圍選擇器
             $('.input-daterange').datepicker({ autoclose: true });
-           
+
         };
 </script>*@
