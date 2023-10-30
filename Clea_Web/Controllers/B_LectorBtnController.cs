@@ -77,6 +77,7 @@ namespace Clea_Web.Controllers
             vm.DropDownListType = getTypeItem();
             vm.N_StartDate = DateTime.Now;
             vm.N_EndDate = DateTime.Now;
+           
             return View(vm);
         }
 

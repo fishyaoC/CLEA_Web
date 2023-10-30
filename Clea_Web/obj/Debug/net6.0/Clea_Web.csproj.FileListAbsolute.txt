@@ -464,6 +464,7 @@ D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.IdentityMod
 D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
 D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.IO.RecyclableMemoryStream.dll
+D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.Office.Interop.PowerPoint.dll
 D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.SqlServer.Server.dll
 D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.Win32.SystemEvents.dll
 D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Mono.TextTemplating.dll
@@ -528,4 +529,3 @@ D:\桌機資料\Project\CLEA_Web\Clea_Web\obj\Debug\net6.0\refint\Clea_Web.dll
 D:\桌機資料\Project\CLEA_Web\Clea_Web\obj\Debug\net6.0\Clea_Web.pdb
 D:\桌機資料\Project\CLEA_Web\Clea_Web\obj\Debug\net6.0\Clea_Web.genruntimeconfig.cache
 D:\桌機資料\Project\CLEA_Web\Clea_Web\obj\Debug\net6.0\ref\Clea_Web.dll
-D:\桌機資料\Project\CLEA_Web\Clea_Web\bin\Debug\net6.0\Microsoft.Office.Interop.PowerPoint.dll

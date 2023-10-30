@@ -32,7 +32,7 @@
                                             <label for="exampleInputName1" class="col-sm-3 col-form-label">分類</label>
                                             @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
                                             <div class="col-sm-9">
-                                            @Html.TextBoxFor(x => x.schItem.s_type, new { @class = "form-control form-control", placeholder = "分類" })
+                                            @Html.TextBoxFor(x => x.schItem.NTypeName, new { @class = "form-control form-control", placeholder = "分類" })
                                             </div>
                                         </div>
                                     </div>
@@ -124,7 +124,7 @@
                                         foreach (var item in Model.schPageList2)
                                         {
                                             <tr>
-                                                <td>@item.NType</td>
+                                                <td>@item.NTypeName</td>
                                                 <td>@item.NTitle</td>
                                                 <td></td>
                                                 <td>@item.Curdate</td>
