@@ -42,7 +42,7 @@ namespace Clea_Web.ViewModels
             /// 公告類型
             /// </summary>
             [DisplayName("公告類型")]
-            public Int16 N_Type { get; set; }
+            public String N_Type { get; set; }
 
             /// <summary>
             /// 公告標題
