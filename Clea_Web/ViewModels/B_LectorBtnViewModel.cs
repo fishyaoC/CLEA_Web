@@ -42,7 +42,7 @@ namespace Clea_Web.ViewModels
             /// 公告類型
             /// </summary>
             [DisplayName("公告類型")]
-            public Int16 N_Type { get; set; }
+            public string N_Type { get; set; }
 
             /// <summary>
             /// 公告標題
@@ -128,6 +128,12 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("分類名稱")]
             public string NTypeName { get; set; }
+            /// <summary>
+            /// Uid
+            /// </summary>
+            [DisplayName("Uid")]
+            public Guid R_ID { get; set; }
+            public List<SelectListItem> DropDownList { get; set; }
         }
         #endregion
 
@@ -137,7 +143,7 @@ namespace Clea_Web.ViewModels
 
             public String? News_ID { get; set; }
             public String? rId { get; set; }
-            public int? s_type { get; set; }
+            public String? s_type { get; set; }
             public String? s_Title { get; set; }
             public DateTime s_StartDate { get; set; }
             public DateTime s_EndDate { get; set; }
@@ -148,6 +154,11 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("分類名稱")]
             public string NTypeName { get; set; }
+            /// <summary>
+            /// Uid
+            /// </summary>
+            [DisplayName("Uid")]
+            public Guid R_ID { get; set; }
         }
         #endregion
 

@@ -29,8 +29,6 @@ namespace Clea_Web
             services.AddTransient<HomeService>();
             services.AddTransient<AssignClassService>();
             services.AddTransient<AssignBookService>();
-            services.AddTransient<ViewClassService>();
-            services.AddTransient<ViewBookService>();
             services.AddTransient<LectorClassService>();
             services.AddTransient<LectorEvaluationService>();
             services.AddTransient<SMTPService>();
@@ -38,6 +36,8 @@ namespace Clea_Web
             services.AddTransient<B_LectorBtnService>();
             services.AddTransient<P_LectorBtnService>();
             services.AddTransient<B_LectorAdvService>();
+            services.AddTransient<P_LectorAdvService>();
+
             ////加入Mapper
             //var mapperConfig = new MapperConfiguration(mc =>
             //{

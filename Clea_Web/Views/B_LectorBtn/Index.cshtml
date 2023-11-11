@@ -29,7 +29,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label for="exampleInputName1" class="col-sm-3 col-form-label">分類</label>
+                                            <label for="exampleInputName1" class="col-sm-3 col-form-label">公告類型</label>
                                             @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
                                             <div class="col-sm-9">
                                             @Html.TextBoxFor(x => x.schItem.NTypeName, new { @class = "form-control form-control", placeholder = "分類" })
@@ -41,7 +41,7 @@
                                             <label for="exampleInputEmail3" class="col-sm-3 col-form-label">公告對象</label>
                                             @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
                                             <div class="col-sm-9">
-                                            @Html.TextBoxFor(x => x.schItem.s_type, new { @class = "form-control form-control", placeholder = "公告對象" })
+                                                @Html.DropDownListFor(x=>x.R_ID, Model.DropDownList, new { @class = "form-control form-control",@id="ddlobject"})
                                             </div>
                                         </div>
                                     </div>
@@ -71,7 +71,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label for="exampleInputName5" class="col-sm-3 col-form-label">主旨(標題)</label>
+                                            <label for="exampleInputName5" class="col-sm-3 col-form-label">公告標題</label>
                                             <div class="col-sm-9">
                                             @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
                                             @Html.TextBoxFor(x => x.schItem.s_Title, new { @class = "form-control form-control", placeholder = "主旨(標題)" })

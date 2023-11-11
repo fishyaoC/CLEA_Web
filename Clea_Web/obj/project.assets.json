@@ -757,6 +757,15 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
+      "MSOffice.Object.Library/15.0.4420.1018": {
+        "type": "package",
+        "compile": {
+          "lib/net20/Office.dll": {}
+        },
+        "runtime": {
+          "lib/net20/Office.dll": {}
+        }
+      },
       "Newtonsoft.Json/13.0.3": {
         "type": "package",
         "compile": {
@@ -2600,6 +2609,18 @@
         "mono.texttemplating.nuspec"
       ]
     },
+    "MSOffice.Object.Library/15.0.4420.1018": {
+      "sha512": "YVbTx7o83isXahfqr7PfnPRvoUFFfMfqEoxDJAZyt3gISL9v8sxYUmnI/Avib0nV8F0LC3cXzHVHyTkAS29pJQ==",
+      "type": "package",
+      "path": "msoffice.object.library/15.0.4420.1018",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/Office.dll",
+        "msoffice.object.library.15.0.4420.1018.nupkg.sha512",
+        "msoffice.object.library.nuspec"
+      ]
+    },
     "Newtonsoft.Json/13.0.3": {
       "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
       "type": "package",
@@ -4388,6 +4409,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "DocXCore >= 1.0.10",
+      "MSOffice.Object.Library >= 15.0.4420.1018",
       "Microsoft.EntityFrameworkCore >= 7.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 7.0.10",
@@ -4398,35 +4420,31 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\p3344\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\eric1\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\桌機資料\\Project\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+      "projectUniqueName": "D:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
       "projectName": "Clea_Web",
-      "projectPath": "D:\\桌機資料\\Project\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
-      "packagesPath": "C:\\Users\\p3344\\.nuget\\packages\\",
-      "outputPath": "D:\\桌機資料\\Project\\CLEA_Web\\Clea_Web\\obj\\",
+      "projectPath": "D:\\workspace\\CLEA_Web\\Clea_Web\\Clea_Web.csproj",
+      "packagesPath": "C:\\Users\\eric1\\.nuget\\packages\\",
+      "outputPath": "D:\\workspace\\CLEA_Web\\Clea_Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\p3344\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\eric1\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4448,6 +4466,10 @@
           "DocXCore": {
             "target": "Package",
             "version": "[1.0.10, )"
+          },
+          "MSOffice.Object.Library": {
+            "target": "Package",
+            "version": "[15.0.4420.1018, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -4499,8 +4521,20 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "已使用 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' 而非專案目標架構 'net6.0' 還原了套件 'MSOffice.Object.Library 15.0.4420.1018'。此套件與您的專案並非完全相容。",
+      "libraryId": "MSOffice.Object.Library",
+      "targetGraphs": [
+        "net6.0"
+      ]
+    }
+  ]
 }

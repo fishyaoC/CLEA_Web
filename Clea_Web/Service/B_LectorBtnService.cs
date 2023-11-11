@@ -3,6 +3,7 @@ using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using MathNet.Numerics;
 using X.PagedList;
+using static Clea_Web.ViewModels.AssignClassViewModel;
 
 namespace Clea_Web.Service
 {
@@ -10,7 +11,7 @@ namespace Clea_Web.Service
     public class B_LectorBtnService : BaseService
     {
         private B_LectorBtnViewModel.Modify vm = new B_LectorBtnViewModel.Modify();
-
+        private FileService _fileservice;
 
         public B_LectorBtnService(dbContext dbContext)
         {
@@ -31,7 +32,8 @@ namespace Clea_Web.Service
         {
             B_LectorBtnViewModel.schPageList model;
             List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
-            db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true).ToList().ForEach(x =>
+            db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true && x.RId==data.R_ID.ToString()&&x.NStartDate==data.s_StartDate
+            && x.NEndDate==data.s_EndDate && x.NTitle == data.s_Title && x.NType==data.s_type).ToList().ForEach(x =>
             {
                 model = new B_LectorBtnViewModel.schPageList();
                 model.NTitle = x.NTitle;
@@ -120,6 +122,24 @@ namespace Clea_Web.Service
                 }
 
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadNewFile(PNews.NewsId, vm.file);
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -135,7 +155,7 @@ namespace Clea_Web.Service
         public B_LectorBtnViewModel.Modify GetEditData(string NewsID)
         {
             //撈資料
-            B_LectorBtnViewModel.Modify model;
+            B_LectorBtnViewModel.Modify model = new B_LectorBtnViewModel.Modify();
             //List<B_LectorBtnViewModel.Modify> result = new List<B_LectorBtnViewModel.Modify>();
             var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
 
@@ -151,6 +171,8 @@ namespace Clea_Web.Service
             model.NClass = _PNews.NClass;
             model.NEndDate = _PNews.NEndDate;
             model.NStartDate = _PNews.NStartDate;
+            model.N_EndDate = _PNews.NEndDate;
+            model.N_StartDate = _PNews.NStartDate;
             model.NewsId = _PNews.NewsId;
             model.NIsShow = _PNews.NIsShow;
             model.NIsTop = _PNews.NIsTop;

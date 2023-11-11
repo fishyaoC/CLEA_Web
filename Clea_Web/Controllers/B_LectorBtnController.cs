@@ -40,7 +40,7 @@ namespace Clea_Web.Controllers
             {
                 vmd.schItem = new B_LectorBtnViewModel.SchItem();
             }
-
+            vmd.DropDownList = getTeacherItem();
             vmd.schPageList2 = _B_LectorBtnService.schPages(vmd.schItem, page.Value, 15);
 
             return View(vmd);
@@ -58,26 +58,45 @@ namespace Clea_Web.Controllers
         //public IActionResult Modify(String Type, String? R_ID)
         public IActionResult Modify(string NewsID)
         {
-            B_LectorBtnViewModel.Modify? vm = null;
-            
+            B_LectorBtnViewModel.Modify? vm = new B_LectorBtnViewModel.Modify();
+
+
             if (!string.IsNullOrEmpty(NewsID))
             {
                 //編輯
                 vm = _B_LectorBtnService.GetEditData(NewsID);
                 vm.IsEdit = true;
+                //vm.DropDownList.
+                vm.DropDownList = getTeacherItem();
+                vm.DropDownListUser = getsysuserItem();
+                vm.DropDownListType = getTypeItem();
+                vm.DropDownList.ForEach(x =>
+                {
+                    if (!string.IsNullOrEmpty(x.Value) && x.Value == vm.RId) x.Selected = true;
+                });
+                vm.DropDownListUser.ForEach(x =>
+                {
+                    if (!string.IsNullOrEmpty(x.Value) && x.Value == vm.R_ID.ToString()) x.Selected = true;
+                });
+                vm.DropDownListType.ForEach(x =>
+                {
+                    if (!string.IsNullOrEmpty(x.Value) && x.Value == vm.NType.ToString()) x.Selected = true;
+                });
+                //vm.N_StartDate = DateTime.Now;
+                //vm.N_EndDate = DateTime.Now;
             }
             else
             {
                 //新增
                 vm = new B_LectorBtnViewModel.Modify();
+                vm.DropDownList = getTeacherItem();
+                vm.DropDownListUser = getsysuserItem();
+                vm.DropDownListType = getTypeItem();
+                vm.N_StartDate = DateTime.Now;
+                vm.N_EndDate = DateTime.Now;
             }
 
-            vm.DropDownList = getTeacherItem();
-            vm.DropDownListUser = getsysuserItem();
-            vm.DropDownListType = getTypeItem();
-            vm.N_StartDate = DateTime.Now;
-            vm.N_EndDate = DateTime.Now;
-           
+
             return View(vm);
         }
 
@@ -110,7 +129,7 @@ namespace Clea_Web.Controllers
         {
             List<SelectListItem> result = new List<SelectListItem>();
             result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysCode> lst_cLectors = db.SysCodes.Where(x=>x.CParentCode== "L_Tpye").ToList();
+            List<SysCode> lst_cLectors = db.SysCodes.Where(x => x.CParentCode == "L_Tpye").ToList();
             if (lst_cLectors != null && lst_cLectors.Count() > 0)
             {
                 foreach (SysCode L in lst_cLectors)
@@ -149,84 +168,6 @@ namespace Clea_Web.Controllers
             return result;
         }
         #endregion
-        //#region 上傳檔案
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Modify([FromForm] B_LectorBtnViewModel.Modify data)
-        //{
-        //    BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
-        //    _B_LectorBtnService.user = User;
-        //    _fileService.user = User;
-
-        //    String chkExt = Path.GetExtension(data.file.FileName);
-
-        //    if (!string.IsNullOrEmpty(chkExt))
-        //    {
-        //        result.CheckMsg = Convert.ToBoolean(_fileService.UploadFile(1, data.R_ID, data.file, true));
-        //    }
-        //    else
-        //    {
-        //        result.CheckMsg = false;
-        //        result.ErrorMsg = "請選擇檔案!";
-        //    }
-
-        //    if (result.CheckMsg)
-        //    {
-        //        TempData["TempMsgType"] = "success";
-        //        TempData["TempMsgTitle"] = "檔案上傳成功";
-        //    }
-        //    else
-        //    {
-        //        TempData["TempMsgType"] = "error";
-        //        TempData["TempMsgTitle"] = "檔案上傳失敗";
-        //        TempData["TempMsg"] = result.ErrorMsg;
-        //    }
-
-        //    if (!string.IsNullOrEmpty(result.ErrorMsg))
-        //    {
-        //        return RedirectToAction("Modify", new { News_ID = data.News_ID });
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //}
-        //#endregion
-        //#region 刪除檔案
-        //public IActionResult Delete(Guid File_ID)
-        //{
-        //    BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
-        //    Guid B_UID = Guid.Empty;
-        //    SysFile? sysFile = db.SysFiles.Find(File_ID) ?? null;
-
-        //    if (sysFile != null)
-        //    {
-        //        B_UID = sysFile.FMatchKey;
-        //        db.SysFiles.Remove(sysFile);
-        //        result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-        //    }
-        //    else
-        //    {
-        //        result.CheckMsg = false;
-        //        result.ErrorMsg = "查無此筆資料!";
-        //    }
-
-        //    if (result.CheckMsg)
-        //    {
-        //        TempData["TempMsgType"] = "success";
-        //        TempData["TempMsgTitle"] = "刪除成功";
-        //    }
-        //    else
-        //    {
-        //        TempData["TempMsgType"] = "error";
-        //        TempData["TempMsgTitle"] = "刪除失敗";
-        //        TempData["TempMsg"] = result.ErrorMsg;
-        //    }
-
-        //    return RedirectToAction("Modify", new { B_UID = B_UID });
-        //}
-        //#endregion
         #region 刪除
 
         [HttpPost]
