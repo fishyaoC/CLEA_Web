@@ -1,0 +1,6 @@
+﻿.imgHoverEnlarge {
+    transition: all 0.6s;
+}
+    .imgHoverEnlarge:hover {
+        transform: scale(1.2);
+    }

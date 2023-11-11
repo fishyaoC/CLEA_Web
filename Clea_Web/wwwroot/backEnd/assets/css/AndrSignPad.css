@@ -1,0 +1,38 @@
+﻿#SignPadModalDialog {
+    transform: translate3d(0, 100%, 0);
+    width: 100%;
+    top: 0%;
+}
+
+.modal.in #SignPadModalDialog {
+    transform: translate3d(0, 0, 0);
+}
+
+.modal.show #SignPadModalDialog {
+    transform: translate3d(0, 0, 0);
+}
+
+#signpadContainer {
+    text-align: center;
+    width: 100%;
+    margin: 0 auto;
+    /* 防止範圍外的文字和內容被滑鼠拖曳事件選取*/
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+#cvSignPad {
+    float: left;
+    border: 2px solid #888;
+    border-radius: 4px;
+    position: relative; /*使 Firefox 的滑鼠座標正確*/
+}
+
+.signpadBorder{
+    background-color:azure;
+    display:inline-block;
+}

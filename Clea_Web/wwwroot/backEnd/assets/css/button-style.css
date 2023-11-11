@@ -1,0 +1,108 @@
+﻿/*簽名按鈕*/
+.signatureButton {
+    font-family: 'Microsoft JhengHei';
+    font-size: 12pt !important;
+    border: 0px;
+    border-bottom: 1px solid #969696;
+    color: black;
+    background-color: #ABBAC3;
+}
+
+    .signatureButton:hover {
+        font-family: 'Microsoft JhengHei';
+        font-size: 12pt !important;
+        border: 0px;
+        border-bottom: 1px solid #969696;
+        color: white;
+        background-color: #8B9AA3;
+    }
+
+.signatureButtonView {
+    font-family: 'Microsoft JhengHei' !important;
+    font-size: 12pt !important;
+    border: 0px !important;
+    border-bottom: 1px solid #A6A6A6 !important;
+    color: black !important;
+    background-color: #C8CED2 !important;
+}
+
+    .signatureButtonView:hover {
+        font-family: 'Microsoft JhengHei' !important;
+        font-size: 12pt !important;
+        border: 0px !important;
+        border-bottom: 1px solid #A6A6A6 !important;
+        color: black !important;
+        background-color: yellow !important;
+    }
+
+    .signatureButtonView:disabled {
+        font-family: 'Microsoft JhengHei' !important;
+        font-size: 12pt !important;
+        border: 0px !important;
+        border-bottom: 1px solid #A6A6A6 !important;
+        color: black !important;
+        background-color: yellow !important;
+    }
+
+    /*圖示按鈕*/
+    /*綠色*/
+.iconCmdBtnGreen {
+    text-decoration: none;
+    background-color: #DEE9DB;
+    margin-left: 3px;
+    padding-top: 4px !important; 
+    padding-bottom: 2px;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-radius: 4px;
+    border: 1px solid white;
+    vertical-align:middle !important;
+    color: green;
+}
+
+a .iconCmdBtnGreen:link {
+    background-color: #26BB00;
+    border: 1px solid #21A200;
+}
+
+a.iconCmdBtnGreen:active {
+    background-color: #26BB00;
+    border: 1px solid white;
+}
+
+a.iconCmdBtnGreen:visited {
+    background-color: #26BB00;
+    border: 1px solid #21A200;
+    color: #21A200;
+}
+
+a.iconCmdBtnGreen:hover {
+    background-color: #26BB00;
+    border: 1px solid #21A200;
+    color: #AAE086;
+}
+
+/*移除項目按鈕*/
+.iconCmdRemove {
+    font-size: 11pt;
+    color: #ECE5E5;
+    background-color: #E8555B;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    margin-left: 3px;
+    padding-left: 3px;
+    padding-top: 3px;
+}
+
+/*圖示按鈕：關閉*/
+.iconCmdClose {
+    display: inline-block;
+    font-size: 24pt;
+    color: black;
+    border: 3px solid gray;
+    background-color: #E8555B;
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+}
