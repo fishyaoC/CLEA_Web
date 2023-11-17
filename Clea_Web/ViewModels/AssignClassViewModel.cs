@@ -61,7 +61,7 @@ namespace Clea_Web.ViewModels
 		public class CL
 		{
 			public Guid E_ID { get; set; }
-			public Guid ED_ID { get; set; }
+			public Guid? ED_ID { get; set; }
 			public Guid CL_UID { get; set; }
 			public String C_Name { get; set; }
 			public String S_Name { get; set; }

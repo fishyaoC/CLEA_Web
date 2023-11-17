@@ -81,6 +81,7 @@ namespace Clea_Web.ViewModels
         {
             //public List<checkbox> checkboxList { get; set; }
             public Guid RUid { get; set; }
+            public Boolean MidCheck { get; set; }
             public long? MID { get; set; }
             public String? MType { get; set; }
             public String? MName { get; set; }
@@ -95,13 +96,6 @@ namespace Clea_Web.ViewModels
             public bool DeleteData { get; set; } = false;
             public bool ImportData { get; set; } = false;
             public bool Exportdata { get; set; } = false;
-
-
-
-
-
-
-
         }
         #endregion
 

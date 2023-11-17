@@ -22,7 +22,7 @@ namespace Clea_Web.Service
 			List<LectorClassViewModel.ClassMenu> result = new List<LectorClassViewModel.ClassMenu>();
 
 			result = (from ed in db.EEvaluateDetails
-					  where ed.Evaluate == L_UID && string.IsNullOrEmpty(ed.ERemark)
+					  where ed.Reception == L_UID && string.IsNullOrEmpty(ed.ERemark)
 					  select new LectorClassViewModel.ClassMenu()
 					  {
 						  ED_ID = ed.EdId
