@@ -94,7 +94,6 @@
 /Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/obj/Debug/net6.0/Clea_Web.csproj.CopyComplete
 /Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/obj/Debug/net6.0/Clea_Web.genruntimeconfig.cache
 /Users/tsengwanzhe/Documents/TakeCase/CLEA_Web/Clea_Web/obj/Debug/net6.0/ref/Clea_Web.dll
-D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\appsettings.Development.json
 D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\appsettings.json
 D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\Clea_Web.staticwebassets.runtime.json
 D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\Clea_Web.exe
@@ -636,3 +635,5 @@ D:\桌機資料\Project\CLEA_Web2\Clea_Web\obj\Debug\net6.0\refint\Clea_Web.dll
 D:\桌機資料\Project\CLEA_Web2\Clea_Web\obj\Debug\net6.0\Clea_Web.pdb
 D:\桌機資料\Project\CLEA_Web2\Clea_Web\obj\Debug\net6.0\Clea_Web.genruntimeconfig.cache
 D:\桌機資料\Project\CLEA_Web2\Clea_Web\obj\Debug\net6.0\ref\Clea_Web.dll
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\Microsoft.Office.Interop.PowerPoint.dll
+D:\workspace\Clea_Web\Clea_Web\bin\Debug\net6.0\Office.dll
