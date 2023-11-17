@@ -6,22 +6,26 @@ using Clea_Web.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using NPOI.POIFS.Crypt.Dsig;
+using Clea_Web.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Clea_Web.Controllers
 {
     //後台講師專區-公佈欄
+    [Authorize]
+    [UserPowerFilterAttribute]
     public class B_LectorBtnController : BaseController
     {
         private readonly ILogger<B_LectorBtnController> _logger;
-        private AccountService _accountService;
         private B_LectorBtnService _B_LectorBtnService;
         private FileService _fileService;
 
-        public B_LectorBtnController(ILogger<B_LectorBtnController> logger, dbContext dbCLEA, B_LectorBtnService Service)
+        public B_LectorBtnController(ILogger<B_LectorBtnController> logger, dbContext dbCLEA, B_LectorBtnService Service, FileService fileService)
         {
             _logger = logger;
             db = dbCLEA;
             _B_LectorBtnService = Service;
+            _fileService = fileService;
         }
 
 
@@ -38,9 +42,11 @@ namespace Clea_Web.Controllers
             }
             else
             {
-                vmd.schItem = new B_LectorBtnViewModel.SchItem();
+                //vmd.schItem = new B_LectorBtnViewModel.SchItem();
+                vmd.schItem = null;
             }
             vmd.DropDownList = getTeacherItem();
+            vmd.DropDownListType = getTypeItem();
             vmd.schPageList2 = _B_LectorBtnService.schPages(vmd.schItem, page.Value, 15);
 
             return View(vmd);
@@ -180,5 +186,6 @@ namespace Clea_Web.Controllers
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
+       
     }
 }

@@ -103,5 +103,19 @@ namespace Clea_Web.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+        #region DownloadFile
+        public ActionResult DownloadFile(String FilePath, String FileName)
+        {
+            try
+            {
+                FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                return File(stream, "application/octet-stream", FileName); //MME 格式 可上網查 此為通用設定
+            }
+            catch (System.Exception)
+            {
+                return Content("<script>alert('查無此檔案');window.close()</script>");
+            }
+        }
+        #endregion
     }
 }

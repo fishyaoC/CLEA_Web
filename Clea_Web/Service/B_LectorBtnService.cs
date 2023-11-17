@@ -32,29 +32,55 @@ namespace Clea_Web.Service
         {
             B_LectorBtnViewModel.schPageList model;
             List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
-            db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true && x.RId==data.R_ID.ToString()&&x.NStartDate==data.s_StartDate
-            && x.NEndDate==data.s_EndDate && x.NTitle == data.s_Title && x.NType==data.s_type).ToList().ForEach(x =>
+            if (data != null)
             {
-                model = new B_LectorBtnViewModel.schPageList();
-                model.NTitle = x.NTitle;
-                model.Upddate = x.Upddate;
-                model.Upduser = x.Upduser;
-                model.Creuser = x.Creuser;
-                model.Curdate = x.Curdate;
-                model.NStatus = x.NStatus;
-                model.RId = x.RId;
-                model.NContent = x.NContent;
-                model.NClass = x.NClass;
-                model.NEndDate = x.NEndDate;
-                model.NStartDate = x.NStartDate;
-                model.NewsId = x.NewsId;
-                model.NIsShow = x.NIsShow;
-                model.NIsTop = x.NIsTop;
-                model.NType = x.NType;
-                model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == x.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
-                result.Add(model);
-            });
-
+                db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true && x.RId == data.R_ID.ToString() && x.NStartDate == data.s_StartDate
+                && x.NEndDate == data.s_EndDate && x.NTitle == data.s_Title && x.NType == data.s_type).ToList().ForEach(x =>
+                {
+                    model = new B_LectorBtnViewModel.schPageList();
+                    model.NTitle = x.NTitle;
+                    model.Upddate = x.Upddate;
+                    model.Upduser = x.Upduser;
+                    model.Creuser = x.Creuser;
+                    model.Curdate = x.Curdate;
+                    model.NStatus = x.NStatus;
+                    model.RId = x.RId;
+                    model.NContent = x.NContent;
+                    model.NClass = x.NClass;
+                    model.NEndDate = x.NEndDate;
+                    model.NStartDate = x.NStartDate;
+                    model.NewsId = x.NewsId;
+                    model.NIsShow = x.NIsShow;
+                    model.NIsTop = x.NIsTop;
+                    model.NType = x.NType;
+                    model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == x.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
+                    result.Add(model);
+                });
+            }
+            else
+            {
+                db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true).ToList().ForEach(x =>
+                                {
+                                    model = new B_LectorBtnViewModel.schPageList();
+                                    model.NTitle = x.NTitle;
+                                    model.Upddate = x.Upddate;
+                                    model.Upduser = x.Upduser;
+                                    model.Creuser = x.Creuser;
+                                    model.Curdate = x.Curdate;
+                                    model.NStatus = x.NStatus;
+                                    model.RId = x.RId;
+                                    model.NContent = x.NContent;
+                                    model.NClass = x.NClass;
+                                    model.NEndDate = x.NEndDate;
+                                    model.NStartDate = x.NStartDate;
+                                    model.NewsId = x.NewsId;
+                                    model.NIsShow = x.NIsShow;
+                                    model.NIsTop = x.NIsTop;
+                                    model.NType = x.NType;
+                                    model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == x.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
+                                    result.Add(model);
+                                });
+            }
             //result = (from r in db.PNews
             //              //join user in db.SysUsers on r.Creuser equals user.UName
             //          where

@@ -5,201 +5,200 @@ build_property.UsingMicrosoftNETSdkWeb = true
 build_property.ProjectTypeGuids = 
 build_property.InvariantGlobalization = 
 build_property.PlatformNeutralAssembly = 
-build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Clea_Web
 build_property.RootNamespace = Clea_Web
-build_property.ProjectDir = D:\workspace\CLEA_Web\Clea_Web\
+build_property.ProjectDir = D:\桌機資料\Project\CLEA_Web2\Clea_Web\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\workspace\CLEA_Web\Clea_Web
+build_property.MSBuildProjectDirectory = D:\桌機資料\Project\CLEA_Web2\Clea_Web
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_Account/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_Account/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_Account/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_Account/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9BY2NvdW50XE1vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/Add.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXEFkZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/Import_File.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/Import_File.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXEltcG9ydF9GaWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXE1vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/P_Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/P_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXFBfTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/V_Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/V_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXFZfSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignBook/V_Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignBook/V_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25Cb29rXFZfTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/Add.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignClass/Add.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xBZGQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignClass/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/TC_Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignClass/TC_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xUQ19JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/TC_Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignClass/TC_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xUQ19Nb2RpZnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/V_Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignClass/V_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xWX0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_AssignClass/V_Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_AssignClass/V_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Bc3NpZ25DbGFzc1xWX01vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_Home/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9Ib21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_LectorAdv/D_Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_LectorAdv/D_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9MZWN0b3JBZHZcRF9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_LectorAdv/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_LectorAdv/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9MZWN0b3JBZHZcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_LectorAdv/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_LectorAdv/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9MZWN0b3JBZHZcTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_LectorBtn/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_LectorBtn/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9MZWN0b3JCdG5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/B_LectorBtn/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/B_LectorBtn/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQl9MZWN0b3JCdG5cTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Home/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Home/Privacy.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_Home/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9Ib21lXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorAdv/D_Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorAdv/D_Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JBZHZcRF9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorAdv/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorAdv/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JBZHZcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorAdv/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorAdv/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JBZHZcTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorAdv/V_Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorAdv/V_Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JBZHZcVl9Nb2RpZnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorBtn/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorBtn/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JCdG5cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorBtn/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorBtn/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JCdG5cTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorClass/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorClass/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JDbGFzc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorClass/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorClass/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JDbGFzc1xNb2RpZnkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorEvaluation/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorEvaluation/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JFdmFsdWF0aW9uXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/P_LectorEvaluation/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/P_LectorEvaluation/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUF9MZWN0b3JFdmFsdWF0aW9uXE1vZGlmeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/Error.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_pageList.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_pageList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9wYWdlTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Sys_Login/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Sys_Login/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX0xvZ2luXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Sys_Role/Index.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Sys_Role/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX1JvbGVcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Sys_Role/Modify.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Sys_Role/Modify.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3lzX1JvbGVcTW9kaWZ5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/_ViewImports.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/_ViewStart.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_Layout.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-nywug57uy8
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEnd.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_LayoutBackEnd.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-jlhas8bwzk
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEndFooter.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_LayoutBackEndFooter.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kRm9vdGVyLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = b-kond2mnnpg
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEndLogin.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_LayoutBackEndLogin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-6j7jh3xa0u
 
-[D:/workspace/CLEA_Web/Clea_Web/Views/Shared/_LayoutBackEndMenu.cshtml]
+[D:/桌機資料/Project/CLEA_Web2/Clea_Web/Views/Shared/_LayoutBackEndMenu.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXRCYWNrRW5kTWVudS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = b-xa1k6hvylb

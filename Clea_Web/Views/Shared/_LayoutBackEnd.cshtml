@@ -18,25 +18,33 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Clea_Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/backEnd/css/main.css">
+    @*<link rel="stylesheet" href="~/backEnd/css/main.css">*@
     <!-- page specific plugin styles -->
-    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" />
-    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-daterangepicker/daterangepicker.css" />
-    <!-- plugins:css -->
+  @*  <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" asp-append-version="true" type="text/css"/>
+    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" asp-append-version="true" type="text/css"/>
+    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" type="text/css"/>
+    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" type="text/css" />
+    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.standalone.css" asp-append-version="true" type="text/css"/>
+    <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-daterangepicker/daterangepicker.css" asp-append-version="true" type="text/css"/>
+    <!-- plugins:css -->*@
     <link rel="stylesheet" href="~/backEnd/vendors/feather/feather.css">
     <link rel="stylesheet" href="~/backEnd/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="~/backEnd/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/backEnd/components/_mod/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="~/backEnd/components/_mod/jquery-ui/jquery-ui.min.css">
+    <link rel="stylesheet" href="~/backEnd/components/_mod/jquery-ui.custom/jquery-ui.custom.css">
+    <link rel="stylesheet" href="~/backEnd/components/_mod/jquery-ui.custom/jquery-ui.custom.min.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="~/backEnd/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/backEnd/vendors/datatables.net-bs4/dataTables.bootstrap4.css" type="text/css" />
     @* <link rel="stylesheet" href="~/backEnd/vendors/ti-icons/css/themify-icons.css"> *@
-    <link rel="stylesheet" type="text/css" href="~/backEnd/js/select.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="~/backEnd/js/select.dataTables.min.css" type="text/css" />
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    <link rel="stylesheet" href="~/backEnd/css/vertical-layout-light/style.css">
+    <link rel="stylesheet" href="~/backEnd/css/vertical-layout-light/style.css" type="text/css" />
     <!-- endinject -->
     <link rel="shortcut icon" href="~/backEnd/images/favicon.ico" />
-    <!-- text fonts -->
+   @* <!-- text fonts -->
     <link rel="stylesheet" href="~/backEnd/assets/css/ace-fonts.css" />
     <link rel="stylesheet" href="~/backEnd/assets/css/bootstrap.css" />
     <!-- ace styles -->
@@ -56,7 +64,7 @@
     <link href="~/backEnd/assets/css/animation-style.css" rel="stylesheet" />
     <link href="~/backEnd/assets/css/button-style.css" rel="stylesheet" />
     <link href="~/backEnd/assets/css/custom-input-style.css?version=2" rel="stylesheet" />
-    <link href="~/backEnd/assets/css/form-style.css" rel="stylesheet" />
+    <link href="~/backEnd/assets/css/form-style.css" rel="stylesheet" />*@
 
     <style>
         .sub-menu {
@@ -312,6 +320,7 @@
     <!-- partial -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <!-- plugins:js -->
@@ -323,15 +332,16 @@
     <script src="~/backEnd/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="~/backEnd/js/dataTables.select.min.js"></script>
     <!-- 日期 引用JavaScript -->
-    <script src="~/backEnd/vendors/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
-    <script src="~/backEnd/vendors/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.js"></script>
+    @*<script src="~/backEnd/vendors/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <script src="~/backEnd/vendors/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/backEnd/vendors/bootstrap-datepicker/js/locales/bootstrap-datepicker.zh-TW.js"></script>*@
     <!--日期範圍選擇器 引用JavaScript-->
     <script src="~/backEnd/vendors//moment/moment.js"></script>
-    <script src="~/backEnd/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    @*<script src="~/backEnd/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>*@
 
     <!--時間-->
-    <link rel="stylesheet" type="text/css" href="~/backEnd/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
-    <script src="~/backEnd/vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>
+@*    <link rel="stylesheet" type="text/css" href="~/backEnd/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
+    <script src="~/backEnd/vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>*@
 
     <!-- End plugin js for this page -->
     <!-- inject:js -->
@@ -347,15 +357,19 @@
     <script type="text/javascript" src="~/lib/sweetalert2/sweetalert2.min.js"></script>
     @*<script src="~/backEnd/components/_mod/jquery.mobile.custom/jquery.mobile.custom.js"></script>*@
     <script src="~/backEnd/components/_mod/jquery-ui.custom/jquery-ui.custom.js"></script>
+    <script src="~/backEnd/components/_mod/jquery-ui.custom/jquery-ui.custom.min.js"></script>
     <script src="~/backEnd/components/jquery-ui/jquery-ui.js"></script>
+    <script src="~/backEnd/components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="~/backEnd/components/jquery-ui/jquery-ui-1.11.1.js"></script>
+
     <!-- ace scripts -->
-    <script src="~/backEnd/assets/js/src/elements.colorpicker.js"></script>
+@*    <script src="~/backEnd/assets/js/src/elements.colorpicker.js"></script>
     <script src="~/backEnd/assets/js/src/ace.js"></script>
     <script src="~/backEnd/assets/js/src/ace.basics.js"></script>
     <script src="~/backEnd/assets/js/src/ace.sidebar.js"></script>
     <script src="~/backEnd/assets/js/src/ace.settings.js"></script>
     <script src="~/backEnd/assets/js/ace-extra.js"></script>
-    <script src="~/backEnd/assets/js/src/elements.scroller.js"></script>
+    <script src="~/backEnd/assets/js/src/elements.scroller.js"></script>*@
     <script type="text/javascript">
         if ('ontouchstart' in document.documentElement) document.write("<script src='~/backEnd/components/_mod/jquery.mobile.custom/jquery.mobile.custom.js'>" + "<" + "/script>");
     </script>
@@ -401,7 +415,7 @@
 
         <script src="~/backEnd/js/active.js"></script>
         <script src="~/backEnd/js/collapse.js"></script>
-         @section Scripts {
+        
         <script type="text/javascript">
             function datetime() {
                 debugger;
@@ -415,12 +429,27 @@
                     autoclose: true
                 });
                 //日期選擇器
-                $('.date-picker').datepicker({
-                    language: 'zh-TW',
-                    autoclose: true,
-                    format: "yyyy/mm/dd",
-                    todayHighlight: true,
-                }).next().on(ace.click_event, function () { $(this).prev().focus(); });
+                //$('.date-picker').datepicker({
+                //    language: 'zh-TW',
+                //    autoclose: true,
+                //    format: "YYYY/MM/DD",
+                //    todayHighlight: true,
+                //}).next().on(ace.click_event, function () { $(this).prev().focus(); });
+            //$('.date-picker').datepicker({
+            //    language: 'zh-TW',
+            //    autoclose: true,
+            //    format: "yyyy/mm/dd",
+            //    todayHighlight: true
+            //});
+            $('.date-picker').each(function () {
+                $(this).datepicker({
+                    language: 'zh-TW', //語言
+                    autoclose: true, //選擇後自動關閉
+                    clearBtn: true,//清除按鈕
+                    format: "yyyy/mm/dd",//日期格式
+                    todayHighlight: true
+                });
+            });
                 //月份選擇器
                 $(".month-picker").datepicker({
                     language: 'zh-TW', //(台灣)
@@ -433,6 +462,6 @@
                 $('.input-daterange').datepicker({ autoclose: true });
             };
         </script>
-    }
+    
     </body>
     </html>

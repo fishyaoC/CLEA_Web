@@ -122,7 +122,7 @@
                                     @Html.LabelFor(x => x.N_StartDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.N_StartDate,new { @class = "form-control date-picker",@format = "yyyy/MM/dd" })
+                                        @Html.EditorFor(x => x.N_StartDate,new { @class = "form-control date-picker",@format = "yyyy/MM/dd" })
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +140,7 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.N_EndDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.N_EndDate, new { @class = "form-control date-picker",@format = "yyyy/MM/dd" })
+                                        @Html.EditorFor(x => x.N_EndDate, new { @class = "form-control date-picker",@format = "yyyy/MM/dd" })
                                     </div>
                                 </div>
                             </div>
@@ -202,45 +202,38 @@
 </div>
 @section Scripts {
     <script>
-        function pageLoad() {
-        debugger;
-            init();
-        }
-        function init() {
-            debugger;
-            datetime();
-        }
-        function datetime() {
-            debugger;
-            //年份選擇器
-            $('.year-picker').datepicker({
-                startView: 'decade',
-                minView: 'decade',
-                format: 'yyyy',
-                maxViewMode: 2,
-                minViewMode: 2,
-                autoclose: true
-            });
-            //日期選擇器
-            $('.date-picker').datepicker({
-                language: 'zh-TW',
-                autoclose: true,
-                format: "yy/mm/dd",
-                todayHighlight: true,
-            }).next().on(ace.click_event, function () { $(this).prev().focus(); });
-            //月份選擇器
-            $(".month-picker").datepicker({
-                language: 'zh-TW', //(台灣)
-                format: "yyyy/mm",
-                viewMode: "months",
-                minViewMode: "months",
-                dateFormat: "yyyy/MM/dd",
-                autoclose: true
-            });
-            //日期範圍選擇器
-            $('.input-daterange').datepicker({ autoclose: true });
+   
+        //function datetime() {
+        //    debugger;
+        //    //年份選擇器
+        //    $('.year-picker').datepicker({
+        //        startView: 'decade',
+        //        minView: 'decade',
+        //        format: 'yyyy',
+        //        maxViewMode: 2,
+        //        minViewMode: 2,
+        //        autoclose: true
+        //    });
+        //    //日期選擇器
+        //    $('.date-picker').datepicker({
+        //        language: 'zh-TW',
+        //        autoclose: true,
+        //        format: "yy/mm/dd",
+        //        todayHighlight: true,
+        //    });
+        //    //月份選擇器
+        //    $(".month-picker").datepicker({
+        //        language: 'zh-TW', //(台灣)
+        //        format: "yyyy/mm",
+        //        viewMode: "months",
+        //        minViewMode: "months",
+        //        dateFormat: "yyyy/MM/dd",
+        //        autoclose: true
+        //    });
+        //    //日期範圍選擇器
+        //    $('.input-daterange').datepicker({ autoclose: true });
 
-        };
+        //};
         $(document).ready(function () {
             datetime();
             debugger;

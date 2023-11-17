@@ -59,14 +59,14 @@ namespace Clea_Web.ViewModels
             /// <summary>
             /// 開始日期
             /// </summary>
-            [DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
+            [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
             [DisplayName("開始日期")]
             public DateTime N_StartDate { get; set; }
 
             /// <summary>
             /// 結束日期
             /// </summary>
-            [DisplayFormat(DataFormatString = "{0:yyyy/mm/dd}")]
+            [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
             [DisplayName("結束日期")]
             public DateTime N_EndDate { get; set; }
             /// <summary>
@@ -134,6 +134,7 @@ namespace Clea_Web.ViewModels
             [DisplayName("Uid")]
             public Guid R_ID { get; set; }
             public List<SelectListItem> DropDownList { get; set; }
+            public List<SelectListItem> DropDownListType { get; set; }
         }
         #endregion
 

@@ -72,20 +72,30 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleInputName1">檔案下載</label>
-                                    <div class="col-sm-8">
-                                        @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.FileName, new { @class = "form-control form-control"})
+                
+              
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">檔案下載</label>
+                                        <div class="col-sm-9">
+                                        <a href="@Url.Action("DownloadFile","P_LectorBtn", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                        <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
                                 </div>
                             </div>
-                        </div>
-                         </div>
+         @*                   <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">檔案下載</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "檔案下載", @type = "file" })
+                                            @Html.ValidationMessageFor(x => x.file)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+                  
                       
                     </div>
                 </div>
