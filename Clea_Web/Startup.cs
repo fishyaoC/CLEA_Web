@@ -25,6 +25,7 @@ namespace Clea_Web
             services.AddTransient<BaseService>();
             services.AddTransient<RoleService>();
             services.AddTransient<AccountService>();
+            services.AddTransient<AccountSettingService>();
             services.AddTransient<LoginService>();
             services.AddTransient<HomeService>();
             services.AddTransient<AssignClassService>();
