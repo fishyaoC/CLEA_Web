@@ -88,7 +88,8 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region DownloadFile
-        public ActionResult DownloadFile(String FilePath,String FileName) {
+        public ActionResult DownloadFile(String FilePath, String FileName)
+        {
             try
             {
                 FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -98,6 +99,16 @@ namespace Clea_Web.Controllers
             {
                 return Content("<script>alert('查無此檔案');window.close()</script>");
             }
+        }
+        #endregion
+
+        #region 匯出EXCEL表
+        public IActionResult ExportExcel(String LUid, int YearNow)
+        {
+
+            SysUser? su = db.SysUsers.Where(x => x.UId == Guid.Parse(LUid)).FirstOrDefault() ?? null;
+            Byte[] file = _B_LectorAdvService.Export_Excel(LUid, YearNow);
+            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", YearNow.ToString() + "年-" + su.UName + "-進修資料.xlsx");
         }
         #endregion
     }

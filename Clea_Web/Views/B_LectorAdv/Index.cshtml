@@ -107,6 +107,7 @@
                                                     {
                                                         <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-success">閱覽</a>
                                                     }
+                                                    <a href="@Url.Action("ExportExcel","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-info">匯出教師年度總表</a>
 
                                                 </td>
                                             </tr>
