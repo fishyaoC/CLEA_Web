@@ -19,10 +19,11 @@ namespace Clea_Web.Service
         private IConfiguration configuration;
 
 
-        public AccountSettingService(dbContext dbContext, IConfiguration configuration)
+        public AccountSettingService(dbContext dbContext, IConfiguration configuration, FileService fileService)
         {
             db = dbContext;
             this.configuration = configuration;
+            _fileservice = fileService;
         }
 
         #region Modify
@@ -106,7 +107,8 @@ namespace Clea_Web.Service
                 }
                 else if (vm.file != null)
                 {
-                    //_fileservice.user = user;
+                    _fileservice.user = user;
+                    //bool aaa= _fileservice.UploadSignFile(su.UId, vm.file);
                     result.CheckMsg = _fileservice.UploadSignFile(su.UId, vm.file);
                     if (result.CheckMsg)
                     {

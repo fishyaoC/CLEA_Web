@@ -19,11 +19,12 @@ namespace Clea_Web.Controllers
         private AccountSettingService AccountSettingService;
         private FileService _fileService;
 
-        public Sys_SettingController(ILogger<Sys_SettingController> logger, dbContext dbCLEA, AccountSettingService Service)
+        public Sys_SettingController(ILogger<Sys_SettingController> logger, dbContext dbCLEA, AccountSettingService Service, FileService fileService)
         {
             _logger = logger;
             db = dbCLEA;
             AccountSettingService = Service;
+            _fileService = fileService;
         }
 
         #region Modify
@@ -42,6 +43,7 @@ namespace Clea_Web.Controllers
         public IActionResult Modify(AccountSettingViewModel.Modify vm)
         {
             AccountSettingService.user = User;
+            //_fileService.user = User;    
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
             error = AccountSettingService.SaveData(vm);
 
@@ -58,7 +60,19 @@ namespace Clea_Web.Controllers
                 TempData["TempMsg"] = error.ErrorMsg;
             }
 
-            return RedirectToAction("Modify");
+            var claims = User.Identities.FirstOrDefault().Claims.ToArray();
+            String Type = claims[4].Value.Equals("True") ? "B" : "P";
+
+            if (Type == "B")
+            {
+                return RedirectToAction("Index", "B_Home");
+            }
+            else
+            {
+                return RedirectToAction("Index", "P_Home");
+            }
+
+            //return RedirectToAction("Modify");
 
             //return RedirectToAction("Index", new { msg = error });
         }

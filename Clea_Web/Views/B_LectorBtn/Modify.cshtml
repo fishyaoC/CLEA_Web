@@ -24,8 +24,8 @@
                         @*回傳NewsId*@
                         @Html.HiddenFor(x => x.NewsId)
                         @* <p class="card-description">
-                            公佈欄管理-編輯
-                            </p> *@
+                        公佈欄管理-編輯
+                        </p> *@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -48,15 +48,15 @@
                                             @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
                                             @Html.LabelFor(x => x.N_IsTop, new { @class = "col-sm-12 control-label" })
                                             @*  <label for="S1">
-                                                是否置頂
-                                                </label>*@
+                                            是否置頂
+                                            </label>*@
                                         </div>
                                         <div class="form-check">
                                             @Html.CheckBoxFor(x => x.N_IsShow, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios" })
                                             @Html.LabelFor(x => x.N_IsShow, new { @class = "col-sm-12 control-label" })
                                             @*<label for="S0">
-                                                是否顯示
-                                                </label>*@
+                                            是否顯示
+                                            </label>*@
                                         </div>
                                     </div>
                                 </div>
@@ -143,92 +143,103 @@
                                             <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
                                         }
 
-                //有檔案
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                        <div class="col-sm-9">
-                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                        //有檔案
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                                    <div class="col-sm-9">
+                                                        <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                        <div class="col-sm-9">
-                                            @Html.TextAreaFor(x => x.N_Content, 20, 35, new { @class = "form-control form-control" })
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextAreaFor(x => x.N_Content, 20, 35, new { @class = "form-control form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                            //無檔案
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                        <div class="col-sm-9">
-                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file" })
-                                            @Html.ValidationMessageFor(x => x.file)
+                                        }
+                                        else
+                                        {
+                                        //無檔案
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                                    <div class="col-sm-9">
+                                                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file" })
+                                                        @Html.ValidationMessageFor(x => x.file)
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                        <div class="row">
-                            <div class="col-md-9">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-2 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextAreaFor(x => x.N_Content,20,50, new { @class = "form-control form-control" })
+                                        }
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <div class="form-group row">
+                                                    @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-2 col-form-label" })
+                                                    <div class="col-sm-9">
+                                                        @Html.TextAreaFor(x => x.N_Content,20,50, new { @class = "form-control form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+            </div>
+        </div>
+
+
+
+
     </form>
 </div>
-@section Scripts {
-    <script>
-   
-        //function datetime() {
-        //    debugger;
-        //    //年份選擇器
-        //    $('.year-picker').datepicker({
-        //        startView: 'decade',
-        //        minView: 'decade',
-        //        format: 'yyyy',
-        //        maxViewMode: 2,
-        //        minViewMode: 2,
-        //        autoclose: true
-        //    });
-        //    //日期選擇器
-        //    $('.date-picker').datepicker({
-        //        language: 'zh-TW',
-        //        autoclose: true,
-        //        format: "yy/mm/dd",
-        //        todayHighlight: true,
-        //    });
-        //    //月份選擇器
-        //    $(".month-picker").datepicker({
-        //        language: 'zh-TW', //(台灣)
-        //        format: "yyyy/mm",
-        //        viewMode: "months",
-        //        minViewMode: "months",
-        //        dateFormat: "yyyy/MM/dd",
-        //        autoclose: true
-        //    });
-        //    //日期範圍選擇器
-        //    $('.input-daterange').datepicker({ autoclose: true });
+
+<script>
+
+    //function datetime() {
+    //    debugger;
+    //    //年份選擇器
+    //    $('.year-picker').datepicker({
+    //        startView: 'decade',
+    //        minView: 'decade',
+    //        format: 'yyyy',
+    //        maxViewMode: 2,
+    //        minViewMode: 2,
+    //        autoclose: true
+    //    });
+    //    //日期選擇器
+    //    $('.date-picker').datepicker({
+    //        language: 'zh-TW',
+    //        autoclose: true,
+    //        format: "yy/mm/dd",
+    //        todayHighlight: true,
+    //    });
+    //    //月份選擇器
+    //    $(".month-picker").datepicker({
+    //        language: 'zh-TW', //(台灣)
+    //        format: "yyyy/mm",
+    //        viewMode: "months",
+    //        minViewMode: "months",
+    //        dateFormat: "yyyy/MM/dd",
+    //        autoclose: true
+    //    });
+    //    //日期範圍選擇器
+    //    $('.input-daterange').datepicker({ autoclose: true });
 
 
-<script type="text/javascript">function pageLoad() {
+    function pageLoad() {
         init();
     }
     function init() {
@@ -252,5 +263,7 @@
             groupDiv.style.display = 'none';
         }
     }
-    </script>
+</script>
+
+
 
