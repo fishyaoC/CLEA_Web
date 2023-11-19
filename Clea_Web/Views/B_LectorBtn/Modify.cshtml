@@ -24,8 +24,8 @@
                         @*回傳NewsId*@
                         @Html.HiddenFor(x => x.NewsId)
                         @* <p class="card-description">
-                        公佈欄管理-編輯
-                        </p> *@
+                            公佈欄管理-編輯
+                            </p> *@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -45,18 +45,18 @@
 
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsTop,  new { id = "chkIstop", @class = "form-check-input", @name = "chkIstop" })
-                                            @Html.LabelFor(x => x.N_IsTop, new { @class = "control-label" })
+                                            @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            @Html.LabelFor(x => x.N_IsTop, new { @class = "col-sm-12 control-label" })
                                             @*  <label for="S1">
-                                            是否置頂
-                                            </label>*@
+                                                是否置頂
+                                                </label>*@
                                         </div>
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsShow, new { id = "chkShow", @class = "form-check-input", @name = "chkShow"})
-                                            @Html.LabelFor(x => x.N_IsShow, new { @class = "control-label" })
+                                            @Html.CheckBoxFor(x => x.N_IsShow, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios" })
+                                            @Html.LabelFor(x => x.N_IsShow, new { @class = "col-sm-12 control-label" })
                                             @*<label for="S0">
-                                            是否顯示
-                                            </label>*@
+                                                是否顯示
+                                                </label>*@
                                         </div>
                                     </div>
                                 </div>
@@ -68,71 +68,51 @@
                                 <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">公告類型</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.N_Type, Model.DropDownListType, new { @class = "form-control form-control"})
+                                        @Html.DropDownListFor(x => x.N_Type, Model.DropDownListType, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
-                                    <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.R_ID, Model.DropDownList, new { @class = "form-control form-control",@id="ddlobject"})
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                                        <label class="form-check-label" for="inlineCheckbox1">個別</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                                        <label class="form-check-label" for="inlineCheckbox2">群發</label>
                                     </div>
                                 </div>
                             </div>
-                            @*<div class="row">
-                            <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
-                            <ul class="nav">
-                            <li class="nav-item">
-                            <a class="nav-link bg-light" data-toggle="collapse" href="#item1" aria-expanded="false" aria-controls="ui-basic">
-                            <i class="menu-arrow ms-0 me-1 text-dark"></i>
-                            <span class="menu-title text-dark">母項目</span>
-                            </a>
-                            <div class="collapse" id="item1">
-                            <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
-                            <li class="d-flex justify-content-between">
-                            @{
-                            bool isOpen = false;
-                            }
-                            <div>
-                            <input type="checkbox" id="toggleCheckbox" @Html.Raw(isOpen ? "checked" : "")>
-                            <label for="toggleCheckbox">子項目</label>
-                            </div>
-
-                            <div id="contentDiv" style="display: @(isOpen ? "block" : "none");">
-                            <label class="mx-1"><input type="checkbox" name="action" value="閱覽"> 閱覽</label>
-                            <label class="mx-1"><input type="checkbox" name="action" value="新增"> 新增</label>
-                            <label class="mx-1"><input type="checkbox" name="action" value="編輯"> 編輯</label>
-                            <label class="mx-1"><input type="checkbox" name="action" value="刪除"> 刪除</label>
-                            <label class="mx-1"><input type="checkbox" name="action" value="上傳"> 上傳</label>
-                            <label class="mx-1"><input type="checkbox" name="action" value="匯出"> 匯出</label>
-                            </div>
-                            </li>
-                            </ul>
-                            </div>
-                            </li>
-                            </ul>
-                            </nav>
-                            </div>*@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
+
                                 <div class="form-group row">
                                     @* <label class="col-sm-3 col-form-label">姓名</label> *@
                                     @Html.LabelFor(x => x.N_StartDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
-                                        @Html.EditorFor(x => x.N_StartDate,new { @class = "form-control date-picker",@format = "yyyy/MM/dd" })
+                                        @Html.EditorFor(x => x.N_StartDate, new { @class = "form-control form-control date-picker" })
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group row">
+                                <div class="form-group row" id="individual" style="display:none;">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">發布講師</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x=>x.Creuser, Model.DropDownListUser, new { @class = "form-control form-control",@id="ddlTeacher"})
+                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownListUser, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
+
+                                <div class="form-group row" id="group" style="display:none;">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownList, new { @class = "form-control form-control" })
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <div class="row">
@@ -140,13 +120,28 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.N_EndDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.EditorFor(x => x.N_EndDate, new { @class = "form-control date-picker",@format = "yyyy/MM/dd" })
+                                        @Html.EditorFor(x => x.N_EndDate, new { @class = "form-control form-control date-picker" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @if (@Model.FilePath != null)
-                        {
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">上傳檔案</label>
+                                    <div class="col-sm-8">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.FileName, new { @class = "form-control form-control" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @if (string.IsNullOrEmpty(Model.FilePath))
+                                        {
+                                            <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
+                                        }
 
                 //有檔案
                             <div class="row">
@@ -164,8 +159,7 @@
                                     <div class="form-group row">
                                         <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
                                         <div class="col-sm-9">
-                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file" })
-                                            @Html.ValidationMessageFor(x => x.file)
+                                            @Html.TextAreaFor(x => x.N_Content, 20, 35, new { @class = "form-control form-control" })
                                         </div>
                                     </div>
                                 </div>
@@ -233,29 +227,30 @@
         //    //日期範圍選擇器
         //    $('.input-daterange').datepicker({ autoclose: true });
 
-        //};
-        $(document).ready(function () {
-            datetime();
-            debugger;
-            $("#ddlobject").change(function () {
-                var dID = $("#ddlobject Option:selected").val();
-                var hasvalus = dID != "" ? true : false;
-                $("#ddlTeacher").prop("disabled", hasvalus);
-                if(dID)
-                {
-                    $("#ddlTeacher").val("");
-                }
-            });
-            $("#ddlTeacher").change(function () {
-                var dID = $("#ddlTeacher Option:selected").val();
-                var hasvalus = dID != "" ? true : false;
-                $("#ddlobject").prop("disabled", hasvalus);
-                if(dID)
-                {
-                    $("#ddlobject").val("");
-                }
-            });
-        });
+
+<script type="text/javascript">function pageLoad() {
+        init();
+    }
+    function init() {
+        debugger;
+        datetime();
+    }
+    displaySelection() {
+        var individualCheckbox = document.getElementById('inlineCheckbox1');
+        var groupCheckbox = document.getElementById('inlineCheckbox2');
+        var individualDiv = document.getElementById('individual');
+        var groupDiv = document.getElementById('group');
+
+        if (individualCheckbox.checked) {
+            individualDiv.style.display = 'block';
+            groupDiv.style.display = 'none';
+        } else if (groupCheckbox.checked) {
+            individualDiv.style.display = 'none';
+            groupDiv.style.display = 'block';
+        } else {
+            individualDiv.style.display = 'none';
+            groupDiv.style.display = 'none';
+        }
+    }
     </script>
-}
-   
+
