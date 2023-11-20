@@ -29,8 +29,8 @@
                 </div>
             </div>
         </div>
-        <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data' onsubmit="return validateForm()">
-            <button type="submit" class="btn btn-info">儲存</button>
+        <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data'>
+            <button type="submit" class="btn btn-info" onsubmit="return validateForm()">儲存</button>
             @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
             @*設定頁面*@
             @Html.AntiForgeryToken()
