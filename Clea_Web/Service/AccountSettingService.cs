@@ -98,6 +98,12 @@ namespace Clea_Web.Service
                             return result;
                         }
                     }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "舊密碼不符或新密碼與確認新密碼不同";
+                        return result;
+                    }
                 }
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 
