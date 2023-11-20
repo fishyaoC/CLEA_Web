@@ -107,8 +107,8 @@ namespace Clea_Web.Controllers
         {
 
             SysUser? su = db.SysUsers.Where(x => x.UId == Guid.Parse(LUid)).FirstOrDefault() ?? null;
-            Byte[] file = _B_LectorAdvService.Export_Excel(LUid, YearNow);
-            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", YearNow.ToString() + "年-" + su.UName + "-進修資料.xlsx");
+            Byte[] file = _B_LectorAdvService.Export_LectorAnnaulZip(LUid, YearNow);
+            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", YearNow.ToString() + "年-" + su.UName + "-進修資料.zip");
         }
         #endregion
     }

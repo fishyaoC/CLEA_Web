@@ -119,12 +119,114 @@ namespace Clea_Web.Service
         }
         #endregion
 
-        #region 匯出Excel
-        public Byte[] Export_Excel(String LUid, int YearNow)
-        {
+        //#region 匯出Excel
+        //public Byte[] Export_Excel(String LUid, int YearNow)
+        //{
 
+        //    List<CLectorAdvInfo> l = db.CLectorAdvInfos.Where(x => x.LUid == Guid.Parse(LUid) && x.LaYear.Equals(YearNow)).ToList();
+        //    SysUser? su = db.SysUsers.Where(x => x.UId == Guid.Parse(LUid)).FirstOrDefault();
+
+
+        //    #region ExportExcel
+        //    using (var exportData = new MemoryStream())
+        //    {
+        //        IWorkbook wb = new XSSFWorkbook();  //字型定義
+        //        ISheet sheet = wb.CreateSheet(YearNow.ToString());
+        //        XSSFCellStyle TitleStyle = (XSSFCellStyle)wb.CreateCellStyle(); //標題字型
+        //        TitleStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        TitleStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        TitleStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        TitleStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        TitleStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+        //        TitleStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+        //        XSSFFont font = (XSSFFont)wb.CreateFont();
+        //        font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+        //        TitleStyle.SetFont(font);
+
+        //        XSSFCellStyle ContentStyle = (XSSFCellStyle)wb.CreateCellStyle();//內容造型
+        //        ContentStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        ContentStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        ContentStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        ContentStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+        //        ContentStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+        //        ContentStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+
+
+        //        var rowYear = sheet.CreateRow(0);
+        //        rowYear.CreateCell(0).SetCellValue("年度");
+        //        rowYear.CreateCell(1).SetCellValue(YearNow);
+
+        //        var rowTeacher = sheet.CreateRow(1);
+        //        rowTeacher.CreateCell(0).SetCellValue("講師");
+        //        rowTeacher.CreateCell(1).SetCellValue(su.UName);
+
+
+
+        //        sheet.CreateRow(2).CreateCell(0).SetCellValue("序號");
+        //        //sheet.GetRow(2).GetCell(0).CellStyle = TitleStyle;
+
+        //        int count = 1;
+        //        int index = 3;
+
+
+
+        //        foreach (var item in l)
+        //        {
+        //            var row = sheet.CreateRow(index);
+
+        //            //序號
+        //            row.CreateCell(0).SetCellValue(count);
+        //            //標題
+        //            row.CreateCell(1).SetCellValue(item.LaTitle);
+
+
+        //            index++;
+        //            count++;
+
+        //        }
+
+
+        //        wb.Write(exportData, true);
+
+        //        Byte[] result = exportData.ToArray();
+        //        return result;
+        //    }
+        //    #endregion
+
+        //}
+        //#endregion
+
+        #region 匯出ZIP
+        public Byte[] Export_LectorAnnaulZip(String LUid, int YearNow)
+        {
             List<CLectorAdvInfo> l = db.CLectorAdvInfos.Where(x => x.LUid == Guid.Parse(LUid) && x.LaYear.Equals(YearNow)).ToList();
             SysUser? su = db.SysUsers.Where(x => x.UId == Guid.Parse(LUid)).FirstOrDefault();
+            List<SysFile> sfList = new List<SysFile>();
+
+            String SavePath = "./SampleFile/Output/" + YearNow.ToString() + "年-" + su.UName + "-進修資料";  //temp資料夾名稱
+            String SavePathzip = "./SampleFile/Output/" + YearNow.ToString() + "年-" + su.UName + "-進修資料.zip"; //ZIP名稱
+            Directory.CreateDirectory(SavePath);  //建立資料夾
+
+            foreach (var item in l)
+            {
+                //先抓出所有檔案
+                SysFile sf = db.SysFiles.Where(x => x.FMatchKey == item.LaUid).FirstOrDefault();
+                if (sf != null)
+                {
+                    sfList.Add(sf);
+                }
+            }
+
+            foreach (var item in sfList)
+            {
+                //將檔案複製至臨時資料夾
+                string fileNameDL = item.FNameDl + "." + item.FExt;
+                string filePathDL = Path.Combine(configuration.GetValue<String>("FileRootPath"), item.FPath, fileNameDL);
+                string destinationFilePath = Path.Combine(SavePath, item.FFullName);
+
+                File.Copy(filePathDL, destinationFilePath, true); //複製檔案到temp資料夾
+            }
+
 
 
             #region ExportExcel
@@ -161,8 +263,11 @@ namespace Clea_Web.Service
                 rowTeacher.CreateCell(1).SetCellValue(su.UName);
 
 
+                var rowTitle = sheet.CreateRow(2);
+                rowTitle.CreateCell(0).SetCellValue("序號");
+                rowTitle.CreateCell(1).SetCellValue("標題");
+                rowTitle.CreateCell(2).SetCellValue("檔案名稱");
 
-                sheet.CreateRow(2).CreateCell(0).SetCellValue("序號");
                 //sheet.GetRow(2).GetCell(0).CellStyle = TitleStyle;
 
                 int count = 1;
@@ -178,6 +283,13 @@ namespace Clea_Web.Service
                     row.CreateCell(0).SetCellValue(count);
                     //標題
                     row.CreateCell(1).SetCellValue(item.LaTitle);
+                    //檔案名稱
+                    SysFile sf = db.SysFiles.Where(x => x.FMatchKey == item.LaUid).FirstOrDefault();
+                    if (sf != null)
+                    {
+                        row.CreateCell(2).SetCellValue(sf.FFullName);
+                    }
+
 
 
                     index++;
@@ -188,115 +300,26 @@ namespace Clea_Web.Service
 
                 wb.Write(exportData, true);
 
-                Byte[] result = exportData.ToArray();
-                return result;
-            }
-            #endregion
 
-        }
-        #endregion
+                #region excel寫入
 
-        #region 匯出ZIP
-        public Byte[] Export_ScoreZip(Guid E_ID, String dir)
-        {
-            EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
-            List<EEvaluateDetail> lstED = db.EEvaluateDetails.Where(x => x.EId == E_ID).ToList();
+                string fileName = YearNow.ToString() + "年-" + su.UName + "-進修資料.xlsx"; //匯出EXCEL檔案名稱 
+                string filePath = Path.Combine(SavePath, fileName);
 
-            String B_Name = db.CBooks.Find(eEvaluate.MatchKey).MName;
-
-
-            Int32 PublishCount = lstED.GroupBy(i => i.MatchKey2).Count();
-            var lstPublish = lstED.GroupBy(x => x.MatchKey2).ToList();  //評鑑版本
-            Int32 EvTeacherCount = lstED.GroupBy(x => x.Evaluate).Count();
-            var lstEvTeacher = lstED.GroupBy(x => x.Evaluate).ToList(); //評鑑教師
-
-            String SourcePath = "./SampleFile/Sample教材評核表V" + PublishCount.ToString() + ".docx";
-            String SavePath = "./SampleFile/Output/" + eEvaluate.EYear + B_Name;
-            String SavePathzip = "./SampleFile/Output/" + eEvaluate.EYear + B_Name + "審查表.zip";
-
-            Directory.CreateDirectory(SavePath);
-            if (lstEvTeacher != null && lstEvTeacher.Count > 0)
-            {
-                foreach (var t in lstEvTeacher)
+                // Write the content of the MemoryStream to a file
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {
-                    List<AssignBookViewModel.ScoreTable> scoreTable = new List<AssignBookViewModel.ScoreTable>();
-
-                    CLector? cLector = db.CLectors.Find(t.Key) ?? null;
-                    String L_Name_Ev = cLector.LName;
-
-                    //List<EEvaluateDetail> list_score = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.Evaluate == t.FirstOrDefault().MatchKey2 && x.EScoreA != null).ToList();
-                    List<EEvaluateDetail> list_score = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.Evaluate == t.Key).ToList();
-
-                    if (list_score != null && list_score.Count > 0)
-                    {
-                        foreach (EEvaluateDetail ed in list_score)
-                        {
-                            CBookDetail? cBookDetail = db.CBookDetails.Find(ed.MatchKey2) ?? null;
-                            CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
-                            String P_Name = cBookPublish.BpName;
-
-                            scoreTable.Add(new AssignBookViewModel.ScoreTable()
-                            {
-                                P_Name = P_Name,
-                                P_ScoreA = ed.EScoreA == null ? "0" : ed.EScoreA.ToString(),
-                                P_ScoreB = ed.EScoreB == null ? "0" : ed.EScoreB.ToString(),
-                                P_ScoreC = ed.EScoreC == null ? "0" : ed.EScoreC.ToString(),
-                                P_ScoreRemark = ed.ERemark,
-                                P_Score = (ed.EScoreA == null ? 0 : ed.EScoreA + ed.EScoreB == null ? 0 : ed.EScoreB + ed.EScoreC == null ? 0 : ed.EScoreC).ToString()
-                            });
-                        }
-
-                        //export
-                        if (scoreTable.Count > 0)
-                        {
-                            using (DocX doc = DocX.Load(SourcePath))
-                            {
-                                doc.ReplaceText("[@Year$]", DateTime.Now.Year.ToString());    //年
-                                doc.ReplaceText("[@Month$]", DateTime.Now.Year.ToString().PadLeft(2, '0'));                            //月
-                                doc.ReplaceText("[@Day$]", DateTime.Now.Year.ToString().PadLeft(2, '0'));                                //日
-                                doc.ReplaceText("[@BName$]", B_Name);
-                                doc.ReplaceText("[@L_Name_Ev$]", L_Name_Ev);
-
-                                int c = 0;
-                                String m = "a";
-                                String RemarkTotle = string.Empty;
-                                foreach (var sc in scoreTable)
-                                {
-
-                                    switch (c)
-                                    {
-                                        case 1:
-                                            m = "b";
-                                            break;
-                                        case 2:
-                                            m = "c";
-                                            break;
-                                        case 3:
-                                            m = "d";
-                                            break;
-                                        case 4:
-                                            m = "e";
-                                            break;
-                                        default:
-                                            m = "a";
-                                            break;
-                                    }
-                                    doc.ReplaceText("[@P" + m.ToUpper() + "$]", sc.P_Name);
-                                    doc.ReplaceText("[@S" + m + "1$]", sc.P_ScoreA);
-                                    doc.ReplaceText("[@S" + m + "2$]", sc.P_ScoreB);
-                                    doc.ReplaceText("[@S" + m + "3$]", sc.P_ScoreC);
-                                    Int32 ScoreTotal = Convert.ToInt32(sc.P_ScoreA) + Convert.ToInt32(sc.P_ScoreB) + Convert.ToInt32(sc.P_ScoreC);
-                                    doc.ReplaceText("[@St" + m + "$]", ScoreTotal.ToString());
-                                    RemarkTotle += string.IsNullOrEmpty(sc.P_ScoreRemark) ? string.Empty : sc.P_ScoreRemark;
-                                    c++;
-                                }
-                                doc.ReplaceText("[@Remark$]", RemarkTotle);
-                                doc.SaveAs(SavePath + "/" + L_Name_Ev + "-" + B_Name + "教材審查表.docx");
-                            }
-                        }
-                    }
+                    exportData.WriteTo(fileStream);
+                    fileStream.Close();
                 }
+
+                #endregion
+
+                //Byte[] result = exportData.ToArray();
+                //return result;
             }
+            #endregion          
+
 
             ZipFile.CreateFromDirectory(SavePath, SavePathzip);
             Byte[] result = System.IO.File.ReadAllBytes(SavePathzip);

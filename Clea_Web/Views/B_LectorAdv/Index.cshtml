@@ -97,16 +97,7 @@
                                                 <td>@item.LName</td>
                                                 <td>
                                                     @*編輯、閱覽*@
-                                                    @* <button type="button" class="btn btn-success">編輯</button> *@
-                                                    @*<button type="button" class="btn btn-danger" onclick="del('@item.LUid')">刪除</button>*@
-                                                    @if (item.YearNow == item.LaYear)
-                                                    {
-                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-success">編輯</a>
-                                                    }
-                                                    @if (item.YearNow != item.LaYear)
-                                                    {
-                                                        <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-success">閱覽</a>
-                                                    }
+                                                    <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-success">閱覽</a>
                                                     <a href="@Url.Action("ExportExcel","B_LectorAdv", new{LUid = item.LUid,YearNow = item.LaYear})" class="btn btn-info">匯出教師年度總表</a>
 
                                                 </td>
