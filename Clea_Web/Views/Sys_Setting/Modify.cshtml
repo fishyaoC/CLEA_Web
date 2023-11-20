@@ -30,7 +30,7 @@
             </div>
         </div>
         <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data'>
-            <button type="submit" class="btn btn-info">儲存</button>
+            <button type="submit" class="btn btn-info" onsubmit="return validateForm()">儲存</button>
             @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
             @*設定頁面*@
             @Html.AntiForgeryToken()
@@ -46,8 +46,8 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.OldPW, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.PasswordFor(x => x.OldPW, new { @class="form-control form-control-lg", id="exampleInputPassword1", placeholder="舊密碼" })
-                                        @Html.ValidationMessageFor(x=>x.OldPW)
+                                        @Html.PasswordFor(x => x.OldPW, new { @class = "form-control form-control-lg", id = "OldPW", placeholder = "舊密碼" })
+                                        @Html.ValidationMessageFor(x => x.OldPW)
                                     </div>
                                 </div>
 
@@ -58,8 +58,8 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.NewPW, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.PasswordFor(x => x.NewPW, new { @class="form-control form-control-lg", id="exampleInputPassword1", placeholder="新密碼" })
-                                        @Html.ValidationMessageFor(x=>x.NewPW)
+                                        @Html.PasswordFor(x => x.NewPW, new { @class = "form-control form-control-lg", id = "NewPW", placeholder = "新密碼" })
+                                        @Html.ValidationMessageFor(x => x.NewPW)
                                     </div>
                                 </div>
                             </div>
@@ -69,8 +69,8 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.CheckNewPW, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.PasswordFor(x => x.CheckNewPW, new { @class="form-control form-control-lg", id="exampleInputPassword1", placeholder="再次確認新密碼" })
-                                        @Html.ValidationMessageFor(x=>x.CheckNewPW)
+                                        @Html.PasswordFor(x => x.CheckNewPW, new { @class = "form-control form-control-lg", id = "CheckNewPW", placeholder = "再次確認新密碼" })
+                                        @Html.ValidationMessageFor(x => x.CheckNewPW)
                                     </div>
 
                                 </div>
@@ -83,7 +83,7 @@
                                     @if (@Model.FilePath != null)
                                     {
 
-                                    //有檔案
+                                        //有檔案
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
@@ -99,7 +99,7 @@
                                                 <div class="form-group row">
                                                     <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
                                                     <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "電子簽名檔", @type = "file" })
+                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control", placeholder = "電子簽名檔", @type = "file" })
                                                         @Html.ValidationMessageFor(x => x.file)
                                                     </div>
                                                 </div>
@@ -108,13 +108,13 @@
                                     }
                                     else
                                     {
-                                    //無檔案
+                                        //無檔案
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
                                                     <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
                                                     <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "電子簽名檔", @type = "file" })
+                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control",id= "file", placeholder = "電子簽名檔", @type = "file" })
                                                         @Html.ValidationMessageFor(x => x.file)
                                                     </div>
                                                 </div>
@@ -128,3 +128,33 @@
                 </div>
             </div>
         </form>
+
+        <script>
+    function validateForm() {
+        // 檢查新密碼是否大於 8 個字元
+        var newPassword = document.getElementById('NewPW').value;
+        if (newPassword.length < 8) {
+            alert("新密碼必須大於 8 個字元");
+            return false;
+        }
+
+        // 檢查新密碼與再次確認新密碼是否一致
+        var checkNewPassword = document.getElementById('CheckNewPW').value;
+        if (newPassword !== checkNewPassword) {
+            alert("新密碼與再次確認新密碼不一致");
+            return false;
+        }
+
+        // 如果 FilePath 沒有參數，確保上傳了檔案
+        var filePath = "@Model.FilePath";
+        if (filePath === null || filePath === '') {
+            var fileInput = document.getElementById('file');
+            if (fileInput.value === '') {
+                alert("請上傳檔案");
+                return false;
+            }
+        }
+
+        return true; // 驗證通過，提交表單
+    }
+        </script>
