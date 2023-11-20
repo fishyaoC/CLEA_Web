@@ -29,8 +29,8 @@
                 </div>
             </div>
         </div>
-        <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data'>
-            <button type="submit" class="btn btn-info" onsubmit="return validateForm()">儲存</button>
+        <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data' onsubmit="validateForm()">
+            <button type="submit" class="btn btn-info">儲存</button>
             @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
             @*設定頁面*@
             @Html.AntiForgeryToken()
@@ -99,8 +99,8 @@
                                                 <div class="form-group row">
                                                     <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
                                                     <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control", placeholder = "電子簽名檔", @type = "file" })
-                                                        @Html.ValidationMessageFor(x => x.file)
+                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control",id= "file", placeholder = "電子簽名檔", @type = "file" })
+                                                        @* @Html.ValidationMessageFor(x => x.file) *@
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,7 +115,7 @@
                                                     <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
                                                     <div class="col-sm-9">
                                                         @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control",id= "file", placeholder = "電子簽名檔", @type = "file" })
-                                                        @Html.ValidationMessageFor(x => x.file)
+                                                        @* @Html.ValidationMessageFor(x => x.file) *@
                                                     </div>
                                                 </div>
                                             </div>

@@ -72,17 +72,40 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
-                                <label class="me-3">發布</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="showIndividual()">
-                                    <label class="form-check-label" for="inlineRadio1">個別</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="showGroup()">
-                                    <label class="form-check-label" for="inlineRadio2">群發</label>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">選擇發布對象</label>
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="showIndividual()">
+                                            <label class="form-check-label" for="inlineRadio1">個別通知</label>
+                                        </div>
+
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="showGroup()">
+                                            <label class="form-check-label" for="inlineRadio2">群組通知</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row" id="individual" style="display:none;">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布講師</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownListUser, new { @class = "form-control form-control" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" id="group" style="display:none;">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownList, new { @class = "form-control form-control" })
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -96,24 +119,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group row" id="individual" style="display:none;">
-                                    <label class="col-sm-3 col-form-label">發布講師</label>
-                                    <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownListUser, new { @class = "form-control form-control" })
-                                    </div>
-                                </div>
 
-                                <div class="form-group row" id="group" style="display:none;">
-                                    <label class="col-sm-3 col-form-label">發布對象</label>
-                                    <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownList, new { @class = "form-control form-control" })
-                                    </div>
-                                </div>
 
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.N_EndDate, new { @class = "col-sm-3 col-form-label" })
@@ -125,68 +132,22 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="exampleInputName1">上傳檔案</label>
-                                    <div class="col-sm-8">
-                                        @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.FileName, new { @class = "form-control form-control" })
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">公告內容</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(x => x.N_Content,20,150, new { @class = "form-control form-control" })
                                     </div>
-                                    <div class="col-sm-4">
-                                        @if (string.IsNullOrEmpty(Model.FilePath))
-                                        {
-                                            <button type="submit" class="form-control form-control btn btn-info mr-2">瀏覽</button>
-                                        }
-                                        else
-                                        {
-                                            <a href="@Url.Action("Delete", "B_LectorBtn", new { File_ID = Model.File_ID })" class="form-control form-control btn btn-danger mr-2">刪除檔案</a>
-                                        }
+                                </div>
+                            </div>
+                        </div>
 
-                                        //有檔案
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                                    <div class="col-sm-9">
-                                                        <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                                    <div class="col-sm-9">
-                                                        @Html.TextAreaFor(x => x.N_Content, 20, 35, new { @class = "form-control form-control" })
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        }
-                                        else
-                                        {
-                                        //無檔案
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                                    <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file" })
-                                                        @Html.ValidationMessageFor(x => x.file)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        }
-                                        <div class="row">
-                                            <div class="col-md-9">
-                                                <div class="form-group row">
-                                                    @Html.LabelFor(x => x.N_Content, new { @class = "col-sm-2 col-form-label" })
-                                                    <div class="col-sm-9">
-                                                        @Html.TextAreaFor(x => x.N_Content,20,50, new { @class = "form-control form-control" })
-                                                    </div>
-                                                </div>
-                                            </div>
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control",id= "file", placeholder = "上傳檔案", @type = "file" })
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +155,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -205,38 +165,6 @@
 </div>
 
 <script>
-
-    //function datetime() {
-    //    debugger;
-    //    //年份選擇器
-    //    $('.year-picker').datepicker({
-    //        startView: 'decade',
-    //        minView: 'decade',
-    //        format: 'yyyy',
-    //        maxViewMode: 2,
-    //        minViewMode: 2,
-    //        autoclose: true
-    //    });
-    //    //日期選擇器
-    //    $('.date-picker').datepicker({
-    //        language: 'zh-TW',
-    //        autoclose: true,
-    //        format: "yy/mm/dd",
-    //        todayHighlight: true,
-    //    });
-    //    //月份選擇器
-    //    $(".month-picker").datepicker({
-    //        language: 'zh-TW', //(台灣)
-    //        format: "yyyy/mm",
-    //        viewMode: "months",
-    //        minViewMode: "months",
-    //        dateFormat: "yyyy/MM/dd",
-    //        autoclose: true
-    //    });
-    //    //日期範圍選擇器
-    //    $('.input-daterange').datepicker({ autoclose: true });
-
-
     function pageLoad() {
         init();
     }
@@ -248,7 +176,6 @@
         document.getElementById("individual").style.display = "block";
         document.getElementById("group").style.display = "none";
     }
-
     function showGroup() {
         document.getElementById("individual").style.display = "none";
         document.getElementById("group").style.display = "block";
