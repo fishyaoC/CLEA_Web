@@ -42,7 +42,7 @@ namespace Clea_Web.ViewModels
             public Boolean IsEdit { get; set; } = false;
 
             [DisplayName("上傳檔案")]
-            [Required(ErrorMessage = "請選擇上傳檔案!")]
+            //[Required(ErrorMessage = "請選擇上傳檔案!")]
             public IFormFile file { get; set; }
             public String? FileName { get; set; }
         }
