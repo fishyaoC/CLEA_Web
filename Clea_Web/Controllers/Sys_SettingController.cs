@@ -63,23 +63,31 @@ namespace Clea_Web.Controllers
             var claims = User.Identities.FirstOrDefault().Claims.ToArray();
             String Type = claims[4].Value.Equals("True") ? "B" : "P";
 
-            if (Type == "B")
+
+            if (error.CheckMsg)
             {
-                return RedirectToAction("Index", "B_Home");
+                if (Type == "B")
+                {
+                    return RedirectToAction("Index", "B_Home");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "P_Home");
+                }
             }
             else
             {
-                return RedirectToAction("Index", "P_Home");
+                return RedirectToAction("Modify");
             }
 
-            //return RedirectToAction("Modify");
 
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
 
         #region DownloadFile
-        public ActionResult DownloadFile(String FilePath,String FileName) {
+        public ActionResult DownloadFile(String FilePath, String FileName)
+        {
             try
             {
                 FileStream stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.Read);

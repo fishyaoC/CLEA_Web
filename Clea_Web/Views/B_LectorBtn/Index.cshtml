@@ -29,12 +29,12 @@
                                                 @Html.DropDownListFor(x => x.schItem.NType, Model.DropDownListType, new { @class = "form-control form-control",@id="ddlType" })
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <label for="exampleInputName5" class="col-sm-3 col-form-label">公告標題</label>
-                                                <div class="col-sm-9">
-                                                    @Html.TextBoxFor(x => x.schItem.NTitle, new { @class = "form-control form-control", placeholder = "主旨(標題)" })
-                                                </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="exampleInputName1" class="col-sm-3 col-form-label">公告標題</label>
+                                            <div class="col-sm-9">
+                                                @Html.TextBoxFor(x => x.schItem.NTitle, new { @class = "form-control form-control", placeholder = "標題" })
                                             </div>
                                         </div>
                                     </div>
@@ -46,7 +46,7 @@
                                             <label for="exampleInputEmail4" class="col-sm-3 col-form-label">開始日期</label>
                                             <div class="col-sm-9">
                                                 @* <input type="text" class="form-control" /> *@
-                                                @Html.TextBoxFor(x => x.schItem.NStartDate,new { @class = "form-control form-control date-picker"})
+                                                @Html.TextBoxFor(x => x.schItem.NStartDate,new { @class = "form-control form-control date-picker", placeholder = "2023/01/01"})
                                             </div>
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                             <label for="exampleInputEmail4" class="col-sm-3 col-form-label">結束日期</label>
                                             <div class="col-sm-9">
                                                 @* <input type="text" class="form-control" /> *@
-                                                @Html.TextBoxFor(x => x.schItem.NEndDate,new { @class = "form-control form-control date-picker"})
+                                                @Html.TextBoxFor(x => x.schItem.NEndDate,new { @class = "form-control form-control date-picker", placeholder = "2023/01/01"})
                                             </div>
                                         </div>
                                     </div>
@@ -114,6 +114,7 @@
                                                     @* <button type="button" class="btn btn-success">編輯</button> *@
                                                     <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
                                                     <button type="button" class="btn btn-danger" onclick="del('@item.NewsId')">刪除</button>
+                                                    <a href="@Url.Action("ExportExcel","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-primary">匯出尚未已讀的講師</a>
                                                 </td>
                                             </tr>
                                         }

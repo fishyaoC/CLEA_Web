@@ -30,7 +30,7 @@
             </div>
         </div>
         <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data' onsubmit="validateForm()">
-            <button type="submit" class="btn btn-info">儲存</button>
+            <button type="submit" class="btn btn-info ">儲存</button>
             @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
             @*設定頁面*@
             @Html.AntiForgeryToken()
@@ -83,7 +83,7 @@
                                     @if (@Model.FilePath != null)
                                     {
 
-                                        //有檔案
+                                    //有檔案
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
@@ -108,7 +108,7 @@
                                     }
                                     else
                                     {
-                                        //無檔案
+                                    //無檔案
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
@@ -130,31 +130,38 @@
         </form>
 
         <script>
-    function validateForm() {
-        // 檢查新密碼是否大於 8 個字元
-        var newPassword = document.getElementById('NewPW').value;
-        if (newPassword.length < 8) {
-            alert("新密碼必須大於 8 個字元");
-            return false;
-        }
+            function validateForm() {
+                // 檢查新密碼是否大於 8 個字元
+                var oldPassword = document.getElementById('OldPW').value;
+                var newPassword = document.getElementById('NewPW').value;
+                if (newPassword.length < 8) {
+                    alert("新密碼必須大於 8 個字元");
+                    return false;
+                }
 
-        // 檢查新密碼與再次確認新密碼是否一致
-        var checkNewPassword = document.getElementById('CheckNewPW').value;
-        if (newPassword !== checkNewPassword) {
-            alert("新密碼與再次確認新密碼不一致");
-            return false;
-        }
+                // 檢查新密碼與再次確認新密碼是否一致
+                var checkNewPassword = document.getElementById('CheckNewPW').value;
+                if (newPassword !== checkNewPassword) {
+                    alert("新密碼與再次確認新密碼不一致");
+                    return false;
+                }
 
-        // 如果 FilePath 沒有參數，確保上傳了檔案
-        var filePath = "@Model.FilePath";
-        if (filePath === null || filePath === '') {
-            var fileInput = document.getElementById('file');
-            if (fileInput.value === '') {
-                alert("請上傳檔案");
-                return false;
+                // 如果 FilePath 沒有參數，確保上傳了檔案
+                var filePath = "@Model.FilePath";
+                if (filePath === null || filePath === '') {
+                    var fileInput = document.getElementById('file');
+                    if (fileInput.value === '') {
+                        alert("請上傳檔案");
+                        return false;
+                    }
+                }
+
+                //如果沒上傳檔案，也沒輸入密碼直接按儲存
+                if (oldPassword != null && newPassword != null && checkNewPassword != null && filePath != null || filePath != '') {
+                    alert("請填寫相關資訊再儲存");
+                    return false;
+                }
+
+                return true; // 驗證通過，提交表單
             }
-        }
-
-        return true; // 驗證通過，提交表單
-    }
         </script>
