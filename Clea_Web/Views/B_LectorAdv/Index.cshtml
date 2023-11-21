@@ -6,11 +6,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@* <script type="text/javascript">
-    $(function () {
-        alert('t1');
-    });
-</script> *@
+
 <div class="content-wrapper">
     <div class="row">
         <!--搜尋-->
@@ -24,7 +20,7 @@
                     </h2>
                     <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-                            <form class="forms-sample" method="post" action="@Url.Action("Index","B_LectorAdv")">
+                            <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","B_LectorAdv")">
                                 @Html.AntiForgeryToken()
                                 <div class="row">
                                     <div class="col-md-6">
@@ -47,11 +43,10 @@
                                     </div>
                                 </div>
                                 <div class="d-flex">
-                                    <button class="btn btn-light mr-2">清除條件</button>
+                                    <button class="btn btn-light mr-2" onclick="clearForm()">清除條件</button>
                                     <button type="submit" class="btn btn-primary mr-2">搜尋</button>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
@@ -112,64 +107,71 @@
                     </div>
                 </div>
             </div>
-            <script type="text/javascript">
-                function del(Uid) {
-                    //刪除按紐
-                    Swal.fire({
-                        title: '是否確定要刪除？',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: '是',
-                        cancelButtonText: '否',
-                        heightAuto: false
-                    }).then((result) => {
-                        if (!result.isConfirmed) {
-                            return;
-                        }
-                        else {
-                            $.ajax({
-                                type: "POST",
-                                url: '../B_LectorAdv/Delete',
-                                data: { Uid: Uid },
-                                dataType: "json",
-                                success: function (response) {
-                                    if (response.chk) {
-                                        Swal.fire({
-                                            confirmButtonColor: '#3085d6',
-                                            confirmButtonText: '確定',
-                                            heightAuto: false,
-                                            icon: 'success',
-                                            title: '刪除成功'
-                                        }).then(() => {
-                                            location.reload();
-                                        });
-                                    }
-                                    else {
-                                        Swal.fire({
-                                            confirmButtonColor: '#3085d6',
-                                            confirmButtonText: '確定',
-                                            heightAuto: false,
-                                            icon: 'warning',
-                                            title: '刪除失敗',
-                                            text: response.msg
-                                        });
-                                    }
-                                },
-                                error: function (thrownError) {
-                                    Swal.fire({
-                                        confirmButtonColor: '#3085d6',
-                                        confirmButtonText: '確定',
-                                        heightAuto: false,
-                                        icon: 'warning',
-                                        title: '刪除失敗',
-                                        text: '系統異常，請洽管理員'
-                                    });
-                                }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function del(Uid) {
+        //刪除按紐
+        Swal.fire({
+            title: '是否確定要刪除？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            heightAuto: false
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '../B_LectorAdv/Delete',
+                    data: { Uid: Uid },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.chk) {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'success',
+                                title: '刪除成功'
+                            }).then(() => {
+                                location.reload();
                             });
                         }
+                        else {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'warning',
+                                title: '刪除失敗',
+                                text: response.msg
+                            });
+                        }
+                    },
+                    error: function (thrownError) {
+                        Swal.fire({
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '確定',
+                            heightAuto: false,
+                            icon: 'warning',
+                            title: '刪除失敗',
+                            text: '系統異常，請洽管理員'
+                        });
+                    }
+                });
+            }
 
-                    })
-                }
-            </script>
+        })
+    }
+    function clearForm() {
+        //清除
+        document.getElementById("search-form").reset();
+    }
+</script>
