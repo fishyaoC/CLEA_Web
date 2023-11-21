@@ -6,142 +6,129 @@
 }
 @model Clea_Web.ViewModels.B_LectorBtnViewModel.SchModel
 
-    <div class="content-wrapper">
-        <div class="row">
-            <!--搜尋-->
-            <div class="col-12 mb-3">
-                <div class="accordion" id="accordionPanelsStayOpenExample">
-                    <div class="accordion-item rounded-bottom rounded-3">
-                        <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                <h4 class="m-0">搜尋條件</h4>
-                            </button>
-                        </h2>
-                        <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-                            <div class="accordion-body">
-                                <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","B_LectorBtn")">
-                                    @Html.AntiForgeryToken()
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <label for="exampleInputName1" class="col-sm-3 col-form-label">公告類型</label>
-                                                @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
-                                                <div class="col-sm-9">
-                                                    @Html.DropDownListFor(x => x.schItem.NTypeName, Model.DropDownListType, new { @class = "form-control form-control",@id="ddlType" })
-                                                </div>
+<div class="content-wrapper">
+    <div class="row">
+        <!--搜尋-->
+        <div class="col-12 mb-3">
+            <div class="accordion" id="accordionPanelsStayOpenExample">
+                <div class="accordion-item rounded-bottom rounded-3">
+                    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                            <h4 class="m-0">搜尋條件</h4>
+                        </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div class="accordion-body">
+                            <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","B_LectorBtn")">
+                                @Html.AntiForgeryToken()
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label for="exampleInputName1" class="col-sm-3 col-form-label">公告類型</label>
+                                            <div class="col-sm-9">
+                                                @Html.DropDownListFor(x => x.schItem.NType, Model.DropDownListType, new { @class = "form-control form-control",@id="ddlType" })
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <label for="exampleInputEmail3" class="col-sm-3 col-form-label">公告對象</label>
-                                                @* <input type="email" class="form-control" id="exampleInputEmail3" placeholder="角色名稱"> *@
-                                                <div class="col-sm-9">
-                                                    @Html.DropDownListFor(x=>x.R_ID, Model.DropDownList, new { @class = "form-control form-control",@id="ddlobject"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                                <label for="exampleInputEmail4" class="col-sm-3 col-form-label">開始日期</label>
-                                                <div class="col-sm-9">
-                                                    @* <input type="text" class="form-control" /> *@
-                                                    @Html.TextBoxFor(x => x.schItem.s_StartDate,new { @class = "form-control form-control date-picker"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                                <label for="exampleInputEmail4" class="col-sm-3 col-form-label">結束日期</label>
-                                                <div class="col-sm-9">
-                                                    @* <input type="text" class="form-control" /> *@
-                                                    @Html.TextBoxFor(x => x.schItem.s_EndDate,new { @class = "form-control form-control date-picker"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label for="exampleInputName5" class="col-sm-3 col-form-label">公告標題</label>
                                                 <div class="col-sm-9">
-                                                    @* <input type="text" class="form-control" id="exampleInputName1" placeholder="角色代碼"> *@
-                                                    @Html.TextBoxFor(x => x.schItem.s_Title, new { @class = "form-control form-control", placeholder = "主旨(標題)" })
+                                                    @Html.TextBoxFor(x => x.schItem.NTitle, new { @class = "form-control form-control", placeholder = "主旨(標題)" })
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex">
-                                        <button class="btn btn-light mr-2" onclick="clearForm()">清除條件</button>
-                                        <button type="submit" class="btn btn-primary mr-2">搜尋</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                            <label for="exampleInputEmail4" class="col-sm-3 col-form-label">開始日期</label>
+                                            <div class="col-sm-9">
+                                                @* <input type="text" class="form-control" /> *@
+                                                @Html.TextBoxFor(x => x.schItem.NStartDate,new { @class = "form-control form-control date-picker"})
+                                            </div>
+                                        </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            @* <label class="col-sm-3 col-form-label">姓名</label> *@
+                                            <label for="exampleInputEmail4" class="col-sm-3 col-form-label">結束日期</label>
+                                            <div class="col-sm-9">
+                                                @* <input type="text" class="form-control" /> *@
+                                                @Html.TextBoxFor(x => x.schItem.NEndDate,new { @class = "form-control form-control date-picker"})
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <button class="btn btn-light mr-2" onclick="clearForm()">清除條件</button>
+                                    <button type="submit" class="btn btn-primary mr-2">搜尋</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!--搜尋End-->
-                <!--動作-->
+            </div>
+            <!--搜尋End-->
+            <!--動作-->
 
-                <div class="mb-2 mt-2">
+            <div class="mb-2 mt-2">
 
-                    <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = ""})" class="btn btn-info">新增</a>
-                    @*<button type="button" class="btn btn-info">新增</button>*@
-                    @* <button type="button" class="btn btn-danger">刪除</button> *@
-                </div>
-                <!--動作End-->
-                <!--資料Table-->
-                <div class="col-lg-12 grid-margin stretch-card">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">公佈欄管理 - 列表</h4>
-                            @*<p class="card-description">
-                            Add class <code>.table</code>
-                            </p> *@
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>分類</th>
-                                            <th>主旨</th>
-                                            <th>檔案</th>
-                                            <th>公告日期</th>
-                                            <th>操作</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if (Model.schPageList2.Count > 0)
+                <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = ""})" class="btn btn-info">新增</a>
+                @*<button type="button" class="btn btn-info">新增</button>*@
+                @* <button type="button" class="btn btn-danger">刪除</button> *@
+            </div>
+            <!--動作End-->
+            <!--資料Table-->
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">公佈欄管理 - 列表</h4>
+                        @*<p class="card-description">
+                        Add class <code>.table</code>
+                        </p> *@
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>分類</th>
+                                        <th>主旨</th>
+                                        <th>檔案</th>
+                                        <th>公告日期</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.schPageList2.Count > 0)
+                                    {
+                                        foreach (var item in Model.schPageList2)
                                         {
-                                            foreach (var item in Model.schPageList2)
-                                            {
-                                                <tr>
-                                                    <td>@item.NTypeName</td>
-                                                    <td>@item.NTitle</td>
-                                                    <td></td>
-                                                    <td>@item.Curdate</td>
-                                                    <td>
-                                                        @*編輯、刪除*@
-                                                        @* <button type="button" class="btn btn-success">編輯</button> *@
-                                                        <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
-                                                        <button type="button" class="btn btn-danger" onclick="del('@item.NewsId')">刪除</button>
-                                                    </td>
-                                                </tr>
-                                            }
+                                            <tr>
+                                                <td>@item.NTypeName</td>
+                                                <td>@item.NTitle</td>
+                                                <td></td>
+                                                <td>@item.Curdate</td>
+                                                <td>
+                                                    @*編輯、刪除*@
+                                                    @* <button type="button" class="btn btn-success">編輯</button> *@
+                                                    <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
+                                                    <button type="button" class="btn btn-danger" onclick="del('@item.NewsId')">刪除</button>
+                                                </td>
+                                            </tr>
                                         }
-                                    </tbody>
-                                </table>
-                                <!--換頁模組-->
-                                @Html.Partial("../Shared/_pageList", Model.schPageList2)
-                            </div>
+                                    }
+                                </tbody>
+                            </table>
+                            <!--換頁模組-->
+                            @Html.Partial("../Shared/_pageList", Model.schPageList2)
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <script type="text/javascript">
     function del(Uid) {

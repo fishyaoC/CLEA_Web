@@ -141,25 +141,15 @@ namespace Clea_Web.ViewModels
         #region 搜尋條件
         public class SchItem
         {
+            //公告類型
+            public String? NType { get; set; }
+            //開始日期
+            public DateTime? NStartDate { get; set; }
+            //結束日期
+            public DateTime? NEndDate { get; set; }
+            //公告標題
+            public String? NTitle { get; set; }
 
-            public String? News_ID { get; set; }
-            public String? rId { get; set; }
-            public String? s_type { get; set; }
-            public String? s_Title { get; set; }
-            public DateTime s_StartDate { get; set; }
-            public DateTime s_EndDate { get; set; }
-            public String updDate { get; set; }
-            public Guid? updUser { get; set; }
-            /// <summary>
-            /// 分類名稱
-            /// </summary>
-            [DisplayName("分類名稱")]
-            public string NTypeName { get; set; }
-            /// <summary>
-            /// Uid
-            /// </summary>
-            [DisplayName("Uid")]
-            public Guid R_ID { get; set; }
         }
         #endregion
 

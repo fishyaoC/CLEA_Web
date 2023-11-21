@@ -34,8 +34,8 @@ namespace Clea_Web.Service
             List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
             if (data != null)
             {
-                db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true && x.RId == data.R_ID.ToString() && x.NStartDate == data.s_StartDate
-                && x.NEndDate == data.s_EndDate && x.NTitle == data.s_Title && x.NType == data.s_type).ToList().ForEach(x =>
+                db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true  && x.NStartDate == data.NStartDate
+                && x.NEndDate == data.NEndDate && x.NTitle == data.NTitle && x.NType == data.NType).ToList().ForEach(x =>
                 {
                     model = new B_LectorBtnViewModel.schPageList();
                     model.NTitle = x.NTitle;
