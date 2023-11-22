@@ -21,8 +21,10 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <h3>名稱：@(Model.UName)</h3>
+                            <div>
+                                <div class="form-group">
+                                    <h3>名稱：@(Model.UName)</h3>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,47 +82,33 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">上傳電子簽名檔</label>
-                                    @if (@Model.FilePath != null)
-                                    {
-
-                                    //有檔案
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                                    <div class="col-sm-9">
-                                                        <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                    <div class="col-sm-9">
+                                        @if (@Model.FilePath != null)
+                                        {
+                                            // 有檔案
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                                        <div class="col-sm-9">
+                                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
-                                                    <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control",id= "file", placeholder = "電子簽名檔", @type = "file" })
-                                                        @* @Html.ValidationMessageFor(x => x.file) *@
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                    //無檔案
+                                        }
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group row">
                                                     <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
                                                     <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control",id= "file", placeholder = "電子簽名檔", @type = "file" })
+                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control", id = "file", placeholder = "電子簽名檔", @type = "file" })
                                                         @* @Html.ValidationMessageFor(x => x.file) *@
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    }
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -128,40 +116,53 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
 
-        <script>
-            function validateForm() {
-                // 檢查新密碼是否大於 8 個字元
-                var oldPassword = document.getElementById('OldPW').value;
-                var newPassword = document.getElementById('NewPW').value;
-                if (newPassword.length < 8) {
-                    alert("新密碼必須大於 8 個字元");
-                    return false;
-                }
+<script>
 
-                // 檢查新密碼與再次確認新密碼是否一致
-                var checkNewPassword = document.getElementById('CheckNewPW').value;
-                if (newPassword !== checkNewPassword) {
-                    alert("新密碼與再次確認新密碼不一致");
-                    return false;
-                }
+function validatePassword() {
+    var newPassword = document.getElementById('NewPW').value;
+    var checkNewPassword = document.getElementById('CheckNewPW').value;
 
-                // 如果 FilePath 沒有參數，確保上傳了檔案
-                var filePath = "@Model.FilePath";
-                if (filePath === null || filePath === '') {
-                    var fileInput = document.getElementById('file');
-                    if (fileInput.value === '') {
-                        alert("請上傳檔案");
-                        return false;
-                    }
-                }
+    if (newPassword.length < 8) {
+        alert("新密碼必須大於8個字符");
+        return false;
+    }
+    else if (newPassword !== checkNewPassword) {
+        alert("新密碼與再次確認新密碼不一致");
+        return false;
+    }
+    else {
+        return true; // 密碼驗證通過
+    }
+}
 
-                //如果沒上傳檔案，也沒輸入密碼直接按儲存
-                if (oldPassword != null && newPassword != null && checkNewPassword != null && filePath != null || filePath != '') {
-                    alert("請填寫相關資訊再儲存");
-                    return false;
-                }
+function validateFile() {
+    var filePath = "@Model.FilePath";
 
-                return true; // 驗證通過，提交表單
-            }
-        </script>
+    if (filePath === null || filePath === '') {
+        var fileInput = document.getElementById('file');
+        if (fileInput.value === '') {
+            alert("請上傳檔案");
+            return false;
+        }
+    } else {
+        return true;
+    }
+
+    return true; // 檔案驗證通過
+}
+
+    function validateForm() {
+        if (!validatePassword()) {
+            return false;
+        }
+        else if (!validateFile()) {
+            return false;
+        }
+        else {
+            return true; // 驗證通過，提交表單
+        }
+    }
+</script>
