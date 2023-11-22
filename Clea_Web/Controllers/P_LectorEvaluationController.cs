@@ -72,6 +72,7 @@ namespace Clea_Web.Controllers
 				C_B_Name = C_B_name,
 				S_P_Name = S_P_name
 			};
+
 			vmd.scoreModify = new LectorEvaluationViewModel.scoreModify()
 			{
 				ED_ID = ED_ID,

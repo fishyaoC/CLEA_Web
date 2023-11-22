@@ -11,6 +11,13 @@ using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Drawing;
 using Microsoft.Office.Interop.PowerPoint;
+using System.Reflection.Metadata;
+using Org.BouncyCastle.Tsp;
+using Microsoft.AspNetCore.Hosting;
+using PdfiumViewer;
+//using Ghostscript.NET;
+//using Ghostscript.NET.Rasterizer;
+using System.Drawing.Imaging;
 
 namespace Clea_Web.Service
 {
@@ -459,7 +466,14 @@ namespace Clea_Web.Service
 
 			if (IsTrans)
 			{
-				pptToPng(Guid.NewGuid(), savePath, physicalPath);
+				if (file.FileName.Contains(".ppt"))
+				{
+					pptToPng(Guid.NewGuid(), savePath, physicalPath);
+				}
+				else if (file.FileName.Contains(".pdf"))
+				{
+					pdfToPng(Guid.NewGuid(), savePath, physicalPath);
+				}				
 			}			
 
 			return true;
@@ -482,6 +496,44 @@ namespace Clea_Web.Service
 			}
 			objActivePresentation.Close();
 			appPpt.Quit();
+		}
+		#endregion
+
+		#region PDF TO PNG
+		public void pdfToPng(Guid matchKey, String sourcePath, String savePath)
+		{
+
+			//GhostscriptVersionInfo version = GetCustomGhostscriptVersionInfo("C:\\Users\\asiai\\.nuget\\packages\\ghostscript.netcore");
+
+
+			//GhostscriptVersionInfo version = GhostscriptVersionInfo.GetLastInstalledVersion();
+
+			//using (var rasterizer = new GhostscriptRasterizer())
+			//{
+			//	rasterizer.Open(sourcePath, version, false);
+
+			//	for (int pageNumber = 1; pageNumber <= rasterizer.PageCount; pageNumber++)
+			//	{
+			//		using (var img = rasterizer.GetPage(300, pageNumber))
+			//		{
+			//			string outputPngPath = Path.Combine(savePath, $"page_{pageNumber}.png");
+			//			img.Save(outputPngPath, System.Drawing.Imaging.ImageFormat.Png);
+			//		}
+			//	}
+			//}
+
+			using (PdfDocument pdfDocument = PdfDocument.Load(sourcePath))
+			{
+
+				for (int pageNumber = 0; pageNumber < pdfDocument.PageCount; pageNumber++)
+				{
+					using (var image = pdfDocument.Render(pageNumber, 600, 800, true))
+					{
+						string outputPath = Path.Combine(savePath, $"page_{pageNumber}.png");
+						image.Save(outputPath, ImageFormat.Png);
+					}
+				}
+			}
 		}
 		#endregion
 
@@ -509,34 +561,7 @@ namespace Clea_Web.Service
 						result.Add(base64WithPrefix);
 					}
 				}				
-			}
-
-
-
-
-			////找出檔案資訊
-			//List<SysFile> lst_files = db.SysFiles.Where(x => x.FMatchKey == matchKey).OrderBy(x => x.FOrder).ToList();
-
-			//if (lst_files != null && lst_files.Count > 0)
-			//{
-			//	foreach (SysFile file in lst_files)
-			//	{
-			//		if (!IsImage(file.FFullName))
-			//		{
-			//			continue;
-			//		}
-			//		else
-			//		{
-			//			string base64 = ImageToBase64(configuration.GetValue<String>("FileRootPath") + "\\" + file.FPath + "\\" + file.FNameDl + "." + file.FExt);
-			//			string base64WithPrefix = $"data:{file.FMimeType};base64,{base64}";
-			//			result.Add(base64WithPrefix);
-			//		}
-			//	}
-			//}
-
-			//string base64 = ImageToBase64(sysFileInfo.PhysicalFilePath);
-
-			//string base64WithPrefix = $"data:{sysFileInfo.MimeType};base64,{base64}";
+			}			
 
 			return result;
 		}
@@ -559,8 +584,6 @@ namespace Clea_Web.Service
 				return false;
 			}
 		}
-
-
 
 		/// <summary>
 		/// 使用檔名取得MimeType
@@ -613,6 +636,30 @@ namespace Clea_Web.Service
 				return false;
 			}
 		}
+		#endregion
+
+		#region 取得檔案路徑
+        public List<String> GetFilePath(Guid matchKey)
+        {
+            List<String> result = new List<string>();
+			SysFile? file = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+
+			if (file != null)
+			{
+				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
+				String[] dirFile = Directory.GetFiles(physicalPath, "*.png");
+				if (dirFile.Length > 0)
+				{
+					foreach (String p in dirFile)
+					{
+						string base64 = ImageToBase64(p);
+						string base64WithPrefix = $"data:image/png;base64,{base64}";
+						result.Add(base64WithPrefix);
+					}
+				}
+			}
+			return result;
+        }
 		#endregion
 	}
 }

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
+    "net6.0-windows7.0": {
       "Azure.Core/1.24.0": {
         "type": "package",
         "dependencies": {
@@ -833,6 +833,60 @@
           },
           "lib/net6.0/NPOI.OpenXmlFormats.dll": {
             "related": ".pdb;.xml"
+          }
+        }
+      },
+      "PdfiumViewer/2.13.0": {
+        "type": "package",
+        "compile": {
+          "lib/net20/PdfiumViewer.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net20/PdfiumViewer.dll": {
+            "related": ".xml"
+          }
+        },
+        "resource": {
+          "lib/net20/nl/PdfiumViewer.resources.dll": {
+            "locale": "nl"
+          }
+        }
+      },
+      "PdfiumViewer.Native.x86.v8-xfa/2018.4.8.256": {
+        "type": "package",
+        "build": {
+          "Build/PdfiumViewer.Native.x86.v8-xfa.props": {}
+        }
+      },
+      "PdfiumViewer.Native.x86_64.v8-xfa/2018.4.8.256": {
+        "type": "package",
+        "build": {
+          "Build/PdfiumViewer.Native.x86_64.v8-xfa.props": {}
+        }
+      },
+      "PdfiumViewer.Updated/2.14.4": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows7.0/PdfiumViewer.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/PdfiumViewer.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ],
+        "resource": {
+          "lib/net6.0-windows7.0/de/PdfiumViewer.resources.dll": {
+            "locale": "de"
+          },
+          "lib/net6.0-windows7.0/nl/PdfiumViewer.resources.dll": {
+            "locale": "nl"
           }
         }
       },
@@ -2830,6 +2884,75 @@
         "npoi.nuspec"
       ]
     },
+    "PdfiumViewer/2.13.0": {
+      "sha512": "Nw4owBmJzDVXoMRjCnqPbET07CPOawwhcNjt+PyRaSxONN9bsFF+cm9kcMsDLEAEaxsiDJo5jls8bCQjvjidkA==",
+      "type": "package",
+      "path": "pdfiumviewer/2.13.0",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Tools/Install.ps1",
+        "lib/net20/PdfiumViewer.dll",
+        "lib/net20/PdfiumViewer.xml",
+        "lib/net20/nl/PdfiumViewer.resources.dll",
+        "pdfiumviewer.2.13.0.nupkg.sha512",
+        "pdfiumviewer.nuspec"
+      ]
+    },
+    "PdfiumViewer.Native.x86.v8-xfa/2018.4.8.256": {
+      "sha512": "seXuvDlj2AcOmTrZpvVdl4SRHfYJczyld3vfgqVHJTGv4s813n/wSyoVmoM0b2IBcBTqjJM+9Gcs4WsJbmUu0w==",
+      "type": "package",
+      "path": "pdfiumviewer.native.x86.v8-xfa/2018.4.8.256",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Build/PdfiumViewer.Native.x86.v8-xfa.props",
+        "Build/x86/pdfium.dll",
+        "pdfiumviewer.native.x86.v8-xfa.2018.4.8.256.nupkg.sha512",
+        "pdfiumviewer.native.x86.v8-xfa.nuspec"
+      ]
+    },
+    "PdfiumViewer.Native.x86_64.v8-xfa/2018.4.8.256": {
+      "sha512": "0RQwmLMPKOHBRqRK+NPMR2H5EQ4KlYO+LnT3Y2lByVUa5/JTPCMswL46JEXX+/MAfJtCpS2PzJvy6QzpH2nuIw==",
+      "type": "package",
+      "path": "pdfiumviewer.native.x86_64.v8-xfa/2018.4.8.256",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Build/PdfiumViewer.Native.x86_64.v8-xfa.props",
+        "Build/x64/pdfium.dll",
+        "pdfiumviewer.native.x86_64.v8-xfa.2018.4.8.256.nupkg.sha512",
+        "pdfiumviewer.native.x86_64.v8-xfa.nuspec"
+      ]
+    },
+    "PdfiumViewer.Updated/2.14.4": {
+      "sha512": "pY4V/lkM/24/DcvfLWdT41nY8fM61DebWp81Wt8HLbJShOUWZnV9h/e1pIIrxT6BTJNna9ZH0Zd0zaHfod3hPw==",
+      "type": "package",
+      "path": "pdfiumviewer.updated/2.14.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net20/PdfiumViewer.dll",
+        "lib/net20/PdfiumViewer.xml",
+        "lib/net20/de/PdfiumViewer.resources.dll",
+        "lib/net20/nl/PdfiumViewer.resources.dll",
+        "lib/net45/PdfiumViewer.dll",
+        "lib/net45/PdfiumViewer.xml",
+        "lib/net45/de/PdfiumViewer.resources.dll",
+        "lib/net45/nl/PdfiumViewer.resources.dll",
+        "lib/net6.0-windows7.0/PdfiumViewer.dll",
+        "lib/net6.0-windows7.0/PdfiumViewer.xml",
+        "lib/net6.0-windows7.0/de/PdfiumViewer.resources.dll",
+        "lib/net6.0-windows7.0/nl/PdfiumViewer.resources.dll",
+        "lib/netcoreapp3.1/PdfiumViewer.dll",
+        "lib/netcoreapp3.1/PdfiumViewer.xml",
+        "lib/netcoreapp3.1/de/PdfiumViewer.resources.dll",
+        "lib/netcoreapp3.1/nl/PdfiumViewer.resources.dll",
+        "pdfiumviewer.updated.2.14.4.nupkg.sha512",
+        "pdfiumviewer.updated.nuspec"
+      ]
+    },
     "SharpZipLib/1.3.3": {
       "sha512": "N8+hwhsKZm25tDJfWpBSW7EGhH/R7EMuiX+KJ4C4u+fCWVc1lJ5zg1u3S1RPPVYgTqhx/C3hxrqUpi6RwK5+Tg==",
       "type": "package",
@@ -4521,7 +4644,7 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0": [
+    "net6.0-windows7.0": [
       "DocXCore >= 1.0.10",
       "MSOffice.Object.Library >= 15.0.4420.1018",
       "Microsoft.EntityFrameworkCore >= 7.0.10",
@@ -4530,6 +4653,10 @@
       "Microsoft.Office.Interop.PowerPoint >= 15.0.4420.1018",
       "NPOI >= 2.6.2",
       "Newtonsoft.Json >= 13.0.3",
+      "PdfiumViewer >= 2.13.0",
+      "PdfiumViewer.Native.x86.v8-xfa >= 2018.4.8.256",
+      "PdfiumViewer.Native.x86_64.v8-xfa >= 2018.4.8.256",
+      "PdfiumViewer.Updated >= 2.14.4",
       "X.PagedList.Mvc.Core >= 8.4.7",
       "jQuery.UI >= 1.12.1.1",
       "jQuery.UI.Combined >= 1.13.2"
@@ -4557,15 +4684,15 @@
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "net6.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
           "projectReferences": {}
         }
       },
@@ -4576,8 +4703,8 @@
       }
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
         "dependencies": {
           "DocXCore": {
             "target": "Package",
@@ -4612,6 +4739,22 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.3, )"
+          },
+          "PdfiumViewer": {
+            "target": "Package",
+            "version": "[2.13.0, )"
+          },
+          "PdfiumViewer.Native.x86.v8-xfa": {
+            "target": "Package",
+            "version": "[2018.4.8.256, )"
+          },
+          "PdfiumViewer.Native.x86_64.v8-xfa": {
+            "target": "Package",
+            "version": "[2018.4.8.256, )"
+          },
+          "PdfiumViewer.Updated": {
+            "target": "Package",
+            "version": "[2.14.4, )"
           },
           "X.PagedList.Mvc.Core": {
             "target": "Package",
@@ -4657,17 +4800,27 @@
       "message": "jQuery.UI.Combined 1.13.2 相依於 jQuery (>= 1.13.1)，但找不到 jQuery 1.13.1。已解析了約略的最佳相符 jQuery 2.0.0。",
       "libraryId": "jQuery",
       "targetGraphs": [
-        "net6.0"
+        "net6.0-windows7.0"
       ]
     },
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "已使用 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' 而非專案目標架構 'net6.0' 還原了套件 'MSOffice.Object.Library 15.0.4420.1018'。此套件與您的專案並非完全相容。",
+      "message": "已使用 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' 而非專案目標架構 'net6.0-windows7.0' 還原了套件 'MSOffice.Object.Library 15.0.4420.1018'。此套件與您的專案並非完全相容。",
       "libraryId": "MSOffice.Object.Library",
       "targetGraphs": [
-        "net6.0"
+        "net6.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "已使用 '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' 而非專案目標架構 'net6.0-windows7.0' 還原了套件 'PdfiumViewer 2.13.0'。此套件與您的專案並非完全相容。",
+      "libraryId": "PdfiumViewer",
+      "targetGraphs": [
+        "net6.0-windows7.0"
       ]
     }
   ]

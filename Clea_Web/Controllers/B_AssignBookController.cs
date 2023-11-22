@@ -297,7 +297,7 @@ namespace Clea_Web.Controllers
 
 			if (chkExt.Contains(".pdf"))
 			{
-				result.CheckMsg = _fileService.UploadFile(false, 1, data.import.ED_ID, data.import.file, true);
+				result.CheckMsg = _fileService.UploadFile(true, 1, data.import.ED_ID, data.import.file, true);
 			}
 			else
 			{
