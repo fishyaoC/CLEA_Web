@@ -331,7 +331,7 @@ namespace Clea_Web.Service
                 else
                 {
                     var row = sheet.CreateRow(1);
-                    SysUser user = db.SysUsers.Where(x => x.UId.Equals(RId)).FirstOrDefault();
+                    SysUser user = db.SysUsers.Where(x => x.UId == Guid.Parse(RId) ).FirstOrDefault();
                     //CLector cl = db.CLectors.Where(x=>x.LId.Equals(user.UAccount)).FirstOrDefault();
                     //序號
                     row.CreateCell(0).SetCellValue(1);

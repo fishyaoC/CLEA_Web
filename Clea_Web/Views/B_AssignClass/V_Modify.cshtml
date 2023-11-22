@@ -87,11 +87,13 @@
                                     <div class="carousel-inner">
 									@if (Model.picPath.Count() > 0)
 									{
+										Boolean First = true;
 										foreach (String path in Model.picPath)
 										{
-											<div class="carousel-item">
+											<div class="carousel-item @(First ? "active":"")">
 												<img src="@path" class="d-block w-100" alt="教學內容">
 											</div>
+											First = false;
 										}
 									}
                                     </div>
