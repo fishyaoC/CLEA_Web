@@ -137,22 +137,24 @@ namespace Clea_Web.Service
         {
            
             //撈資料
-            P_LectorBtnViewModel.Modify model;
-            //List<P_LectorBtnViewModel.Modify> result = new List<P_LectorBtnViewModel.Modify>();
+            P_LectorBtnViewModel.Modify model = new P_LectorBtnViewModel.Modify();
             var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
-            var lstisread = db.PNewsReadLogs.Where(x => x.NewsId.ToString() == NewsID).ToList();
-            PNewsReadLog P_Log = new PNewsReadLog();
-            if (lstisread.Count == 0)
+
+            //存LOG
+            PNewsReadLog P_Log = db.PNewsReadLogs.Where(x=> x.NewsId.ToString() == NewsID && x.Creuser.ToString() == GetUserID(user)).FirstOrDefault();
+            if (P_Log == null)
             {
-                //P_Log.Sn = 1;
-                P_Log.NewsId = _PNews.NewsId;
+                //create
+                P_Log= new PNewsReadLog();
+                P_Log.NewsId = Guid.Parse(NewsID);
                 P_Log.Creuser = Guid.Parse(GetUserID(user));
                 P_Log.Credate = DateTime.Now;
                 db.PNewsReadLogs.Add(P_Log);
             }
             else
             {
-                P_Log =  db.PNewsReadLogs.Where(x=>x.NewsId== _PNews.NewsId).FirstOrDefault();
+                //update
+                P_Log.NewsId = Guid.Parse(NewsID);
                 P_Log.Upddate = DateTime.Now;
                 P_Log.Upduser = Guid.Parse(GetUserID(user));
             }

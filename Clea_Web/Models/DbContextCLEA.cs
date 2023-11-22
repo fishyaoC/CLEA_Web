@@ -67,6 +67,20 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<ViewBookEvaluateTeacher> ViewBookEvaluateTeachers { get; set; }
 
+    public virtual DbSet<ViewBridgeCBook> ViewBridgeCBooks { get; set; }
+
+    public virtual DbSet<ViewBridgeCBookPublish> ViewBridgeCBookPublishes { get; set; }
+
+    public virtual DbSet<ViewBridgeCClass> ViewBridgeCClasses { get; set; }
+
+    public virtual DbSet<ViewBridgeCClassLector> ViewBridgeCClassLectors { get; set; }
+
+    public virtual DbSet<ViewBridgeCClassSubject> ViewBridgeCClassSubjects { get; set; }
+
+    public virtual DbSet<ViewBridgeCLector> ViewBridgeCLectors { get; set; }
+
+    public virtual DbSet<ViewBridgePublishT> ViewBridgePublishTs { get; set; }
+
     public virtual DbSet<ViewClassEvaluate> ViewClassEvaluates { get; set; }
 
     public virtual DbSet<ViewClassLector> ViewClassLectors { get; set; }
@@ -101,6 +115,8 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.MIndex)
+                .HasMaxLength(100)
+                .IsUnicode(false)
                 .HasComment("教材編號")
                 .HasColumnName("M_Index");
             entity.Property(e => e.MMemo)
@@ -421,7 +437,7 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("電子郵件")
                 .HasColumnName("L_Email");
             entity.Property(e => e.LId)
-                .HasMaxLength(10)
+                .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasComment("身分證")
                 .HasColumnName("L_ID");
@@ -748,6 +764,9 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.NIsTop)
                 .HasComment("是否置頂")
                 .HasColumnName("N_IsTop");
+            entity.Property(e => e.NRole)
+                .HasComment("true=群發，false=個人")
+                .HasColumnName("N_Role");
             entity.Property(e => e.NStartDate)
                 .HasComment("起始日")
                 .HasColumnType("date")
@@ -783,7 +802,6 @@ public partial class DbContextCLEA : DbContext
             entity.ToTable("P_NewsReadLog");
 
             entity.Property(e => e.Sn)
-                .ValueGeneratedNever()
                 .HasComment("PK")
                 .HasColumnName("SN");
             entity.Property(e => e.Credate)
@@ -1198,6 +1216,282 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasColumnName("L_NAME");
             entity.Property(e => e.LUid).HasColumnName("L_UID");
+        });
+
+        modelBuilder.Entity<ViewBridgeCBook>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_C_Book");
+
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasMaxLength(20)
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.MIndex)
+                .HasMaxLength(10)
+                .HasColumnName("M_Index");
+            entity.Property(e => e.MMemo)
+                .HasMaxLength(50)
+                .HasColumnName("M_Memo");
+            entity.Property(e => e.MName)
+                .HasMaxLength(80)
+                .HasColumnName("M_Name");
+            entity.Property(e => e.MNumber)
+                .HasMaxLength(40)
+                .HasColumnName("M_Number");
+            entity.Property(e => e.MOrder).HasColumnName("M_Order");
+            entity.Property(e => e.MPublish)
+                .HasMaxLength(20)
+                .HasColumnName("M_Publish");
+            entity.Property(e => e.MVersion)
+                .HasMaxLength(20)
+                .HasColumnName("M_Version");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasMaxLength(20)
+                .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgeCBookPublish>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_C_BookPublish");
+
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasMaxLength(20)
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.MIndex)
+                .HasMaxLength(10)
+                .HasColumnName("M_Index");
+            entity.Property(e => e.MMemo)
+                .HasMaxLength(50)
+                .HasColumnName("M_Memo");
+            entity.Property(e => e.MName)
+                .HasMaxLength(80)
+                .HasColumnName("M_Name");
+            entity.Property(e => e.MNumber)
+                .HasMaxLength(40)
+                .HasColumnName("M_Number");
+            entity.Property(e => e.MOrder).HasColumnName("M_Order");
+            entity.Property(e => e.MPublish)
+                .HasMaxLength(20)
+                .HasColumnName("M_Publish");
+            entity.Property(e => e.MVersion)
+                .HasMaxLength(20)
+                .HasColumnName("M_Version");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasMaxLength(20)
+                .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgeCClass>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_C_Class");
+
+            entity.Property(e => e.CBookNum)
+                .HasMaxLength(10)
+                .HasColumnName("C_BookNum");
+            entity.Property(e => e.CId)
+                .HasMaxLength(50)
+                .HasColumnName("C_ID");
+            entity.Property(e => e.CName)
+                .HasMaxLength(200)
+                .HasColumnName("C_Name");
+            entity.Property(e => e.CType)
+                .HasMaxLength(20)
+                .HasColumnName("C_Type");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasMaxLength(20)
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasMaxLength(20)
+                .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgeCClassLector>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_C_ClassLector");
+
+            entity.Property(e => e.CUid)
+                .HasMaxLength(10)
+                .HasColumnName("C_UID");
+            entity.Property(e => e.ClHourlyRate)
+                .HasColumnType("decimal(18, 4)")
+                .HasColumnName("CL_HourlyRate");
+            entity.Property(e => e.ClIsActive)
+                .HasMaxLength(10)
+                .HasColumnName("CL_IsActive");
+            entity.Property(e => e.ClOrder).HasColumnName("CL_Order");
+            entity.Property(e => e.ClQualify)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("CL_Qualify");
+            entity.Property(e => e.ClUid).HasColumnName("CL_UID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasMaxLength(20)
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.DUid)
+                .HasMaxLength(10)
+                .HasColumnName("D_UID");
+            entity.Property(e => e.LUid)
+                .HasMaxLength(20)
+                .HasColumnName("L_UID");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasMaxLength(20)
+                .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgeCClassSubject>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_C_ClassSubject");
+
+            entity.Property(e => e.CUid)
+                .HasMaxLength(10)
+                .HasColumnName("C_UID");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasMaxLength(20)
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.DHour)
+                .HasColumnType("decimal(18, 4)")
+                .HasColumnName("D_Hour");
+            entity.Property(e => e.DHourlyRate)
+                .HasColumnType("decimal(18, 4)")
+                .HasColumnName("D_HourlyRate");
+            entity.Property(e => e.DId)
+                .HasMaxLength(10)
+                .HasColumnName("D_ID");
+            entity.Property(e => e.DIsTest)
+                .HasMaxLength(50)
+                .HasColumnName("D_IsTest");
+            entity.Property(e => e.DMemo)
+                .HasMaxLength(50)
+                .HasColumnName("D_Memo");
+            entity.Property(e => e.DName)
+                .HasMaxLength(200)
+                .HasColumnName("D_Name");
+            entity.Property(e => e.DType)
+                .HasMaxLength(1)
+                .HasColumnName("D_Type");
+            entity.Property(e => e.Sn)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("SN");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasMaxLength(20)
+                .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgeCLector>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_C_Lector");
+
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser)
+                .HasMaxLength(20)
+                .HasColumnName("CREUSER");
+            entity.Property(e => e.LActive)
+                .HasMaxLength(50)
+                .HasColumnName("L_Active");
+            entity.Property(e => e.LAddress)
+                .HasMaxLength(80)
+                .HasColumnName("L_Address");
+            entity.Property(e => e.LBrithday)
+                .HasColumnType("datetime")
+                .HasColumnName("L_BRITHDAY");
+            entity.Property(e => e.LCaddress)
+                .HasMaxLength(80)
+                .HasColumnName("L_CAddress");
+            entity.Property(e => e.LCellPhone)
+                .HasMaxLength(30)
+                .HasColumnName("L_CellPhone");
+            entity.Property(e => e.LCposCode)
+                .HasMaxLength(8)
+                .HasColumnName("L_CPosCode");
+            entity.Property(e => e.LEdu)
+                .HasMaxLength(4)
+                .HasColumnName("L_Edu");
+            entity.Property(e => e.LEduSchool)
+                .HasMaxLength(30)
+                .HasColumnName("L_EduSchool");
+            entity.Property(e => e.LEmail)
+                .HasMaxLength(50)
+                .HasColumnName("L_Email");
+            entity.Property(e => e.LId)
+                .HasMaxLength(20)
+                .HasColumnName("L_ID");
+            entity.Property(e => e.LIsCheck)
+                .HasMaxLength(50)
+                .HasColumnName("L_IsCheck");
+            entity.Property(e => e.LMemo)
+                .HasMaxLength(50)
+                .HasColumnName("L_Memo");
+            entity.Property(e => e.LName)
+                .HasMaxLength(20)
+                .HasColumnName("L_NAME");
+            entity.Property(e => e.LPhone)
+                .HasMaxLength(30)
+                .HasColumnName("L_Phone");
+            entity.Property(e => e.LPosCode)
+                .HasMaxLength(8)
+                .HasColumnName("L_PosCode");
+            entity.Property(e => e.LTravelExpenses).HasColumnName("L_TravelExpenses");
+            entity.Property(e => e.LType)
+                .HasMaxLength(4)
+                .HasColumnName("L_Type");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser)
+                .HasMaxLength(20)
+                .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgePublishT>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_Publish_T");
+
+            entity.Property(e => e.Publish).HasMaxLength(20);
         });
 
         modelBuilder.Entity<ViewClassEvaluate>(entity =>

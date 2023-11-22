@@ -7,7 +7,7 @@ public partial class CBookPublish
 {
     public Guid BpId { get; set; }
 
-    public string BpNumber { get; set; } = null!;
+    public string? BpNumber { get; set; }
 
     public string BpName { get; set; } = null!;
 

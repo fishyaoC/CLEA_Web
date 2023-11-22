@@ -10,7 +10,7 @@ public partial class CBook
     /// <summary>
     /// 教材編號
     /// </summary>
-    public int? MIndex { get; set; }
+    public string? MIndex { get; set; }
 
     /// <summary>
     /// 教材名稱

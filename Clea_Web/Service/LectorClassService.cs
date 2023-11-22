@@ -116,7 +116,7 @@ namespace Clea_Web.Service
 					else if (string.IsNullOrEmpty(data.FileName) && data.file != null)
 					{
 						_fileservice.user = user;
-						result.CheckMsg = _fileservice.UploadFile(0, data.ED_ID, data.file);
+						result.CheckMsg = _fileservice.UploadFile(true, 0, data.ED_ID, data.file);
 						if (result.CheckMsg)
 						{
 							EClassUploadLog eClassUploadLog = new EClassUploadLog()

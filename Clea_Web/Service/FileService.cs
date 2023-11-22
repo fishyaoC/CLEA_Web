@@ -366,7 +366,7 @@ namespace Clea_Web.Service
         /// <param name="file">檔案</param>
         /// <param name="overwrite">是否複寫檔案</param>
         /// <returns></returns>
-        public bool UploadFile(Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
+        public bool UploadFile(Boolean IsTrans, Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
 		{
 
 
@@ -457,7 +457,10 @@ namespace Clea_Web.Service
 			}
 			db.SaveChanges();
 
-			pptToPng(Guid.NewGuid(), savePath, physicalPath);
+			if (IsTrans)
+			{
+				pptToPng(Guid.NewGuid(), savePath, physicalPath);
+			}			
 
 			return true;
 		}

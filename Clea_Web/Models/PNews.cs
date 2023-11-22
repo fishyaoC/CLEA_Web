@@ -53,6 +53,11 @@ public partial class PNews
     public string NContent { get; set; } = null!;
 
     /// <summary>
+    /// true=群發，false=個人
+    /// </summary>
+    public bool? NRole { get; set; }
+
+    /// <summary>
     /// 角色代碼(觀看權限)
     /// </summary>
     public string RId { get; set; } = null!;

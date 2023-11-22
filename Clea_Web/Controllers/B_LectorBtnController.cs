@@ -42,8 +42,8 @@ namespace Clea_Web.Controllers
             }
             else
             {
-                //vmd.schItem = new B_LectorBtnViewModel.SchItem();
                 vmd.schItem = null;
+                //vmd.schItem = new B_LectorBtnViewModel.SchItem();
             }
             vmd.DropDownList = getTeacherItem();
             vmd.DropDownListType = getTypeItem();
@@ -135,7 +135,8 @@ namespace Clea_Web.Controllers
         {
             List<SelectListItem> result = new List<SelectListItem>();
             result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysCode> lst_cLectors = db.SysCodes.Where(x => x.CParentCode == "L_Tpye").ToList();
+
+            List<SysCode> lst_cLectors = db.SysCodes.Where(x => x.CParentCode == "L_Type").OrderBy(x=> x.CItemOrder).ToList();
             if (lst_cLectors != null && lst_cLectors.Count() > 0)
             {
                 foreach (SysCode L in lst_cLectors)
@@ -186,6 +187,15 @@ namespace Clea_Web.Controllers
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
-       
+        #region 匯出EXCEL表
+        public IActionResult ExportExcel(Guid NewsID)
+        {
+
+            PNews pn = db.PNews.Where(x => x.NewsId == NewsID).FirstOrDefault();
+            Byte[] file = _B_LectorBtnService.ExportExcel(NewsID,pn.NTitle,pn.NRole,pn.RId);
+            return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "標題-" + pn.NTitle + "-未讀資訊.xlsx");
+        }
+        #endregion
+
     }
 }

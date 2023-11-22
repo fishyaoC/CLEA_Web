@@ -295,9 +295,9 @@ namespace Clea_Web.Controllers
 
 			String chkExt = Path.GetExtension(data.import.file.FileName);
 
-			if (chkExt.Contains(".ppt"))
+			if (chkExt.Contains(".pdf"))
 			{
-				result.CheckMsg = _fileService.UploadFile(1, data.import.ED_ID, data.import.file, true);
+				result.CheckMsg = _fileService.UploadFile(false, 1, data.import.ED_ID, data.import.file, true);
 			}
 			else
 			{

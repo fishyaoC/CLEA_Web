@@ -2,6 +2,9 @@
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using MathNet.Numerics;
+using NPOI.OpenXmlFormats;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using X.PagedList;
 using static Clea_Web.ViewModels.AssignClassViewModel;
 
@@ -34,8 +37,13 @@ namespace Clea_Web.Service
             List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
             if (data != null)
             {
-                db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true  && x.NStartDate == data.NStartDate
-                && x.NEndDate == data.NEndDate && x.NTitle == data.NTitle && x.NType == data.NType).ToList().ForEach(x =>
+                db.PNews.Where
+                    (x =>
+                x.NStartDate == data.NStartDate
+                && x.NEndDate == data.NEndDate
+                && x.NTitle == data.NTitle
+                && x.NType == data.NType
+                ).ToList().ForEach(x =>
                 {
                     model = new B_LectorBtnViewModel.schPageList();
                     model.NTitle = x.NTitle;
@@ -59,7 +67,7 @@ namespace Clea_Web.Service
             }
             else
             {
-                db.PNews.Where(x => x.NIsShow == true && x.NIsTop == true).ToList().ForEach(x =>
+                db.PNews.ToList().ForEach(x =>
                                 {
                                     model = new B_LectorBtnViewModel.schPageList();
                                     model.NTitle = x.NTitle;
@@ -81,29 +89,36 @@ namespace Clea_Web.Service
                                     result.Add(model);
                                 });
             }
-            //result = (from r in db.PNews
+            //result = (from pn in db.PNews
             //              //join user in db.SysUsers on r.Creuser equals user.UName
             //          where
             //          (
-            //          //
-            //          (string.IsNullOrEmpty(data.rId) || r.RId.Contains(data.rId)) &&
-            //          (string.IsNullOrEmpty(data.s_Title) || r.NTitle.Contains(data.s_Title)) &&
-            //          (string.IsNullOrEmpty(data.s_StartDate.ToString()) || r.NStartDate == data.s_StartDate) &&
-            //          (string.IsNullOrEmpty(data.s_type.ToString()) || r.NTitle.Contains(data.s_type.ToString()))
+            //          //公告類型、公告標題、開始日期、結束日期
+            //          (string.IsNullOrEmpty(data.NTitle) || pn.NTitle.Contains(data.NTitle)) &&
+            //          (string.IsNullOrEmpty(data.NStartDate.ToString()) || pn.NStartDate == data.NStartDate) &&
+            //          (string.IsNullOrEmpty(data.NEndDate.ToString()) || pn.NEndDate == data.NEndDate) &&
+            //          (string.IsNullOrEmpty(data.NType.ToString()) || pn.NTitle == data.NType.ToString())
             //          )
             //          select new B_LectorBtnViewModel.schPageList
             //          {
-            //              News_ID = r.NewsId.ToString(),
-            //              rId = r.RId,
-            //              s_Title = r.NTitle,
-            //              s_StartDate = r.NStartDate,
-            //              s_EndDate = r.NEndDate,
-            //              s_type = r.NType,
+            //              NewsId = pn.NewsId,
+            //              NType = pn.NType,
+            //              NTitle = pn.NTitle,
+            //              NClass = pn.NClass,
+            //              NStartDate = pn.NStartDate,
+            //              NEndDate = pn.NEndDate,
+            //              NIsTop = pn.NIsTop,
+            //              NIsShow = pn.NIsShow,
+            //              NStatus = pn.NStatus,
+            //              NContent = pn.NContent,
+            //              NRole = pn.NRole,
+            //              RId = pn.RId,
+            //              NTypeName = (from code in db.SysCodes where code.CParentCode.Equals("btnType") && code.CItemCode == pn.NType.ToString() select code).FirstOrDefault().CItemName
             //              //creDate = r.Credate.ToShortDateString(),
             //              //creUser = r.Creuser,
-            //              updDate = r.Upddate == null ? r.Curdate.ToShortDateString() : r.Upddate.Value.ToShortDateString(),
-            //              updUser = string.IsNullOrEmpty(r.Upduser.ToString()) ? r.Creuser : r.Upduser
-            //          }).OrderBy(x => x.updDate).ToList();
+            //              //Upddate = pn.Upddate == null ? pn.Curdate.ToShortDateString() : pn.Upddate.Value.ToShortDateString(),
+            //              //Upduser = string.IsNullOrEmpty(pn.Upduser.ToString()) ? pn.Creuser : pn.Upduser
+            //          }).OrderByDescending(x => x.Curdate).ToList();
 
             return result;
         }
@@ -127,9 +142,12 @@ namespace Clea_Web.Service
                 PNews.NClass = vm.N_Class;
                 PNews.NStartDate = vm.N_StartDate.Date;
                 PNews.NEndDate = vm.N_EndDate.Date;
+                PNews.NIsTop = vm.N_IsTop;
                 PNews.NIsShow = vm.N_IsShow;
                 PNews.NStatus = vm.N_Status;
-                PNews.NContent = vm.N_Content;
+                PNews.NContent = vm.NContent;
+                PNews.NRole = vm.NRole;
+                PNews.RId = vm.R_ID.ToString();
 
                 if (vm != null && vm.IsEdit == true)
                 {
@@ -141,7 +159,6 @@ namespace Clea_Web.Service
                 {
                     //新增
                     PNews.NewsId = Guid.NewGuid();
-                    PNews.RId = vm.R_ID.ToString();
                     PNews.Creuser = Guid.Parse(GetUserID(user));
                     PNews.Curdate = DateTime.Now;
                     db.PNews.Add(PNews);
@@ -193,7 +210,7 @@ namespace Clea_Web.Service
             model.Curdate = _PNews.Curdate;
             model.NStatus = _PNews.NStatus;
             model.RId = _PNews.RId;
-            model.NContent = _PNews.NContent;
+            model.N_Content = _PNews.NContent;
             model.NClass = _PNews.NClass;
             model.NEndDate = _PNews.NEndDate;
             model.NStartDate = _PNews.NStartDate;
@@ -205,6 +222,16 @@ namespace Clea_Web.Service
             model.N_IsShow = _PNews.NIsShow;
             model.N_IsTop = _PNews.NIsTop;
             model.NType = _PNews.NType;
+            model.NRole = _PNews.NRole;
+            if (_PNews.NRole == true)
+            {
+                model.GroupID = db.SysCodes.Where(x => x.CParentCode.Equals("L_Type") && x.Uid == Guid.Parse(_PNews.RId)).Select(x => x.Uid).FirstOrDefault();
+            }
+            else
+            {
+                model.PersonID = db.SysUsers.Where(x => x.UId == Guid.Parse(_PNews.RId)).Select(x => x.UId).FirstOrDefault();
+            }
+
             return model;
         }
         #endregion
@@ -231,7 +258,109 @@ namespace Clea_Web.Service
             return result;
         }
 
+        #endregion
+
+        #region 匯出Excel
+        public Byte[] ExportExcel(Guid NewsID, String Title, Boolean? Role, String RId)
+        {
+
+            //PNews pn = db.PNews.Where(x => x.NewsId == NewsID).FirstOrDefault();
+
+            #region ExportExcel
+            using (var exportData = new MemoryStream())
+            {
+                IWorkbook wb = new XSSFWorkbook();  //字型定義
+                ISheet sheet = wb.CreateSheet(Title);
+                XSSFCellStyle TitleStyle = (XSSFCellStyle)wb.CreateCellStyle(); //標題字型
+                TitleStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+                TitleStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+                TitleStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+                TitleStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+                TitleStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                TitleStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                XSSFFont font = (XSSFFont)wb.CreateFont();
+                font.Boldweight = (short)NPOI.SS.UserModel.FontBoldWeight.Bold;
+                TitleStyle.SetFont(font);
+
+                XSSFCellStyle ContentStyle = (XSSFCellStyle)wb.CreateCellStyle();//內容造型
+                ContentStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
+                ContentStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
+                ContentStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
+                ContentStyle.BorderTop = NPOI.SS.UserModel.BorderStyle.Thin;
+                ContentStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+                ContentStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+
+
+                var rowTitle = sheet.CreateRow(0);
+                rowTitle.CreateCell(0).SetCellValue("序號");
+                rowTitle.CreateCell(1).SetCellValue("講師名單");
+                rowTitle.CreateCell(2).SetCellValue("是否已讀");
+                int count = 1;
+
+                List<CLector> clList = db.CLectors.ToList();
+                //true=群發，false=個人
+                if (Role == true)
+                {
+
+                    foreach (var item in clList)
+                    {
+
+                        var row = sheet.CreateRow(count);
+                        //序號
+                        row.CreateCell(0).SetCellValue(count);
+                        //講師名單
+                        row.CreateCell(1).SetCellValue(item.LName);
+                        //是否已讀
+                        SysUser user = db.SysUsers.Where(x => x.UAccount.Equals(item.LId)).FirstOrDefault();
+                        PNewsReadLog pnLog = db.PNewsReadLogs.Where(x => x.NewsId == NewsID && x.Creuser == user.UId).FirstOrDefault();
+
+
+                        if (pnLog == null)
+                        {
+                            row.CreateCell(2).SetCellValue("未讀");
+                        }
+                        else
+                        {
+                            row.CreateCell(2).SetCellValue("已讀");
+                        }
+
+                        count++;
+
+                    }
+                }
+                else
+                {
+                    var row = sheet.CreateRow(1);
+                    SysUser user = db.SysUsers.Where(x => x.UId.Equals(RId)).FirstOrDefault();
+                    //CLector cl = db.CLectors.Where(x=>x.LId.Equals(user.UAccount)).FirstOrDefault();
+                    //序號
+                    row.CreateCell(0).SetCellValue(1);
+                    //講師名單
+                    row.CreateCell(1).SetCellValue(user.UName);
+                    //是否已讀
+                    PNewsReadLog pnLog = db.PNewsReadLogs.Where(x => x.NewsId == NewsID && x.Creuser == user.UId).FirstOrDefault();
+
+                    if (pnLog == null)
+                    {
+                        row.CreateCell(2).SetCellValue("未讀");
+                    }
+                    else
+                    {
+                        row.CreateCell(2).SetCellValue("已讀");
+                    }
+                }
+
+
+                wb.Write(exportData, true);
+
+                Byte[] result = exportData.ToArray();
+                return result;
+            }
+            #endregion
+
+        }
+        #endregion
     }
-    #endregion
+
 }
 

@@ -115,6 +115,16 @@ namespace Clea_Web.ViewModels
             [DisplayName("檔案名稱")]
             public String? FileName { get; set; }
             public Guid? File_ID { get; set; }
+            /// <summary>
+            /// 發布對象(群組)
+            /// </summary>
+            [DisplayName("公告ID")]
+            public Guid? GroupID { get; set; }
+            /// <summary>
+            /// 發布對象(個人)
+            /// </summary>
+            [DisplayName("公告ID")]
+            public Guid? PersonID { get; set; }
         }
         #endregion
         #region Index

@@ -7,7 +7,7 @@
 }
 
 <div class="content-wrapper">
-    <form class="form-sample" method="post" action="@Url.Action("Modify","B_LectorBtn")">
+    <form class="form-sample" method="post" action="@Url.Action("Modify","B_LectorBtn")" enctype='multipart/form-data'>
         <button type="submit" class="btn btn-info">儲存</button>
         @* <button type="button" class="btn btn-secondary">取消</button> *@
         <a href="@Url.Action("Index","B_LectorBtn")" class="btn btn-secondary">取消</a>
@@ -79,13 +79,21 @@
                                     <label class="col-sm-3 col-form-label">選擇發布對象</label>
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="showIndividual()">
-                                            <label class="form-check-label" for="inlineRadio1">個別通知</label>
+                                            @* <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" onclick="showIndividual()"> *@
+                                            @Html.RadioButtonFor(x => x.NRole, false, new { id = "inlineRadio1",value="option1" ,@class = "form-check-input", @name = "inlineRadioOptions",@onclick="showIndividual()" })
+                                            <label for="inlineRadio1">
+                                                個別通知
+                                            </label>
+                                            @* <label class="form-check-label" for="inlineRadio1">個別通知</label> *@
                                         </div>
 
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="showGroup()">
-                                            <label class="form-check-label" for="inlineRadio2">群組通知</label>
+                                           @*  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" onclick="showGroup()"> *@
+                                            @Html.RadioButtonFor(x => x.NRole, true, new { id = "inlineRadio2",value="option2" ,@class = "form-check-input", @name = "inlineRadioOptions",@onclick="showGroup()" })
+                                            <label for="inlineRadio1">
+                                                群組通知
+                                            </label>
+@*                                             <label class="form-check-label" for="inlineRadio2">群組通知</label> *@
                                         </div>
                                     </div>
                                 </div>
@@ -94,14 +102,14 @@
                                 <div class="form-group row" id="individual" style="display:none;">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">發布講師</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownListUser, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x => x.PersonID, Model.DropDownListUser, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
 
                                 <div class="form-group row" id="group" style="display:none;">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.R_ID, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x => x.GroupID, Model.DropDownList, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -157,10 +165,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
     </form>
 </div>
 
