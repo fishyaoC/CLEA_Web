@@ -87,6 +87,57 @@ namespace Clea_Web.Controllers
         }
         #endregion
 
+        #region C_Modify
+        public IActionResult C_Modify(String LaUid)
+        {
+            B_LectorAdvViewModel.Modify? vm = null;
+            _B_LectorAdvService.user = User;
+
+            //if (!string.IsNullOrEmpty(LaUid))
+            //{
+            //    //編輯
+            //    vm = _B_LectorAdvService.GetEditData(LaUid);
+            //}
+            //else
+            //{
+            //新增
+            vm = new B_LectorAdvViewModel.Modify();
+            vm.DropDownList = getsysuserItem();
+            vm.YearList = getYearItem();
+            //vm.LaYear = DateTime.Now.Year - 1911;
+            //    vm.LName = LName;
+            //    vm.LaYear = LaYear;
+            //}
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult C_Modify(B_LectorAdvViewModel.Modify vm)
+        {
+            _B_LectorAdvService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _B_LectorAdvService.SaveData(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Index");
+
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+
         #region DownloadFile
         public ActionResult DownloadFile(String FilePath, String FileName)
         {
@@ -109,6 +160,42 @@ namespace Clea_Web.Controllers
             SysUser? su = db.SysUsers.Where(x => x.UId == Guid.Parse(LUid)).FirstOrDefault() ?? null;
             Byte[] file = _B_LectorAdvService.Export_LectorAnnaulZip(LUid, YearNow);
             return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", YearNow.ToString() + "年-" + su.UName + "-進修資料.zip");
+        }
+        #endregion
+
+        #region 教師下拉選單
+        public List<SelectListItem> getsysuserItem()
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+            List<SysUser> lst_sysuser = db.SysUsers.ToList();
+            if (lst_sysuser != null && lst_sysuser.Count() > 0)
+            {
+                foreach (SysUser L in lst_sysuser)
+                {
+                    result.Add(new SelectListItem() { Text = L.UName, Value = L.UId.ToString() });
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region 年度下拉選單
+        public List<SelectListItem> getYearItem()
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+
+            int YearNow = DateTime.Now.Year - 1911;
+
+            for (int i = 0; YearNow > 107; i++)
+            {
+                result.Add(new SelectListItem() { Text = YearNow.ToString(), Value = YearNow.ToString() });
+
+                YearNow--;
+            }
+
+            return result;
         }
         #endregion
     }

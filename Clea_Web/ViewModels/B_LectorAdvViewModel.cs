@@ -19,6 +19,9 @@ namespace Clea_Web.ViewModels
             public SchItem schItem { get; set; }
             public List<schPageList> schPageList { get; set; }
             public IPagedList<schPageList> schPageList2 { get; set; }
+            public List<SelectListItem> DropDownList { get; set; }
+            public List<SelectListItem> YearList { get; set; }
+
         }
 
         #region 列表
@@ -72,6 +75,10 @@ namespace Clea_Web.ViewModels
         #region Modify
         public class Modify : CLectorAdvInfo
         {
+            public List<SelectListItem> DropDownList { get; set; }
+            public List<SelectListItem> YearList { get; set; }
+
+
             [DisplayName("上傳時間")]
             public String? UptDate { get; set; }
             [DisplayName("使用者")]

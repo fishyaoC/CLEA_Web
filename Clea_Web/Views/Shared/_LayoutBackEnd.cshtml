@@ -18,9 +18,10 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Clea_Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/sweetalert2/sweetalert2.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     @*<link rel="stylesheet" href="~/backEnd/css/main.css">*@
     <!-- page specific plugin styles -->
-  @*  <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" asp-append-version="true" type="text/css"/>
+    @*  <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css" asp-append-version="true" type="text/css"/>
     <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" asp-append-version="true" type="text/css"/>
     <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" type="text/css"/>
     <link rel="stylesheet" href="~/backEnd/vendors/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css" type="text/css" />
@@ -44,15 +45,15 @@
     <link rel="stylesheet" href="~/backEnd/css/vertical-layout-light/style.css" type="text/css" />
     <!-- endinject -->
     <link rel="shortcut icon" href="~/backEnd/images/favicon.ico" />
-   @* <!-- text fonts -->
+    @* <!-- text fonts -->
     <link rel="stylesheet" href="~/backEnd/assets/css/ace-fonts.css" />
     <link rel="stylesheet" href="~/backEnd/assets/css/bootstrap.css" />
     <!-- ace styles -->
     <link rel="stylesheet" href="~/backEnd/assets/css/ace.css" class="ace-main-stylesheet" />
 
     <!--[if lte IE 9]>
-            <link rel="stylesheet" href="../assets/css/ace-part2.css" class="ace-main-stylesheet" />
-        <![endif]-->
+    <link rel="stylesheet" href="../assets/css/ace-part2.css" class="ace-main-stylesheet" />
+    <![endif]-->
     <link rel="stylesheet" href="~/backEnd/assets/css/ace-skins.css" />
     <link rel="stylesheet" href="~/backEnd/assets/css/ace-rtl.css" />
 
@@ -340,7 +341,7 @@
     @*<script src="~/backEnd/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>*@
 
     <!--時間-->
-@*    <link rel="stylesheet" type="text/css" href="~/backEnd/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
+    @*    <link rel="stylesheet" type="text/css" href="~/backEnd/vendors/bootstrap-timepicker/css/bootstrap-timepicker.min.css" />
     <script src="~/backEnd/vendors/bootstrap-timepicker/js/bootstrap-timepicker.min.js"></script>*@
 
     <!-- End plugin js for this page -->
@@ -363,7 +364,7 @@
     <script src="~/backEnd/components/jquery-ui/jquery-ui-1.11.1.js"></script>
 
     <!-- ace scripts -->
-@*    <script src="~/backEnd/assets/js/src/elements.colorpicker.js"></script>
+    @*    <script src="~/backEnd/assets/js/src/elements.colorpicker.js"></script>
     <script src="~/backEnd/assets/js/src/ace.js"></script>
     <script src="~/backEnd/assets/js/src/ace.basics.js"></script>
     <script src="~/backEnd/assets/js/src/ace.sidebar.js"></script>
@@ -389,7 +390,7 @@
             String msg_text = TempData["TempMsg"] != null ? TempData["TempMsg"].ToString() : "";
         }
 
-                                if ('@Html.Raw(msg_titleF)' != '') {
+                                        if ('@Html.Raw(msg_titleF)' != '') {
             Swal.fire({
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: '確定',
@@ -411,30 +412,31 @@
             });
         }
     </script>
-   
 
-        <script src="~/backEnd/js/active.js"></script>
-        <script src="~/backEnd/js/collapse.js"></script>
-        
-        <script type="text/javascript">
-            function datetime() {
-                debugger;
-                //年份選擇器
-                $('.year-picker').datepicker({
-                    startView: 'decade',
-                    minView: 'decade',
-                    format: 'yyyy',
-                    maxViewMode: 2,
-                    minViewMode: 2,
-                    autoclose: true
-                });
-                //日期選擇器
-                //$('.date-picker').datepicker({
-                //    language: 'zh-TW',
-                //    autoclose: true,
-                //    format: "YYYY/MM/DD",
-                //    todayHighlight: true,
-                //}).next().on(ace.click_event, function () { $(this).prev().focus(); });
+
+    <script src="~/backEnd/js/active.js"></script>
+    <script src="~/backEnd/js/collapse.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    <script type="text/javascript">
+        function datetime() {
+            debugger;
+            //年份選擇器
+            $('.year-picker').datepicker({
+                startView: 'decade',
+                minView: 'decade',
+                format: 'yyyy',
+                maxViewMode: 2,
+                minViewMode: 2,
+                autoclose: true
+            });
+            //日期選擇器
+            //$('.date-picker').datepicker({
+            //    language: 'zh-TW',
+            //    autoclose: true,
+            //    format: "YYYY/MM/DD",
+            //    todayHighlight: true,
+            //}).next().on(ace.click_event, function () { $(this).prev().focus(); });
             //$('.date-picker').datepicker({
             //    language: 'zh-TW',
             //    autoclose: true,
@@ -450,18 +452,18 @@
                     todayHighlight: true
                 });
             });
-                //月份選擇器
-                $(".month-picker").datepicker({
-                    language: 'zh-TW', //(台灣)
-                    format: "yyyy/mm",
-                    viewMode: "months",
-                    minViewMode: "months",
-                    autoclose: true
-                });
-                //日期範圍選擇器
-                $('.input-daterange').datepicker({ autoclose: true });
-            };
-        </script>
-    
-    </body>
-    </html>
+            //月份選擇器
+            $(".month-picker").datepicker({
+                language: 'zh-TW', //(台灣)
+                format: "yyyy/mm",
+                viewMode: "months",
+                minViewMode: "months",
+                autoclose: true
+            });
+            //日期範圍選擇器
+            $('.input-daterange').datepicker({ autoclose: true });
+        };
+    </script>
+
+</body>
+</html>

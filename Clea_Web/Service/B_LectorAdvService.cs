@@ -19,12 +19,14 @@ namespace Clea_Web.Service
     {
         private B_LectorAdvViewModel.Modify vm = new B_LectorAdvViewModel.Modify();
         private IConfiguration configuration;
+        private FileService _fileservice;
 
 
-        public B_LectorAdvService(dbContext dbContext, IConfiguration configuration)
+        public B_LectorAdvService(dbContext dbContext, IConfiguration configuration, FileService fileservice)
         {
             db = dbContext;
             this.configuration = configuration;
+            _fileservice = fileservice;
         }
 
         #region Index
@@ -116,6 +118,69 @@ namespace Clea_Web.Service
                 vm.UptDate = la.Upddate == null ? la.Credate.ToShortDateString() : la.Upddate.Value.ToShortDateString();
             }
             return vm;
+        }
+        #endregion
+
+        #region Save
+        public BaseViewModel.errorMsg SaveData(B_LectorAdvViewModel.Modify vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                CLectorAdvInfo? cl = db.CLectorAdvInfos.Find(vm.LaUid);
+
+                if (cl is null)
+                {
+                    cl = new CLectorAdvInfo();
+                }
+
+                cl.LaTitle = vm.LaTitle;
+                cl.LaYear = vm.LaYear;
+
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    cl.Upduser = Guid.Parse(GetUserID(user));
+                    cl.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    cl.LaUid = Guid.NewGuid();
+                    cl.LUid = vm.LUid;
+                    cl.LaYear = vm.LaYear;
+                    cl.Creuser = Guid.Parse(GetUserID(user));
+                    cl.Credate = DateTime.Now;
+                    db.CLectorAdvInfos.Add(cl);
+                }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadAdvFile(cl.LaUid, vm.file);
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
         }
         #endregion
 
