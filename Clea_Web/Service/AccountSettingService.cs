@@ -56,7 +56,7 @@ namespace Clea_Web.Service
         }
         #endregion
 
-        #region Save
+        #region Save 密碼
         public BaseViewModel.errorMsg SaveData(AccountSettingViewModel.Modify vm)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
@@ -92,7 +92,8 @@ namespace Clea_Web.Service
                                 return result;
                             }
                         }
-                        else {
+                        else
+                        {
                             result.CheckMsg = false;
                             result.ErrorMsg = "舊密碼不符";
                             return result;
@@ -115,6 +116,43 @@ namespace Clea_Web.Service
                 {
                     _fileservice.user = user;
                     //bool aaa= _fileservice.UploadSignFile(su.UId, vm.file);
+                    result.CheckMsg = _fileservice.UploadSignFile(su.UId, vm.file);
+                    if (result.CheckMsg)
+                    {
+                        //上傳成功
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
+
+        #region Save 簽名檔
+        public BaseViewModel.errorMsg SaveDataSign(AccountSettingViewModel.Modify vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                SysUser? su = db.SysUsers.Find(vm.UId);
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
                     result.CheckMsg = _fileservice.UploadSignFile(su.UId, vm.file);
                     if (result.CheckMsg)
                     {

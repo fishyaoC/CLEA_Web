@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using NPOI.POIFS.Crypt.Dsig;
 using NPOI.HPSF;
 using System.IO;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Clea_Web.Controllers
 {
@@ -27,12 +28,68 @@ namespace Clea_Web.Controllers
             _fileService = fileService;
         }
 
+        #region Index
+        public IActionResult Index()
+        {
+            AccountSettingViewModel.Modify? vm = null;
+            AccountSettingService.user = User;
+            vm = AccountSettingService.GetEditData();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(AccountSettingViewModel.Modify vm)
+        {
+            AccountSettingService.user = User;
+            //_fileService.user = User;    
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = AccountSettingService.SaveDataSign(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            var claims = User.Identities.FirstOrDefault().Claims.ToArray();
+            String Type = claims[4].Value.Equals("True") ? "B" : "P";
+
+
+            if (error.CheckMsg)
+            {
+                if (Type == "B")
+                {
+                    return RedirectToAction("Index", "B_Home");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "P_Home");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+
         #region Modify
         public IActionResult Modify()
         {
             AccountSettingViewModel.Modify? vm = null;
             AccountSettingService.user = User;
-
 
             vm = AccountSettingService.GetEditData();
             return View(vm);

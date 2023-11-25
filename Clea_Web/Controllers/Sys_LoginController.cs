@@ -87,14 +87,39 @@ namespace Clea_Web.Controllers
                     Thread.CurrentPrincipal = claimsPrincipal;
                     _baseService.user = claimsPrincipal;
 
-                    if (claims[4].Value.Equals("True"))
+                    Guid id = Guid.Parse(claims[3].Value);
+                    SysFile isUploadSign = db.SysFiles.Where(x => x.FMatchKey.Equals(id)).FirstOrDefault();
+
+                    if (isUploadSign != null)
                     {
-                        return RedirectToAction("Index", "B_Home");
+                        //有電子簽名檔案
+                        if (claims[4].Value.Equals("True"))
+                        {
+                            return RedirectToAction("Index", "B_Home");
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "P_Home");
+                        }
+
                     }
                     else
                     {
-                        return RedirectToAction("Index", "P_Home");
+                        //無電子簽名檔
+                        return RedirectToAction("Index", "Sys_Setting");
                     }
+
+
+                    //if (claims[4].Value.Equals("True"))
+                    //{
+                    //    return RedirectToAction("Index", "B_Home");
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToAction("Index", "P_Home");
+                    //}
+
+
                 }
                 else
                 {
