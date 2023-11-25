@@ -115,7 +115,19 @@ namespace Clea_Web.Controllers
                 TempData["TempMsg"] = error.ErrorMsg;
             }
 
+
+            if (error.CheckMsg)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Modify");
+
+            }
+
             return RedirectToAction("Index");
+
 
             //return RedirectToAction("Index", new { msg = error });
         }

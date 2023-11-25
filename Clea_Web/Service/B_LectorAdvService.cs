@@ -91,7 +91,7 @@ namespace Clea_Web.Service
         }
         #endregion
 
-        #region Modify
+        #region V_Modify
         public B_LectorAdvViewModel.Modify GetEditData(string LaUid)
         {
             //撈資料
@@ -133,8 +133,16 @@ namespace Clea_Web.Service
                 {
                     cl = new CLectorAdvInfo();
                 }
-
-                cl.LaTitle = vm.LaTitle;
+                if (vm.LaTitle != null)
+                {
+                    cl.LaTitle = vm.LaTitle;
+                }
+                else
+                {
+                    result.CheckMsg = false;
+                    result.ErrorMsg = "標題為必填";
+                    return result;
+                }
                 cl.LaYear = vm.LaYear;
 
                 if (vm != null && vm.IsEdit == true)
@@ -147,11 +155,39 @@ namespace Clea_Web.Service
                 {
                     //新增
                     cl.LaUid = Guid.NewGuid();
-                    cl.LUid = vm.LUid;
-                    cl.LaYear = vm.LaYear;
+                    if (vm.LUid != null)
+                    {
+                        cl.LUid = vm.LUid;
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "講師為必填";
+                        return result;
+                    }
+                    if (vm.LaYear != null)
+                    {
+                        cl.LaYear = vm.LaYear;
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "年度為必填";
+                        return result;
+                    }
+                    //cl.LUid = vm.LUid;
+                    //cl.LaYear = vm.LaYear;
                     cl.Creuser = Guid.Parse(GetUserID(user));
                     cl.Credate = DateTime.Now;
                     db.CLectorAdvInfos.Add(cl);
+                }
+
+                if (vm.IsEdit == false && vm.file == null)
+                {
+                    result.CheckMsg = false;
+                    result.ErrorMsg = "請上傳檔案";
+                    return result;
                 }
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 

@@ -21,11 +21,11 @@ namespace Clea_Web.Controllers
         private BaseService _baseService;
         private IConfiguration _configuration;
 
-        public Sys_LoginController(ILogger<Sys_LoginController> logger, dbContext dbCLEA,BaseService baseService, IConfiguration configuration)
+        public Sys_LoginController(ILogger<Sys_LoginController> logger, dbContext dbCLEA, BaseService baseService, IConfiguration configuration)
         {
             _logger = logger;
             db = dbCLEA;
-             _baseService = baseService;
+            _baseService = baseService;
             _configuration = configuration;
         }
 
@@ -90,6 +90,9 @@ namespace Clea_Web.Controllers
                     Guid id = Guid.Parse(claims[3].Value);
                     SysFile isUploadSign = db.SysFiles.Where(x => x.FMatchKey.Equals(id)).FirstOrDefault();
 
+
+
+                    //電子簽名檔測試
                     if (isUploadSign != null)
                     {
                         //有電子簽名檔案
@@ -130,14 +133,14 @@ namespace Clea_Web.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            
+
         }
         #endregion
 
 
 
         #region Logout
-       
+
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

@@ -45,7 +45,23 @@ namespace Clea_Web.Controllers
             AccountSettingService.user = User;
             //_fileService.user = User;    
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = AccountSettingService.SaveDataSign(vm);
+
+
+            String chkExt = string.IsNullOrEmpty(vm.FileName) ? Path.GetExtension(vm.file.FileName) : vm.FileName;
+
+            if (chkExt.Contains(".png"))
+            {              
+                error = AccountSettingService.SaveDataSign(vm);
+
+            }
+            else
+            {
+                error.CheckMsg = false;
+                error.ErrorMsg = "檔案格式有誤，請上傳png檔案!";
+            }
+
+
+            //error = AccountSettingService.SaveDataSign(vm);
 
             //SWAL儲存成功
             if (error.CheckMsg)

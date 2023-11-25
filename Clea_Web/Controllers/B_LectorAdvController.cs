@@ -78,6 +78,67 @@ namespace Clea_Web.Controllers
         public IActionResult Modify(string LaUid)
         {
             B_LectorAdvViewModel.Modify? vm = null;
+            _B_LectorAdvService.user = User;
+
+            if (!string.IsNullOrEmpty(LaUid))
+            {
+                //編輯
+                vm = _B_LectorAdvService.GetEditData(LaUid);
+                vm.IsEdit = true;
+
+            }
+            else
+            {
+                //新增
+                vm = new B_LectorAdvViewModel.Modify();
+                vm.LaYear = DateTime.Now.Year - 1911;
+            }
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Modify(B_LectorAdvViewModel.Modify vm)
+        {
+            _B_LectorAdvService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _B_LectorAdvService.SaveData(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+
+            if (error.CheckMsg)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Modify");
+
+            }
+
+            return RedirectToAction("Index");
+
+
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+
+        #region V_Modify
+        public IActionResult V_Modify(string LaUid)
+        {
+            B_LectorAdvViewModel.Modify? vm = null;
 
             if (!string.IsNullOrEmpty(LaUid))
             {

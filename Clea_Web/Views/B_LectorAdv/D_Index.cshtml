@@ -69,7 +69,9 @@
                                             <td>@item.FileName</td>
                                             <td>
                                                 @*閱覽*@
-                                                <a href="@Url.Action("Modify","B_LectorAdv", new{LaUid = item.LaUid,YearNow = item.YearNow})" class="btn btn-success">閱覽</a>
+                                                <a href="@Url.Action("V_Modify","B_LectorAdv", new{LaUid = item.LaUid,YearNow = item.YearNow})" class="btn btn-success">閱覽</a>
+                                                <a href="@Url.Action("Modify","B_LectorAdv", new{LaUid = item.LaUid,YearNow = item.YearNow})" class="btn btn-success">編輯</a>
+
                                             </td>
                                         </tr>
                                     }

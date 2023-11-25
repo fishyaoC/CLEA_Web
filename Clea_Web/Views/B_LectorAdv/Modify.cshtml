@@ -5,8 +5,9 @@
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-
+<!--新增、編輯-->
 <div class="content-wrapper">
+
     <div class="row">
         <!--資訊-->
         <div class="col-lg-12 grid-margin stretch-card">
@@ -25,53 +26,102 @@
                                 <h3>年度: @(Model.LaYear) 年</h3>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <h3>講師: @(Model.LName)</h3>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <!--資訊End-->
-        <div class="mb-2 mt-2">
-            <a class="btn btn-primary mr-2" href="@Url.Action("D_Index","B_LectorAdv", new{LUid = @Model.LUid,YearNow=@Model.LaYear})">回前頁</a>
-        </div>
-        <div class="col-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    @*講師專區 瀏覽*@
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label for="exampleInputName" class="col-sm-3 col-form-label">標題</label>
-                                <div class="col-sm-9">
-                                    @Model.LaTitle
+        <form class="form-sample" method="post" action="@Url.Action("Modify","B_LectorAdv")" enctype='multipart/form-data'>
+            <div>
+                <button type="submit" class="btn btn-info">儲存</button>
+                @if (Model.IsEdit == true)
+                {
+                    <a href="@Url.Action("D_Index","B_LectorAdv", new{LUid = @Model.LUid,YearNow=@Model.LaYear})" class="btn btn-secondary">取消</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index","B_LectorAdv")" class="btn btn-secondary">取消</a>
+                }
+            </div>
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        @*講師專區 新增、編輯*@
+                        <h4 class="card-title">
+                            我的進修資料 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.LaUid)
+                        @*回傳年度*@
+                        @Html.HiddenFor(x => x.LaYear)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">標題</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x=> x.LaTitle, new { @class="form-control form-control", placeholder="標題"})
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label for="exampleInputName" class="col-sm-3 col-form-label">上傳時間</label>
-                                <div class="col-sm-9">
-                                    @Model.UptDate
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳時間</label>
+                                    <div class="col-sm-9">
+                                        @Model.UptDate
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                <div class="col-sm-9">
-                                    <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                        @if (@Model.FilePath != null)
+                        {
+
+                //有檔案
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                        <div class="col-sm-9">
+                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">進修檔案</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "進修檔案", @type = "file" })
+                                            @Html.ValidationMessageFor(x => x.file)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            //無檔案
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">進修檔案</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "進修檔案", @type = "file" })
+                                            @Html.ValidationMessageFor(x => x.file)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
+    </div>
+</div>
