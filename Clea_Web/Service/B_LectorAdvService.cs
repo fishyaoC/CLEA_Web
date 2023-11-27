@@ -430,6 +430,30 @@ namespace Clea_Web.Service
         }
         #endregion
 
+        #region Del
+        public BaseViewModel.errorMsg DelData(Guid U_ID)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            CLectorAdvInfo cl = db.CLectorAdvInfos.Find(U_ID);
+            vm = new B_LectorAdvViewModel.Modify();
+
+            try
+            {
+                db.CLectorAdvInfos.Remove(cl);
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
+
     }
 }
 

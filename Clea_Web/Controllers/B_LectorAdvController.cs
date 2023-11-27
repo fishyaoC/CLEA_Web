@@ -259,5 +259,18 @@ namespace Clea_Web.Controllers
             return result;
         }
         #endregion
+
+        #region Del
+
+        [HttpPost]
+        public IActionResult Delete(Guid LaUid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _B_LectorAdvService.DelData(LaUid);
+
+            return Json(new { chk = true, msg = "" });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
     }
 }
