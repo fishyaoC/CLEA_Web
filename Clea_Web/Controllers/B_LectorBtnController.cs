@@ -42,8 +42,8 @@ namespace Clea_Web.Controllers
             }
             else
             {
-                vmd.schItem = null;
-                //vmd.schItem = new B_LectorBtnViewModel.SchItem();
+                //vmd.schItem = null;
+                vmd.schItem = new B_LectorBtnViewModel.SchItem();
             }
             vmd.DropDownList = getTeacherItem();
             vmd.DropDownListType = getTypeItem();
@@ -56,6 +56,7 @@ namespace Clea_Web.Controllers
         public IActionResult Index(B_LectorBtnViewModel.SchModel vmd)
         {
             vmd.schPageList2 = _B_LectorBtnService.schPages(vmd.schItem, 1, 15);
+            vmd.DropDownListType = getTypeItem();
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
         }

@@ -35,90 +35,39 @@ namespace Clea_Web.Service
         {
             B_LectorBtnViewModel.schPageList model;
             List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
-            if (data != null)
-            {
-                db.PNews.Where
-                    (x =>
-                x.NStartDate == data.NStartDate
-                && x.NEndDate == data.NEndDate
-                && x.NTitle == data.NTitle
-                && x.NType == data.NType
-                ).ToList().ForEach(x =>
-                {
-                    model = new B_LectorBtnViewModel.schPageList();
-                    model.NTitle = x.NTitle;
-                    model.Upddate = x.Upddate;
-                    model.Upduser = x.Upduser;
-                    model.Creuser = x.Creuser;
-                    model.Curdate = x.Curdate;
-                    model.NStatus = x.NStatus;
-                    model.RId = x.RId;
-                    model.NContent = x.NContent;
-                    model.NClass = x.NClass;
-                    model.NEndDate = x.NEndDate;
-                    model.NStartDate = x.NStartDate;
-                    model.NewsId = x.NewsId;
-                    model.NIsShow = x.NIsShow;
-                    model.NIsTop = x.NIsTop;
-                    model.NType = x.NType;
-                    model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == x.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
-                    result.Add(model);
-                });
-            }
-            else
-            {
-                db.PNews.ToList().ForEach(x =>
-                                {
-                                    model = new B_LectorBtnViewModel.schPageList();
-                                    model.NTitle = x.NTitle;
-                                    model.Upddate = x.Upddate;
-                                    model.Upduser = x.Upduser;
-                                    model.Creuser = x.Creuser;
-                                    model.Curdate = x.Curdate;
-                                    model.NStatus = x.NStatus;
-                                    model.RId = x.RId;
-                                    model.NContent = x.NContent;
-                                    model.NClass = x.NClass;
-                                    model.NEndDate = x.NEndDate;
-                                    model.NStartDate = x.NStartDate;
-                                    model.NewsId = x.NewsId;
-                                    model.NIsShow = x.NIsShow;
-                                    model.NIsTop = x.NIsTop;
-                                    model.NType = x.NType;
-                                    model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == x.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
-                                    result.Add(model);
-                                });
-            }
-            //result = (from pn in db.PNews
-            //              //join user in db.SysUsers on r.Creuser equals user.UName
-            //          where
-            //          (
-            //          //公告類型、公告標題、開始日期、結束日期
-            //          (string.IsNullOrEmpty(data.NTitle) || pn.NTitle.Contains(data.NTitle)) &&
-            //          (string.IsNullOrEmpty(data.NStartDate.ToString()) || pn.NStartDate == data.NStartDate) &&
-            //          (string.IsNullOrEmpty(data.NEndDate.ToString()) || pn.NEndDate == data.NEndDate) &&
-            //          (string.IsNullOrEmpty(data.NType.ToString()) || pn.NTitle == data.NType.ToString())
-            //          )
-            //          select new B_LectorBtnViewModel.schPageList
-            //          {
-            //              NewsId = pn.NewsId,
-            //              NType = pn.NType,
-            //              NTitle = pn.NTitle,
-            //              NClass = pn.NClass,
-            //              NStartDate = pn.NStartDate,
-            //              NEndDate = pn.NEndDate,
-            //              NIsTop = pn.NIsTop,
-            //              NIsShow = pn.NIsShow,
-            //              NStatus = pn.NStatus,
-            //              NContent = pn.NContent,
-            //              NRole = pn.NRole,
-            //              RId = pn.RId,
-            //              NTypeName = (from code in db.SysCodes where code.CParentCode.Equals("btnType") && code.CItemCode == pn.NType.ToString() select code).FirstOrDefault().CItemName
-            //              //creDate = r.Credate.ToShortDateString(),
-            //              //creUser = r.Creuser,
-            //              //Upddate = pn.Upddate == null ? pn.Curdate.ToShortDateString() : pn.Upddate.Value.ToShortDateString(),
-            //              //Upduser = string.IsNullOrEmpty(pn.Upduser.ToString()) ? pn.Creuser : pn.Upduser
-            //          }).OrderByDescending(x => x.Curdate).ToList();
+
+            result = (from pn in db.PNews
+                      //join user in db.SysUsers on r.Creuser equals user.UName
+                      where
+                      (
+                      ////公告類型、公告標題、開始日期、結束日期
+                      (string.IsNullOrEmpty(data.NTitle) || pn.NTitle.Contains(data.NTitle)) &&
+                      ((string.IsNullOrEmpty(data.NStartDate.ToString()) || pn.NStartDate > data.NStartDate) &&
+                      (string.IsNullOrEmpty(data.NEndDate.ToString()) || pn.NEndDate < data.NEndDate)) &&
+                      (string.IsNullOrEmpty(data.NType) || pn.NType.Equals(data.NType))
+                      )
+                      select new B_LectorBtnViewModel.schPageList
+                      {
+                          NewsId = pn.NewsId,
+                          //NType = (from code in db.SysCodes where code.CParentCode.Equals("btnType") && pn.NType.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
+                          NTitle = pn.NTitle,
+                          NClass = pn.NClass,
+                          NStartDate = pn.NStartDate,
+                          NStartDateStr = pn.NStartDate.ToShortDateString(),
+                          NEndDate = pn.NEndDate,
+                          NIsTop = pn.NIsTop,
+                          NIsShow = pn.NIsShow,
+                          NStatus = pn.NStatus,
+                          NContent = pn.NContent,
+                          NRole = pn.NRole,
+                          RId = pn.RId,
+                          NTypeName = (from code in db.SysCodes where code.CParentCode.Equals("btnType") && pn.NType.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
+                          Date = pn.Upddate == null ? pn.Credate : pn.Upddate.Value
+                          //creDate = r.Credate.ToShortDateString(),
+                          //creUser = r.Creuser,
+                          //Upddate = pn.Upddate == null ? pn.Curdate.ToShortDateString() : pn.Upddate.Value.ToShortDateString(),s
+                          //Upduser = string.IsNullOrEmpty(pn.Upduser.ToString()) ? pn.Creuser : pn.Upduser
+                      }).OrderByDescending(x => x.Date).ToList();
 
             return result;
         }
@@ -141,7 +90,7 @@ namespace Clea_Web.Service
                 PNews.NTitle = vm.N_Title;
                 PNews.NClass = vm.N_Class;
                 PNews.NStartDate = vm.N_StartDate.Date;
-                PNews.NEndDate = vm.N_EndDate.Date;
+                PNews.NEndDate = vm.N_EndDate.Value;
                 PNews.NIsTop = vm.N_IsTop;
                 PNews.NIsShow = vm.N_IsShow;
                 PNews.NStatus = vm.N_Status;
@@ -160,7 +109,7 @@ namespace Clea_Web.Service
                     //新增
                     PNews.NewsId = Guid.NewGuid();
                     PNews.Creuser = Guid.Parse(GetUserID(user));
-                    PNews.Curdate = DateTime.Now;
+                    PNews.Credate = DateTime.Now;
                     db.PNews.Add(PNews);
                 }
 
@@ -207,7 +156,7 @@ namespace Clea_Web.Service
             model.Upddate = _PNews.Upddate;
             model.Upduser = _PNews.Upduser;
             model.Creuser = _PNews.Creuser;
-            model.Curdate = _PNews.Curdate;
+            model.Credate = _PNews.Credate;
             model.NStatus = _PNews.NStatus;
             model.RId = _PNews.RId;
             model.N_Content = _PNews.NContent;

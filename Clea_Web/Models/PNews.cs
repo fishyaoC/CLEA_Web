@@ -64,7 +64,7 @@ public partial class PNews
 
     public Guid Creuser { get; set; }
 
-    public DateTime Curdate { get; set; }
+    public DateTime Credate { get; set; }
 
     public Guid? Upduser { get; set; }
 

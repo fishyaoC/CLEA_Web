@@ -166,6 +166,12 @@ namespace Clea_Web.ViewModels
             [DisplayName("分類名稱")]
             public string NTypeName { get; set; }
 
+            [DisplayName("公告時間")]
+            public string NStartDateStr { get; set; }
+
+            [DisplayName("時間排序")]
+            public DateTime Date { get; set; }
+
         }
         #endregion
     }

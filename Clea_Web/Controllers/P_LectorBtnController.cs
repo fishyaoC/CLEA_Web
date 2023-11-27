@@ -29,6 +29,7 @@ namespace Clea_Web.Controllers
         public IActionResult Index(String? data, Int32? page)
         {
             P_LectorBtnViewModel.SchModel vmd = new P_LectorBtnViewModel.SchModel();
+            _P_LectorBtnService.user = User;
             page = page ?? 1;
 
             if (!(page is null) && !string.IsNullOrEmpty(data))

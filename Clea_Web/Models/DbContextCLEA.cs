@@ -27,8 +27,6 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<CClassSubject> CClassSubjects { get; set; }
 
-    public virtual DbSet<CEvaluation> CEvaluations { get; set; }
-
     public virtual DbSet<CLector> CLectors { get; set; }
 
     public virtual DbSet<CLectorAdvInfo> CLectorAdvInfos { get; set; }
@@ -327,56 +325,6 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("學/術科")
                 .HasColumnName("D_Type");
-            entity.Property(e => e.Upddate)
-                .HasColumnType("datetime")
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
-        });
-
-        modelBuilder.Entity<CEvaluation>(entity =>
-        {
-            entity.HasKey(e => e.LevId);
-
-            entity.ToTable("C_Evaluation");
-
-            entity.Property(e => e.LevId)
-                .ValueGeneratedNever()
-                .HasColumnName("LEv_ID");
-            entity.Property(e => e.BUid).HasColumnName("B_UID");
-            entity.Property(e => e.CUid)
-                .HasComment("開課ID")
-                .HasColumnName("C_UID");
-            entity.Property(e => e.ClUid)
-                .HasComment("課程ID")
-                .HasColumnName("CL_UID");
-            entity.Property(e => e.Credate)
-                .HasColumnType("datetime")
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
-            entity.Property(e => e.DUid).HasColumnName("D_UID");
-            entity.Property(e => e.LUid)
-                .HasComment("被評鑑教師")
-                .HasColumnName("L_UID");
-            entity.Property(e => e.LUidEv)
-                .HasComment("評鑑人ID")
-                .HasColumnName("L_UID_Ev");
-            entity.Property(e => e.LevType)
-                .HasComment("0:課程 1:教材")
-                .HasColumnName("LEv_Type");
-            entity.Property(e => e.LevYear).HasColumnName("LEv_Year");
-            entity.Property(e => e.Remark)
-                .HasMaxLength(250)
-                .IsUnicode(false);
-            entity.Property(e => e.ScoreA).HasColumnName("Score_A");
-            entity.Property(e => e.ScoreB).HasColumnName("Score_B");
-            entity.Property(e => e.ScoreC).HasColumnName("Score_C");
-            entity.Property(e => e.ScoreD).HasColumnName("Score_D");
-            entity.Property(e => e.ScoreE).HasColumnName("Score_E");
-            entity.Property(e => e.ScoreF).HasColumnName("Score_F");
-            entity.Property(e => e.ScoreG).HasColumnName("Score_G");
-            entity.Property(e => e.ScoreI).HasColumnName("Score_I");
-            entity.Property(e => e.ScoreJ).HasColumnName("Score_J");
-            entity.Property(e => e.ScroeH).HasColumnName("Scroe_H");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
@@ -743,10 +691,10 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.NewsId)
                 .ValueGeneratedNever()
                 .HasColumnName("News_ID");
-            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
-            entity.Property(e => e.Curdate)
+            entity.Property(e => e.Credate)
                 .HasColumnType("datetime")
-                .HasColumnName("CURDATE");
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.NClass)
                 .HasComment("分類")
                 .HasColumnName("N_Class");

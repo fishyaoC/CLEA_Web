@@ -19,7 +19,7 @@ namespace Clea_Web.ViewModels
         #endregion
 
         #region 編輯頁面
-        public class Modify :PNews
+        public class Modify : PNews
         {
             public List<ViewMenuRolePower> rolePowerListB { get; set; }
             public List<ViewMenuRolePower> rolePowerListP { get; set; }
@@ -42,24 +42,28 @@ namespace Clea_Web.ViewModels
             /// 公告類型
             /// </summary>
             [DisplayName("公告類型")]
+            [Required(ErrorMessage = "請選擇公告類型")]
             public string N_Type { get; set; }
 
             /// <summary>
             /// 公告標題
             /// </summary>
             [DisplayName("公告標題")]
+            [Required(ErrorMessage = "公告標題必填")]
             public String N_Title { get; set; }
 
             /// <summary>
             /// 公告類別
             /// </summary>
             [DisplayName("公告類別")]
+            [Required(ErrorMessage = "請選擇公告類別")]
             public Int16 N_Class { get; set; }
 
             /// <summary>
             /// 開始日期
             /// </summary>
             [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+            [Required(ErrorMessage = "請開始日期")]
             [DisplayName("開始日期")]
             public DateTime N_StartDate { get; set; }
 
@@ -68,7 +72,7 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
             [DisplayName("結束日期")]
-            public DateTime N_EndDate { get; set; }
+            public DateTime? N_EndDate { get; set; }
             /// <summary>
             /// 是否置頂
             /// </summary>
@@ -89,6 +93,7 @@ namespace Clea_Web.ViewModels
             /// 公告內容
             /// </summary>
             [DisplayName("公告內容")]
+            [Required(ErrorMessage = "公告內容必填")]
             public String N_Content { get; set; }
             /// <summary>
             /// 編輯狀態 True = 編輯 ; False = 新增
@@ -125,6 +130,7 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("公告ID")]
             public Guid? PersonID { get; set; }
+
         }
         #endregion
         #region Index
@@ -164,7 +170,7 @@ namespace Clea_Web.ViewModels
         #endregion
 
         #region 列表
-        public class schPageList :PNews 
+        public class schPageList : PNews
         {
 
             /// <summary>
@@ -172,6 +178,12 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("分類名稱")]
             public string NTypeName { get; set; }
+
+            [DisplayName("公告時間")]
+            public string NStartDateStr { get; set; }
+
+            [DisplayName("時間排序")]
+            public DateTime Date { get; set; }
 
         }
         #endregion

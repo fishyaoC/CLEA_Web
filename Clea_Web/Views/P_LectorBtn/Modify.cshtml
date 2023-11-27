@@ -7,10 +7,13 @@
 }
 
 <div class="content-wrapper">
-    <form class="form-sample" method="post" action="@Url.Action("Modify","P_LectorBtn")">
+@*     <form class="form-sample" method="post" action="@Url.Action("Modify","P_LectorBtn")"> *@
         @*<button type="submit" class="btn btn-info">儲存</button>*@
         @* <button type="button" class="btn btn-secondary">取消</button> *@
-        <a href="@Url.Action("Index","P_LectorBtn")" class="btn btn btn-info mr-2">回上一頁</a>
+        <div class="mb-2 mt-2">
+            <a href="@Url.Action("Index","P_LectorBtn")" class="btn btn btn-primary mr-2">回前頁</a>
+
+        </div>
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
@@ -31,7 +34,7 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.NType, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-info">@Model.NTypeName</button>
+                                        <button class="btn btn-info">@Model.NTypeName</button>
                                         @* @Html.TextBoxFor(x => x.NTypeName, new { @class = "form-control form-control" }) *@
                                     </div>
                                 </div>
@@ -54,7 +57,7 @@
                             <div class="col-md-12">
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.NContent, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9" >
+                                    <div class="col-sm-9">
                                         @Model.NContent
                                     </div>
                                 </div>
@@ -88,7 +91,8 @@
                     </div>
                 </div>
             </div>
-    </form>
+        </div>
+@*     </form> *@
 </div>
 
 
