@@ -90,26 +90,19 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; } = false;
-            /// <summary>
-            /// 發布對象
-            /// </summary>
-            [DisplayName("發布對象")]
-            public String? User1 { get; set; }
-            /// <summary>
-            /// 發布講師
-            /// </summary>
-            [DisplayName("發布講師")]
-            public String? User2 { get; set; }
+
             [DisplayName("上傳檔案")]
             [Required(ErrorMessage = "請選擇檔案!")]
             public IFormFile? file { get; set; }
-
             [DisplayName("檔案路徑")]
             public String? FilePath { get; set; }
 
             [DisplayName("檔案名稱")]
             public String? FileName { get; set; }
-            public Guid? File_ID { get; set; }
+            [DisplayName("檔案PK")]
+            public Guid? FileID { get; set; }
+            [DisplayName("檔案下載")]
+            public String? FileDownLoad { get; set; }
             /// <summary>
             /// 發布日期
             /// </summary>

@@ -7,102 +7,104 @@
 }
 
 <div class="content-wrapper">
-@*     <form class="form-sample" method="post" action="@Url.Action("Modify","P_LectorBtn")"> *@
-        @*<button type="submit" class="btn btn-info">儲存</button>*@
-        @* <button type="button" class="btn btn-secondary">取消</button> *@
-        <div class="mb-2 mt-2">
-            <a href="@Url.Action("Index","P_LectorBtn")" class="btn btn btn-primary mr-2">回前頁</a>
+    @*     <form class="form-sample" method="post" action="@Url.Action("Modify","P_LectorBtn")"> *@
+    @*<button type="submit" class="btn btn-info">儲存</button>*@
+    @* <button type="button" class="btn btn-secondary">取消</button> *@
+    <div class="mb-2 mt-2">
+        <a href="@Url.Action("Index","P_LectorBtn")" class="btn btn btn-primary mr-2">回前頁</a>
 
-        </div>
-        <div class="row">
-            <div class="col-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            公佈欄
-                        </h4>
-                        @Html.AntiForgeryToken()
-                        @*回傳狀態*@
-                        @Html.HiddenFor(x => x.IsEdit)
-                        @*回傳NewsId*@
-                        @Html.HiddenFor(x => x.NewsId)
-                        @* <p class="card-description">
-                        公佈欄管理-編輯
-                        </p> *@
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.NType, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-3">
-                                        <button class="btn btn-info">@Model.NTypeName</button>
-                                        @* @Html.TextBoxFor(x => x.NTypeName, new { @class = "form-control form-control" }) *@
-                                    </div>
+    </div>
+    <div class="row">
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">
+                        公佈欄
+                    </h4>
+                    @Html.AntiForgeryToken()
+                    @*回傳狀態*@
+                    @Html.HiddenFor(x => x.IsEdit)
+                    @*回傳NewsId*@
+                    @Html.HiddenFor(x => x.NewsId)
+                    @* <p class="card-description">
+                    公佈欄管理-編輯
+                    </p> *@
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.NType, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-3">
+                                    <button class="btn btn-info">@Model.NTypeName</button>
+                                    @* @Html.TextBoxFor(x => x.NTypeName, new { @class = "form-control form-control" }) *@
                                 </div>
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.NTitle, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-3">
-                                        @Model.NTitle
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.NTitle, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-3">
+                                    @Model.NTitle
                                 </div>
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_CreateDate, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-3">
-                                        @Model.N_CreateDate
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.N_CreateDate, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-3">
+                                    @Model.N_CreateDate
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.NContent, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-9">
+                                    @Model.NContent
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (@Model.FileName != null)
+                    {
+
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.NContent, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Model.NContent
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="exampleInputName" class="col-sm-3 col-form-label">檔案下載</label>
+                                    @Html.LabelFor(x => x.FileDownLoad, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         <a href="@Url.Action("DownloadFile","P_LectorBtn", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @*                   <div class="row">
-                        <div class="col-md-6">
-                        <div class="form-group row">
-                        <label for="exampleInputName" class="col-sm-3 col-form-label">檔案下載</label>
-                        <div class="col-sm-9">
-                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "檔案下載", @type = "file" })
-                        @Html.ValidationMessageFor(x => x.file)
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.FileDownLoad, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        無檔案
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        </div>
-                        </div>
-                        </div>*@
-
-
-                    </div>
+                    }
                 </div>
             </div>
         </div>
-@*     </form> *@
-</div>
+    </div>
 
 
-<script type="text/javascript">
-    function pageLoad() {
-        init();
-    }
-    function init() {
-        debugger;
-        datetime();
-    }
+    <script type="text/javascript">
+        function pageLoad() {
+            init();
+        }
+        function init() {
+            debugger;
+            datetime();
+        }
 
-</script>
+    </script>

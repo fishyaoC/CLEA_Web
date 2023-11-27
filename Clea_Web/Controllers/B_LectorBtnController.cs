@@ -83,7 +83,7 @@ namespace Clea_Web.Controllers
                 });
                 vm.DropDownListUser.ForEach(x =>
                 {
-                    if (!string.IsNullOrEmpty(x.Value) && x.Value == vm.R_ID.ToString()) x.Selected = true;
+                    if (!string.IsNullOrEmpty(x.Value) && x.Value == vm.RId.ToString()) x.Selected = true;
                 });
                 vm.DropDownListType.ForEach(x =>
                 {
@@ -99,8 +99,8 @@ namespace Clea_Web.Controllers
                 vm.DropDownList = getTeacherItem();
                 vm.DropDownListUser = getsysuserItem();
                 vm.DropDownListType = getTypeItem();
-                vm.N_StartDate = DateTime.Now;
-                vm.N_EndDate = DateTime.Now;
+                vm.NStartDate = DateTime.Now;
+                vm.NEndDate = DateTime.Now;
             }
 
 

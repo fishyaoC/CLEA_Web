@@ -79,30 +79,6 @@ namespace Clea_Web.Controllers
             vm.N_EndDate = DateTime.Now;
             return View(vm);
         }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Modify(P_LectorBtnViewModel.Modify vm)
-        {
-            _P_LectorBtnService.user = User;
-            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _P_LectorBtnService.SaveData(vm);
-
-            //SWAL儲存成功
-            if (error.CheckMsg)
-            {
-                TempData["TempMsgType"] = "success";
-                TempData["TempMsgTitle"] = "儲存成功";
-            }
-            else
-            {
-                TempData["TempMsgType"] = "error";
-                TempData["TempMsgTitle"] = "儲存失敗";
-                TempData["TempMsg"] = error.ErrorMsg;
-            }
-
-            return RedirectToAction("Index");
-        }
         #endregion
         #region DownloadFile
         public ActionResult DownloadFile(String FilePath, String FileName)

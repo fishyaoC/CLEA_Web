@@ -32,10 +32,10 @@
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                    @Html.LabelFor(x => x.N_Title, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.NTitle, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
-                                        @Html.TextBoxFor(x => x.N_Title, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                        @Html.TextBoxFor(x => x.NTitle, new { @class = "form-control form-control", placeholder = "公告標題" })
                                     </div>
                                 </div>
                             </div>
@@ -48,15 +48,15 @@
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check">
 @*                                             @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" }) *@
-                                            @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios", @checked = Model.N_IsTop ? "checked" : "" })
-                                            @Html.LabelFor(x => x.N_IsTop, new { @class = "col-sm-12 control-label" })
+                                            @Html.CheckBoxFor(x => x.NIsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios", @checked = Model.NIsTop ? "checked" : "" })
+                                            @Html.LabelFor(x => x.NIsTop, new { @class = "col-sm-12 control-label" })
                                             @*  <label for="S1">
                                             是否置頂
                                             </label>*@
                                         </div>
                                         <div class="form-check">
-                                            @Html.CheckBoxFor(x => x.N_IsShow, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios",@checked = Model.N_IsShow ? "checked" : "" })
-                                            @Html.LabelFor(x => x.N_IsShow, new { @class = "col-sm-12 control-label" })
+                                            @Html.CheckBoxFor(x => x.NIsShow, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios",@checked = Model.NIsShow ? "checked" : "" })
+                                            @Html.LabelFor(x => x.NIsShow, new { @class = "col-sm-12 control-label" })
                                             @*<label for="S0">
                                             是否顯示
                                             </label>*@
@@ -71,7 +71,7 @@
                                 <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">公告類型</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.N_Type, Model.DropDownListType, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x => x.NType, Model.DropDownListType, new { @class = "form-control form-control" })
                                     </div>
                                 </div>
                             </div>
@@ -119,9 +119,9 @@
                             <div class="col-md-6">
 
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_StartDate, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.NStartDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.EditorFor(x => x.N_StartDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.EditorFor(x => x.NStartDate, new { @class = "form-control form-control date-picker" })
                                     </div>
                                 </div>
                             </div>
@@ -129,15 +129,64 @@
 
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.N_EndDate, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.NEndDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.EditorFor(x => x.N_EndDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.EditorFor(x => x.NEndDate, new { @class = "form-control form-control date-picker" })
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.NContent, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(x => x.NContent,20,150, new { @class = "form-control form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @if (@Model.FilePath != null)
+                        {
 
-
+                            @*有檔案*@
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                        <div class="col-sm-9">
+                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">選擇檔案</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file" })
+                                            @Html.ValidationMessageFor(x => x.file)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            //無檔案
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label for="exampleInputName" class="col-sm-3 col-form-label">選擇檔案</label>
+                                        <div class="col-sm-9">
+                                            @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file" })
+                                            @Html.ValidationMessageFor(x => x.file)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

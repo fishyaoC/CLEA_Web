@@ -2,6 +2,7 @@
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using MathNet.Numerics;
+using NPOI.SS.Formula.Functions;
 using X.PagedList;
 
 namespace Clea_Web.Service
@@ -10,11 +11,12 @@ namespace Clea_Web.Service
     public class P_LectorBtnService : BaseService
     {
         private P_LectorBtnViewModel.Modify vm = new P_LectorBtnViewModel.Modify();
+        private IConfiguration configuration;
 
-
-        public P_LectorBtnService(dbContext dbContext)
+        public P_LectorBtnService(dbContext dbContext, IConfiguration configuration)
         {
             db = dbContext;
+            this.configuration = configuration;
         }
 
         #region 查詢
@@ -59,15 +61,15 @@ namespace Clea_Web.Service
             //講師Uid
             Guid userUid = Guid.Parse(GetUserID(user));
             //登入者Uid
-            CLector cl = db.CLectors.Where(x=> x.LUid == userUid).FirstOrDefault();
-            SysCode sc = db.SysCodes.Where(x=> x.CParentCode.Equals("L_Type") && x.CItemCode.Equals(cl.LType)).FirstOrDefault();
+            CLector cl = db.CLectors.Where(x => x.LUid == userUid).FirstOrDefault();
+            SysCode sc = db.SysCodes.Where(x => x.CParentCode.Equals("L_Type") && x.CItemCode.Equals(cl.LType)).FirstOrDefault();
 
             result = (from pn in db.PNews
                           //join user in db.SysUsers on r.Creuser equals user.UName
                       where
                       (
                       ////公告類型、公告標題、開始日期、結束日期
-                      (pn.NStatus == true) && 
+                      (pn.NStatus == true) &&
                       (pn.NIsShow == true) &&
                       (pn.NStartDate >= dateTime && pn.NEndDate <= dateTime) &&
                       (pn.RId == userUid.ToString() || pn.RId == sc.Uid.ToString() || pn.RId == "ABD874FC-6C65-4CC1-84A1-92869D599E77") //ABD874FC-6C65-4CC1-84A1-92869D599E77==全部講師
@@ -93,76 +95,28 @@ namespace Clea_Web.Service
                           //creUser = r.Creuser,
                           //Upddate = pn.Upddate == null ? pn.Curdate.ToShortDateString() : pn.Upddate.Value.ToShortDateString(),s
                           //Upduser = string.IsNullOrEmpty(pn.Upduser.ToString()) ? pn.Creuser : pn.Upduser
-                      }).OrderBy(x=>x.NIsTop).ThenByDescending(x => x.Date).ToList();
+                      }).OrderBy(x => x.NIsTop).ThenByDescending(x => x.Date).ToList();
 
             return result;
         }
         #endregion
 
-        #region 儲存
-        public BaseViewModel.errorMsg SaveData(P_LectorBtnViewModel.Modify vm)
-        {
-            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
-            try
-            {
-                PNews? PNews = db.PNews.Find(vm.R_ID);
-
-                if (PNews is null)
-                {
-                    PNews = new PNews();
-                }
-
-                PNews.NType = vm.NType;
-                PNews.NTitle = vm.NTitle;
-                PNews.NClass = vm.N_Class;
-                PNews.NStartDate = vm.N_StartDate.Date;
-                PNews.NEndDate = vm.N_EndDate.Date;
-                PNews.NIsShow = vm.N_IsShow;
-                PNews.NStatus = vm.N_Status;
-                PNews.NContent = vm.NContent;
-
-                if (vm != null && vm.IsEdit == true)
-                {
-                    //編輯
-                    PNews.Upduser = Guid.Parse(GetUserID(user));
-                    PNews.Upddate = DateTime.Now;
-                }
-                else if (vm != null && vm.IsEdit == false)
-                {
-                    //新增
-                    PNews.NewsId = Guid.NewGuid();
-                    PNews.RId = vm.R_ID.ToString();
-                    PNews.Creuser = Guid.Parse(GetUserID(user));
-                    PNews.Credate = DateTime.Now;
-                    db.PNews.Add(PNews);
-                }
-
-                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-            }
-            catch (Exception e)
-            {
-                result.ErrorMsg = e.Message;
-                //return false;
-            }
-            return result;
-
-        }
-        #endregion
 
         #region 編輯
         public P_LectorBtnViewModel.Modify GetEditData(string NewsID)
         {
-           
+
             //撈資料
             P_LectorBtnViewModel.Modify model = new P_LectorBtnViewModel.Modify();
             var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
+            SysFile sf = db.SysFiles.Where(x => x.FMatchKey == Guid.Parse(NewsID)).FirstOrDefault();
 
             //存LOG
-            PNewsReadLog P_Log = db.PNewsReadLogs.Where(x=> x.NewsId.ToString() == NewsID && x.Creuser.ToString() == GetUserID(user)).FirstOrDefault();
+            PNewsReadLog P_Log = db.PNewsReadLogs.Where(x => x.NewsId.ToString() == NewsID && x.Creuser.ToString() == GetUserID(user)).FirstOrDefault();
             if (P_Log == null)
             {
                 //create
-                P_Log= new PNewsReadLog();
+                P_Log = new PNewsReadLog();
                 P_Log.NewsId = Guid.Parse(NewsID);
                 P_Log.Creuser = Guid.Parse(GetUserID(user));
                 P_Log.Credate = DateTime.Now;
@@ -194,33 +148,18 @@ namespace Clea_Web.Service
             model.NType = _PNews.NType;
             model.NTypeName = db.SysCodes.Where(y => y.CParentCode == "btnType" && y.CItemCode == _PNews.NType.ToString()).Select(z => z.CItemName).FirstOrDefault();
             model.N_CreateDate = _PNews.Credate.ToShortDateString();
+            if (sf != null)
+            {
+                model.FileID = sf.FileId;
+                model.FileName = sf.FFullName;
+                string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                model.FilePath = filePath;
+
+            }
             return model;
         }
         #endregion
-
-        #region 刪除
-        public BaseViewModel.errorMsg DelData(Guid NewsId)
-        {
-            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
-
-            //撈資料
-            PNews _PNews = db.PNews.Find(NewsId);
-            vm = new P_LectorBtnViewModel.Modify();
-
-            try
-            {
-                db.PNews.Remove(_PNews);
-            }
-            catch (Exception e)
-            {
-                result.ErrorMsg = e.Message;
-            }
-            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-
-            return result;
-        }
-
     }
-    #endregion
 }
 

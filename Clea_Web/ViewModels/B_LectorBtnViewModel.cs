@@ -19,107 +19,100 @@ namespace Clea_Web.ViewModels
         #endregion
 
         #region 編輯頁面
-        public class Modify : PNews
+        public class Modify
         {
             public List<ViewMenuRolePower> rolePowerListB { get; set; }
             public List<ViewMenuRolePower> rolePowerListP { get; set; }
             public List<SelectListItem> DropDownList { get; set; }
             public List<SelectListItem> DropDownListUser { get; set; }
             public List<SelectListItem> DropDownListType { get; set; }
-            /// <summary>
-            /// Uid
-            /// </summary>
-            [DisplayName("Uid")]
-            public Guid R_ID { get; set; }
+
+
+            public Guid NewsId { get; set; }
 
             /// <summary>
-            /// 公告ID
+            /// 功能模組代碼
             /// </summary>
-            [DisplayName("公告ID")]
-            public String? News_ID { get; set; }
+            [DisplayName("功能模組代碼")]
+            public string NType { get; set; } = null!;
 
             /// <summary>
-            /// 公告類型
-            /// </summary>
-            [DisplayName("公告類型")]
-            [Required(ErrorMessage = "請選擇公告類型")]
-            public string N_Type { get; set; }
-
-            /// <summary>
-            /// 公告標題
+            /// 標題名稱
             /// </summary>
             [DisplayName("公告標題")]
-            [Required(ErrorMessage = "公告標題必填")]
-            public String N_Title { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
+            public string NTitle { get; set; } = null!;
 
             /// <summary>
-            /// 公告類別
+            /// 分類
             /// </summary>
-            [DisplayName("公告類別")]
-            [Required(ErrorMessage = "請選擇公告類別")]
-            public Int16 N_Class { get; set; }
+            [DisplayName("公告類型")]
+            public int NClass { get; set; }
 
             /// <summary>
-            /// 開始日期
+            /// 起始日
             /// </summary>
-            [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
-            [Required(ErrorMessage = "請開始日期")]
-            [DisplayName("開始日期")]
-            public DateTime N_StartDate { get; set; }
+            [DisplayName("公告起始日")]
+            public DateTime NStartDate { get; set; }
 
             /// <summary>
-            /// 結束日期
+            /// 結束日
             /// </summary>
-            [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
-            [DisplayName("結束日期")]
-            public DateTime? N_EndDate { get; set; }
+            [DisplayName("公告結束日")]
+            public DateTime NEndDate { get; set; }
+
             /// <summary>
             /// 是否置頂
             /// </summary>
             [DisplayName("是否置頂")]
-            [Range(typeof(bool), "true", "true", ErrorMessage = "You gotta tick the box!")]
-            public bool N_IsTop { get; set; } = false;
+            public bool NIsTop { get; set; } =false;
+
             /// <summary>
-            /// 是否顯示
+            /// 前台是否顯示
             /// </summary>
             [DisplayName("是否顯示")]
-            [Range(typeof(bool), "true", "true", ErrorMessage = "You gotta tick the box!")]
-            public Boolean N_IsShow { get; set; } = false;
-            /// 公告狀態
-            /// </summary>
-            [DisplayName("公告狀態")]
-            public Boolean N_Status { get; set; } = false;
+            public bool NIsShow { get; set; } = true;
+
             /// <summary>
-            /// 公告內容
+            /// 啟用狀態
+            /// </summary>
+            [DisplayName("啟用狀態")]
+            public bool NStatus { get; set; } = true;
+
+            /// <summary>
+            /// 內文
             /// </summary>
             [DisplayName("公告內容")]
-            [Required(ErrorMessage = "公告內容必填")]
-            public String N_Content { get; set; }
+            public string NContent { get; set; } = null!;
+
             /// <summary>
-            /// 編輯狀態 True = 編輯 ; False = 新增
-            /// </summary>
-            [DisplayName("編輯狀態")]
-            public Boolean IsEdit { get; set; } = false;
-            /// <summary>
-            /// 發布對象
+            /// true=群發，false=個人
             /// </summary>
             [DisplayName("發布對象")]
-            public String? User1 { get; set; }
-            /// <summary>
-            /// 發布講師
-            /// </summary>
-            [DisplayName("發布講師")]
-            public String? User2 { get; set; }
-            [DisplayName("上傳檔案")]
-            [Required(ErrorMessage = "請選擇檔案!")]
-            public IFormFile? file { get; set; }
+            public bool? NRole { get; set; }
 
+            /// <summary>
+            /// 角色代碼(觀看權限)
+            /// </summary>
+            [DisplayName("角色代碼(觀看權限)")]
+            public string RId { get; set; } = null!;
+
+            public Guid Creuser { get; set; }
+
+            public DateTime Credate { get; set; }
+
+            public Guid? Upduser { get; set; }
+
+            public DateTime? Upddate { get; set; }
+
+            [DisplayName("上傳檔案")]            
+            public IFormFile? file { get; set; }
             [DisplayName("檔案路徑")]
             public String? FilePath { get; set; }
-
             [DisplayName("檔案名稱")]
             public String? FileName { get; set; }
-            public Guid? File_ID { get; set; }
+            [DisplayName("檔案PK")]
+            public Guid? FileID { get; set; }
             /// <summary>
             /// 發布對象(群組)
             /// </summary>
@@ -130,6 +123,11 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("公告ID")]
             public Guid? PersonID { get; set; }
+            /// <summary>
+            /// 編輯狀態 True = 編輯 ; False = 新增
+            /// </summary>
+            [DisplayName("編輯狀態")]
+            public Boolean IsEdit { get; set; } = false;
 
         }
         #endregion
