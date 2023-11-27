@@ -12,7 +12,7 @@
         <!--搜尋-->
         <div class="col-12 mb-3">
             <div class="accordion" id="accordionPanelsStayOpenExample">
-                <div class="accordion-item">
+                <div class="accordion-item rounded-bottom rounded-3">
                     <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                             <h4 class="m-0">搜尋條件</h4>
@@ -39,15 +39,16 @@
                                     </div>
                                 </div>
                             </form>
-
-                            <button type="submit" class="btn btn-primary mr-2">搜尋</button>
-                            <button class="btn btn-light" onclick="clearForm()">清除條件</button>
+                            <div class="d-flex">
+                                <button type="submit" class="btn btn-primary mr-2">搜尋</button>
+                                <button class="btn btn-light" onclick="clearForm()">清除條件</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="mb-2 mt-2">
             @* <button type="button" class="btn btn-info">新增</button> *@
             <a href="@Url.Action("Modify","B_Account")" class="btn btn-info">新增</a>
             @* <button type="button" class="btn btn-danger">刪除</button> *@

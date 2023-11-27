@@ -49,19 +49,19 @@ namespace Clea_Web.Controllers
 
             String chkExt = string.IsNullOrEmpty(vm.FileName) ? Path.GetExtension(vm.file.FileName) : vm.FileName;
 
-            if (chkExt.Contains(".png"))
-            {              
-                error = AccountSettingService.SaveDataSign(vm);
+            //if (chkExt.Contains(".png"))
+            //{              
+            //    error = AccountSettingService.SaveDataSign(vm);
 
-            }
-            else
-            {
-                error.CheckMsg = false;
-                error.ErrorMsg = "檔案格式有誤，請上傳png檔案!";
-            }
+            //}
+            //else
+            //{
+            //    error.CheckMsg = false;
+            //    error.ErrorMsg = "檔案格式有誤，請上傳png檔案!";
+            //}
 
 
-            //error = AccountSettingService.SaveDataSign(vm);
+            error = AccountSettingService.SaveDataSign(vm);
 
             //SWAL儲存成功
             if (error.CheckMsg)
