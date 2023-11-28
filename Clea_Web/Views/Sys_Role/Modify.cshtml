@@ -333,19 +333,6 @@
     </form>
 </div>
 <script>
-    // 監聽RBackEnd的變化
-    $(document).ready(function () {
-        $('#RBackEnd').change(function () {
-            // 當RBackEnd為true時顯示A，否則顯示B
-            if ($(this).val() === "True") {
-                $('#MTypeB').show();
-                $('#MTypeA').hide();
-            } else {
-                $('#MTypeB').hide();
-                $('#MTypeA').show();
-            }
-        });
-    });
 
     function showMTypeB() {
         document.getElementById("MTypeB").style.display = "block";
@@ -356,7 +343,6 @@
         document.getElementById("MTypeP").style.display = "block";
     }
 
-    //以上刪除
 
     document.addEventListener('DOMContentLoaded', function () {
         var rBackEndRadios = document.querySelectorAll('input[name="RBackEnd"]');
@@ -366,15 +352,13 @@
                 var mTypeB = document.getElementById('MTypeB');
                 var mTypeP = document.getElementById('MTypeP');
 
-                if (this.value === true) {
-                    //mTypeB.style.display = 'block';
-                    //mTypeP.style.display = 'none';
-                    console.log("選擇是")
+                if (this.value === 'true') {
+                    mTypeB.style.display = 'block';
+                    mTypeP.style.display = 'none';
                 }
-                else if (this.value === false) {
-                    //mTypeB.style.display = 'none';
-                    //mTypeP.style.display = 'block';
-                    console.log("選擇否")
+                else if (this.value === 'false') {
+                    mTypeB.style.display = 'none';
+                    mTypeP.style.display = 'block';
                 }
             });
         });
