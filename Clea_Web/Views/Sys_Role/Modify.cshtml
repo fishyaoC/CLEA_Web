@@ -342,27 +342,22 @@
         document.getElementById("MTypeB").style.display = "none";
         document.getElementById("MTypeP").style.display = "block";
     }
+    const btnB = document.getElementById("Bbtn")
+    const btnP = document.getElementById("Pbtn")
 
+    btnB.addEventListener('change', function () {
+        if (btnB.checked) {
+            document.getElementById("MTypeB").style.display = "block";
+            document.getElementById("MTypeP").style.display = "none";
+        }
+    })
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var rBackEndRadios = document.querySelectorAll('input[name="RBackEnd"]');
-
-        rBackEndRadios.forEach(function (radio) {
-            radio.addEventListener('change', function () {
-                var mTypeB = document.getElementById('MTypeB');
-                var mTypeP = document.getElementById('MTypeP');
-
-                if (this.value === 'true') {
-                    mTypeB.style.display = 'block';
-                    mTypeP.style.display = 'none';
-                }
-                else if (this.value === 'false') {
-                    mTypeB.style.display = 'none';
-                    mTypeP.style.display = 'block';
-                }
-            });
-        });
-    });
+    btnP.addEventListener('change', function () {
+        if (btnP.checked) {
+            document.getElementById("MTypeB").style.display = "none";
+            document.getElementById("MTypeP").style.display = "block";
+        }
+    })
 
     const toggleCheckboxes = document.querySelectorAll(".toggle-checkbox");
 
