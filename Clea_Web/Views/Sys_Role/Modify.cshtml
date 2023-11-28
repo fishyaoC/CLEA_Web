@@ -120,13 +120,13 @@
 
                                             <div class="col-sm-9 d-flex justify-content-around">
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "Bbtn", @class = "form-check-input", @name = "RBackEnd" })
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "Bbtn", @class = "form-check-input", @name = "RBackEnd", @onclick= "showMTypeB()" })
                                                     <label for="MTypeB">
                                                         是
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "Pbtn", @class = "form-check-input", @name = "RBackEnd" })
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "Pbtn", @class = "form-check-input", @name = "RBackEnd", @onclick = "showMTypeP()" })
                                                     <label for="MTypeP">
                                                         否
                                                     </label>
@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                             }
-                            <div class="row" id="MTypeB" style="display:block;">
+                            <div class="row" id="MTypeB" >
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
@@ -230,7 +230,7 @@
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="row" id="MTypeP" style="display:none;">
+                            <div class="row" id="MTypeP" >
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
@@ -367,12 +367,14 @@
                 var mTypeP = document.getElementById('MTypeP');
 
                 if (this.value === true) {
-                    mTypeB.style.display = 'block';
-                    mTypeP.style.display = 'none';
+                    //mTypeB.style.display = 'block';
+                    //mTypeP.style.display = 'none';
+                    console.log("選擇是")
                 }
                 else if (this.value === false) {
-                    mTypeB.style.display = 'none';
-                    mTypeP.style.display = 'block';
+                    //mTypeB.style.display = 'none';
+                    //mTypeP.style.display = 'block';
+                    console.log("選擇否")
                 }
             });
         });
