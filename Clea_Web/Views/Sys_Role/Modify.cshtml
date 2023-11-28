@@ -120,13 +120,13 @@
 
                                             <div class="col-sm-9 d-flex justify-content-around">
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "MTypeB", @class = "form-check-input", @name = "RBackEnd" })
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "Bbtn", @class = "form-check-input", @name = "RBackEnd" })
                                                     <label for="MTypeB">
                                                         是
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "MTypeP", @class = "form-check-input", @name = "RBackEnd" })
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "Pbtn", @class = "form-check-input", @name = "RBackEnd" })
                                                     <label for="MTypeP">
                                                         否
                                                     </label>
@@ -356,6 +356,8 @@
         document.getElementById("MTypeP").style.display = "block";
     }
 
+    //以上刪除
+
     document.addEventListener('DOMContentLoaded', function () {
         var rBackEndRadios = document.querySelectorAll('input[name="RBackEnd"]');
 
@@ -364,10 +366,11 @@
                 var mTypeB = document.getElementById('MTypeB');
                 var mTypeP = document.getElementById('MTypeP');
 
-                if (this.value === 'true') {
+                if (this.value === true) {
                     mTypeB.style.display = 'block';
                     mTypeP.style.display = 'none';
-                } else {
+                }
+                else if (this.value === false) {
                     mTypeB.style.display = 'none';
                     mTypeP.style.display = 'block';
                 }
