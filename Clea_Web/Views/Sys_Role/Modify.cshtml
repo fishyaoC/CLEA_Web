@@ -11,9 +11,9 @@
 <div class="content-wrapper">
     <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Role")">
         <div class="mb-2 mt-2">
-        <button type="submit" class="btn btn-info">儲存</button>
-        @* <button type="button" class="btn btn-secondary">取消</button> *@
-        <a href="@Url.Action("Index","Sys_Role")" class="btn btn-secondary">取消</a>
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("Index","Sys_Role")" class="btn btn-secondary">取消</a>
         </div>
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
@@ -83,41 +83,70 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label class="col-sm-3 col-form-label">是否為後台帳號</label>
-                                        @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
+                            @if (Model.IsEdit == true)
+                            {
 
-                                        <div class="col-sm-9 d-flex justify-content-around">
-                                            <div class="form-check">
-                                                @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
-                                                <label for="S1">
-                                                    是
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
-                                                <label for="S0">
-                                                    否
-                                                </label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">是否為後台帳號</label>
+                                            @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                            <div class="col-sm-9 d-flex justify-content-around">
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "RBackEnd", @class = "form-check-input", @name = "optionsRadios" , disabled = "disabled"})
+                                                    <label for="S1">
+                                                        是
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "RBackEnd", @class = "form-check-input", @name = "optionsRadios", disabled = "disabled" })
+                                                    <label for="S0">
+                                                        否
+                                                    </label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label class="col-sm-3 col-form-label">是否為後台帳號</label>
+                                            @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
 
-                            </div>
-                            <div class="row">
+                                            <div class="col-sm-9 d-flex justify-content-around">
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "RBackEnd", @class = "form-check-input", @name = "RBackEnd" })
+                                                    <label for="S1">
+                                                        是
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "RBackEnd", @class = "form-check-input", @name = "RBackEnd" })
+                                                    <label for="S0">
+                                                        否
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row" id="MTypeB" style="display:none;">
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
                                         <li class="nav-item">
-                                            @if (Model.treeViewList.Count > 0)
+                                            @if (Model.treeViewList.Count > 0 && Model.RBackEnd == true)
                                             {
                                                 var icount = 0;
 
 
-                                                foreach (var LV1 in Model.treeViewList.Where(x=>x.MLevel == 1 && x.MType.Equals("B") && Model.RBackEnd))
+                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("B") && Model.RBackEnd))
                                                 {
                                                 //List<SysMenu> LV2 = new List<SysMenu>();
                                                     //LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
@@ -138,7 +167,7 @@
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].Exportdata, new { hidden = "hidden" })
 
                                                         icount++;
-                                                        @foreach (var lv2 in Model.treeViewList.Where(x=>x.MLevel == 2&& x.MType.Equals("B") && x.MParentID == LV1.MID))
+                                                        @foreach (var lv2 in Model.treeViewList.Where(x => x.MLevel == 2 && x.MType.Equals("B") && x.MParentID == LV1.MID))
                                                         {
 
                                                             @if (lv2.MLevel == 2 && lv2.MType == "B" && LV1.MID == lv2.MParentID)
@@ -195,9 +224,100 @@
                                                         }
                                                     }
                                                 }
+                                            }   
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div class="row" id="MTypeP" style="display:none;">
+                                <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
+                                    <label class="col-sm-3 col-form-label">各功能權限設定</label>
+                                    <ul class="nav">
+                                        <li class="nav-item">
+                                            @if (Model.treeViewList.Count > 0 && Model.RBackEnd == false)
+                                            {
+                                                var icount = 0;
+
+
+                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("P") && Model.RBackEnd == false))
+                                                {
+                                                //List<SysMenu> LV2 = new List<SysMenu>();
+                                                    //LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
+
+
+                                                    @if (LV1.MLevel == 1 && Model.RBackEnd == false && LV1.MType == "P")
+                                                    {
+                                                        <a class="nav-link bg-light" data-toggle="collapse" href="#item-@LV1.MID" aria-expanded="false" aria-controls="ui-basic">
+                                                            <i class="menu-arrow ms-0 me-1 text-dark"></i>
+                                                            <span class="menu-title text-dark">@LV1.MName</span>
+                                                        </a>
+                                                        @Html.HiddenFor(x => x.treeViewList[icount].MID)
+                                                        @Html.CheckBoxFor(x => x.treeViewList[icount].SearchData, new { hidden = "hidden" })
+                                                        @Html.CheckBoxFor(x => x.treeViewList[icount].CreateData, new { hidden = "hidden" })
+                                                        @Html.CheckBoxFor(x => x.treeViewList[icount].ModifyData, new { hidden = "hidden" })
+                                                        @Html.CheckBoxFor(x => x.treeViewList[icount].DeleteData, new { hidden = "hidden" })
+                                                        @Html.CheckBoxFor(x => x.treeViewList[icount].ImportData, new { hidden = "hidden" })
+                                                        @Html.CheckBoxFor(x => x.treeViewList[icount].Exportdata, new { hidden = "hidden" })
+
+                                                        icount++;
+                                                        @foreach (var lv2 in Model.treeViewList.Where(x => x.MLevel == 2 && x.MType.Equals("P") && x.MParentID == LV1.MID))
+                                                        {
+
+                                                            @if (lv2.MLevel == 2 && lv2.MType == "P" && LV1.MID == lv2.MParentID)
+                                                            {
+                                                                <div class="collapse" id="item-@LV1.MID">
+                                                                    <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
+                                                                        <li class="d-flex justify-content-between">
+                                                                            <div>
+                                                                                @* @Html.CheckBoxFor(x => x.treeViewList[icount].MidCheck, new { Value = lv2.MID,id="toggleCheckbox-@lv2.MID" ,@class="toggle-checkbox", data-target="#contentDiv-@lv2.MID" }) *@
+                                                                                <input type="checkbox" id="toggleCheckbox-@lv2.MID" class="toggle-checkbox" data-target="#contentDiv-@lv2.MID">
+                                                                                @Html.HiddenFor(x => x.treeViewList[icount].MID)
+
+                                                                                <label for="toggleCheckbox-@lv2.MID">@lv2.MName</label>
+                                                                            </div>
+
+                                                                            <div class="action-checkboxes" id="contentDiv-@lv2.MID" style="display:none">
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => x.treeViewList[icount].SearchData)閱覽
+                                                                                    @* @Html.CheckBoxFor(x => Model.treeViewList[icount].SearchData,new{name="action",value="lv2.SearchData", id="action1"})閱覽 *@
+
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => x.treeViewList[icount].CreateData)新增
+                                                                                    @* @Html.CheckBoxFor(x => Model.treeViewList[icount].CreateData,new{name="action",value="lv2.CreateData", id="action2"})新增 *@
+
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => x.treeViewList[icount].ModifyData)編輯
+                                                                                    @* @Html.CheckBoxFor(x => Model.treeViewList[icount].ModifyData,new{name="action",value="lv2.ModifyData", id="action3"})編輯 *@
+
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => x.treeViewList[icount].DeleteData)刪除
+                                                                                    @* @Html.CheckBoxFor(x => Model.treeViewList[icount].DeleteData,new{name="action",value="lv2.DeleteData", id="action4"})刪除 *@
+
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => x.treeViewList[icount].ImportData)上傳
+                                                                                    @* @Html.CheckBoxFor(x => Model.treeViewList[icount].ImportData,new{name="action",value="lv2.ImportData", id="action5"})上傳 *@
+
+                                                                                </label>
+                                                                                <label class="mx-1">
+                                                                                    @Html.CheckBoxFor(x => x.treeViewList[icount].Exportdata)匯出
+                                                                                    @* @Html.CheckBoxFor(x => Model.treeViewList[icount].Exportdata,new{name="action",value="lv2.Exportdata", id="action6"})匯出 *@
+
+                                                                                </label>
+                                                                            </div>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                icount++;
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
                                             }
-
-
                                         </li>
                                     </ul>
                                 </nav>
@@ -211,6 +331,21 @@
     </form>
 </div>
 <script>
+    // 監聽RBackEnd的變化
+    $(document).ready(function () {
+        $('#RBackEnd').change(function () {
+            // 當RBackEnd為true時顯示A，否則顯示B
+            if ($(this).val() === "True") {
+                $('#MTypeB').show();
+                $('#MTypeA').hide();
+            } else {
+                $('#MTypeB').hide();
+                $('#MTypeA').show();
+            }
+        });
+    });
+
+
     const toggleCheckboxes = document.querySelectorAll(".toggle-checkbox");
 
     toggleCheckboxes.forEach(function (checkbox) {
@@ -225,6 +360,7 @@
             }
         });
     });
+
     // 获取2到6号复选框元素
     const checkboxes = [
         document.getElementById("action2"),
@@ -247,4 +383,5 @@
             firstCheckbox.checked = allChecked;
         });
     });
+
 </script>

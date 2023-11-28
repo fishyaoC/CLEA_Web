@@ -78,6 +78,7 @@ namespace Clea_Web.Service
                 userRole.RName = vm.RName;
                 userRole.ROrder = Convert.ToByte(vm.ROrder);
                 userRole.RBackEnd = vm.RBackEnd;
+
                 userRole.RStatus = vm.RStatus;
 
                 if (vm != null && vm.IsEdit == true)
@@ -85,6 +86,21 @@ namespace Clea_Web.Service
                     //編輯
                     userRole.Upduser = Guid.Parse(GetUserID(user));
                     userRole.Upddate = DateTime.Now;
+                    //權限儲存
+                    SysPower sp = new SysPower();
+                    foreach (var item in vm.treeViewList)
+                    {
+                        sp = db.SysPowers.Where(x => x.RUid == vm.RUId && x.MId == item.MID).FirstOrDefault();
+                        sp.CreateData = item.CreateData;
+                        sp.SearchData = item.SearchData;
+                        sp.ModifyData = item.ModifyData;
+                        sp.DeleteData = item.DeleteData;
+                        sp.ImportData = item.ImportData;
+                        sp.Exportdata = item.Exportdata;
+                        sp.Upduser = Guid.Parse(GetUserID(user));
+                        sp.Upddate = DateTime.Now;
+                    }
+
                 }
                 else if (vm != null && vm.IsEdit == false)
                 {
@@ -93,6 +109,26 @@ namespace Clea_Web.Service
                     userRole.Creuser = Guid.Parse(GetUserID(user));
                     userRole.Credate = DateTime.Now;
                     db.SysRoles.Add(userRole);
+
+                    //權限儲存
+                    SysPower sp = new SysPower();
+                    foreach (var item in vm.treeViewList)
+                    {
+
+                        sp.RUid = vm.RUId;
+                        sp.MId = Convert.ToInt32(item.MID);
+                        sp.CreateData = item.CreateData;
+                        sp.SearchData = item.SearchData;
+                        sp.ModifyData = item.ModifyData;
+                        sp.DeleteData = item.DeleteData;
+                        sp.ImportData = item.ImportData;
+                        sp.Exportdata = item.Exportdata;
+                        sp.Creuser = Guid.Parse(GetUserID(user));
+                        sp.Credate = DateTime.Now;
+
+                        db.SysPowers.Add(sp);
+
+                    }
                 }
 
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
@@ -133,7 +169,7 @@ namespace Clea_Web.Service
                 var query = (from sp in db.SysPowers
                              join sm in db.SysMenus on sp.MId equals sm.MId
                              where sp.RUid == R_UID && sm.MIsActice == true && sm.MIsShow == true
-                             orderby sm.MType, sp.MId, sm.MOrder
+                             orderby sm.MType, sm.MOrder, sp.MId
                              select new
                              {
                                  sp.Sn,
@@ -215,11 +251,14 @@ namespace Clea_Web.Service
 
             //撈資料
             SysRole sysRole = db.SysRoles.Find(R_UID);
+            SysPower sysPower = db.SysPowers.Find(R_UID);
             vm = new UserRoleViewModel.Modify();
 
             try
             {
                 db.SysRoles.Remove(sysRole);
+                db.SysPowers.Remove(sysPower);
+
             }
             catch (Exception e)
             {

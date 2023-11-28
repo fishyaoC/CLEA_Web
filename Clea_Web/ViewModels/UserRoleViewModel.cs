@@ -30,7 +30,7 @@ namespace Clea_Web.ViewModels
             /// Uid
             /// </summary>
             [DisplayName("Uid")]
-            public Guid? RUId { get; set; }
+            public Guid RUId { get; set; }
 
             /// <summary>
             /// 角色代碼

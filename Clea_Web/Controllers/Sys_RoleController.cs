@@ -39,13 +39,14 @@ namespace Clea_Web.Controllers
                 //編輯
                 vm = _roleService.GetEditData(R_UID);
                 //vm = _roleService.GetUserPower(R_UID);
+                vm.IsEdit = true;
 
             }
             else
             {
                 //新增
-                vm = new UserRoleViewModel.Modify();
-                //vm = _roleService.GetUserPower(R_UID);
+                //vm = new UserRoleViewModel.Modify();
+                vm = _roleService.GetEditData(R_UID);
             }
 
             return View(vm);
