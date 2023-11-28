@@ -94,13 +94,13 @@
 
                                             <div class="col-sm-9 d-flex justify-content-around">
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new { id = "RBackEnd", @class = "form-check-input", @name = "optionsRadios" , disabled = "disabled"})
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, true, new {id = "Bbtn", @class = "form-check-input", @name = "RBackEnd", disabled = "disabled"})
                                                     <label for="S1">
                                                         是
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
-                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new { id = "RBackEnd", @class = "form-check-input", @name = "optionsRadios", disabled = "disabled" })
+                                                    @Html.RadioButtonFor(x => x.RBackEnd, false, new {id = "Pbtn", @class = "form-check-input", @name = "RBackEnd", disabled = "disabled" })
                                                     <label for="S0">
                                                         否
                                                     </label>
@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                             }
-                            <div class="row" id="MTypeB" >
+                            <div class="row" id="MTypeB" style="display:none" >
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
@@ -146,7 +146,7 @@
                                                 var icount = 0;
 
 
-                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("B") && Model.RBackEnd))
+                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("B") && Model.RBackEnd).OrderBy(x => x.MOrder))
                                                 {
                                                 //List<SysMenu> LV2 = new List<SysMenu>();
                                                     //LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
@@ -167,7 +167,7 @@
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].Exportdata, new { hidden = "hidden" })
 
                                                         icount++;
-                                                        @foreach (var lv2 in Model.treeViewList.Where(x => x.MLevel == 2 && x.MType.Equals("B") && x.MParentID == LV1.MID))
+                                                        @foreach (var lv2 in Model.treeViewList.Where(x => x.MLevel == 2 && x.MType.Equals("B") && x.MParentID == LV1.MID).OrderBy(x => x.MOrder))
                                                         {
 
                                                             @if (lv2.MLevel == 2 && lv2.MType == "B" && LV1.MID == lv2.MParentID)
@@ -230,23 +230,24 @@
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="row" id="MTypeP" >
+                            <div class="row" id="MTypeP" style="display:none" >
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
                                         <li class="nav-item">
-                                            @if (Model.treeViewList.Count > 0 && Model.RBackEnd == false)
+                                            @if (Model.treeViewList.Count > 0)
+                                            
                                             {
                                                 var icount = 0;
 
 
-                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("P") && Model.RBackEnd == false))
+                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("P")).OrderBy(x=>x.MOrder))
                                                 {
                                                 //List<SysMenu> LV2 = new List<SysMenu>();
                                                     //LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
 
 
-                                                    @if (LV1.MLevel == 1 && Model.RBackEnd == false && LV1.MType == "P")
+                                                    @if (LV1.MLevel == 1 && LV1.MType == "P")
                                                     {
                                                         <a class="nav-link bg-light" data-toggle="collapse" href="#item-@LV1.MID" aria-expanded="false" aria-controls="ui-basic">
                                                             <i class="menu-arrow ms-0 me-1 text-dark"></i>
@@ -261,7 +262,7 @@
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].Exportdata, new { hidden = "hidden" })
 
                                                         icount++;
-                                                        @foreach (var lv2 in Model.treeViewList.Where(x => x.MLevel == 2 && x.MType.Equals("P") && x.MParentID == LV1.MID))
+                                                        @foreach (var lv2 in Model.treeViewList.Where(x => x.MLevel == 2 && x.MType.Equals("P") && x.MParentID == LV1.MID).OrderBy(x => x.MOrder))
                                                         {
 
                                                             @if (lv2.MLevel == 2 && lv2.MType == "P" && LV1.MID == lv2.MParentID)
@@ -315,7 +316,6 @@
                                                                 </div>
                                                                 icount++;
                                                             }
-
                                                         }
                                                     }
                                                 }
@@ -342,22 +342,19 @@
         document.getElementById("MTypeB").style.display = "none";
         document.getElementById("MTypeP").style.display = "block";
     }
-    const btnB = document.getElementById("Bbtn")
-    const btnP = document.getElementById("Pbtn")
-
-    btnB.addEventListener('change', function () {
+   
+    document.addEventListener('DOMContentLoaded', function () {
+        const btnB = document.getElementById("Bbtn");
+        const btnP = document.getElementById("Pbtn");
         if (btnB.checked) {
             document.getElementById("MTypeB").style.display = "block";
             document.getElementById("MTypeP").style.display = "none";
         }
-    })
-
-    btnP.addEventListener('change', function () {
-        if (btnP.checked) {
+        else if (btnP.checked) {
             document.getElementById("MTypeB").style.display = "none";
             document.getElementById("MTypeP").style.display = "block";
         }
-    })
+    });
 
     const toggleCheckboxes = document.querySelectorAll(".toggle-checkbox");
 
