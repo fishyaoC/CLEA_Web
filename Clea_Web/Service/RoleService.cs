@@ -2,6 +2,7 @@
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using NPOI.POIFS.Crypt.Dsig;
+using NPOI.SS.Formula.Functions;
 using X.PagedList;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -88,6 +89,7 @@ namespace Clea_Web.Service
                     userRole.Upddate = DateTime.Now;
                     //權限儲存
                     SysPower sp = new SysPower();
+                    Boolean checkLV2 = false;
                     foreach (var item in vm.treeViewList)
                     {
                         sp = db.SysPowers.Where(x => x.RUid == vm.RUId && x.MId == item.MID).FirstOrDefault();
@@ -111,22 +113,40 @@ namespace Clea_Web.Service
                     db.SysRoles.Add(userRole);
 
                     //權限儲存
-                    SysPower sp = new SysPower();
                     foreach (var item in vm.treeViewList)
                     {
+                        SysPower sp = new SysPower();
+                        if (item.MLevel != 1)
+                        {
+                            sp.RUid = userRole.RUid;
+                            sp.MId = Convert.ToInt32(item.MID);
+                            sp.CreateData = item.CreateData;
+                            sp.SearchData = item.SearchData;
+                            sp.ModifyData = item.ModifyData;
+                            sp.DeleteData = item.DeleteData;
+                            sp.ImportData = item.ImportData;
+                            sp.Exportdata = item.Exportdata;
+                            sp.Creuser = Guid.Parse(GetUserID(user));
+                            sp.Credate = DateTime.Now;
+                            db.SysPowers.Add(sp);
 
-                        sp.RUid = vm.RUId;
-                        sp.MId = Convert.ToInt32(item.MID);
-                        sp.CreateData = item.CreateData;
-                        sp.SearchData = item.SearchData;
-                        sp.ModifyData = item.ModifyData;
-                        sp.DeleteData = item.DeleteData;
-                        sp.ImportData = item.ImportData;
-                        sp.Exportdata = item.Exportdata;
-                        sp.Creuser = Guid.Parse(GetUserID(user));
-                        sp.Credate = DateTime.Now;
+                        }
+                        else
+                        {
+                            sp.RUid = userRole.RUid;
+                            sp.MId = Convert.ToInt32(item.MID);
+                            sp.CreateData = false;
+                            sp.SearchData = true;
+                            sp.ModifyData = false;
+                            sp.DeleteData = false;
+                            sp.ImportData = false;
+                            sp.Exportdata = false;
+                            sp.Creuser = Guid.Parse(GetUserID(user));
+                            sp.Credate = DateTime.Now;
+                            db.SysPowers.Add(sp);
+                        }
 
-                        db.SysPowers.Add(sp);
+
 
                     }
                 }
@@ -187,7 +207,7 @@ namespace Clea_Web.Service
                                  sp.DeleteData,
                                  sp.ImportData,
                                  sp.Exportdata
-                             }).ToList();
+                             }).OrderBy(x=>x.MOrder).ToList();
 
                 foreach (var item in query)
                 {

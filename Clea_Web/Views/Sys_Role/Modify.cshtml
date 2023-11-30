@@ -136,7 +136,7 @@
                                     </div>
                                 </div>
                             }
-                            <div class="row" id="MTypeB" style="display:none" >
+                            <div class="row" id="MTypeB" style="display:none">
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
@@ -159,6 +159,7 @@
                                                             <span class="menu-title text-dark">@LV1.MName</span>
                                                         </a>
                                                         @Html.HiddenFor(x => x.treeViewList[icount].MID)
+                                                        @Html.HiddenFor(x => x.treeViewList[icount].MLevel)
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].SearchData, new { hidden = "hidden" })
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].CreateData, new { hidden = "hidden" })
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].ModifyData, new { hidden = "hidden" })
@@ -174,17 +175,20 @@
                                                             {
                                                                 <div class="collapse" id="item-@LV1.MID">
                                                                     <ul class="nav flex-column m-0 px-5 bg-light" style="list-style-type: none">
+                                                                        @Html.HiddenFor(x => x.treeViewList[icount].MID, new { @Value = lv2.MID })
+                                                                        @Html.HiddenFor(x => x.treeViewList[icount].MLevel, new { @Value = lv2.MLevel })
+
                                                                         <li class="d-flex justify-content-between">
                                                                             <div>
                                                                                 @* @Html.CheckBoxFor(x => x.treeViewList[icount].MidCheck, new { Value = lv2.MID,id="toggleCheckbox-@lv2.MID" ,@class="toggle-checkbox", data-target="#contentDiv-@lv2.MID" }) *@
                                                                                 @*<input type="checkbox" id="toggleCheckbox-@lv2.MID" class="toggle-checkbox" data-target="#contentDiv-@lv2.MID">
-                                                                                @Html.HiddenFor(x => x.treeViewList[icount].MID)
+                                                            @Html.HiddenFor(x => x.treeViewList[icount].MID)
 
-                                                                                <label for="toggleCheckbox-@lv2.MID">@lv2.MName</label>*@
+                                                            <label for="toggleCheckbox-@lv2.MID">@lv2.MName</label>*@
                                                                                 @lv2.MName
                                                                             </div>
 
-                                                                            <div class="action-checkboxes" id="contentDiv-@lv2.MID" >
+                                                                            <div class="action-checkboxes" id="contentDiv-@lv2.MID">
                                                                                 <label class="mx-1">
                                                                                     @Html.CheckBoxFor(x => x.treeViewList[icount].SearchData)閱覽
                                                                                     @* @Html.CheckBoxFor(x => Model.treeViewList[icount].SearchData,new{name="action",value="lv2.SearchData", id="action1"})閱覽 *@
@@ -225,23 +229,23 @@
                                                         }
                                                     }
                                                 }
-                                            }   
+                                            }
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
-                            <div class="row" id="MTypeP" style="display:none" >
+                            <div class="row" id="MTypeP" style="display:none">
                                 <nav class="sidebar sidebar-offcanvas w-100 position-static" style="background:white">
                                     <label class="col-sm-3 col-form-label">各功能權限設定</label>
                                     <ul class="nav">
                                         <li class="nav-item">
                                             @if (Model.treeViewList.Count > 0)
-                                            
+
                                             {
                                                 var icount = 0;
 
 
-                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("P")).OrderBy(x=>x.MOrder))
+                                                foreach (var LV1 in Model.treeViewList.Where(x => x.MLevel == 1 && x.MType.Equals("P")).OrderBy(x => x.MOrder))
                                                 {
                                                 //List<SysMenu> LV2 = new List<SysMenu>();
                                                     //LV2 = db.SysMenus.Where(x => x.MLevel == 2 && x.MParentId == LV1.MId && x.MIsActice == true).OrderBy(x => x.MOrder).ToList();
@@ -254,6 +258,7 @@
                                                             <span class="menu-title text-dark">@LV1.MName</span>
                                                         </a>
                                                         @Html.HiddenFor(x => x.treeViewList[icount].MID)
+                                                        @Html.HiddenFor(x => x.treeViewList[icount].MLevel)
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].SearchData, new { hidden = "hidden" })
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].CreateData, new { hidden = "hidden" })
                                                         @Html.CheckBoxFor(x => x.treeViewList[icount].ModifyData, new { hidden = "hidden" })
@@ -273,13 +278,13 @@
                                                                             <div>
                                                                                 @* @Html.CheckBoxFor(x => x.treeViewList[icount].MidCheck, new { Value = lv2.MID,id="toggleCheckbox-@lv2.MID" ,@class="toggle-checkbox", data-target="#contentDiv-@lv2.MID" }) *@
                                                                                 @*<input type="checkbox" id="toggleCheckbox-@lv2.MID" class="toggle-checkbox" data-target="#contentDiv-@lv2.MID">
-                                                                                @Html.HiddenFor(x => x.treeViewList[icount].MID)
+                                                            @Html.HiddenFor(x => x.treeViewList[icount].MID)
 
-                                                                                <label for="toggleCheckbox-@lv2.MID">@lv2.MName</label>*@
+                                                            <label for="toggleCheckbox-@lv2.MID">@lv2.MName</label>*@
                                                                                 @lv2.MName
                                                                             </div>
 
-                                                                            <div class="action-checkboxes" id="contentDiv-@lv2.MID" >
+                                                                            <div class="action-checkboxes" id="contentDiv-@lv2.MID">
                                                                                 <label class="mx-1">
                                                                                     @Html.CheckBoxFor(x => x.treeViewList[icount].SearchData)閱覽
                                                                                     @* @Html.CheckBoxFor(x => Model.treeViewList[icount].SearchData,new{name="action",value="lv2.SearchData", id="action1"})閱覽 *@
@@ -342,7 +347,7 @@
         document.getElementById("MTypeB").style.display = "none";
         document.getElementById("MTypeP").style.display = "block";
     }
-   
+
     document.addEventListener('DOMContentLoaded', function () {
         const btnB = document.getElementById("Bbtn");
         const btnP = document.getElementById("Pbtn");

@@ -32,7 +32,7 @@
                         @*回傳狀態*@
                         @Html.HiddenFor(x => x.IsEdit)
                         @*回傳Uid*@
-                        @Html.HiddenFor(x => x.LaUid)                        
+                        @Html.HiddenFor(x => x.LaUid)
                         @*回傳姓名*@
                         @Html.HiddenFor(x => x.LName)
                         <div class="row">
@@ -50,7 +50,7 @@
                                 <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">選擇講師</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.LUid, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x => x.LUid, Model.DropDownList, new { @class = "form-control form-control",id="mySelect" })
                                     </div>
                                 </div>
                             </div>
@@ -113,3 +113,8 @@
         </form>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#mySelect').select2();
+    });
+</script>
