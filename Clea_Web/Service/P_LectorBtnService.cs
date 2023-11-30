@@ -71,8 +71,8 @@ namespace Clea_Web.Service
                       ////公告類型、公告標題、開始日期、結束日期
                       (pn.NStatus == true) &&
                       (pn.NIsShow == true) &&
-                      (pn.NStartDate >= dateTime && pn.NEndDate <= dateTime) &&
-                      (pn.RId == userUid.ToString() || pn.RId == sc.Uid.ToString() || pn.RId == "ABD874FC-6C65-4CC1-84A1-92869D599E77") //ABD874FC-6C65-4CC1-84A1-92869D599E77==全部講師
+                      (pn.NStartDate <= dateTime && pn.NEndDate >= dateTime) &&
+                      (pn.RId.ToLower() == userUid.ToString().ToLower() || pn.RId.ToLower() == sc.Uid.ToString().ToLower() || pn.RId.ToLower() == "ABD874FC-6C65-4CC1-84A1-92869D599E77".ToLower()) //ABD874FC-6C65-4CC1-84A1-92869D599E77==全部講師
                       )
                       select new P_LectorBtnViewModel.schPageList
                       {
@@ -95,7 +95,7 @@ namespace Clea_Web.Service
                           //creUser = r.Creuser,
                           //Upddate = pn.Upddate == null ? pn.Curdate.ToShortDateString() : pn.Upddate.Value.ToShortDateString(),s
                           //Upduser = string.IsNullOrEmpty(pn.Upduser.ToString()) ? pn.Creuser : pn.Upduser
-                      }).OrderBy(x => x.NIsTop).ThenByDescending(x => x.Date).ToList();
+                      }).OrderByDescending(x => x.NIsTop).ThenByDescending(x => x.Date).ToList();
 
             return result;
         }

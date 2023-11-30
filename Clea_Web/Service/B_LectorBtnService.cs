@@ -82,7 +82,7 @@ namespace Clea_Web.Service
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
             try
             {
-                PNews? PNews = db.PNews.Find(vm.RId);
+                PNews? PNews = db.PNews.Find(vm.NewsId);
 
                 if (PNews is null)
                 {
@@ -123,8 +123,8 @@ namespace Clea_Web.Service
                     PNews.Credate = DateTime.Now;
                     db.PNews.Add(PNews);
                 }
-
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
                 if (vm.file == null)
                 {
                     result.CheckMsg = true;
@@ -161,7 +161,7 @@ namespace Clea_Web.Service
             B_LectorBtnViewModel.Modify model = new B_LectorBtnViewModel.Modify();
             //List<B_LectorBtnViewModel.Modify> result = new List<B_LectorBtnViewModel.Modify>();
             var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
-            SysFile sf =db.SysFiles.Where(x=>x.FMatchKey == Guid.Parse(NewsID)).FirstOrDefault();
+            SysFile sf = db.SysFiles.Where(x => x.FMatchKey == Guid.Parse(NewsID)).FirstOrDefault();
 
             model = new B_LectorBtnViewModel.Modify();
             model.NTitle = _PNews.NTitle;
@@ -192,7 +192,8 @@ namespace Clea_Web.Service
             {
                 model.PersonID = db.SysUsers.Where(x => x.UId == Guid.Parse(_PNews.RId)).Select(x => x.UId).FirstOrDefault();
             }
-            if (sf != null) {
+            if (sf != null)
+            {
                 model.FileID = sf.FileId;
                 model.FileName = sf.FFullName;
                 string fileNameDL = sf.FNameDl + "." + sf.FExt;
@@ -232,7 +233,7 @@ namespace Clea_Web.Service
         public Byte[] ExportExcel(Guid NewsID, String Title, Boolean? Role, String RId)
         {
 
-            //PNews pn = db.PNews.Where(x => x.NewsId == NewsID).FirstOrDefault();
+            PNews pn = db.PNews.Where(x => x.NewsId == NewsID).FirstOrDefault();
 
             #region ExportExcel
             using (var exportData = new MemoryStream())
@@ -265,10 +266,20 @@ namespace Clea_Web.Service
                 rowTitle.CreateCell(2).SetCellValue("是否已讀");
                 int count = 1;
 
-                List<CLector> clList = db.CLectors.ToList();
                 //true=群發，false=個人
                 if (Role == true)
                 {
+
+                    List<CLector> clList = new List<CLector>();
+                    if (pn.RId.ToLower() == "ABD874FC-6C65-4CC1-84A1-92869D599E77".ToLower())
+                    {
+                        clList = db.CLectors.ToList();
+                    }
+                    else {
+                        SysCode sc = db.SysCodes.Where(x=>x.Uid == Guid.Parse(pn.RId)).FirstOrDefault();
+                        clList = db.CLectors.Where(x=>x.LType == sc.CItemCode).ToList();
+                    }
+
 
                     foreach (var item in clList)
                     {
