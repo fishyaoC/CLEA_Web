@@ -11,6 +11,16 @@ public partial class CBookDetail
 
     public Guid MdPublish { get; set; }
 
+    /// <summary>
+    /// 備查文號
+    /// </summary>
+    public string RNumber { get; set; } = null!;
+
+    /// <summary>
+    /// 備查時間
+    /// </summary>
+    public DateTime RDate { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }

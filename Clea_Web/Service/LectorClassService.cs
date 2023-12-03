@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
+using NPOI.POIFS.Crypt.Dsig;
 using X.PagedList;
 
 namespace Clea_Web.Service
@@ -9,10 +10,12 @@ namespace Clea_Web.Service
 	public class LectorClassService : BaseService
 	{
 		private FileService _fileservice;
-		public LectorClassService(dbContext dbContext, FileService fileservice)
+		private SMTPService _smtpService;
+		public LectorClassService(dbContext dbContext, FileService fileservice, SMTPService smtpService)
 		{
 			db = dbContext;
 			_fileservice = fileservice;
+			_smtpService = smtpService;
 		}
 
 		#region Index
@@ -21,48 +24,36 @@ namespace Clea_Web.Service
 			Guid L_UID = Guid.Parse(GetUserID(user));
 			List<LectorClassViewModel.ClassMenu> result = new List<LectorClassViewModel.ClassMenu>();
 
-			result = (from ed in db.EEvaluateDetails
-					  where ed.Reception == L_UID && string.IsNullOrEmpty(ed.ERemark)
+			result = (from plc in db.ViewPLectorClasses
+					  where plc.Reception == L_UID && plc.IsSche && plc.Status != 8
 					  select new LectorClassViewModel.ClassMenu()
 					  {
-						  ED_ID = ed.EdId
-					  }).ToList();
+						  ES_ID = plc.EsId,
+						  ClassName = plc.CName,
+						  SubName = plc.DName,
+						  Status = plc.Status,
+						  IsUpload = string.IsNullOrEmpty(plc.FileName) ? false : true,
+						  CREDATE = plc.Credate
+					  }).OrderByDescending(x => x.CREDATE).ToList();
 
-
-			if (result.Count > 0)
-			{
-				foreach (var traf in result)
-				{
-					EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(traf.ED_ID) ?? null;
-					EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluateDetail.EId) ?? null;
-					CClassLector? cClassLector = db.CClassLectors.Find(eEvaluateDetail.MatchKey2) ?? null;
-					CClass? cClass = db.CClasses.Find(cClassLector.CUid) ?? null;
-					CClassSubject? cClassSubject = db.CClassSubjects.Find(cClassLector.DUid) ?? null;
-					SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == eEvaluateDetail.EdId).FirstOrDefault();
-					traf.mType = eEvaluate.EType;
-					traf.Year = eEvaluate.EYear;
-					traf.ClassName = cClass.CName;
-					traf.SubName = cClassSubject.DName;
-					traf.IsUpload = sysFile == null ? false : true;
-				}
-			}
-
-			return result.OrderByDescending(x => x.Year).ThenByDescending(x => x.ClassName).ToPagedList(page, pagesize);
+			return result.ToPagedList(page, pagesize);
 		}
 		#endregion
 
 		#region GetLogList
-		public List<LectorClassViewModel.UploadLog> GetUploadLogs(Guid ED_ID)
+		public List<LectorClassViewModel.UploadLog> GetUploadLogs(Guid ES_ID)
 		{
 			List<LectorClassViewModel.UploadLog> result = new List<LectorClassViewModel.UploadLog>();
 
 			result = (from log in db.EClassUploadLogs.OrderByDescending(x => x.Credate)
-					  where log.EdId == ED_ID
+					  where log.EsId == ES_ID
 					  select new LectorClassViewModel.UploadLog()
 					  {
 						  F_Name = log.FileFullName,
 						  CreDate = log.Credate,
-						  IsUpdate = log.IsUpdate
+						  IsUpdate = log.IsUpdate,
+						  Other = log.Other,
+						  Status = log.Status
 					  }).ToList();
 
 			return result;
@@ -70,29 +61,24 @@ namespace Clea_Web.Service
 		#endregion
 
 		#region Modify
-		public LectorClassViewModel.Modify GetModifyModel(Guid ED_ID)
+		public LectorClassViewModel.Modify GetModifyModel(Guid ES_ID)
 		{
-			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
-			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluateDetail.EId) ?? null;
-			CClassLector? cClassLector = db.CClassLectors.Find(eEvaluateDetail.MatchKey2) ?? null;
-			CClass? cClass = db.CClasses.Find(cClassLector.CUid) ?? null;
-			CClassSubject? cClassSubject = db.CClassSubjects.Find(cClassLector.DUid) ?? null;
-			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == ED_ID).FirstOrDefault();
+			ViewPLectorClassAbstract viewPLectorClassAbstract = db.ViewPLectorClassAbstracts.Where(x => x.EsId == ES_ID).FirstOrDefault();
 
+			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == ES_ID).FirstOrDefault();
 			LectorClassViewModel.Modify result = new LectorClassViewModel.Modify()
 			{
-				ED_ID = ED_ID,
-				Year = eEvaluate.EYear,
-				C_Name = cClass.CName,
-				S_Name = cClassSubject.DName,
+				ES_ID = ES_ID,
+				C_Name = viewPLectorClassAbstract.CName,
+				S_Name = viewPLectorClassAbstract.DName,
 				FileName = sysFile == null ? null : sysFile.FFullName,
 				F_ID = sysFile == null ? null : sysFile.FileId,
-				Syllabus = eEvaluateDetail.ETeachSyllabus,
-				Object = eEvaluateDetail.ETeachObject,
-				Abstract = eEvaluateDetail.ETeachAbstract
+				Syllabus = viewPLectorClassAbstract.ETeachSyllabus,
+				Object = viewPLectorClassAbstract.ETeachObject,
+				Abstract = viewPLectorClassAbstract.ETeachAbstract,
+				Status = viewPLectorClassAbstract.Status,
+				IsClose = viewPLectorClassAbstract.IsClose
 			};
-
-
 
 			return result;
 		}
@@ -105,9 +91,8 @@ namespace Clea_Web.Service
 
 			try
 			{
-				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
-
-				if (eEvaluateDetail != null)
+				EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Where(x => x.EsId == data.ES_ID).FirstOrDefault() ?? null;
+				if (eEvaluationSche != null)
 				{
 					if (!string.IsNullOrEmpty(data.FileName) && data.file == null)
 					{
@@ -116,18 +101,10 @@ namespace Clea_Web.Service
 					else if (string.IsNullOrEmpty(data.FileName) && data.file != null)
 					{
 						_fileservice.user = user;
-						result.CheckMsg = _fileservice.UploadFile(true, 0, data.ED_ID, data.file);
+						result.CheckMsg = _fileservice.UploadFile(true, 0, data.ES_ID, data.file, true);
 						if (result.CheckMsg)
 						{
-							EClassUploadLog eClassUploadLog = new EClassUploadLog()
-							{
-								EdId = data.ED_ID,
-								IsUpdate = data.IsUpdate,
-								FileFullName = data.file.FileName,
-								Creuser = Guid.Parse(GetUserID(user)),
-								Credate = DateTime.Now
-							};
-							db.EClassUploadLogs.Add(eClassUploadLog);
+							AddUploadLog(data.ES_ID, data.IsUpdate, data.file.FileName, data.UpdContent, data.Other);
 						}
 						else
 						{
@@ -135,25 +112,15 @@ namespace Clea_Web.Service
 							result.ErrorMsg = "檔案上傳失敗";
 						}
 					}
-
-
-
 					if (result.CheckMsg)
 					{
-						eEvaluateDetail.ETeachSyllabus = data.Syllabus;
-						eEvaluateDetail.ETeachObject = data.Object;
-						eEvaluateDetail.ETeachAbstract = data.Abstract;
-						if (data.IsUpdate)
-						{
-							eEvaluateDetail.EScoreA = null;
-							eEvaluateDetail.EScoreB = null;
-							eEvaluateDetail.EScoreC = null;
-							eEvaluateDetail.EScoreD = null;
-							eEvaluateDetail.EScoreE = null;
-							eEvaluateDetail.ERemark = null;
-						}
-						eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
-						eEvaluateDetail.Upddate = DateTime.Now;
+						eEvaluationSche.ETeachSyllabus = data.Syllabus;
+						eEvaluationSche.ETeachObject = data.Object;
+						eEvaluationSche.ETeachAbstract = data.Abstract;
+						eEvaluationSche.Status = data.IsUpdate ? 8 : 1;
+						eEvaluationSche.IsSche = data.IsUpdate ? false : eEvaluationSche.IsSche;
+						eEvaluationSche.Upduser = Guid.Parse(GetUserID(user));
+						eEvaluationSche.Upddate = DateTime.Now;
 						result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 					}
 				}
@@ -162,6 +129,9 @@ namespace Clea_Web.Service
 					result.CheckMsg = false;
 					result.ErrorMsg = "查無此筆資料!";
 				}
+
+				List<string> strings = new List<string>() { "asiaice2010@hotmail.com" };
+				_smtpService.SendMail(strings, "[審核通知]CLEA_System", "系統測試郵件，請勿直接回覆並直接忽視本郵件");
 			}
 			catch (Exception ex)
 			{
@@ -171,6 +141,102 @@ namespace Clea_Web.Service
 
 			return result;
 		}
+		#endregion
+
+		#region SetNewES
+		public BaseViewModel.errorMsg SetNewSubEv(LectorClassViewModel.Modify data)
+		{
+			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
+			try
+			{
+				EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Where(x => x.EsId == data.ES_ID).FirstOrDefault() ?? null;
+				if (eEvaluationSche != null)
+				{
+					EEvaluationSche eEvaluationScheNew = new EEvaluationSche();
+					eEvaluationScheNew = eEvaluationSche;
+					eEvaluationScheNew.EsId = Guid.NewGuid();
+					eEvaluationScheNew.Status = 1;
+					eEvaluationScheNew.ScheNum = eEvaluationSche.ScheNum + 1;
+					eEvaluationScheNew.ChkNum = 0;
+					eEvaluationScheNew.IsSche = true;
+					eEvaluationScheNew.ETeachSyllabus = data.Syllabus;
+					eEvaluationScheNew.ETeachObject = data.Object;
+					eEvaluationScheNew.ETeachAbstract = data.Abstract;
+					eEvaluationScheNew.Upduser = Guid.Parse(GetUserID(user));
+					eEvaluationScheNew.Upddate = DateTime.Now;
+					db.EEvaluationSches.Add(eEvaluationScheNew);
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+					if (!string.IsNullOrEmpty(data.FileName) && data.file == null)
+					{
+						result.CheckMsg = true;
+					}
+					else if (string.IsNullOrEmpty(data.FileName) && data.file != null)
+					{
+						_fileservice.user = user;
+						result.CheckMsg = _fileservice.UploadFile(true, 0, eEvaluationScheNew.EsId, data.file, true);
+						if (result.CheckMsg)
+						{
+							CopyUploadLog(data.ES_ID, eEvaluationScheNew.EsId);
+						}
+						else
+						{
+							result.CheckMsg = false;
+							result.ErrorMsg = "檔案上傳失敗";
+						}
+					}
+				}
+				else
+				{
+					result.CheckMsg = false;
+					result.ErrorMsg = "查無此筆資料!";
+				}
+
+			}
+			catch (Exception ex)
+			{
+				result.CheckMsg = false;
+				result.ErrorMsg = ex.Message;
+			}
+
+			return result;
+		}
+		#endregion
+
+		#region CopyUploadLog
+		public void CopyUploadLog(Guid ES_ID_O, Guid ES_ID_N)
+		{
+			List<EClassUploadLog> eClassUploadLogs = db.EClassUploadLogs.Where(x => x.EsId == ES_ID_O).OrderBy(x => x.Credate).ToList();
+			if (eClassUploadLogs != null && eClassUploadLogs.Count > 0)
+			{
+				foreach (EClassUploadLog old in eClassUploadLogs)
+				{
+					EClassUploadLog eClassUploadLog = new EClassUploadLog();
+					eClassUploadLog.EsId = ES_ID_N;
+					db.EClassUploadLogs.Add(eClassUploadLog);
+				}
+				db.SaveChanges();
+			}
+		}
+		#endregion
+
+		#region AddUploadLog
+		public void AddUploadLog(Guid ES_ID, Boolean IsUpdate, String FileName, Int32? UpdContent, String? Other)
+		{
+			EClassUploadLog eClassUploadLog = new EClassUploadLog()
+			{
+				EsId = ES_ID,
+				FileFullName = FileName,
+				IsUpdate = IsUpdate,
+				Status = UpdContent,
+				Other = Other,
+				Creuser = Guid.Parse(GetUserID(user)),
+				Credate = DateTime.Now
+			};
+			db.EClassUploadLogs.Add(eClassUploadLog);
+			db.SaveChanges();
+		}
+
 		#endregion
 
 		#region SaveLogData

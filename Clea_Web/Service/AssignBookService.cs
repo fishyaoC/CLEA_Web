@@ -33,22 +33,20 @@ namespace Clea_Web.Service
 		{
 			List<AssignBookViewModel.BookInfor> result = new List<AssignBookViewModel.BookInfor>();
 
-			result = (from book in db.ViewBookEvaluates
+			result = (from book in db.ViewBAssignBooks
 					  where
 					  (
-					  (book.EType == 1) &&
-					  (data.Year == null || book.EYear == data.Year) &&
 					  (string.IsNullOrEmpty(data.B_ID) || book.MIndex.ToString().Contains(data.B_ID)) &&
 					  (string.IsNullOrEmpty(data.B_Name) || book.MName.Contains(data.B_Name))
 					  )
 					  select new AssignBookViewModel.BookInfor()
 					  {
-						  Year = book.EYear,
-						  B_UID = book.MId,
-						  B_ID = book.MIndex.ToString(),
-						  B_Name = book.MName,
-						  E_ID = book.EId
-					  }).OrderByDescending(x => x.Year).ToList();
+						  E_ID = book.EId.Value,
+						  M_Index = book.MIndex,
+						  M_Name = book.MName,
+						  T_Count = (from eed in db.EEvaluateDetails where eed.EId == book.EId select eed).Count(),
+						  M_Status = (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault() == null ? 0 : (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault().Status
+					  }).ToList();
 
 			return result.ToPagedList(page, pagesize);
 		}
@@ -71,7 +69,7 @@ namespace Clea_Web.Service
 		}
 		#endregion
 
-		#region 取得課程列表
+		#region 取得教材列表
 		public List<SelectListItem> GetSelectListItemsBook()
 		{
 			List<SelectListItem> result = new List<SelectListItem>();
@@ -105,14 +103,33 @@ namespace Clea_Web.Service
 				{
 					EId = Guid.NewGuid(),
 					EType = 1,
-					EYear = data.Year,
-					MatchKey = data.B_UID,
+					EYear = DateTime.Now.Year,
+					MatchKey = data.B_UID, //M_ID
 					Creuser = Guid.Parse(GetUserID(user)),
 					Credate = DateTime.Now
 				};
 				db.EEvaluates.Add(eEvaluate);
+
+				if (lst_BD.Count > 0)
+				{
+					foreach (CBookDetail CBD in lst_BD)
+					{
+						EEvaluationSche eEvaluationSche = new EEvaluationSche()
+						{
+							EsId = Guid.NewGuid(),
+							EId = eEvaluate.EId,
+							MatchKey = CBD.MdId,
+							Status = 0,
+							ScheNum = 0,
+							IsSche = true,
+							IsClose = false,
+							Creuser = eEvaluate.Creuser,
+							Credate = eEvaluate.Credate
+						};
+						db.EEvaluationSches.Add(eEvaluationSche);
+					}
+				}
 				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-				//db.SaveChanges();
 			}
 			catch (Exception ex)
 			{
@@ -149,13 +166,13 @@ namespace Clea_Web.Service
 		{
 			List<AssignClassViewModel.EvTeacher> result = new List<AssignClassViewModel.EvTeacher>();
 
-			result = (from ed in db.ViewBookEvaluateTeachers
+			result = (from ed in db.ViewBBookEvaluateTeachers
 					  where (ed.EId == E_ID)
 					  select new AssignClassViewModel.EvTeacher()
 					  {
-						  E_ID = ed.EId.Value,
-						  L_UID_Ev = ed.LUid,
+						  E_ID = ed.EId,
 						  L_Ev_ID = ed.LId,
+						  L_UID_Ev = ed.Evaluate,
 						  L_Ev_Name = ed.LName
 					  }).ToList();
 
@@ -188,17 +205,19 @@ namespace Clea_Web.Service
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			try
 			{
-				List<CBookDetail> lst_BD = db.CBookDetails.Where(x => x.MId == data.B_UID).ToList();
-				if (lst_BD != null && lst_BD.Count > 0)
+				List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == data.E_ID).ToList();
+				if (eEvaluationSches.Count > 0)
 				{
-					foreach (CBookDetail BD in lst_BD)
+					foreach (EEvaluationSche EES in eEvaluationSches)
 					{
 						EEvaluateDetail eEvaluateDetail = new EEvaluateDetail()
 						{
 							EdId = Guid.NewGuid(),
 							EId = data.E_ID,
-							MatchKey2 = BD.MdId,
+							EsId = EES.EsId,
 							Evaluate = data.L_UID_Ev,
+							Status = 2,
+							IsClose = false,
 							Creuser = Guid.Parse(GetUserID(user)),
 							Credate = DateTime.Now
 						};
@@ -226,24 +245,17 @@ namespace Clea_Web.Service
 		public List<AssignBookViewModel.EDInfo> getEDInfoList(Guid E_ID)
 		{
 			List<AssignBookViewModel.EDInfo> result = new List<AssignBookViewModel.EDInfo>();
-			EEvaluate? oriEv = db.EEvaluates.Find(E_ID) ?? null;
-			String bookName = string.Empty;
-			if (oriEv != null)
-			{
-				bookName = db.CBooks.Find(oriEv.MatchKey).MName;
-			}
 
-			result = (from ed in db.EEvaluateDetails
-					  where (ed.EId == E_ID)
+			result = (from item in db.ViewBAssignBookEvaluateTeachers
+					  where item.EId == E_ID
 					  select new AssignBookViewModel.EDInfo()
 					  {
-						  ED_ID = ed.EdId,
-						  B_Name = bookName,
-						  BD_Publish = (from cp in db.CBookPublishes where cp.BpId == ((from bd in db.CBookDetails where bd.MdId == ed.MatchKey2 select bd).FirstOrDefault().MdPublish) select cp).FirstOrDefault().BpName,
-						  L_UID_Ev = (from le in db.CLectors where le.LUid == ed.Evaluate select le).FirstOrDefault().LName,
-						  IsEvaluate = ed.EScoreA == null ? false : true,
-						  IsUpload = db.SysFiles.Where(x => x.FMatchKey == ed.EdId).Count() == 0 ? false : true
-					  }).ToList();
+						  ED_ID = item.EdId,
+						  M_Book = item.MName,
+						  M_Publish = item.BpName,
+						  M_lv_Teacher = item.LName,
+						  M_Status = item.Status
+					  }).OrderBy(x => x.M_lv_Teacher).ToList();
 
 			return result;
 		}
@@ -262,6 +274,8 @@ namespace Clea_Web.Service
 				result.Score_B = eEvaluateDetail.EScoreB;
 				result.Score_C = eEvaluateDetail.EScoreC;
 				result.Remark = eEvaluateDetail.ERemark;
+				result.IsClose = eEvaluateDetail.IsClose;
+				result.Status = eEvaluateDetail.Status;
 			}
 
 			return result;
@@ -276,10 +290,27 @@ namespace Clea_Web.Service
 			{
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 
+				if (data.Status == 4 && data.IsClose)
+				{
+					eEvaluateDetail.Status = 6;
+				}
+				else if (data.Status == 4 && !data.IsClose)
+				{
+					eEvaluateDetail.Status = 4;
+				}
+				else if (data.Status == 5 && data.IsClose)
+				{
+					eEvaluateDetail.Status = 7;
+				}
+				else if (data.Status == 5 && !data.IsClose)
+				{
+					eEvaluateDetail.Status = 5;
+				}
 				eEvaluateDetail.EScoreA = data.Score_A;
 				eEvaluateDetail.EScoreB = data.Score_B;
 				eEvaluateDetail.EScoreC = data.Score_C;
 				eEvaluateDetail.ERemark = data.Remark;
+				eEvaluateDetail.IsClose = data.IsClose;
 				eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
 				eEvaluateDetail.Upddate = DateTime.Now;
 
@@ -298,16 +329,13 @@ namespace Clea_Web.Service
 		#region 匯出Excel
 		public Byte[] Export_Excel(Guid E_ID)
 		{
-			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
-			List<EEvaluateDetail> lstED = db.EEvaluateDetails.Where(x => x.EId == E_ID).ToList();
-
-			String B_Name = db.CBooks.Find(eEvaluate.MatchKey).MName;
 			List<AssignBookViewModel.ScoreTable> scoreTable = new List<AssignBookViewModel.ScoreTable>();
-
-			Int32 PublishCount = lstED.GroupBy(i => i.MatchKey2).Count();
-			var lstPublish = lstED.GroupBy(x => x.MatchKey2).ToList();  //評鑑版本
-			Int32 EvTeacherCount = lstED.GroupBy(x => x.Evaluate).Count();
-			var lstEvTeacher = lstED.GroupBy(x => x.Evaluate).ToList(); //評鑑教師
+			List<ViewBAssignBookScore> viewBAssignBookScore = db.ViewBAssignBookScores.Where(x => x.EId == E_ID).OrderBy(x => x.BpName).ToList();
+			String B_Name = viewBAssignBookScore.Count > 0 ? viewBAssignBookScore.FirstOrDefault().MName : string.Empty;
+			Int32 PublishCount = viewBAssignBookScore.GroupBy(i => i.BpName).Count();
+			var lstPublish = viewBAssignBookScore.GroupBy(x => x.BpName).ToList();  //評鑑版本
+			Int32 EvTeacherCount = viewBAssignBookScore.GroupBy(x => x.Evaluate).Count();
+			var lstEvTeacher = viewBAssignBookScore.GroupBy(x => x.Evaluate).ToList(); //評鑑教師
 
 			#region ExportExcel
 			String[] lst_Header = new string[] { "教材名稱", "教材版本", "平均總分", "排序" };
@@ -340,11 +368,11 @@ namespace Clea_Web.Service
 					for (int j = 0; j < lst_Header.Length; j++)
 					{
 						sheet.GetRow(i).CreateCell(j).CellStyle = ContentStyle; //產生 cell
-						sheet.SetColumnWidth(j, 24 * 256);//寬度
+						sheet.SetColumnWidth(j, 24 * 512);//寬度
 					}
 				}
 
-				CellRangeAddress range0 = new CellRangeAddress(0, 0, 1, PublishCount == 0 ? 3 : PublishCount);
+				CellRangeAddress range0 = new CellRangeAddress(0, 0, 1, PublishCount < 3 ? 3 : PublishCount);
 				sheet.AddMergedRegion(range0);
 
 				for (int x = 0; x < lst_Header.Length; x++)
@@ -359,18 +387,17 @@ namespace Clea_Web.Service
 					foreach (var p in lstPublish)
 					{
 						Int32 Score = 0;
-						CBookDetail? cBookDetail = db.CBookDetails.Find(p.FirstOrDefault().MatchKey2) ?? null;
-						CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
 
-						List<EEvaluateDetail> list_score = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.MatchKey2 == p.FirstOrDefault().MatchKey2 && x.EScoreA != null).ToList();
-						if (list_score != null && list_score.Count > 0)
+						List<ViewBAssignBookScore> viewBAssignBookScores = new List<ViewBAssignBookScore>();
+						viewBAssignBookScores = viewBAssignBookScore.Where(x => x.BpName == p.Key.ToString()).ToList();
+						if (viewBAssignBookScores != null && viewBAssignBookScores.Count > 0)
 						{
-							foreach (EEvaluateDetail ed in list_score)
+							foreach (ViewBAssignBookScore sc in viewBAssignBookScores)
 							{
-								Score += ed.EScoreA.Value + ed.EScoreB.Value + ed.EScoreC.Value;
+								Score += sc.EScoreA is null ? 0 : sc.EScoreA.Value + sc.EScoreB is null ? 0 : sc.EScoreB.Value + sc.EScoreC is null ? 0 : sc.EScoreC.Value;
 							}
 						}
-						scoreTable.Add(new AssignBookViewModel.ScoreTable() { P_Name = cBookPublish.BpName, P_Score = (Score / EvTeacherCount).ToString("#0.00") });
+						scoreTable.Add(new AssignBookViewModel.ScoreTable() { P_Name = p.Key, P_Score = (Score / EvTeacherCount).ToString("#0.00") });
 					}
 				}
 
@@ -399,20 +426,16 @@ namespace Clea_Web.Service
 		#region 匯出ZIP
 		public Byte[] Export_ScoreZip(Guid E_ID, String dir)
 		{
-			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
-			List<EEvaluateDetail> lstED = db.EEvaluateDetails.Where(x => x.EId == E_ID).ToList();
+			List<ViewBAssignBookScore> viewBAssignBookScore = db.ViewBAssignBookScores.Where(x => x.EId == E_ID).OrderBy(x => x.BpName).ToList();
+			String B_Name = viewBAssignBookScore.Count > 0 ? viewBAssignBookScore.FirstOrDefault().MName : string.Empty;
+			Int32 PublishCount = viewBAssignBookScore.GroupBy(i => i.BpName).Count();
+			var lstPublish = viewBAssignBookScore.GroupBy(x => x.BpName).ToList();  //評鑑版本
+			Int32 EvTeacherCount = viewBAssignBookScore.GroupBy(x => x.Evaluate).Count();
+			var lstEvTeacher = viewBAssignBookScore.GroupBy(x => x.LName).ToList(); //評鑑教師
 
-			String B_Name = db.CBooks.Find(eEvaluate.MatchKey).MName;
-
-
-			Int32 PublishCount = lstED.GroupBy(i => i.MatchKey2).Count();
-			var lstPublish = lstED.GroupBy(x => x.MatchKey2).ToList();  //評鑑版本
-			Int32 EvTeacherCount = lstED.GroupBy(x => x.Evaluate).Count();
-			var lstEvTeacher = lstED.GroupBy(x => x.Evaluate).ToList(); //評鑑教師
-
-			String SourcePath = "./SampleFile/Sample教材評核表V" + PublishCount.ToString() + ".docx";
-			String SavePath = "./SampleFile/Output/" + eEvaluate.EYear + B_Name;
-			String SavePathzip = "./SampleFile/Output/" + eEvaluate.EYear + B_Name + "審查表.zip";
+			String SourcePath = "./SampleFile/Sample教材評核表V" + (PublishCount < 3 ? "3" : PublishCount.ToString()) + ".docx";
+			String SavePath = "./SampleFile/Output/" + B_Name;
+			String SavePathzip = "./SampleFile/Output/" + B_Name + "審查表.zip";
 
 			Directory.CreateDirectory(SavePath);
 			if (lstEvTeacher != null && lstEvTeacher.Count > 0)
@@ -421,48 +444,60 @@ namespace Clea_Web.Service
 				{
 					List<AssignBookViewModel.ScoreTable> scoreTable = new List<AssignBookViewModel.ScoreTable>();
 
-					CLector? cLector = db.CLectors.Find(t.Key) ?? null;
-					String L_Name_Ev = cLector.LName;
+					List<ViewBAssignBookScore> viewBAssignBookScores = new List<ViewBAssignBookScore>();
+					viewBAssignBookScores = viewBAssignBookScore.Where(x => x.LName == t.Key.ToString()).ToList();
 
-					//List<EEvaluateDetail> list_score = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.Evaluate == t.FirstOrDefault().MatchKey2 && x.EScoreA != null).ToList();
-					List<EEvaluateDetail> list_score = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.Evaluate == t.Key).ToList();
-
-					if (list_score != null && list_score.Count > 0)
+					if (viewBAssignBookScores != null && viewBAssignBookScores.Count > 0)
 					{
-						foreach (EEvaluateDetail ed in list_score)
+						foreach (ViewBAssignBookScore sc in viewBAssignBookScores)
 						{
-							CBookDetail? cBookDetail = db.CBookDetails.Find(ed.MatchKey2) ?? null;
-							CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
-							String P_Name = cBookPublish.BpName;
+							String P_Name = sc.BpName;
 
 							scoreTable.Add(new AssignBookViewModel.ScoreTable()
 							{
 								P_Name = P_Name,
-								P_ScoreA = ed.EScoreA == null ? "0" : ed.EScoreA.ToString(),
-								P_ScoreB = ed.EScoreB == null ? "0" : ed.EScoreB.ToString(),
-								P_ScoreC = ed.EScoreC == null ? "0" : ed.EScoreC.ToString(),
-								P_ScoreRemark = ed.ERemark,
-								P_Score = (ed.EScoreA == null ? 0 : ed.EScoreA + ed.EScoreB == null ? 0 : ed.EScoreB + ed.EScoreC == null ? 0 : ed.EScoreC).ToString()
+								P_ScoreA = sc.EScoreA == null ? "0" : sc.EScoreA.ToString(),
+								P_ScoreB = sc.EScoreB == null ? "0" : sc.EScoreB.ToString(),
+								P_ScoreC = sc.EScoreC == null ? "0" : sc.EScoreC.ToString(),
+								P_ScoreRemark = sc.ERemark,
+								P_Score = (sc.EScoreA == null ? 0 : sc.EScoreA + sc.EScoreB == null ? 0 : sc.EScoreB + sc.EScoreC == null ? 0 : sc.EScoreC).ToString()
 							});
 						}
 
 						//export
 						if (scoreTable.Count > 0)
 						{
+							if (scoreTable.Count < 3)
+							{
+								Int32 lostCount = 3 - scoreTable.Count;
+								for (int i = 0; i < lostCount; i++)
+								{
+									scoreTable.Add(new AssignBookViewModel.ScoreTable()
+									{
+										P_Name = string.Empty,
+										P_ScoreA = string.Empty,
+										P_ScoreB = string.Empty,
+										P_ScoreC = string.Empty,
+										P_ScoreRemark = string.Empty,
+										P_Score = string.Empty
+									});
+								}
+							}
+
 							using (DocX doc = DocX.Load(SourcePath))
 							{
 								doc.ReplaceText("[@Year$]", DateTime.Now.Year.ToString());    //年
 								doc.ReplaceText("[@Month$]", DateTime.Now.Year.ToString().PadLeft(2, '0'));                            //月
 								doc.ReplaceText("[@Day$]", DateTime.Now.Year.ToString().PadLeft(2, '0'));                                //日
 								doc.ReplaceText("[@BName$]", B_Name);
-								doc.ReplaceText("[@L_Name_Ev$]", L_Name_Ev);
+								doc.ReplaceText("[@L_Name_Ev$]", t.Key.ToString());
 
 								int c = 0;
 								String m = "a";
 								String RemarkTotle = string.Empty;
 								foreach (var sc in scoreTable)
 								{
-									
+
 									switch (c)
 									{
 										case 1:
@@ -485,13 +520,13 @@ namespace Clea_Web.Service
 									doc.ReplaceText("[@S" + m + "1$]", sc.P_ScoreA);
 									doc.ReplaceText("[@S" + m + "2$]", sc.P_ScoreB);
 									doc.ReplaceText("[@S" + m + "3$]", sc.P_ScoreC);
-									Int32 ScoreTotal = Convert.ToInt32(sc.P_ScoreA) + Convert.ToInt32(sc.P_ScoreB) + Convert.ToInt32(sc.P_ScoreC);
+									String ScoreTotal = string.IsNullOrEmpty(sc.P_ScoreA) ? string.Empty : (Convert.ToInt32(sc.P_ScoreA) + Convert.ToInt32(sc.P_ScoreB) + Convert.ToInt32(sc.P_ScoreC)).ToString();
 									doc.ReplaceText("[@St" + m + "$]", ScoreTotal.ToString());
 									RemarkTotle += string.IsNullOrEmpty(sc.P_ScoreRemark) ? string.Empty : sc.P_ScoreRemark;
 									c++;
 								}
 								doc.ReplaceText("[@Remark$]", RemarkTotle);
-								doc.SaveAs(SavePath + "/" + L_Name_Ev + "-" + B_Name + "教材審查表.docx");
+								doc.SaveAs(SavePath + "/" + t.Key.ToString() + "-" + B_Name + "教材審查表.docx");
 							}
 						}
 					}

@@ -26,7 +26,7 @@ namespace Clea_Web.Service
 		public IPagedList<AssignClassViewModel.ClassInfor> GetClassInfoPageList(AssignClassViewModel.schClassItem data, Int32 page)
 		{
 			List<AssignClassViewModel.ClassInfor> result = new List<AssignClassViewModel.ClassInfor>();
-			result = (from CE in db.ViewClassEvaluates
+			result = (from CE in db.ViewBAssignClassEvaluates
 					  where
 					  (
 					  (CE.EType == 0) &&
@@ -118,22 +118,23 @@ namespace Clea_Web.Service
 			List<AssignClassViewModel.CL> result = new List<AssignClassViewModel.CL>();
 			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
 
-			result = (from CL in db.ViewClassLectors
+			result = (from CL in db.ViewBAssignClassLectors
 					  where
 					  (
-					  (CL.CUid == eEvaluate.MatchKey) &&
+					  (CL.EId == E_ID) &&
 					  (string.IsNullOrEmpty(data.S_Name) || CL.CName.Contains(data.S_Name)) &&
 					  (string.IsNullOrEmpty(data.L_Name) || CL.LName.Contains(data.L_Name))
 					  )
 					  select new AssignClassViewModel.CL()
 					  {
 						  E_ID = E_ID,
-						  ED_ID = CL.EdId.Value,
-						  CL_UID = CL.ClUid,
+						  ES_ID = CL.EsId,
 						  C_Name = CL.CName,
 						  S_Name = CL.DName,
 						  L_Name = CL.LName,
-						  IsEvaluate = (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault() == null ? false : (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault().EScoreA == null ? false : true
+						  Status = CL.Status,
+						  D_Hour = CL.DHour
+						  //IsEvaluate = (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault() == null ? false : (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault().EScoreA == null ? false : true
 					  }).OrderBy(x => x.S_Name).ThenBy(x => x.L_Name).ToList();
 
 			return result.ToPagedList(page, pagesize);
@@ -185,12 +186,12 @@ namespace Clea_Web.Service
 		#endregion
 
 		#region 取得評鑑教師列表
-		public List<AssignClassViewModel.EvTeacher> GetEvTeacherPageLists(Guid E_ID, Guid CL_UID)
+		public List<AssignClassViewModel.EvTeacher> GetEvTeacherPageLists(Guid ES_ID)
 		{
 			Int32 LocalYear = DateTime.Now.Year + 1;
 			List<AssignClassViewModel.EvTeacher> result = new List<AssignClassViewModel.EvTeacher>();
 			result = (from ED in db.EEvaluateDetails
-					  where ED.EId == E_ID && ED.MatchKey2 == CL_UID
+					  where ED.EsId == ES_ID
 					  join lec in db.CLectors on ED.Evaluate equals lec.LUid
 					  select new AssignClassViewModel.EvTeacher()
 					  {
@@ -209,20 +210,44 @@ namespace Clea_Web.Service
 
 			try
 			{
-				CClassLector? cClassLector = db.CClassLectors.Find(data.CL_UID) ?? null;
-				EEvaluateDetail eEvaluateDetail = new EEvaluateDetail()
+				ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == data.ES_ID).FirstOrDefault() ?? null;
+				if (viewBAssignClassLector != null)
 				{
-					EdId = Guid.NewGuid(),
-					EId = data.E_ID,
-					MatchKey2 = data.CL_UID,
-					Reception = cClassLector.LUid.Value,
-					Evaluate = data.L_UID_Ev,
-					Creuser = Guid.Parse(GetUserID(user)),
-					Credate = DateTime.Now
-				};
+					EEvaluateDetail eEvaluateDetail = new EEvaluateDetail()
+					{
+						EdId = Guid.NewGuid(),
+						EId = viewBAssignClassLector.EId,
+						EsId = data.ES_ID,
+						Evaluate = data.L_UID_Ev,
+						Creuser = Guid.Parse(GetUserID(user)),
+						Credate = DateTime.Now
+					};
+					db.EEvaluateDetails.Add(eEvaluateDetail);
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
+				else
+				{
+					result.CheckMsg = false;
+					result.ErrorMsg = "查無此筆紀錄!";
+				}
 
-				db.EEvaluateDetails.Add(eEvaluateDetail);
-				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+
+
+				//CClassLector? cClassLector = db.CClassLectors.Find(data.ES_ID) ?? null;
+				//EEvaluateDetail eEvaluateDetail = new EEvaluateDetail()
+				//{
+				//	EdId = Guid.NewGuid(),
+				//	EsId = data.ES_ID,
+				//	MatchKey2 = data.ES_ID,
+				//	//Reception = cClassLector.LUid.Value,
+				//	Evaluate = data.L_UID_Ev,
+				//	Creuser = Guid.Parse(GetUserID(user)),
+				//	Credate = DateTime.Now
+				//};
+
+
+
 			}
 			catch (Exception ex)
 			{
@@ -238,7 +263,7 @@ namespace Clea_Web.Service
 
 		public Byte[] Export_Excel()
 		{
-			List<ViewClassLectorUnFileLoad> data = db.ViewClassLectorUnFileLoads.ToList();
+			List<ViewBAssignBookUnLoadFile> data = db.ViewBAssignBookUnLoadFiles.OrderBy(x => x.LName).ToList();
 
 			#region ExportExcel
 			String[] lst_Header = new string[] { "項次", "教師名稱", "課程名稱", "科目名稱" };
@@ -271,7 +296,7 @@ namespace Clea_Web.Service
 					for (int j = 0; j < lst_Header.Length; j++)
 					{
 						sheet.GetRow(i).CreateCell(j).CellStyle = ContentStyle; //產生 cell
-						sheet.SetColumnWidth(j, 24 * 256);//寬度
+						sheet.SetColumnWidth(j, 24 * 512);//寬度
 					}
 				}
 
@@ -283,7 +308,7 @@ namespace Clea_Web.Service
 				if (data.Count() > 0)
 				{
 					Int32 RowCount = 1;
-					foreach (ViewClassLectorUnFileLoad item in data)
+					foreach (ViewBAssignBookUnLoadFile item in data)
 					{
 						sheet.GetRow(RowCount).GetCell(0).SetCellValue(RowCount.ToString());
 						sheet.GetRow(RowCount).GetCell(1).SetCellValue(item.LName);
@@ -322,6 +347,8 @@ namespace Clea_Web.Service
 				result.Syllabus = eEvaluateDetail.ETeachSyllabus;
 				result.Object = eEvaluateDetail.ETeachObject;
 				result.Abstract = eEvaluateDetail.ETeachAbstract;
+				result.IsClose = eEvaluateDetail.IsClose;
+				result.Status = eEvaluateDetail.Status;
 			}
 
 			return result;
@@ -349,15 +376,29 @@ namespace Clea_Web.Service
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 				if (eEvaluateDetail != null)
 				{
-					//eEvaluateDetail.ETeachSyllabus = data.Syllabus;
-					//eEvaluateDetail.ETeachObject = data.Object;
-					//eEvaluateDetail.ETeachAbstract = data.Abstract;
+					if (data.Status == 4 && data.IsClose)
+					{
+						eEvaluateDetail.Status = 6;
+					}
+					else if (data.Status == 4 && !data.IsClose)
+					{
+						eEvaluateDetail.Status = 4;
+					}
+					else if (data.Status == 5 && data.IsClose)
+					{
+						eEvaluateDetail.Status = 7;
+					}
+					else if (data.Status == 5 && !data.IsClose)
+					{
+						eEvaluateDetail.Status = 5;
+					}
 					eEvaluateDetail.EScoreA = data.Score_A;
 					eEvaluateDetail.EScoreB = data.Score_B;
 					eEvaluateDetail.EScoreC = data.Score_C;
 					eEvaluateDetail.EScoreD = data.Score_D;
 					eEvaluateDetail.EScoreE = data.Score_E;
 					eEvaluateDetail.ERemark = data.Remark;
+					eEvaluateDetail.IsClose = data.IsClose;
 					eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
 					eEvaluateDetail.Upddate = DateTime.Now;
 					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());

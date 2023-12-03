@@ -5,12 +5,14 @@ using X.PagedList;
 
 namespace Clea_Web.Service
 {
-	//後台-評鑑模組 0=課程、1=教材
+	//前台評鑑模組
 	public class LectorEvaluationService : BaseService
 	{
-		public LectorEvaluationService(dbContext dbContext)
+		private SMTPService _smtpService;
+		public LectorEvaluationService(dbContext dbContext, SMTPService smtpService)
 		{
 			db = dbContext;
+			_smtpService = smtpService;
 		}
 
 		#region Index
@@ -18,50 +20,21 @@ namespace Clea_Web.Service
 		{
 			List<LectorEvaluationViewModel.schEvInfo> result = new List<LectorEvaluationViewModel.schEvInfo>();
 			Guid UID = Guid.Parse(GetUserID(user));
-			result = (from ed in db.EEvaluateDetails
-					  where ed.Evaluate == UID && string.IsNullOrEmpty(ed.ERemark)
+
+			result = (from ple in db.ViewPLectorEvaluates.OrderBy(x => x.Evaluate)
+					  where ple.Evaluate == UID
 					  select new LectorEvaluationViewModel.schEvInfo()
 					  {
-						  ED_ID = ed.EdId,
-						  Year = (from e in db.EEvaluates where e.EId == ed.EId select e).FirstOrDefault().EYear,
-						  mType = (from e in db.EEvaluates where e.EId == ed.EId select e).FirstOrDefault().EType == 0 ? "課程" : "教材",
-						  IsUpload = (from fi in db.SysFiles where fi.FMatchKey == ed.EdId select fi).FirstOrDefault() == null ? false : true
-					  }).OrderByDescending(x => x.Year).ToList();
+						  ED_ID = ple.EdId,
+						  mType = ple.EType == 0 ? "課程" : "教材",
+						  ClassName_BookName = ple.EType == 0 ?ple.CName:ple.MName,
+						  SubName_PName = ple.EType == 0 ? ple.DName : ple.BpName,
+						  Status = ple.Status,
+						  IsUpload = (from fi in db.SysFiles where fi.FMatchKey == ple.EsId select fi).Count() > 0 ? true:false,
+						  CreDate = ple.Credate
+					  }).OrderByDescending(x=>x.CreDate).ToList();
 
-			if (result.Count > 0)
-			{
-				foreach (var traf in result)
-				{
-					EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(traf.ED_ID) ?? null;
-					EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluateDetail.EId) ?? null;
-					if (traf.mType.Contains("課程"))
-					{
-						CClass? cClass = db.CClasses.Find(eEvaluate.MatchKey) ?? null;
-						CClassLector? cClassLector = db.CClassLectors.Find(eEvaluateDetail.MatchKey2) ?? null;
-						CClassSubject? cClassSubject = db.CClassSubjects.Where(x => x.DUid == cClassLector.DUid).FirstOrDefault();
-						traf.ClassName_BookName = cClass.CName;
-						traf.SubName_PName = cClassSubject.DName;
-					}
-					else
-					{
-						CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
-						CBookDetail? cBookDetail = db.CBookDetails.Where(x => x.MdId == eEvaluateDetail.MatchKey2).FirstOrDefault();
-						CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
-						traf.ClassName_BookName = cBook.MName;
-						traf.SubName_PName = cBookPublish.BpName;
-					}
-				}
-			}
-
-			return result.OrderByDescending(x => x.Year).ThenByDescending(x => x.ClassName_BookName).ToPagedList(page, pagesize);
-		}
-		#endregion
-
-		#region GetModel
-		public LectorEvaluationViewModel.EvInfo GetEvModel()
-		{
-			LectorEvaluationViewModel.EvInfo result = new LectorEvaluationViewModel.EvInfo();
-			return result;
+			return result.ToPagedList(page, pagesize);
 		}
 		#endregion
 
@@ -69,7 +42,6 @@ namespace Clea_Web.Service
 		public BaseViewModel.errorMsg SaveScoreData(LectorEvaluationViewModel.scoreModify data)
 		{
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
-
 			try
 			{
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
@@ -83,9 +55,14 @@ namespace Clea_Web.Service
 						eEvaluateDetail.EScoreD = data.ScoreD;
 						eEvaluateDetail.EScoreE = data.ScoreE;
 					}
+					eEvaluateDetail.ERemark = data.Remark;
+					eEvaluateDetail.Status = 3;
 					eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
 					eEvaluateDetail.Upddate = DateTime.Now;
 					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+					List<string> strings = new List<string>() { "asiaice2010@hotmail.com" };
+					_smtpService.SendMail(strings, "[審核通知]CLEA_System", "系統測試郵件，請勿直接回覆並直接忽視本郵件");
 				}
 				else
 				{

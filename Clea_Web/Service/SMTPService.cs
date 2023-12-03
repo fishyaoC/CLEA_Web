@@ -9,13 +9,14 @@ using X.PagedList;
 namespace Clea_Web.Service
 {
 	//郵件發送模組
-	public class SMTPService //: BaseService
+	public class SMTPService : BaseService
 	{
-
-		//public SMTPService(dbContext dbContext)
-		//{
-		//	db = dbContext;
-		//}
+		private IConfiguration configuration;
+		public SMTPService(dbContext dbContext, IConfiguration configuration)
+		{
+			db = dbContext;
+			this.configuration = configuration;
+		}
 
 		#region Mail Object
 		public class SmtpConfig
@@ -74,29 +75,16 @@ namespace Clea_Web.Service
 		#endregion
 
 		#region
-		public async Task<Boolean> SendMail(SmtpConfig smtpConfig, List<string> toEmail, string subject, string content, List<string> ccEmail = null, List<string> BccEmail = null, List<FileData> FileList = null)
-		//public async Task<Boolean> SendMail(SmtpConfig smtpConfig)
+		public Boolean SendMail(List<string> toEmail, string subject, string content, List<string> ccEmail = null, List<string> BccEmail = null, List<FileData> FileList = null)
 		{
-			string smtp_sendermailname = string.Empty;
-			string smtp_sendermail = string.Empty;
-			string smtp_host = "";
-			string smtp_port = "";
-			string maileDomainName = "";
-			string smtp_username = "";
-			string smtp_password = "";
+			string smtp_sendermailname = configuration.GetValue<String>("MailInfo:SenderName");
+			string smtp_sendermail = configuration.GetValue<String>("MailInfo:SenderMailName");
+			string smtp_host = configuration.GetValue<String>("MailInfo:ServerDomain");
+			string smtp_port = configuration.GetValue<String>("MailInfo:MailPort");
+			string maileDomainName = configuration.GetValue<String>("MailInfo:ServerDomain");
+			string smtp_username = configuration.GetValue<String>("MailInfo:MailFullAccount");
+			string smtp_password = configuration.GetValue<String>("MailInfo:MailPassword");
 			string smtp_usessl = string.Empty;
-
-			if (!smtpConfig.SMTP_PATH.Equals(string.Empty))
-			{
-				smtp_host = smtpConfig.SMTP_PATH;
-				smtp_port = smtpConfig.SMTP_PORT;
-				maileDomainName = smtpConfig.SMTP_DOMAINNAME;
-				smtp_sendermail = smtpConfig.SMTP_SENDERMAIL;
-				smtp_sendermailname = smtpConfig.SMTP_SENDERMAILNAME;
-				smtp_username = smtpConfig.SMTP_USERNAME;
-				smtp_password = smtpConfig.SMTP_PASSWORD;
-				smtp_usessl = smtpConfig.SMTP_USESSL;
-			}
 			string fromEmail = smtp_sendermail;
 			string fromName = smtp_sendermailname;
 
@@ -162,15 +150,14 @@ namespace Clea_Web.Service
 			mail.IsBodyHtml = true;
 			mail.Priority = MailPriority.Normal;
 
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
 			SmtpClient client = new SmtpClient();
 			client.Host = smtp_host;
 			client.Timeout = 200000;
-			client.UseDefaultCredentials = true;
+			client.UseDefaultCredentials = false;
 			client.Port = int.Parse(smtp_port);
-			client.EnableSsl = smtp_usessl.ToUpper().Equals("TRUE") || smtp_usessl.Equals("1");
-
+			client.EnableSsl = false;
+			
 			if (smtp_username != "")
 			{
 				client.Credentials = new NetworkCredential(smtp_username, smtp_password);
@@ -178,8 +165,7 @@ namespace Clea_Web.Service
 
 			try
 			{						
-				client.SendAsync(mail,"");
-				//client.Send(mail);
+				client.Send(mail);
 				return true;
 			}
 			catch (Exception ex)

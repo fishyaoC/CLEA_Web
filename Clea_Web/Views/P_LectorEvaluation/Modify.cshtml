@@ -18,35 +18,27 @@
 							<div class="row">
 								<div class="col-md-4">
 									<div class="form-group">
-										<h3>評分內容</h3>
+										<h3>審查內容</h3>
 									</div>
 								</div>
 							</div>
 							<div class="row">
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
-										<h3>評鑑年度: @(Model.evInfo.Year) 年</h3>
+										<h3>@(Model.evInfo.mType == "課程" ? "授課講師" : "採購單位"): @(Model.evInfo.L_Name)</h3>
 									</div>
 								</div>
-								@if (Model.scoreModify.mType == 0)
-								{
-									<div class="col-md-6">
-										<div class="form-group">
-											<h3>授課講師: @(Model.evInfo.L_Name)</h3>
-										</div>
-									</div>
-								}
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
 										<h3>
-											@(Model.scoreModify.mType == 0 ? "課程名稱" : "教材名稱:")  @Model.evInfo.C_B_Name
+											@(Model.evInfo.mType == "課程" ? "課程名稱" : "教材名稱:")  @Model.evInfo.C_B_Name
 										</h3>
 									</div>
 								</div>
-								<div class="col-md-6">
+								<div class="col-md-12">
 									<div class="form-group">
 										<h3>
-											@(Model.scoreModify.mType == 0 ? "科目名稱" : "版本名稱:")  @Model.evInfo.S_P_Name
+											@(Model.evInfo.mType == "課程" ? "科目名稱" : "版本名稱:")  @Model.evInfo.S_P_Name
 										</h3>
 									</div>
 								</div>
@@ -55,51 +47,41 @@
 					</div>
 				</div>
 				<div class="col-lg-12 grid-margin stretch-card">
-					@* <a class="btn btn-primary mr-2" href="@Url.Action("G_Index","B_ViewClass", new{ CLUid = Model.cLInfo.CL_UID, Year = Model.cSTinfo_V.Year })">回前頁</a> *@
+					<a class="btn btn-primary mr-2" href="@Url.Action("Index","P_LectorEvaluation")">回前頁</a>
 				</div>
-				<!--搜尋End-->			
+				<!--搜尋End-->
 				<!--圖片檢視-->
 				<div class="col-lg-12 grid-margin stretch-card">
 					<div class="card">
-                        <div class="card-body">
-                            <h4 class="card-title">課程檔案</h4>
-                            <!--Banner-->
-                            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-                                    @if (Model.scoreModify.lst_pic.Count() > 0)
-                                    {
-                                        int count = 0;
-                                        foreach (String path in Model.scoreModify.lst_pic)
-                                        {
-                                            <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="@count" class="@(count == 0 ? "active" : "")" aria-current="true" aria-label="Slide @(count + 1)"></button>
-                                            count++;
-                                        }
-                                    }
-                                </div>
-                                <div class="carousel-inner">
-                                    @if (Model.scoreModify.lst_pic.Count() > 0)
-                                    {
-                                        int count = 0;
-                                        foreach (String path in Model.scoreModify.lst_pic)
-                                        {
-                                            <div class="carousel-item @(count == 0 ? "active" : "")">
-                                                <img src="@path" class="d-block w-100" alt="教學資料">
-                                            </div>
-                                            count++;
-                                        }
-                                    }
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                            <!--Banner-->
-                        </div>
+						<div class="card-body">
+							<h4 class="card-title">課程檔案</h4>
+							<!--Banner-->
+							<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+								@* <div class="carousel-inner"> *@
+								<div class="">
+									@if (Model.scoreModify.lst_pic.Count() > 0)
+									{
+										Boolean First = true;
+										foreach (String path in Model.scoreModify.lst_pic)
+										{
+											<div class="carousel-item @(First ? "active":"")">
+												<img src="@path" class="d-block w-100" alt="教學資料">
+											</div>
+											First = false;
+										}
+									}
+								</div>
+								<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Previous</span>
+								</button>
+								<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+									<span class="carousel-control-next-icon" aria-hidden="true"></span>
+									<span class="visually-hidden">Next</span>
+								</button>
+							</div>
+							<!--Banner-->
+						</div>
 					</div>
 				</div>
 				<!--圖片檢視-->
@@ -138,7 +120,14 @@
 													<td>1.簡報/實習內容符合核定教材版本</td>
 													<td>60</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreA, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreA, new { @class = "form-control form-control", @placeholder = "0 ~ 60", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreA, new { @class = "form-control form-control", @placeholder = "0 ~ 60" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreA)
 													</td>
 												</tr>
@@ -146,7 +135,14 @@
 													<td>2.教學大綱與簡報內容正確性與關連性</td>
 													<td>10</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreB, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreB, new { @class = "form-control form-control", @placeholder = "0 ~ 10", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreB, new { @class = "form-control form-control", @placeholder = "0 ~ 10" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreB)
 													</td>
 												</tr>
@@ -154,7 +150,14 @@
 													<td>3.補充教材/法令更新</td>
 													<td>10</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreC, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreC, new { @class = "form-control form-control", @placeholder = "0 ~ 10", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreC, new { @class = "form-control form-control", @placeholder = "0 ~ 10" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreC)
 													</td>
 												</tr>
@@ -162,7 +165,14 @@
 													<td>4.相關案例說明</td>
 													<td>10</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreD, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreD, new { @class = "form-control form-control", @placeholder = "0 ~ 10", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreD, new { @class = "form-control form-control", @placeholder = "0 ~ 10" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreD)
 													</td>
 												</tr>
@@ -170,7 +180,14 @@
 													<td>5.字體大小、美編色彩、適度圖案比例</td>
 													<td>10</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreE, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreE, new { @class = "form-control form-control", @placeholder = "0 ~ 10", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreE, new { @class = "form-control form-control", @placeholder = "0 ~ 10" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreE)
 													</td>
 												</tr>
@@ -192,7 +209,14 @@
 														<span>A3.教材內容：文意清楚、文字流暢、可適切傳遞知識技能、實用價值高</span>
 													</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreA, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreA, new { @class = "form-control form-control", @placeholder = "0 ~ 60", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreA, new { @class = "form-control form-control", @placeholder = "0 ~ 60" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreA)
 													</td>
 												</tr>
@@ -210,7 +234,14 @@
 														<span>B3.與產業實務需求人才培育連結性</span>
 													</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreBB, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreBB, new { @class = "form-control form-control", @placeholder = "0 ~ 20", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreBB, new { @class = "form-control form-control", @placeholder = "0 ~ 20" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreBB)
 													</td>
 												</tr>
@@ -231,7 +262,14 @@
 														<span>C4.字體大小合宜性</span>
 													</td>
 													<td>
-														@Html.TextBoxFor(x => x.scoreModify.ScoreCB, new { @class = "form-control form-control" })
+														@if (Model.scoreModify.IsClose)
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreCB, new { @class = "form-control form-control", @placeholder = "0 ~ 20", disabled = "disabled" })
+														}
+														else
+														{
+															@Html.TextBoxFor(x => x.scoreModify.ScoreCB, new { @class = "form-control form-control", @placeholder = "0 ~ 20" })
+														}
 														@Html.ValidationMessageFor(x => x.scoreModify.ScoreCB)
 													</td>
 												</tr>
@@ -241,12 +279,65 @@
 									</table>
 								</div>
 							</div>
-							@* 								<div class="card-body">
-							<h4 class="card-title">綜合意見回饋或修正建議</h4>
-							@Html.TextAreaFor(x => x.scoreModify.Remark, new { @class = "form-control form-control" })
-							</div> *@
 							<div class="card-body">
-								<button type="submit" class="btn btn-primary mr-2">儲存變更</button>
+								<h4 class="card-title">綜合意見回饋或修正建議</h4>
+								@if (Model.scoreModify.IsClose)
+								{
+									@Html.TextAreaFor(x => x.scoreModify.Remark, new { @class = "form-control form-control", disabled = "disabled" })
+								}
+								else
+								{
+									@Html.TextAreaFor(x => x.scoreModify.Remark, new { @class = "form-control form-control" })
+								}
+							</div>
+							<div class="card-body">
+								@if (!Model.scoreModify.IsClose)
+								{
+									<button type="submit" class="btn btn-primary mr-2">儲存變更</button>
+								}
+								else
+								{
+									<h4 class="card-title">審查狀態</h4>
+									String StautsName = string.Empty;
+
+									switch (Model.scoreModify.Status)
+									{
+										case 0:
+											StautsName = "待檔案上傳";
+											break;
+										case 1:
+											StautsName = "待指定評鑑教師";
+											break;
+										case 2:
+											StautsName = "待評分";
+											break;
+										case 3:
+											StautsName = "待承辦人審核";
+											break;
+										case 4:
+											StautsName = "通過(未結案)";
+											break;
+										case 5:
+											StautsName = "未通過(未結案)";
+											break;
+										case 6:
+											StautsName = "通過(結案)";
+											break;
+										case 7:
+											StautsName = "未通過(結案)";
+											break;
+										case 8:
+											StautsName = "評鑑中止(重大更新)";
+											break;
+										case 9:
+											StautsName = "退回重評";
+											break;
+										default:
+											StautsName = "尚未設定";
+											break;
+									}
+									<input class="form-control form-control" value="@StautsName" disabled="disabled" />
+								}
 							</div>
 						</div>
 					</div>

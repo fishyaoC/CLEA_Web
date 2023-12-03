@@ -1,0 +1,97 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+}
+@model Clea_Web.ViewModels.AssignClassViewModel.S_Model
+<div class="content-wrapper">
+	<div class="row">
+		<div class="col-12 mb-3">
+			<div class="accordion" id="accordionPanelsStayOpenExample">
+				<!--動作-->
+				<div class="mb-2 mt-2">
+					<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("ScoreExport", "B_AssignClass", new { ES_ID = Model.ES_ID })'">匯出科目教學大綱</button>
+				</div>
+				<!--動作End-->
+				<!--資料Table-->
+				<div class="col-lg-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">評鑑指定 - 課程資訊</h4>
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>項目</th>
+											<th>內容</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>課程類別</td>
+											<td>□管理類 □技術類</td>
+										</tr>
+										<tr>
+											<td>課程名稱</td>
+											<td>@Model.ClassName</td>
+										</tr>
+										<tr>
+											<td>教學單元</td>
+											<td>@Model.ClassSub</td>
+										</tr>
+										<tr>
+											<td>上課時數</td>
+											<td>@Model.SubClassTime</td>
+										</tr>
+										<tr>
+											<td>教學大綱</td>
+											<td>@Model.Syllabus</td>
+										</tr>
+										<tr>
+											<td>教學目標</td>
+											<td>@Model.Objectives</td>
+										</tr>
+										<tr>
+											<td>上課地點</td>
+											<td>中華民國勞工教育協進會附設分區職業訓練中心</td>
+										</tr>
+										<tr>
+											<td>授課講師</td>
+											<td>@Model.ClassTeacher</td>
+										</tr>
+										<tr>
+											<td>教學內容摘要</td>
+											<td>@Model.Abstract</td>
+										</tr>
+										<tr>
+											<td>使用書單教材版本</td>
+											<td>@Model.BookNamePublish</td>
+										</tr>
+										<tr>
+											<td>勞動部核定教材本函字號</td>
+											<td>@Model.BookNumber</td>
+										</tr>
+										<tr>
+											<td>撰寫人</td>
+											<td>@Model.Write</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--資料Table End-->
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function resetItem() {
+		$('#year').val('請選擇', null);
+		$('#num').val(null);
+		$('#name').val(null);
+	}
+</script>

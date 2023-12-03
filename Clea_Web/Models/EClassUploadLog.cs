@@ -10,7 +10,7 @@ public partial class EClassUploadLog
     /// <summary>
     /// 評核PK
     /// </summary>
-    public Guid EdId { get; set; }
+    public Guid EsId { get; set; }
 
     /// <summary>
     /// 檔案全名
@@ -21,6 +21,10 @@ public partial class EClassUploadLog
     /// 是否為重大更新
     /// </summary>
     public bool IsUpdate { get; set; }
+
+    public int? Status { get; set; }
+
+    public string? Other { get; set; }
 
     public Guid Creuser { get; set; }
 

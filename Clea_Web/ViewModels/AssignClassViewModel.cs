@@ -30,7 +30,7 @@ namespace Clea_Web.ViewModels
 
 		}
 
-		public class addModify 
+		public class addModify
 		{
 			[DisplayName("課程")]
 			[Required(ErrorMessage = "請選擇課程!")]
@@ -61,12 +61,14 @@ namespace Clea_Web.ViewModels
 		public class CL
 		{
 			public Guid E_ID { get; set; }
-			public Guid? ED_ID { get; set; }
-			public Guid CL_UID { get; set; }
+			public Guid ES_ID { get; set; }
 			public String C_Name { get; set; }
 			public String S_Name { get; set; }
 			public String L_Name { get; set; }
 			public Boolean IsEvaluate { get; set; }
+			public Int32 Status { get; set; }
+			public Int32 ScheNum { get; set; }
+			public Int32? D_Hour { get; set; }
 		}
 		#endregion
 
@@ -83,7 +85,7 @@ namespace Clea_Web.ViewModels
 		public class TCModify
 		{
 			public Guid E_ID { get; set; }
-			public Guid CL_UID { get; set; }
+			public Guid ES_ID { get; set; }
 
 			[DisplayName("指定評鑑教師")]
 			[Required(ErrorMessage = "{0} 為必填!")]
@@ -92,6 +94,7 @@ namespace Clea_Web.ViewModels
 
 		public class CLInfo
 		{
+			public Guid ES_ID { get; set; }
 			public Int32 Year { get; set; }
 			public Guid L_UID { get; set; }
 			public String L_ID { get; set; }
@@ -151,9 +154,44 @@ namespace Clea_Web.ViewModels
 			public String? Object { get; set; }
 			[Required(ErrorMessage = "此欄位為必填!")]
 			public String? Abstract { get; set; }
+			public Int32 Status { get; set; }
+			public Boolean IsClose { get; set; }
 		}
 		#endregion
 
+		#region V_Index
+		public class vIndexModel
+		{
+			public Guid E_ID { get; set; }
+			public Guid ES_ID { get; set; }
+			public List<vIndexList> vIndexLists { get; set; }
+		}
+		public class vIndexList
+		{
+			public Guid ED_ID { get; set; }
+			public String Lv_Teacher { get; set; }
+			public Int32 Status { get; set; }
+		}
+		#endregion
+
+		#region ScoreView
+		public class S_Model
+		{
+			public Guid ES_ID { get; set; }
+			public String ClassType { get; set; }
+			public String ClassName { get; set; }
+			public String ClassSub { get; set; }
+			public String SubClassTime { get; set; }
+			public String Syllabus { get; set; }
+			public String Objectives { get; set; }
+			public String ClassPlace { get; set; }
+			public String ClassTeacher { get; set; }
+			public String Abstract { get; set; }
+			public String BookNamePublish { get; set; }
+			public String BookNumber { get; set; }
+			public String Write { get; set; }
+		}
+		#endregion
 		public class schClassItem
 		{
 			public Int32? Year { get; set; }
@@ -169,7 +207,7 @@ namespace Clea_Web.ViewModels
 			public String? C_Name { get; set; }
 		}
 
-		#endregion		
+		#endregion
 
 	}
 }

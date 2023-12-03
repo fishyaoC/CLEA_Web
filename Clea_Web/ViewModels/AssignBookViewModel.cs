@@ -37,6 +37,13 @@ namespace Clea_Web.ViewModels
 			public String B_Publish { get; set; }
 			public String L_ID_Ev { get; set; }
 			public String L_Name_Ev { get; set; }
+			public DateTime M_DateTime { get; set; }
+			public Guid MD_ID { get; set; }
+			public String M_Index { get; set; }
+			public String M_Name { get; set; }
+			public Int32 M_Status { get; set; }
+			public Guid ED_ID { get; set; }
+			public Int32 T_Count { get; set; }
 		}
 		#endregion
 
@@ -45,6 +52,7 @@ namespace Clea_Web.ViewModels
 		{
 			public List<SelectListItem> selectListItemsYear { get; set; }
 			public List<SelectListItem> selectListItemsBook { get; set; }
+			public List<SelectListItem> selectListItemsPub { get; set; }
 			public AddModify addModify { get; set; }
 		}
 
@@ -72,6 +80,7 @@ namespace Clea_Web.ViewModels
 		public class Modify
 		{
 			public Guid E_ID { get; set; }
+			public Guid ES_ID { get; set; }
 			public Guid B_UID { get; set; }
 
 			[DisplayName("指定評鑑教師")]
@@ -90,6 +99,12 @@ namespace Clea_Web.ViewModels
 			public String L_UID_Ev { get; set; }
 			public Boolean IsEvaluate { get; set; }
 			public Boolean IsUpload { get; set; }
+			public Int32 M_Status { get; set; }
+			public String M_Book { get; set; }
+			public String M_Publish { get; set; }
+			public String M_lv_Teacher { get; set; }
+			public Guid ES_ID { get; set; }
+			public Guid E_ID { get; set; }
 		}
 		#endregion
 
@@ -119,10 +134,31 @@ namespace Clea_Web.ViewModels
 			public Int32? Score_C { get; set; }
 
 			public String? Remark { get; set; }
+			public Boolean IsClose { get; set; }
+			public Int32 Status { get; set; }
 		}
 		#endregion
 
 		#region Import_File
+		public class uploadModel
+		{
+			public BookInfor bookInfor { get; set; }
+			public List<uploadFile> uploadFiles { get; set; }
+		}
+
+		public class uploadFile
+		{
+			public Guid ES_ID { get; set; }
+			public String PubName { get; set; }
+
+			[DisplayName("檔案")]
+			[Required(ErrorMessage = "請選擇上傳檔案!")]
+			public IFormFile file { get; set; }
+			public String? fileName { get; set; }
+			public Guid? F_ID { get; set; }
+		}
+
+
 		public class ImportModel
 		{
 			public BookInfor bookInfor { get; set; }
@@ -138,7 +174,7 @@ namespace Clea_Web.ViewModels
 			public String? fileName { get; set; }
 
 			[DisplayName("檔案")]
-			[Required(ErrorMessage ="請選擇上傳檔案!")]
+			[Required(ErrorMessage = "請選擇上傳檔案!")]
 			public IFormFile file { get; set; }
 		}
 		#endregion
@@ -235,7 +271,7 @@ namespace Clea_Web.ViewModels
 		}
 		#endregion
 
-		
+
 
 		#endregion
 

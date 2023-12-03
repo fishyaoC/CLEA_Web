@@ -11,16 +11,12 @@ namespace Clea_Web.ViewModels
 		public IPagedList<ClassMenu> classMenuPageList { get; set; }
 		public class ClassMenu
 		{
-			public Guid CL_UID { get; set; }
-			public Guid ED_ID { get; set; }
-
-			public Int32 mType { get; set; }
-			public Int32 Year {  get; set; }
-
+			public Guid ES_ID { get; set; }
 			public String ClassName { get; set; }
-
-			public String SubName { get; set; }
+			public String SubName { get; set; }					
 			public Boolean IsUpload { get; set; }
+			public Int32 Status { get; set; }
+			public DateTime CREDATE { get; set; }
 		}
 
 		#endregion
@@ -36,12 +32,14 @@ namespace Clea_Web.ViewModels
 		{
 			public String F_Name { get; set; }
 			public Boolean IsUpdate { get; set; }
+			public Int32? Status { get; set; }
+			public String? Other { get; set; }
 			public DateTime CreDate { get; set; }
 		}
 
 		public class Modify
 		{
-			public Guid ED_ID { get; set; }
+			public Guid ES_ID { get; set; }
 
 			public Int32 Year { get; set; }
 
@@ -70,6 +68,13 @@ namespace Clea_Web.ViewModels
 			[DisplayName("更新教材內容")]
 			[Required]
 			public Boolean IsUpdate { set; get; } = false;
+			[Required(ErrorMessage = "請選擇更新內容!")]
+			public Int32? UpdContent { set; get; }
+			[Required(ErrorMessage = "請填入其他內容!")]
+			public String? Other { get; set; }
+			public Int32 Status { get; set; }
+			public Boolean IsClose { get; set; }
+			
 		}
 		#endregion
 	}

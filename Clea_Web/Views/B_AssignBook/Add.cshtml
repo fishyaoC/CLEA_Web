@@ -20,14 +20,14 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="row">
-										<div class="col-md-4">
+@* 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="exampleInputName1">評鑑年度</label>
 												@Html.DropDownListFor(x=>x.addModify.Year, Model.selectListItemsYear, new { @class = "form-control form-control" })
 												@Html.ValidationMessageFor(x=>x.addModify.Year)
 											</div>
-										</div>
-										<div class="col-md-4">
+										</div> *@
+										<div class="col-md-8">
 											<div class="form-group">
 												<label for="exampleInputName1">評鑑教材</label>
 												@Html.DropDownListFor(x=>x.addModify.B_UID, Model.selectListItemsBook, new { @class = "form-control form-control" })

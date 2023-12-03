@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Org.BouncyCastle.Utilities;
 using System.Security.Authentication.ExtendedProtection;
 using MathNet.Numerics;
+using Org.BouncyCastle.Ocsp;
 
 
 namespace Clea_Web.Controllers
@@ -30,13 +31,10 @@ namespace Clea_Web.Controllers
 			_fileService = fileService;
 		}
 
-		#region NEW
-
 		#region 教材列表
 		public IActionResult Index(String? data, Int32? page)
 		{
 			AssignBookViewModel.SchBookModel vmd = new AssignBookViewModel.SchBookModel();
-
 
 			page = page ?? 1;
 
@@ -69,12 +67,8 @@ namespace Clea_Web.Controllers
 		#region 新增教材評鑑
 		public IActionResult Add()
 		{
-			AssignBookViewModel.AddModel vmd = new AssignBookViewModel.AddModel();
-			vmd.selectListItemsYear = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
-			vmd.selectListItemsYear.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = (DateTime.Now.Year + 1).ToString(), Value = (DateTime.Now.Year + 1).ToString() });
-			vmd.selectListItemsYear.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = (DateTime.Now.Year).ToString(), Value = (DateTime.Now.Year).ToString() });
+			AssignBookViewModel.AddModel vmd = new AssignBookViewModel.AddModel();			
 			vmd.selectListItemsBook = _assignBookService.GetSelectListItemsBook();
-
 			return View(vmd);
 		}
 
@@ -84,17 +78,7 @@ namespace Clea_Web.Controllers
 		{
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			_assignBookService.user = User;
-			ViewBookEvaluate? viewBookEvaluate = db.ViewBookEvaluates.Where(x => x.EType == 1 && x.MId == vmd.addModify.B_UID && x.EYear == vmd.addModify.Year).FirstOrDefault();
-
-			if (!(viewBookEvaluate is null))
-			{
-				result.CheckMsg = false;
-				result.ErrorMsg = "當年度教材重複!";
-			}
-			else
-			{
-				result = _assignBookService.SaveAddData(vmd.addModify);
-			}
+			result = _assignBookService.SaveAddData(vmd.addModify);
 
 			if (result.CheckMsg)
 			{
@@ -112,6 +96,100 @@ namespace Clea_Web.Controllers
 		}
 		#endregion
 
+		#region 檔案上傳
+		public IActionResult ImportPub(Guid E_ID)
+		{
+			AssignBookViewModel.uploadModel vmd = new AssignBookViewModel.uploadModel();
+
+			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
+			if (eEvaluate != null)
+			{
+				CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
+				if (cBook != null)
+				{
+					vmd.bookInfor = new AssignBookViewModel.BookInfor();
+					vmd.bookInfor.E_ID = E_ID;
+					vmd.bookInfor.M_Index = cBook.MIndex;
+					vmd.bookInfor.M_Name = cBook.MName;
+				}
+
+				List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
+				if (eEvaluationSches.Count > 0)
+				{
+					vmd.uploadFiles = new List<AssignBookViewModel.uploadFile>();
+					foreach (EEvaluationSche EES in eEvaluationSches)
+					{
+						CBookDetail? cBookDetail = db.CBookDetails.Find(EES.MatchKey) ?? null;
+						vmd.uploadFiles.Add(new AssignBookViewModel.uploadFile()
+						{
+							ES_ID = EES.EsId,
+							PubName = (from CDP in db.CBookPublishes where CDP.BpId == cBookDetail.MdPublish select CDP).FirstOrDefault() == null ? null : (from CDP in db.CBookPublishes where CDP.BpId == cBookDetail.MdPublish select CDP).FirstOrDefault().BpName,
+							fileName = (from file in db.SysFiles where file.FMatchKey == EES.EsId select file).FirstOrDefault() == null ? null : (from file in db.SysFiles where file.FMatchKey == EES.EsId select file).FirstOrDefault().FFullName,
+							F_ID = (from file in db.SysFiles where file.FMatchKey == EES.EsId select file).FirstOrDefault() == null ? null : (from file in db.SysFiles where file.FMatchKey == EES.EsId select file).FirstOrDefault().FileId
+						});
+					}
+				}
+			}
+
+			return View(vmd);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult ImportPub(AssignBookViewModel.uploadModel data)
+		{
+			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
+			_assignBookService.user = User;
+			_fileService.user = User;
+
+			if(data.uploadFiles.Count > 0)
+			{
+				foreach (var item in data.uploadFiles)
+				{
+					if (string.IsNullOrEmpty(item.fileName))
+					{
+						result.CheckMsg = Path.GetExtension(item.file.FileName).Contains(".pdf") ? true : false;
+						if (!result.CheckMsg)
+						{
+							result.ErrorMsg = item.fileName + "檔案格式有誤，請上傳PDF檔案!";
+							break;
+						}
+						else
+						{
+							result.CheckMsg = _fileService.UploadFile(true, 1, item.ES_ID, item.file, true);
+						}
+					}
+					else
+					{
+						result.CheckMsg = true;
+						continue;
+					}
+				}
+			}
+
+			if (result.CheckMsg)
+			{
+				TempData["TempMsgType"] = "success";
+				TempData["TempMsgTitle"] = "檔案上傳成功";
+			}
+			else
+			{
+				TempData["TempMsgType"] = "error";
+				TempData["TempMsgTitle"] = "檔案上傳失敗";
+				TempData["TempMsg"] = result.ErrorMsg;
+			}
+
+			if (!result.CheckMsg && result.ErrorMsg.Contains("PDF"))
+			{
+				return RedirectToAction("ImportPub", new { E_ID = data.bookInfor.E_ID });
+			}
+			else
+			{
+				return RedirectToAction("Index");
+			}
+		}
+		#endregion
+
 		#region 指定評鑑教師
 		public IActionResult Modify(Guid E_ID)
 		{
@@ -121,7 +199,7 @@ namespace Clea_Web.Controllers
 
 			vmd.bookInfor = _assignBookService.GetBookInfor(E_ID);
 			vmd.modify = new AssignBookViewModel.Modify();
-			vmd.modify.E_ID = E_ID;
+			vmd.modify.E_ID = E_ID;			
 			vmd.modify.B_UID = eEvaluate.MatchKey;
 			vmd.lst_evTeacher = _assignBookService.getEvTeacherList(E_ID);
 			vmd.selectListItems = _assignBookService.selectListItemsTeacher();
@@ -134,18 +212,35 @@ namespace Clea_Web.Controllers
 		{
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			_assignBookService.user = User;
-
-			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Where(x => x.EId == vmd.modify.E_ID && x.MatchKey2 == vmd.modify.B_UID && x.Evaluate == vmd.modify.L_UID_Ev).FirstOrDefault();
-
-			if (eEvaluateDetail != null)
+			result.CheckMsg = true;
+			List<EEvaluateDetail> eEvaluateDetails = new List<EEvaluateDetail>();
+			List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == vmd.modify.E_ID).ToList();
+			if (eEvaluationSches.Count > 0)
 			{
-				result.CheckMsg = false;
-				result.ErrorMsg = "指定教師重複!";
+				foreach (EEvaluationSche thr in eEvaluationSches)
+				{
+					List<EEvaluateDetail> eEvaluateDetail2 = db.EEvaluateDetails.Where(x => x.EsId == thr.EsId).ToList();
+
+					eEvaluateDetails.AddRange(eEvaluateDetail2);
+				}
+
+				if (eEvaluateDetails.Count > 0)
+				{
+					foreach (EEvaluateDetail chk in eEvaluateDetails)
+					{
+						if (chk.Evaluate != null && chk.Evaluate.Value == vmd.modify.L_UID_Ev)
+						{
+							result.CheckMsg = false;
+							result.ErrorMsg = "指定教師重複!";
+						}
+					}
+				}
 			}
-			else
+
+			if (result.CheckMsg)
 			{
 				result = _assignBookService.SaveModify(vmd.modify);
-			}
+			}					
 
 			if (result.CheckMsg)
 			{
@@ -192,15 +287,15 @@ namespace Clea_Web.Controllers
 		#region 匯出EXCEL統計表
 		public IActionResult Export_ScoreExcel(Guid E_ID)
 		{
-			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
-			CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
+			ViewBAssignBookScore? viewBAssignBookScore = db.ViewBAssignBookScores.Where(x => x.EId == E_ID).FirstOrDefault() ?? null;
+			String M_Name = viewBAssignBookScore is null ? "查無教材名稱" : viewBAssignBookScore.MName;
 			Byte[] file = _assignBookService.Export_Excel(E_ID);
-			return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", eEvaluate.EYear.ToString() + "年-" + cBook.MName + "-教材審查統計表.xlsx");
+			return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", M_Name + "-教材審查統計表.xlsx");
 		}
 		#endregion
 
 		#region 教材版本列表
-		public IActionResult V_Index(Guid E_ID, Guid B_UID)
+		public IActionResult V_Index(Guid E_ID)
 		{
 			AssignBookViewModel vmd = new AssignBookViewModel();
 			vmd.lst_EDInfo = _assignBookService.getEDInfoList(E_ID);
@@ -212,10 +307,10 @@ namespace Clea_Web.Controllers
 		public IActionResult Export_ScoreWord(Guid E_ID)
 		{
 			String dir = Guid.NewGuid().ToString();
-			EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
-			CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
+			ViewBAssignBookScore? viewBAssignBookScore = db.ViewBAssignBookScores.Where(x => x.EId == E_ID).FirstOrDefault() ?? null;
+			String M_Name = viewBAssignBookScore is null ? "查無教材名稱" : viewBAssignBookScore.MName;
 			Byte[] file = _assignBookService.Export_ScoreZip(E_ID, dir);
-			return File(file, "application/zip", eEvaluate.EYear.ToString() + "年-" + cBook.MName + "-教材審查表.zip");
+			return File(file, "application/zip", M_Name + "-教材審查表.zip");
 		}
 		#endregion
 
@@ -223,18 +318,21 @@ namespace Clea_Web.Controllers
 		public IActionResult V_Modify(Guid ED_ID)
 		{
 			AssignBookViewModel.V_ModifyModel vmd = new AssignBookViewModel.V_ModifyModel();
+			ViewBAssignBookEvaluateTeacher? viewBAssignBookEvaluateTeacher = db.ViewBAssignBookEvaluateTeachers.Where(x => x.EdId == ED_ID).FirstOrDefault() ?? null;
 			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
-			CBookDetail? cBookDetail = db.CBookDetails.Find(eEvaluateDetail.MatchKey2) ?? null;
-			CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
-			CLector? cLector = db.CLectors.Find(eEvaluateDetail.Evaluate) ?? null;
-			vmd.bookInfor = _assignBookService.GetBookInfor(eEvaluateDetail.EId);
-			vmd.bookInfor.BP_ID = cBookPublish.BpNumber;
-			vmd.bookInfor.B_Publish = cBookPublish.BpName;
-			vmd.bookInfor.L_ID_Ev = cLector.LId;
-			vmd.bookInfor.L_Name_Ev = cLector.LName;
 
-			vmd.picPath = _fileService.GetImageBase64List_PNG(ED_ID);
-			vmd.scoreModify = _assignBookService.GetScoreModel(ED_ID);
+			if (viewBAssignBookEvaluateTeacher != null && eEvaluateDetail != null)
+			{
+				vmd.bookInfor = new AssignBookViewModel.BookInfor();
+				vmd.bookInfor.E_ID = viewBAssignBookEvaluateTeacher.EId;
+				vmd.bookInfor.B_Name = viewBAssignBookEvaluateTeacher.MName;
+				vmd.bookInfor.B_ID = viewBAssignBookEvaluateTeacher.MIndex;
+				vmd.bookInfor.B_Publish = viewBAssignBookEvaluateTeacher.BpName;
+				vmd.bookInfor.L_ID_Ev = viewBAssignBookEvaluateTeacher.LId;
+				vmd.bookInfor.L_Name_Ev = viewBAssignBookEvaluateTeacher.LName;
+				vmd.picPath = _fileService.GetImageBase64List_PNG(viewBAssignBookEvaluateTeacher.EsId);
+				vmd.scoreModify = _assignBookService.GetScoreModel(ED_ID);
+			}
 
 			return View(vmd);
 		}
@@ -262,72 +360,6 @@ namespace Clea_Web.Controllers
 		}
 		#endregion
 
-		#region 檔案上傳
-		public IActionResult Import_File(Guid ED_ID)
-		{
-			AssignBookViewModel.ImportModel vmd = new AssignBookViewModel.ImportModel();
-			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
-			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluateDetail.EId) ?? null;
-			CBookDetail? cBookDetail = db.CBookDetails.Find(eEvaluateDetail.MatchKey2) ?? null;
-			CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
-			CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
-
-			vmd.bookInfor = new AssignBookViewModel.BookInfor()
-			{
-				Year = eEvaluate.EYear,
-				B_Name = cBook.MName,
-				B_Publish = cBookPublish.BpName
-			};
-
-			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == ED_ID).FirstOrDefault();
-			vmd.import = new AssignBookViewModel.Import() { ED_ID = ED_ID, E_ID = eEvaluate.EId, F_ID = sysFile == null ? null : sysFile.FileId, fileName = sysFile == null ? null : sysFile.FFullName };
-
-			return View(vmd);
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult Import_File([FromForm] AssignBookViewModel.ImportModel data)
-		{
-			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
-			_assignBookService.user = User;
-			_fileService.user = User;
-
-			String chkExt = Path.GetExtension(data.import.file.FileName);
-
-			if (chkExt.Contains(".pdf"))
-			{
-				result.CheckMsg = _fileService.UploadFile(true, 1, data.import.ED_ID, data.import.file, true);
-			}
-			else
-			{
-				result.CheckMsg = false;
-				result.ErrorMsg = "檔案格式有誤，請上傳簡報檔案!";
-			}
-
-			if (result.CheckMsg)
-			{
-				TempData["TempMsgType"] = "success";
-				TempData["TempMsgTitle"] = "檔案上傳成功";
-			}
-			else
-			{
-				TempData["TempMsgType"] = "error";
-				TempData["TempMsgTitle"] = "檔案上傳失敗";
-				TempData["TempMsg"] = result.ErrorMsg;
-			}
-
-			if (!result.CheckMsg && result.ErrorMsg.Contains("簡報"))
-			{
-				return RedirectToAction("Import_File", new { ED_ID = data.import.ED_ID });
-			}
-			else
-			{
-				return RedirectToAction("V_Index", new { E_ID = data.import.E_ID });
-			}
-		}
-		#endregion
-
 		#region 刪除檔案
 		public IActionResult F_Delete(Guid F_ID)
 		{
@@ -338,7 +370,7 @@ namespace Clea_Web.Controllers
 
 				if (sysFile != null)
 				{
-					error.CheckMsg = _fileService.DeleteFile(sysFile);
+					error.CheckMsg = _fileService.DeleteFile(sysFile, true);
 				}
 				else
 				{
@@ -354,8 +386,6 @@ namespace Clea_Web.Controllers
 			return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
 		}
 		#endregion
-
-		#endregion		
 
 	}
 }

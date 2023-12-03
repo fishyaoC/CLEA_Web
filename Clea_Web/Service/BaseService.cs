@@ -101,7 +101,44 @@ namespace Clea_Web.Service
             return Role;
         }
 
-        #endregion
+		#endregion
 
-    }
+		#region StatusUpdate
+        public void StatusUpdate(Int32 table, Guid ID, Int32 Type)
+        {
+            Boolean result = false;
+            if (table == 0)
+            {
+                EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ID) ?? null;
+                eEvaluationSche.Status = Type;
+            }
+            else
+            {
+                EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ID) ?? null;
+                eEvaluateDetail.Status = Type;
+            }
+            result = Convert.ToBoolean(db.SaveChanges());
+            //return result;
+        }
+		#endregion
+
+		#region MailUpdate
+		public void MailUpdate(Int32 table, Guid ID, Boolean Type)
+		{
+			Boolean result = false;
+			if (table == 0)
+			{
+				EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ID) ?? null;
+				eEvaluationSche.IsMail = Type;
+			}
+			else
+			{
+				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ID) ?? null;
+				eEvaluateDetail.IsMail = Type;
+			}
+			result = Convert.ToBoolean(db.SaveChanges());
+			//return result;
+		}
+		#endregion
+	}
 }

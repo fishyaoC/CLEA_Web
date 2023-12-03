@@ -30,6 +30,7 @@ namespace Clea_Web
             services.AddTransient<HomeService>();
             services.AddTransient<AssignClassService>();
             services.AddTransient<AssignBookService>();
+            services.AddTransient<BookService>();
             services.AddTransient<LectorClassService>();
             services.AddTransient<LectorEvaluationService>();
             services.AddTransient<SMTPService>();

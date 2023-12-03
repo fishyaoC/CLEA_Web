@@ -38,9 +38,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-12 grid-margin stretch-card">
-							@* <a class="btn btn-primary mr-2" href="@Url.Action("P_Index","B_AssignClass", new{ C_ID = Model.cSTinfo.C_UID, Sub_UID = Model.cSTinfo.Sub_UID })">回前頁</a> *@
-						</div>
+					<div class="col-lg-12 grid-margin stretch-card">
+						<a class="btn btn-primary mr-2" href="@Url.Action("Index","B_AssignBook")">回前頁</a>
+					</div>
 						<div class="col-lg-12 grid-margin stretch-card">
 							@Html.HiddenFor(x=>x.modify.E_ID)
 							@Html.HiddenFor(x=>x.modify.B_UID)

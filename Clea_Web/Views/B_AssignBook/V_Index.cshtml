@@ -5,69 +5,115 @@
 	Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
 @model Clea_Web.ViewModels.AssignBookViewModel
-	<div class="content-wrapper">
-		<div class="row">
-			<!--搜尋-->
-			<div class="col-12 mb-3">
-				<div class="accordion" id="accordionPanelsStayOpenExample">
-					<div class="mb-2 mt-2">
-						@* <a href="@Url.Action("Add", "B_AssignBook")" class="btn btn-info">新增評鑑</a> *@
-					</div>
-					<!--動作End-->
-					<!--資料Table-->
-					<div class="col-lg-12 grid-margin stretch-card">
-						<div class="card">
-							<div class="card-body">
-								<h4 class="card-title">評鑑指定 - 教材</h4>
-								<div class="table-responsive">
-									<table class="table">
-										<thead>
-											<tr>
-												<th>序</th>
-												<th>教材名稱</th>
-												<th>教材版本</th>
-												<th>評鑑教師</th>
-												<th>檔案上傳</th>
-												<th>操作</th>
-											</tr>
-										</thead>
-										<tbody>
-											@if (!(Model.lst_EDInfo is null) && Model.lst_EDInfo.Count > 0)
+<div class="content-wrapper">
+	<div class="row">
+		<!--搜尋-->
+		<div class="col-12 mb-3">
+			<div class="accordion" id="accordionPanelsStayOpenExample">
+				<div class="mb-2 mt-2">
+					@* <a href="@Url.Action("Add", "B_AssignBook")" class="btn btn-info">新增評鑑</a> *@
+				</div>
+				<div class="col-lg-12 grid-margin stretch-card">
+					<a class="btn btn-primary mr-2" href="@Url.Action("Index","B_AssignBook")">回前頁</a>
+				</div>
+				<!--動作End-->
+				<!--資料Table-->
+				<div class="col-lg-12 grid-margin stretch-card">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">評鑑指定 - 教材</h4>
+							<div class="table-responsive">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>序</th>
+											<th>教材名稱</th>
+											<th>教材版本</th>
+											<th>評鑑教師</th>
+											<th>狀態</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										@if (!(Model.lst_EDInfo is null) && Model.lst_EDInfo.Count > 0)
+										{
+											Int32 rowCount = 0;
+											foreach (var ed in Model.lst_EDInfo)
 											{
-												Int32 rowCount = 0;
-												foreach (var ed in Model.lst_EDInfo)
-												{
-													rowCount++;
-													<tr>
-														<td>@rowCount</td>
-														<td>@ed.B_Name</td>
-														<td>@ed.BD_Publish</td>
-														<td>@ed.L_UID_Ev</td>
-														<td>@(ed.IsUpload ? "是" : "否")</td>
-														<td>
-															<a href="@Url.Action("Import_File", "B_AssignBook", new { ED_ID = ed.ED_ID })" class="btn btn-info">編輯檔案</a>															
-															@if (ed.IsEvaluate)
-															{
-																<a href="@Url.Action("V_Modify", "B_AssignBook", new { ED_ID = ed.ED_ID })" class="btn btn-success">檢視教材審查表</a>																
-															}
-														</td>
-													</tr>
-												}
-											}
-											else
-											{
+												rowCount++;
 												<tr>
-													<td colspan="6" align="center">查無資料!</td>
+													<td>@rowCount</td>
+													<td>@ed.M_Book</td>
+													<td>@ed.M_Publish</td>
+													<td>@ed.M_lv_Teacher</td>
+													<td>
+														@{
+															switch (ed.M_Status)
+															{
+																case 0:
+																	@:待檔案上傳
+																	break;
+																case 1:
+																	@:待指定評鑑教師
+																	break;
+																case 2:
+																	@:待評分
+																	break;
+																case 3:
+																	@:待承辦人審核
+																	break;
+																case 4:
+																	@:通過(未結案)
+																	break;
+																case 5:
+																	@:未通過(未結案)
+																	break;
+																case 6:
+																	@:通過(結案)
+																	break;
+																case 7:
+																	@:未通過(結案)
+																	break;
+																case 8:
+																	@:評鑑中止(重大更新)
+																	break;
+																case 9:
+																	@:退回重評	
+																	break;
+																default:
+																	@:尚未設定
+																	break;
+															}
+														}
+													</td>
+													<td>
+														@* <a href="@Url.Action("V_Modify", "B_AssignBook", new { ED_ID = ed.ED_ID })" class="btn btn-success">檢視教材審查表</a> *@
+														@if (ed.M_Status > 2 && ed.M_Status < 7)
+														{
+															<a href="@Url.Action("V_Modify", "B_AssignBook", new { ED_ID = ed.ED_ID })" class="btn btn-success">檢視教材審查表</a>
+														}
+														else
+														{
+															<button class="btn btn-success" disabled>檢視教材審查表</button>
+														}
+													</td>
 												</tr>
 											}
-										</tbody>
-									</table>
-								</div>
+										}
+										else
+										{
+											<tr>
+												<td colspan="6" align="center">查無資料!</td>
+											</tr>
+										}
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
-					<!--資料Table End-->
 				</div>
+				<!--資料Table End-->
 			</div>
 		</div>
 	</div>
+</div>

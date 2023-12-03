@@ -18,6 +18,8 @@ using PdfiumViewer;
 //using Ghostscript.NET;
 //using Ghostscript.NET.Rasterizer;
 using System.Drawing.Imaging;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileSystemGlobbing;
 
 namespace Clea_Web.Service
 {
@@ -373,7 +375,7 @@ namespace Clea_Web.Service
         /// <param name="file">檔案</param>
         /// <param name="overwrite">是否複寫檔案</param>
         /// <returns></returns>
-        public bool UploadFile(Boolean IsTrans, Int32 mType, Guid matchKey, IFormFile file, bool overwrite = false)
+        public bool UploadFile(Boolean IsTrans, Int32 mType, Guid matchKey, IFormFile file, Boolean IsStatusUpdate, bool overwrite = false)
 		{
 
 
@@ -462,8 +464,11 @@ namespace Clea_Web.Service
 			{
 				file.CopyTo(fileStream);
 			}
-			db.SaveChanges();
-
+			Boolean chk = Convert.ToBoolean(db.SaveChanges());
+			if (IsStatusUpdate && chk)
+			{
+				StatusUpdate(0, matchKey, 1);
+			}
 			if (IsTrans)
 			{
 				if (file.FileName.Contains(".ppt"))
@@ -478,6 +483,7 @@ namespace Clea_Web.Service
 
 			return true;
 		}
+
 
 		#region PPT TO PNG
 		public void pptToPng(Guid matchKey, String sourcePath, String savePath)
@@ -618,7 +624,7 @@ namespace Clea_Web.Service
 
 
 		#region 刪除檔案
-		public Boolean DeleteFile(SysFile file)
+		public Boolean DeleteFile(SysFile file, Boolean IsStatusUpdate = false, Int32 Status = 0)
 		{
 			try
 			{
@@ -627,7 +633,12 @@ namespace Clea_Web.Service
 				Directory.Delete(physicalPath, true);
 
 				db.SysFiles.Remove(file);
-				db.SaveChanges();
+				Boolean chk = Convert.ToBoolean(db.SaveChanges());
+
+				if (IsStatusUpdate && chk)
+				{
+					StatusUpdate(0, file.FMatchKey, Status);
+				}
 
 				return true;
 			}

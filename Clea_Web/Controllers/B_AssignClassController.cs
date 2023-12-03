@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Org.BouncyCastle.Utilities;
 using Novacode;
 using NPOI.OpenXmlFormats.Wordprocessing;
+using MathNet.Numerics;
+using Org.BouncyCastle.Ocsp;
 
 namespace Clea_Web.Controllers
 {
@@ -21,15 +23,15 @@ namespace Clea_Web.Controllers
 		private readonly ILogger<B_AssignClassController> _logger;
 		private AssignClassService _assignService;
 		private FileService _fileService;
-		public B_AssignClassController(ILogger<B_AssignClassController> logger, dbContext dbCLEA, AssignClassService Service, FileService fileService)
+		private SMTPService _smtpService;
+		public B_AssignClassController(ILogger<B_AssignClassController> logger, dbContext dbCLEA, AssignClassService Service, FileService fileService, SMTPService smtpService)
 		{
 			_logger = logger;
 			db = dbCLEA;
 			_assignService = Service;
 			_fileService = fileService;
+			_smtpService = smtpService;
 		}
-
-		#region NEW
 
 		#region 課程列表
 		public IActionResult Index(String? data, Int32? page)
@@ -63,35 +65,104 @@ namespace Clea_Web.Controllers
 		}
 		#endregion
 
-		#region 新增教師評鑑
-		public IActionResult Add()
-		{
-			AssignClassViewModel.AddModel vmd = new AssignClassViewModel.AddModel();
-			vmd.Year_selectListItems = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
-			vmd.Year_selectListItems.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = (DateTime.Now.Year + 1).ToString() + "年", Value = (DateTime.Now.Year + 1).ToString() });
-			vmd.Year_selectListItems.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = (DateTime.Now.Year).ToString() + "年", Value = (DateTime.Now.Year).ToString() });
+		#region 資料轉入
 
-			vmd.Class_selectListItems = _assignService.GetClassSelectItems();
-
-			return View(vmd);
-		}
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public IActionResult Add(AssignClassViewModel.AddModel vmd)
+		public IActionResult AddNewEv()
 		{
-			_assignService.user = User;
 			AssignClassViewModel.errorMsg result = new BaseViewModel.errorMsg();
-
-			ViewClassEvaluate? viewClassEvaluate = db.ViewClassEvaluates.Where(x => x.CUid == vmd.addModify.C_UID && x.EYear == vmd.addModify.Year).FirstOrDefault();
-
-			if (!(viewClassEvaluate is null))
+			List<String> lst_mail = new List<string>();
+			Int32 Count = 0;
+			try
 			{
-				result.CheckMsg = false;
-				result.ErrorMsg = "當年度課程重複!";
+				List<CClassLector> cClassLectors = db.CClassLectors.Where(x => x.IsEvaluate == false).OrderBy(x => x.CUid).ToList();
+				
+
+				if (cClassLectors != null && cClassLectors.Count > 0)
+				{
+					foreach (CClassLector ccl in cClassLectors)
+					{
+						EEvaluate? eEvaluateOri = db.EEvaluates.Where(x => x.MatchKey == ccl.CUid).FirstOrDefault() ?? null;
+						if (eEvaluateOri != null)
+						{
+							EEvaluationSche eEvaluationSche = new EEvaluationSche()
+							{
+								EsId = Guid.NewGuid(),
+								EId = eEvaluateOri.EId,
+								MatchKey = ccl.ClUid,
+								Reception = ccl.LUid,
+								ChkNum = 0,
+								Status = 0,
+								IsMail = false,
+								ScheNum = 0,
+								IsSche = true,
+								IsClose = false,
+								Creuser = ccl.Creuser.Value,
+								Credate = ccl.Credate.Value
+							};
+							db.EEvaluationSches.Add(eEvaluationSche);
+							db.SaveChanges();
+						}
+						else
+						{
+							EEvaluate eEvaluate = new EEvaluate()
+							{
+								EId = Guid.NewGuid(),
+								EType = 0,
+								EYear = DateTime.Now.Year,
+								MatchKey = ccl.CUid.Value,
+								Creuser = ccl.Creuser.Value,
+								Credate = ccl.Credate.Value
+							};
+							db.EEvaluates.Add(eEvaluate);
+
+							EEvaluationSche eEvaluationSche = new EEvaluationSche()
+							{
+								EsId = Guid.NewGuid(),
+								EId = eEvaluate.EId,
+								MatchKey = ccl.ClUid,
+								Reception = ccl.LUid,
+								ChkNum = 0,
+								Status = 0,
+								IsMail = false,
+								ScheNum = 0,
+								IsSche = true,
+								IsClose = false,
+								Creuser = ccl.Creuser.Value,
+								Credate = ccl.Credate.Value
+							};
+							db.EEvaluationSches.Add(eEvaluationSche);
+							db.SaveChanges();
+						}
+						Count++;
+						CLector? cLector = db.CLectors.Find(ccl.LUid);
+						if (cLector != null)
+						{
+							if (string.IsNullOrEmpty(cLector.LEmail))
+							{
+								//lst_mail.Add(cLector.LName);
+								continue;
+							}
+							else
+							{
+								lst_mail.Add(cLector.LEmail);
+							}
+						}
+						ccl.IsEvaluate = true;						
+						db.SaveChanges();
+					}
+					result.CheckMsg = true;
+				}
+				else
+				{
+					result.CheckMsg = false;
+					result.ErrorMsg = "目前無新資料";
+				}
+
+				//_smtpService.SendMail(lst_mail, "[通知]-CLEA授課資訊填寫", "老師您好，請至本會網站進行課程授課內容填寫，謝謝您。");
 			}
-			else
+			catch (Exception e)
 			{
-				result = _assignService.SaveAddData(vmd);
+
 			}
 
 			if (result.CheckMsg)
@@ -105,9 +176,55 @@ namespace Clea_Web.Controllers
 				TempData["TempMsgTitle"] = "儲存失敗";
 				TempData["TempMsg"] = result.ErrorMsg;
 			}
-
 			return RedirectToAction("Index");
 		}
+		#endregion
+
+		#region 新增教師評鑑(由資料轉入取代)
+		//public IActionResult Add()
+		//{
+		//	AssignClassViewModel.AddModel vmd = new AssignClassViewModel.AddModel();
+		//	vmd.Year_selectListItems = new List<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>();
+		//	vmd.Year_selectListItems.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = (DateTime.Now.Year + 1).ToString() + "年", Value = (DateTime.Now.Year + 1).ToString() });
+		//	vmd.Year_selectListItems.Add(new Microsoft.AspNetCore.Mvc.Rendering.SelectListItem() { Text = (DateTime.Now.Year).ToString() + "年", Value = (DateTime.Now.Year).ToString() });
+
+		//	vmd.Class_selectListItems = _assignService.GetClassSelectItems();
+
+		//	return View(vmd);
+		//}
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public IActionResult Add(AssignClassViewModel.AddModel vmd)
+		//{
+		//	_assignService.user = User;
+		//	AssignClassViewModel.errorMsg result = new BaseViewModel.errorMsg();
+
+		//	ViewClassEvaluate? viewClassEvaluate = db.ViewClassEvaluates.Where(x => x.CUid == vmd.addModify.C_UID && x.EYear == vmd.addModify.Year).FirstOrDefault();
+
+		//	if (!(viewClassEvaluate is null))
+		//	{
+		//		result.CheckMsg = false;
+		//		result.ErrorMsg = "當年度課程重複!";
+		//	}
+		//	else
+		//	{
+		//		result = _assignService.SaveAddData(vmd);
+		//	}
+
+		//	if (result.CheckMsg)
+		//	{
+		//		TempData["TempMsgType"] = "success";
+		//		TempData["TempMsgTitle"] = "儲存成功";
+		//	}
+		//	else
+		//	{
+		//		TempData["TempMsgType"] = "error";
+		//		TempData["TempMsgTitle"] = "儲存失敗";
+		//		TempData["TempMsg"] = result.ErrorMsg;
+		//	}
+
+		//	return RedirectToAction("Index");
+		//}
 		#endregion
 
 		#region 教師授課列表
@@ -145,15 +262,31 @@ namespace Clea_Web.Controllers
 		#endregion
 
 		#region 指定評鑑教師
-		public IActionResult TC_Modify(Guid E_ID, Guid CL_UID)
+		public IActionResult TC_Modify(Guid ES_ID)
 		{
 			AssignClassViewModel.TC_ModifyModel vmd = new AssignClassViewModel.TC_ModifyModel();
-			vmd.cLInfo = _assignService.getCLinfo(E_ID, CL_UID);
+			ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == ES_ID).FirstOrDefault() ?? null;
+			if (viewBAssignClassLector != null)
+			{
+				vmd.cLInfo = new AssignClassViewModel.CLInfo()
+				{
+					ES_ID = viewBAssignClassLector.EsId,
+					Year = viewBAssignClassLector.EYear,
+					C_ID = viewBAssignClassLector.CId,
+					C_Name = viewBAssignClassLector.CName,
+					S_ID = viewBAssignClassLector.DId,
+					S_Name = viewBAssignClassLector.DName,
+					L_ID = viewBAssignClassLector.LId,
+					L_Name = viewBAssignClassLector.LName
+				};
+				vmd.tCModify = new AssignClassViewModel.TCModify()
+				{
+					E_ID = viewBAssignClassLector.EId,
+					ES_ID = ES_ID
+				};
+			}
 			vmd.selectListItems = _assignService.getTeacherItem(vmd.cLInfo.L_UID);
-			vmd.tCModify = new AssignClassViewModel.TCModify();
-			vmd.tCModify.E_ID = E_ID;
-			vmd.tCModify.CL_UID = CL_UID;
-			vmd.lst_EvTeachers = _assignService.GetEvTeacherPageLists(E_ID, CL_UID);
+			vmd.lst_EvTeachers = _assignService.GetEvTeacherPageLists(ES_ID);
 			return View(vmd);
 		}
 		[HttpPost]
@@ -162,7 +295,7 @@ namespace Clea_Web.Controllers
 		{
 			AssignClassViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			_assignService.user = User;
-			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Where(x => x.EId == vmd.tCModify.E_ID && x.MatchKey2 == vmd.tCModify.CL_UID && x.Evaluate == vmd.tCModify.L_UID_Ev).FirstOrDefault();
+			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Where(x => x.EsId == vmd.tCModify.ES_ID && x.Evaluate == vmd.tCModify.L_UID_Ev).FirstOrDefault();
 
 			if (eEvaluateDetail is null)
 			{
@@ -186,7 +319,7 @@ namespace Clea_Web.Controllers
 				TempData["TempMsg"] = result.ErrorMsg;
 			}
 
-			return RedirectToAction("TC_Modify", new { E_ID = vmd.tCModify.E_ID, CL_UID = vmd.tCModify.CL_UID });
+			return RedirectToAction("TC_Modify", new { ES_ID = vmd.tCModify.ES_ID });
 		}
 		#endregion
 
@@ -211,15 +344,48 @@ namespace Clea_Web.Controllers
 		}
 		#endregion
 
+		#region 檢視科目評鑑教師
+		public IActionResult V_Index(Guid ES_ID)
+		{
+			AssignClassViewModel.vIndexModel vmd = new AssignClassViewModel.vIndexModel();
+			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ES_ID) ?? null;
+			vmd.E_ID = eEvaluationSche.EId;
+			vmd.ES_ID = ES_ID;
+			vmd.vIndexLists = (from bcs in db.ViewBAssignClassScores
+							   where bcs.EsId == ES_ID
+							   select new AssignClassViewModel.vIndexList()
+							   {
+								   ED_ID = bcs.EdId,
+								   Lv_Teacher = bcs.LName,
+								   Status = bcs.Status
+							   }).ToList();
+			return View(vmd);
+		}
+		#endregion
+
 		#region 檢視審查表
 		public IActionResult V_Modify(Guid ED_ID)
 		{
 			AssignClassViewModel.V_ModifyModel vmd = new AssignClassViewModel.V_ModifyModel();
 			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
+			ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == eEvaluateDetail.EsId).FirstOrDefault() ?? null;
+			if (viewBAssignClassLector != null)
+			{
+				vmd.cLInfo = new AssignClassViewModel.CLInfo()
+				{
+					ES_ID = viewBAssignClassLector.EsId,
+					Year = viewBAssignClassLector.EYear,
+					C_ID = viewBAssignClassLector.CId,
+					C_Name = viewBAssignClassLector.CName,
+					S_ID = viewBAssignClassLector.DId,
+					S_Name = viewBAssignClassLector.DName,
+					L_ID = viewBAssignClassLector.LId,
+					L_Name = viewBAssignClassLector.LName
+				};
+				vmd.picPath = _fileService.GetImageBase64List_PNG(viewBAssignClassLector.EsId);
+				vmd.v_ScoreModel = _assignService.GetVModel(ED_ID);
+			}
 
-			vmd.cLInfo = _assignService.getCLinfo(eEvaluateDetail.EId, eEvaluateDetail.MatchKey2);
-			vmd.picPath = _fileService.GetImageBase64List_PNG(ED_ID);
-			vmd.v_ScoreModel = _assignService.GetVModel(ED_ID);
 			return View(vmd);
 		}
 		[HttpPost]
@@ -244,40 +410,37 @@ namespace Clea_Web.Controllers
 				TempData["TempMsg"] = result.ErrorMsg;
 			}
 
-			return RedirectToAction("TC_Index", new { U_ID = eEvaluateDetail.EId });
+			return RedirectToAction("V_Index", new { ES_ID = eEvaluateDetail.EsId });
 		}
 		#endregion
 
 		#region 匯出審查表
 		public IActionResult Export_ScoreWord(Guid ED_ID)
 		{
-			EEvaluateDetail? cEvaluation = db.EEvaluateDetails.Find(ED_ID) ?? null;
-			CClassLector? cClassLector = db.CClassLectors.Find(cEvaluation.MatchKey2) ?? null;
-			CLector? cLector = db.CLectors.Find(cClassLector.LUid) ?? null;
-			CClass? cClass = db.CClasses.Find(cClassLector.CUid) ?? null;
-			CClassSubject? cClassSubject = db.CClassSubjects.Find(cClassLector.DUid) ?? null;
+			ViewBAssignClassScore? viewBAssignClassScore = db.ViewBAssignClassScores.Where(x => x.EdId == ED_ID).FirstOrDefault() ?? null;
+			ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == viewBAssignClassScore.EsId).FirstOrDefault() ?? null;
 
-			String L_Name = cLector != null ? cLector.LName : string.Empty;
-			String ScoreT = ((cEvaluation.EScoreA.Value) + (cEvaluation.EScoreB.Value ) + (cEvaluation.EScoreC.Value ) + (cEvaluation.EScoreD.Value) + (cEvaluation.EScoreE.Value)).ToString("#.##");
+			String L_Name = viewBAssignClassScore != null ? viewBAssignClassScore.LName : string.Empty;
+			String ScoreT = ((viewBAssignClassScore.EScoreA.Value) + (viewBAssignClassScore.EScoreB.Value) + (viewBAssignClassScore.EScoreC.Value) + (viewBAssignClassScore.EScoreD.Value) + (viewBAssignClassScore.EScoreE.Value)).ToString("#.##");
 
 			String SourcePath = "./SampleFile/ClassEvaExample.docx";
 			String SavePath = "./SampleFile/Output/" + L_Name + "-教學內容審查表.docx";
 
 			using (DocX doc = DocX.Load(SourcePath))
 			{
-				doc.ReplaceText("[@Year$]", cEvaluation is null ? string.Empty : cEvaluation.Upddate is null ? string.Empty : cEvaluation.Upddate.Value.Year.ToString());    //年
-				doc.ReplaceText("[@Month$]", cEvaluation is null ? string.Empty : cEvaluation.Upddate is null ? string.Empty : cEvaluation.Upddate.Value.Month.ToString());                            //月
-				doc.ReplaceText("[@Day$]", cEvaluation is null ? string.Empty : cEvaluation.Upddate is null ? string.Empty : cEvaluation.Upddate.Value.Day.ToString());                                //日
-				doc.ReplaceText("[@ClassName$]", cClass is null ? string.Empty : cClass.CName);
-				doc.ReplaceText("[@SubName$]", cClassSubject is null ? string.Empty : cClassSubject.DName);
+				doc.ReplaceText("[@Year$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.Credate.Year.ToString());    //年
+				doc.ReplaceText("[@Month$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.Credate.Month.ToString());                            //月
+				doc.ReplaceText("[@Day$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.Credate.Day.ToString());                                //日
+				doc.ReplaceText("[@ClassName$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.CName);
+				doc.ReplaceText("[@SubName$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.DName);
 				doc.ReplaceText("[@LecName$]", L_Name);
-				doc.ReplaceText("[@ScoreA$]", cEvaluation is null ? string.Empty : cEvaluation.EScoreA.ToString());
-				doc.ReplaceText("[@ScoreB$]", cEvaluation is null ? string.Empty : cEvaluation.EScoreB.ToString());
-				doc.ReplaceText("[@ScoreC$]", cEvaluation is null ? string.Empty : cEvaluation.EScoreC.ToString());
-				doc.ReplaceText("[@ScoreD$]", cEvaluation is null ? string.Empty : cEvaluation.EScoreD.ToString());
-				doc.ReplaceText("[@ScoreE$]", cEvaluation is null ? string.Empty : cEvaluation.EScoreE.ToString());
+				doc.ReplaceText("[@ScoreA$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EScoreA.ToString());
+				doc.ReplaceText("[@ScoreB$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EScoreB.ToString());
+				doc.ReplaceText("[@ScoreC$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EScoreC.ToString());
+				doc.ReplaceText("[@ScoreD$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EScoreD.ToString());
+				doc.ReplaceText("[@ScoreE$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EScoreE.ToString());
 				doc.ReplaceText("[@ScoreT$]", ScoreT);
-				doc.ReplaceText("[@Remark$]", cEvaluation is null ? string.Empty : string.IsNullOrEmpty(cEvaluation.ERemark) ? string.Empty : cEvaluation.ERemark);
+				doc.ReplaceText("[@Remark$]", viewBAssignClassScore is null ? string.Empty : string.IsNullOrEmpty(viewBAssignClassScore.ERemark) ? string.Empty : viewBAssignClassScore.ERemark);
 				doc.ReplaceText("[@Pass$]", Convert.ToDouble(ScoreT) >= 85 ? "■" : "□");
 				doc.ReplaceText("[@Fail$]", Convert.ToDouble(ScoreT) >= 85 ? "□" : "■");
 
@@ -286,6 +449,7 @@ namespace Clea_Web.Controllers
 
 			Byte[] result = System.IO.File.ReadAllBytes(SavePath);
 			System.IO.File.Delete(SavePath);
+
 			return File(result, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", L_Name + "-教學內容審查表.docx");
 		}
 		#endregion
@@ -294,11 +458,81 @@ namespace Clea_Web.Controllers
 		public IActionResult V_Export()
 		{
 			Byte[] file = _assignService.Export_Excel();
-			return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", (DateTime.Now.Year + 1).ToString() + "年評鑑-未上傳課程資訊-" + DateTime.Now.ToLongDateString() + ".xlsx");
+			return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "未上傳課程檔案清單-" + DateTime.Now.ToLongDateString() + ".xlsx");
 		}
 		#endregion
 
+		#region 檢視科目資訊
+		public IActionResult ScoreIndex(Guid ES_ID)
+		{
+			AssignClassViewModel.S_Model vmd = new AssignClassViewModel.S_Model();
+			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ES_ID) ?? null;
+			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluationSche.EId) ?? null;
+			if (eEvaluationSche != null)
+			{
+				vmd.ES_ID = ES_ID;
+				CClassLector? cClassLector = db.CClassLectors.Find(eEvaluationSche.MatchKey) ?? null;
+				vmd.Syllabus = eEvaluationSche.ETeachSyllabus;
+				vmd.Objectives = eEvaluationSche.ETeachObject;
+				vmd.Abstract = eEvaluationSche.ETeachAbstract;
+				vmd.ClassName = db.CClasses.Find(eEvaluate.MatchKey).CName;
+				vmd.ClassSub = db.CClassSubjects.Find(cClassLector.DUid).DName;
+				vmd.SubClassTime = db.CClassSubjects.Find(cClassLector.DUid).DHour.ToString();
+				vmd.ClassTeacher = "授課講師:" + db.CLectors.Find(cClassLector.LUid).LName + "\n 符合職業安全衛生教育訓練規則:" + cClassLector.ClQualify;
+			}
+			return View(vmd);
+		}
 		#endregion
 
+		#region 匯出科目資訊
+		public IActionResult ScoreExport(Guid ES_ID)
+		{
+			AssignClassViewModel.S_Model vmd = new AssignClassViewModel.S_Model();
+			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ES_ID) ?? null;
+			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluationSche.EId) ?? null;
+			CClassLector? cClassLector = db.CClassLectors.Find(eEvaluationSche.MatchKey) ?? null;
+
+			if (eEvaluationSche != null)
+			{
+				vmd.ES_ID = ES_ID;
+				vmd.Syllabus = eEvaluationSche.ETeachSyllabus;
+				vmd.Objectives = eEvaluationSche.ETeachObject;
+				vmd.Abstract = eEvaluationSche.ETeachAbstract;
+				vmd.ClassName = db.CClasses.Find(eEvaluate.MatchKey).CName;
+				vmd.ClassSub = db.CClassSubjects.Find(cClassLector.DUid).DName;
+				vmd.SubClassTime = db.CClassSubjects.Find(cClassLector.DUid).DHour.ToString();
+				vmd.ClassTeacher = db.CLectors.Find(cClassLector.LUid).LName;
+			}
+
+
+			String SourcePath = "./SampleFile/教學單元大綱Sample.docx";
+			String SavePath = "./SampleFile/Output/" + vmd.ClassSub + "(" + vmd.ClassName + ")-教學單元大綱.docx";
+
+			using (DocX doc = DocX.Load(SourcePath))
+			{
+				doc.ReplaceText("[@ClassName$]", string.IsNullOrEmpty(vmd.ClassName) ? string.Empty : vmd.ClassName);    
+				doc.ReplaceText("[@ClassSub$]", string.IsNullOrEmpty(vmd.ClassSub) ? string.Empty : vmd.ClassSub);                            
+				doc.ReplaceText("[@ClassSubTime$]", string.IsNullOrEmpty(vmd.SubClassTime)?string.Empty : vmd.SubClassTime);                                
+				doc.ReplaceText("[@Syllabus$]", string.IsNullOrEmpty(vmd.Syllabus) ? string.Empty : vmd.Syllabus);
+				doc.ReplaceText("[@Objectives$]", string.IsNullOrEmpty(vmd.Objectives) ? string.Empty : vmd.Objectives);
+				doc.ReplaceText("[@LName$]", string.IsNullOrEmpty(vmd.ClassTeacher) ? string.Empty : vmd.ClassTeacher);
+				doc.ReplaceText("[@ClQualify$]", cClassLector.ClQualify);
+				doc.ReplaceText("[@Abstract$]", string.IsNullOrEmpty(vmd.Abstract) ? string.Empty : vmd.Abstract);
+				doc.ReplaceText("[@BookNamePublish$]", string.IsNullOrEmpty(vmd.BookNamePublish) ? string.Empty : vmd.BookNamePublish);
+				doc.ReplaceText("[@BookNumber$]", string.IsNullOrEmpty(vmd.BookNumber) ? string.Empty : vmd.BookNumber);
+				doc.ReplaceText("[@Write$]", "");
+				doc.ReplaceText("[@WriteDate$]", "");
+				doc.ReplaceText("[@EvWrite$]", "");
+				doc.ReplaceText("[@EvWriteDate$]", "");
+
+				doc.SaveAs(SavePath);
+			}
+
+			Byte[] result = System.IO.File.ReadAllBytes(SavePath);
+			System.IO.File.Delete(SavePath);
+
+			return File(result, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", vmd.ClassSub + "(" + vmd.ClassName + ")-教學單元大綱.docx");
+		}
+		#endregion
 	}
 }

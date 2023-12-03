@@ -9,15 +9,7 @@ public partial class EEvaluateDetail
 
     public Guid EId { get; set; }
 
-    /// <summary>
-    /// CL OR BOOKDETAIL PK
-    /// </summary>
-    public Guid MatchKey2 { get; set; }
-
-    /// <summary>
-    /// 受評人員
-    /// </summary>
-    public Guid? Reception { get; set; }
+    public Guid EsId { get; set; }
 
     /// <summary>
     /// 評核人員
@@ -53,6 +45,12 @@ public partial class EEvaluateDetail
     /// 教學內容
     /// </summary>
     public string? ETeachAbstract { get; set; }
+
+    public bool IsMail { get; set; }
+
+    public int Status { get; set; }
+
+    public bool IsClose { get; set; }
 
     public Guid Creuser { get; set; }
 

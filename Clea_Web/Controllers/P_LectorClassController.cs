@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Clea_Web.Service;
 using Clea_Web.ViewModels;
 using Newtonsoft.Json;
+using System.Data;
 
 namespace Clea_Web.Controllers
 {
@@ -23,7 +24,6 @@ namespace Clea_Web.Controllers
 
 		}
 
-
 		#region Index
 		public IActionResult Index(String? data, Int32? page)
 		{
@@ -36,11 +36,11 @@ namespace Clea_Web.Controllers
 		#endregion
 
 		#region Modify
-		public IActionResult Modify(Guid ED_ID)
+		public IActionResult Modify(Guid ES_ID)
 		{
 			LectorClassViewModel.ModifyModel vmd = new LectorClassViewModel.ModifyModel();
-			vmd.uploadLogs = _lectorClassService.GetUploadLogs(ED_ID);
-			vmd.modify = _lectorClassService.GetModifyModel(ED_ID);
+			vmd.uploadLogs = _lectorClassService.GetUploadLogs(ES_ID);
+			vmd.modify = _lectorClassService.GetModifyModel(ES_ID);
 			return View(vmd);
 		}
 
@@ -50,12 +50,15 @@ namespace Clea_Web.Controllers
 		{
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			_lectorClassService.user = User;
-
 			String chkExt = string.IsNullOrEmpty(data.modify.FileName) ? Path.GetExtension(data.modify.file.FileName) : data.modify.FileName;
 
 			if (chkExt.Contains(".ppt"))
 			{
 				result = _lectorClassService.SaveModifyData(data.modify);
+				if (data.modify.IsUpdate)
+				{
+					result = _lectorClassService.SetNewSubEv(data.modify);
+				}
 			}
 			else
 			{
@@ -88,7 +91,7 @@ namespace Clea_Web.Controllers
 
 				if (sysFile != null)
 				{
-					error.CheckMsg = _fileService.DeleteFile(sysFile);
+					error.CheckMsg = _fileService.DeleteFile(sysFile, true, 10);
 				}
 				else
 				{

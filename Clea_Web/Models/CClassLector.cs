@@ -47,6 +47,8 @@ public partial class CClassLector
     /// </summary>
     public bool? ClIsActive { get; set; }
 
+    public bool? IsEvaluate { get; set; }
+
     public Guid? Creuser { get; set; }
 
     public DateTime? Credate { get; set; }

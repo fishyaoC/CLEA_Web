@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Clea_Web.Service;
 using Clea_Web.ViewModels;
 using Newtonsoft.Json;
+using MathNet.Numerics;
 
 namespace Clea_Web.Controllers
 {
@@ -22,7 +23,6 @@ namespace Clea_Web.Controllers
 			_fileService = fileService;
 		}
 
-
 		#region Index
 		public IActionResult Index(String? data, Int32? page)
 		{
@@ -39,53 +39,34 @@ namespace Clea_Web.Controllers
 		public IActionResult Modify(Guid ED_ID)
 		{
 			LectorEvaluationViewModel.ScoreModel vmd = new LectorEvaluationViewModel.ScoreModel();
-
-			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID);
-			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluateDetail.EId) ?? null;
-			String L_name = string.Empty;
-			String C_B_name = string.Empty;
-			String S_P_name = string.Empty;
-
-			if (eEvaluate.EType == 0)
+			ViewPLectorEvaluate? viewPLectorEvaluate = db.ViewPLectorEvaluates.Where(x => x.EdId == ED_ID).FirstOrDefault();
+			if (viewPLectorEvaluate != null)
 			{
-				CLector? cLector = db.CLectors.Find(eEvaluateDetail.Reception) ?? null;
-				CClass? cClass = db.CClasses.Find(eEvaluate.MatchKey) ?? null;
-				CClassLector? cClassLector = db.CClassLectors.Find(eEvaluateDetail.MatchKey2) ?? null;
-				CClassSubject? cClassSubject = db.CClassSubjects.Where(x => x.DUid == cClassLector.DUid).FirstOrDefault();
-				L_name = cLector.LName;
-				C_B_name = cClass.CName;
-				S_P_name = cClassSubject.DName;
+				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID);
+				vmd.evInfo = new LectorEvaluationViewModel.EvInfo()
+				{
+					mType = viewPLectorEvaluate.EType == 0 ? "課程" : "教材",
+					L_Name = viewPLectorEvaluate.EType == 0 ? viewPLectorEvaluate.LName : "訓練單位",
+					C_B_Name = viewPLectorEvaluate.EType == 0 ? viewPLectorEvaluate.CName : viewPLectorEvaluate.MName,
+					S_P_Name = viewPLectorEvaluate.EType == 0 ? viewPLectorEvaluate.DName : viewPLectorEvaluate.BpName
+				};
+				vmd.scoreModify = new LectorEvaluationViewModel.scoreModify()
+				{
+					ED_ID = ED_ID,
+					mType = viewPLectorEvaluate.EType,
+					lst_pic = _fileService.GetImageBase64List_PNG(eEvaluateDetail.EsId),
+					ScoreA = eEvaluateDetail.EScoreA,
+					ScoreB = eEvaluateDetail.EScoreB,
+					ScoreBB = eEvaluateDetail.EScoreB,
+					ScoreC = eEvaluateDetail.EScoreC,
+					ScoreCB = eEvaluateDetail.EScoreC ,
+					ScoreD = eEvaluateDetail.EScoreD,
+					ScoreE = eEvaluateDetail.EScoreE,
+					Remark = eEvaluateDetail.ERemark,
+					IsClose = eEvaluateDetail.IsClose,
+					Status =eEvaluateDetail.Status
+				};
 			}
-			else
-			{
-				CBook? cBook = db.CBooks.Find(eEvaluate.MatchKey) ?? null;
-				CBookDetail? cBookDetail = db.CBookDetails.Where(x => x.MId == cBook.MId).FirstOrDefault();
-				CBookPublish? cBookPublish = db.CBookPublishes.Find(cBookDetail.MdPublish) ?? null;
-				C_B_name = cBook.MName;
-				S_P_name = cBookPublish.BpName;
-			}
-
-			vmd.evInfo = new LectorEvaluationViewModel.EvInfo()
-			{
-				Year = eEvaluate.EYear,
-				L_Name = L_name,
-				C_B_Name = C_B_name,
-				S_P_Name = S_P_name
-			};
-
-			vmd.scoreModify = new LectorEvaluationViewModel.scoreModify()
-			{
-				ED_ID = ED_ID,
-				mType = eEvaluate.EType,
-				lst_pic = _fileService.GetImageBase64List_PNG(ED_ID),
-				ScoreA = eEvaluateDetail.EScoreA == null ? 0 : eEvaluateDetail.EScoreA.Value,
-				ScoreB = eEvaluate.EType == 0 ? eEvaluateDetail.EScoreB == null ? 0 : eEvaluateDetail.EScoreB.Value : 0,
-				ScoreBB = eEvaluate.EType == 0 ? 0 : eEvaluateDetail.EScoreB == null ? 0 : eEvaluateDetail.EScoreB.Value,
-				ScoreC = eEvaluate.EType == 0 ? eEvaluateDetail.EScoreC == null ? 0 : eEvaluateDetail.EScoreC.Value : 0,
-				ScoreCB = eEvaluate.EType == 0 ? 0 : eEvaluateDetail.EScoreC == null ? 0 : eEvaluateDetail.EScoreC.Value,
-				ScoreD = eEvaluateDetail.EScoreD == null ? 0 : eEvaluateDetail.EScoreD.Value,
-				ScoreE = eEvaluateDetail.EScoreE == null ? 0 : eEvaluateDetail.EScoreE.Value,
-			};
 
 			return View(vmd);
 		}
