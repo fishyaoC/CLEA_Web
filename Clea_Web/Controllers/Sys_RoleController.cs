@@ -28,7 +28,7 @@ namespace Clea_Web.Controllers
         }
 
 
-        #region 新增、編輯
+        #region 編輯
         //public IActionResult Modify(String Type, String? R_ID)
         public IActionResult Modify(Guid R_UID)
         {
@@ -77,7 +77,7 @@ namespace Clea_Web.Controllers
         }
         #endregion
 
-        #region 新增、編輯
+        #region 新增
         //public IActionResult Modify(String Type, String? R_ID)
         public IActionResult C_Index()
         {
@@ -104,25 +104,6 @@ namespace Clea_Web.Controllers
                 return RedirectToAction("C_Modify", new { RBackEnd = false });
             }
 
-            //_roleService.user = User;
-            //BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            //error = _roleService.SaveData(vm);
-
-            ////SWAL儲存成功
-            //if (error.CheckMsg)
-            //{
-            //    TempData["TempMsgType"] = "success";
-            //    TempData["TempMsgTitle"] = "儲存成功";
-            //}
-            //else
-            //{
-            //    TempData["TempMsgType"] = "error";
-            //    TempData["TempMsgTitle"] = "儲存失敗";
-            //    TempData["TempMsg"] = error.ErrorMsg;
-            //}
-
-            //return RedirectToAction("Index");
-
         }
 
         public IActionResult C_Modify(Boolean RBackEnd)
@@ -134,7 +115,7 @@ namespace Clea_Web.Controllers
             vm = new UserRoleViewModel.Modify();
             vm = _roleService.GetData(RBackEnd);
             vm.IsEdit = false;
-            vm.RBackEnd = RBackEnd;
+            vm.IsBack = RBackEnd;
             return View(vm);
         }
 

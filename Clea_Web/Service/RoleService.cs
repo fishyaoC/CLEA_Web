@@ -78,7 +78,7 @@ namespace Clea_Web.Service
                 userRole.RId = vm.RId;
                 userRole.RName = vm.RName;
                 userRole.ROrder = Convert.ToByte(vm.ROrder);
-                userRole.RBackEnd = vm.RBackEnd;
+                //userRole.RBackEnd = vm.RBackEnd;
 
                 userRole.RStatus = vm.RStatus;
 
@@ -107,6 +107,7 @@ namespace Clea_Web.Service
                 {
                     //新增
                     userRole.RUid = Guid.NewGuid();
+                    userRole.RBackEnd = vm.IsBack;
                     userRole.Creuser = Guid.Parse(GetUserID(user));
                     userRole.Credate = DateTime.Now;
                     db.SysRoles.Add(userRole);
@@ -384,13 +385,14 @@ namespace Clea_Web.Service
 
             //撈資料
             SysRole sysRole = db.SysRoles.Find(R_UID);
-            SysPower sysPower = db.SysPowers.Find(R_UID);
+            List<SysPower> sysPower = db.SysPowers.Where(x => x.RUid == R_UID).ToList();
             vm = new UserRoleViewModel.Modify();
 
             try
             {
+                db.SysPowers.RemoveRange(sysPower);
+                db.SaveChanges();
                 db.SysRoles.Remove(sysRole);
-                db.SysPowers.Remove(sysPower);
 
             }
             catch (Exception e)

@@ -67,6 +67,12 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; } = false;
+
+            /// <summary>
+            /// 是否前後台狀態 True = 後台 ; False = 前台
+            /// </summary>
+            [DisplayName("編輯狀態")]
+            public Boolean IsBack { get; set; }
         }
         #endregion
 

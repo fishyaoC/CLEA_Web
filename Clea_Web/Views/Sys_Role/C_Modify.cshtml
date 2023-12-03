@@ -25,6 +25,7 @@
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
                         @Html.HiddenFor(x => x.IsEdit)
+                        @Html.HiddenFor(x => x.IsBack)
                         @*回傳Uid*@
                         @Html.HiddenFor(x => x.RUId)
                         @* <p class="card-description">
