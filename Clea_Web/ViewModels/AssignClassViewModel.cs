@@ -190,6 +190,7 @@ namespace Clea_Web.ViewModels
 			public String BookNamePublish { get; set; }
 			public String BookNumber { get; set; }
 			public String Write { get; set; }
+			public Boolean? IsPass { get; set; }
 		}
 		#endregion
 		public class schClassItem

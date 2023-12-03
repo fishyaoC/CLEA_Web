@@ -38,6 +38,8 @@ public partial class EEvaluationSche
     /// </summary>
     public bool IsSche { get; set; }
 
+    public bool? IsPass { get; set; }
+
     /// <summary>
     /// 退回重評
     /// </summary>

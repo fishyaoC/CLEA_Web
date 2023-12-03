@@ -18,21 +18,21 @@
 					</h2>
 					<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
 						<div class="accordion-body">
-							<form class="forms-sample" method="post" action="@Url.Action("L_Index","B_AssignClass")">
+							<form class="forms-sample" method="post" action="@Url.Action("TC_Index","B_AssignClass")">
 								@Html.AntiForgeryToken()
 								@Html.HiddenFor(x => x.evaluationActonInfo.ControllerName)
 								@Html.HiddenFor(x => x.evaluationActonInfo.Key)
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="exampleInputName1">科目名稱</label>
-											@Html.TextBoxFor(x => x.cLschItem.S_Name, new { id = "SN", @class = "form-control form-control", placeholder = "科目代碼" })
+											<label for="exampleInputName1">教學單元代碼</label>
+											@Html.TextBoxFor(x => x.cLschItem.S_Name, new { id = "SN", @class = "form-control form-control", placeholder = "教學單元代碼" })
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="exampleInputEmail3">教師名稱</label>
-											@Html.TextBoxFor(x => x.cLschItem.L_Name, new { id = "LN",@class = "form-control form-control", placeholder = "科目名稱" })
+											<label for="exampleInputEmail3">教學單元名稱</label>
+											@Html.TextBoxFor(x => x.cLschItem.L_Name, new { id = "LN",@class = "form-control form-control", placeholder = "教學單元名稱" })
 										</div>
 									</div>
 								</div>
@@ -49,14 +49,14 @@
 				<div class="col-lg-12 grid-margin stretch-card">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">評鑑 - 科目授課資訊</h4>
+							<h4 class="card-title">評鑑 - 教學單元授課資訊</h4>
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
 										<tr>
 											<th>序</th>
 											<th>課程名稱</th>
-											<th>科目名稱</th>
+											<th>教學單元</th>
 											<th>時數</th>
 											<th>授課教師</th>
 											<th>操作</th>
@@ -76,6 +76,8 @@
 													<td>@cL.D_Hour</td>
 													<td>@cL.L_Name</td>
 													<td>
+														@* <a href="@Url.Action("V_Index","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-success">檢視評鑑資訊</a>
+														<a href="@Url.Action("ScoreIndex","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-warning">檢視教學單元大綱</a> *@
 
 														@if (cL.Status > 0 && cL.Status != 8)
 														{
@@ -92,7 +94,7 @@
 														@if (cL.Status > 1)
 														{
 															<a href="@Url.Action("V_Index","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-success">檢視評鑑資訊</a>
-															<a href="@Url.Action("Export_ScoreWord","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-warning">檢視科目大綱</a>
+															<a href="@Url.Action("ScoreIndex","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-warning">檢視教學單元大綱</a>
 														}
 													</td>
 												</tr>

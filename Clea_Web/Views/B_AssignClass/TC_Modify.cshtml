@@ -64,7 +64,7 @@
 									<div class="col-md-8">
 										<div class="form-group">
 											<label for="exampleInputName1">指定評鑑教師</label>
-											@Html.DropDownListFor(x=>x.tCModify.L_UID_Ev, Model.selectListItems, new { @class = "form-control form-control" })
+											@Html.DropDownListFor(x=>x.tCModify.L_UID_Ev, Model.selectListItems, new { @class = "form-control form-control",id="Select2" })
 											@Html.ValidationMessageFor(x=>x.tCModify.L_UID_Ev)
 										</div>
 									</div>
@@ -194,4 +194,11 @@
 
 		})
 	}
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.0/dist/js/select2.min.js"></script>
+<script>
+	$(document).ready(function () {
+		$('#Select2').select2();
+	});
 </script>

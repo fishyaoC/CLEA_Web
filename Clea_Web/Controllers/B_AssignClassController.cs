@@ -12,6 +12,10 @@ using Novacode;
 using NPOI.OpenXmlFormats.Wordprocessing;
 using MathNet.Numerics;
 using Org.BouncyCastle.Ocsp;
+using Microsoft.IdentityModel.Tokens;
+using System.IO;
+using NPOI.POIFS.Crypt.Dsig.Facets;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace Clea_Web.Controllers
 {
@@ -24,13 +28,15 @@ namespace Clea_Web.Controllers
 		private AssignClassService _assignService;
 		private FileService _fileService;
 		private SMTPService _smtpService;
-		public B_AssignClassController(ILogger<B_AssignClassController> logger, dbContext dbCLEA, AssignClassService Service, FileService fileService, SMTPService smtpService)
+		private IConfiguration configuration;
+		public B_AssignClassController(ILogger<B_AssignClassController> logger, dbContext dbCLEA, AssignClassService Service, FileService fileService, SMTPService smtpService, IConfiguration configuration)
 		{
 			_logger = logger;
 			db = dbCLEA;
 			_assignService = Service;
 			_fileService = fileService;
 			_smtpService = smtpService;
+			this.configuration = configuration;
 		}
 
 		#region 課程列表
@@ -75,7 +81,7 @@ namespace Clea_Web.Controllers
 			try
 			{
 				List<CClassLector> cClassLectors = db.CClassLectors.Where(x => x.IsEvaluate == false).OrderBy(x => x.CUid).ToList();
-				
+
 
 				if (cClassLectors != null && cClassLectors.Count > 0)
 				{
@@ -147,7 +153,7 @@ namespace Clea_Web.Controllers
 								lst_mail.Add(cLector.LEmail);
 							}
 						}
-						ccl.IsEvaluate = true;						
+						ccl.IsEvaluate = true;
 						db.SaveChanges();
 					}
 					result.CheckMsg = true;
@@ -327,7 +333,7 @@ namespace Clea_Web.Controllers
 		public IActionResult TC_Delete(Guid ED_ID)
 		{
 			AssignClassViewModel.errorMsg error = new AssignClassViewModel.errorMsg();
-
+			Guid ES_ID = Guid.Empty;
 			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
 			if (eEvaluateDetail is null)
 			{
@@ -336,8 +342,19 @@ namespace Clea_Web.Controllers
 			}
 			else
 			{
+				ES_ID = eEvaluateDetail.EsId;
 				db.EEvaluateDetails.Remove(eEvaluateDetail);
 				error.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				if (error.CheckMsg)
+				{
+					Int32 ETcount = db.EEvaluateDetails.Where(x => x.EsId == ES_ID).ToList().Count;
+					if (ETcount == 0)
+					{
+						EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ES_ID) ?? null;
+						eEvaluationSche.Status = 1;
+						error.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+					}
+				}
 			}
 
 			return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
@@ -415,9 +432,9 @@ namespace Clea_Web.Controllers
 		#endregion
 
 		#region 匯出審查表
-		public IActionResult Export_ScoreWord(Guid ED_ID)
+		public IActionResult Export_ScoreWord(Guid ES_ID)
 		{
-			ViewBAssignClassScore? viewBAssignClassScore = db.ViewBAssignClassScores.Where(x => x.EdId == ED_ID).FirstOrDefault() ?? null;
+			ViewBAssignClassScore? viewBAssignClassScore = db.ViewBAssignClassScores.Where(x => x.EsId == ES_ID).FirstOrDefault() ?? null;
 			ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == viewBAssignClassScore.EsId).FirstOrDefault() ?? null;
 
 			String L_Name = viewBAssignClassScore != null ? viewBAssignClassScore.LName : string.Empty;
@@ -472,6 +489,12 @@ namespace Clea_Web.Controllers
 			{
 				vmd.ES_ID = ES_ID;
 				CClassLector? cClassLector = db.CClassLectors.Find(eEvaluationSche.MatchKey) ?? null;
+				CClass? cClass = db.CClasses.Where(x => x.CUid == cClassLector.CUid).FirstOrDefault() ?? null;
+				CBook? c_Book = null;
+				if (cClass != null && !string.IsNullOrEmpty(cClass.CBookNum))
+				{
+					c_Book = db.CBooks.Where(x => x.MIndex == cClass.CBookNum).FirstOrDefault() ?? null;
+				}
 				vmd.Syllabus = eEvaluationSche.ETeachSyllabus;
 				vmd.Objectives = eEvaluationSche.ETeachObject;
 				vmd.Abstract = eEvaluationSche.ETeachAbstract;
@@ -479,8 +502,25 @@ namespace Clea_Web.Controllers
 				vmd.ClassSub = db.CClassSubjects.Find(cClassLector.DUid).DName;
 				vmd.SubClassTime = db.CClassSubjects.Find(cClassLector.DUid).DHour.ToString();
 				vmd.ClassTeacher = "授課講師:" + db.CLectors.Find(cClassLector.LUid).LName + "\n 符合職業安全衛生教育訓練規則:" + cClassLector.ClQualify;
+				vmd.IsPass = eEvaluationSche.IsPass;
+				vmd.BookNamePublish = c_Book == null ? string.Empty : string.IsNullOrEmpty(c_Book.MName) ? string.Empty : c_Book.MName;
 			}
 			return View(vmd);
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult ScoreIndex(AssignClassViewModel.S_Model vmd)
+		{
+			BaseService baseService = new BaseService();
+			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(vmd.ES_ID) ?? null;
+			if (eEvaluationSche != null && vmd.IsPass != null)
+			{
+				eEvaluationSche.IsPass = vmd.IsPass;
+				eEvaluationSche.Upduser = Guid.Parse(baseService.GetUserID(User)); ;
+				eEvaluationSche.Upddate = DateTime.Now;
+				db.SaveChanges();
+			}
+			return RedirectToAction("ScoreIndex", new { ES_ID = vmd.ES_ID });
 		}
 		#endregion
 
@@ -491,6 +531,14 @@ namespace Clea_Web.Controllers
 			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(ES_ID) ?? null;
 			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluationSche.EId) ?? null;
 			CClassLector? cClassLector = db.CClassLectors.Find(eEvaluationSche.MatchKey) ?? null;
+			CClass? cClass = db.CClasses.Find(cClassLector.CUid) ?? null;
+			CBook? c_Book = null;
+			SysFile? sysFile1 = db.SysFiles.Where(x => x.FMatchKey == cClassLector.LUid).FirstOrDefault() ?? null;
+			SysFile? sysFile2 = db.SysFiles.Where(x => x.FMatchKey == eEvaluationSche.Upduser).FirstOrDefault() ?? null;
+			if (cClass != null && !string.IsNullOrEmpty(cClass.CBookNum))
+			{
+				c_Book = db.CBooks.Where(x => x.MIndex == cClass.CBookNum).FirstOrDefault() ?? null;
+			}
 
 			if (eEvaluationSche != null)
 			{
@@ -504,26 +552,56 @@ namespace Clea_Web.Controllers
 				vmd.ClassTeacher = db.CLectors.Find(cClassLector.LUid).LName;
 			}
 
-
 			String SourcePath = "./SampleFile/教學單元大綱Sample.docx";
 			String SavePath = "./SampleFile/Output/" + vmd.ClassSub + "(" + vmd.ClassName + ")-教學單元大綱.docx";
 
 			using (DocX doc = DocX.Load(SourcePath))
 			{
-				doc.ReplaceText("[@ClassName$]", string.IsNullOrEmpty(vmd.ClassName) ? string.Empty : vmd.ClassName);    
-				doc.ReplaceText("[@ClassSub$]", string.IsNullOrEmpty(vmd.ClassSub) ? string.Empty : vmd.ClassSub);                            
-				doc.ReplaceText("[@ClassSubTime$]", string.IsNullOrEmpty(vmd.SubClassTime)?string.Empty : vmd.SubClassTime);                                
+				doc.ReplaceText("[@Year$]", DateTime.Now.Year.ToString());
+				doc.ReplaceText("[@ClassName$]", string.IsNullOrEmpty(vmd.ClassName) ? string.Empty : vmd.ClassName);
+				doc.ReplaceText("[@ClassSub$]", string.IsNullOrEmpty(vmd.ClassSub) ? string.Empty : vmd.ClassSub);
+				doc.ReplaceText("[@ClassSubTime$]", string.IsNullOrEmpty(vmd.SubClassTime) ? string.Empty : vmd.SubClassTime);
 				doc.ReplaceText("[@Syllabus$]", string.IsNullOrEmpty(vmd.Syllabus) ? string.Empty : vmd.Syllabus);
 				doc.ReplaceText("[@Objectives$]", string.IsNullOrEmpty(vmd.Objectives) ? string.Empty : vmd.Objectives);
 				doc.ReplaceText("[@LName$]", string.IsNullOrEmpty(vmd.ClassTeacher) ? string.Empty : vmd.ClassTeacher);
 				doc.ReplaceText("[@ClQualify$]", cClassLector.ClQualify);
 				doc.ReplaceText("[@Abstract$]", string.IsNullOrEmpty(vmd.Abstract) ? string.Empty : vmd.Abstract);
-				doc.ReplaceText("[@BookNamePublish$]", string.IsNullOrEmpty(vmd.BookNamePublish) ? string.Empty : vmd.BookNamePublish);
+				doc.ReplaceText("[@BookNamePublish$]", c_Book == null ? string.Empty : string.IsNullOrEmpty(c_Book.MName) ? string.Empty : c_Book.MName);
 				doc.ReplaceText("[@BookNumber$]", string.IsNullOrEmpty(vmd.BookNumber) ? string.Empty : vmd.BookNumber);
-				doc.ReplaceText("[@Write$]", "");
-				doc.ReplaceText("[@WriteDate$]", "");
-				doc.ReplaceText("[@EvWrite$]", "");
-				doc.ReplaceText("[@EvWriteDate$]", "");
+				String PicWrite = sysFile1 == null ? string.Empty : Path.Combine(configuration.GetValue<String>("FileRootPath"), sysFile1.FPath + "\\" + sysFile1.FNameDl + "." + sysFile1.FExt);
+				if (!string.IsNullOrEmpty(PicWrite))
+				{
+					var docxImage1 = doc.AddImage(PicWrite);
+					var paragraphs = doc.Paragraphs.Where(x => x.Text.Equals("[@Write$]"));
+					foreach (var paragraph in paragraphs)
+					{
+						paragraph.InsertPicture(docxImage1.CreatePicture(50, 150), 0);
+						paragraph.ReplaceText("[@Write$]", "");
+					}
+				}
+				else
+				{
+					doc.ReplaceText("[@Write$]", "");
+				}
+
+				String PicEvName = sysFile2 == null ? string.Empty : Path.Combine(configuration.GetValue<String>("FileRootPath"), sysFile2.FPath + "\\" + sysFile2.FNameDl + "." + sysFile2.FExt);
+				if (!string.IsNullOrEmpty(PicWrite))
+				{
+					var docxImage2 = doc.AddImage(PicEvName);
+					var paragraphs2 = doc.Paragraphs.Where(x => x.Text.Equals("[@EvName$]"));
+					foreach (var paragraph2 in paragraphs2)
+					{
+						paragraph2.InsertPicture(docxImage2.CreatePicture(50, 150), 0);
+						paragraph2.ReplaceText("[@EvName$]", "");
+					}
+				}
+				else
+				{
+					doc.ReplaceText("[@EvName$]", "");
+				}
+
+				doc.ReplaceText("[@Pass$]", eEvaluationSche.IsPass == true ? "■" : "□");
+				doc.ReplaceText("[@Fail$]", eEvaluationSche.IsPass != true ? "■" : "□");
 
 				doc.SaveAs(SavePath);
 			}
