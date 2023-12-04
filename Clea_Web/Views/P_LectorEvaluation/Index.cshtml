@@ -48,13 +48,17 @@
 															@(ev.SubName_PName + "(" + ev.ClassName_BookName + ")")
 														</td>
 														<td>
-															@if (ev.Status == 6 || ev.Status == 7)
+															@if ((ev.Status == 6 || ev.Status == 7 || ev.IsClose) && ev.ScoreA == null)
 															{
 																<a href="@Url.Action("Modify","P_LectorEvaluation", new { ED_ID = ev.ED_ID })" class="btn btn-success">檢視</a>
 															}
+															else if (ev.ScoreA != null)
+															{
+																<a href="@Url.Action("Modify","P_LectorEvaluation", new { ED_ID = ev.ED_ID })" class="btn btn-info">已評分</a>
+															}
 															else
 															{
-																<a href="@Url.Action("Modify","P_LectorEvaluation", new { ED_ID = ev.ED_ID })" class="btn btn-info">評分</a>
+																<a href="@Url.Action("Modify","P_LectorEvaluation", new { ED_ID = ev.ED_ID })" class="btn btn-danger">尚未評分</a>
 															}
 														</td>
 													</tr>

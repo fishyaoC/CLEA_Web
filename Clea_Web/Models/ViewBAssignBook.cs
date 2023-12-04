@@ -12,4 +12,8 @@ public partial class ViewBAssignBook
     public string? MName { get; set; }
 
     public Guid? EId { get; set; }
+
+    public bool? IsPass { get; set; }
+
+    public bool? IsClose { get; set; }
 }

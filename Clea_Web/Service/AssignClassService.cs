@@ -122,8 +122,9 @@ namespace Clea_Web.Service
 					  where
 					  (
 					  (CL.EId == E_ID) &&
-					  (string.IsNullOrEmpty(data.S_Name) || CL.DId.Contains(data.S_Name.Trim())) &&
-					  (string.IsNullOrEmpty(data.L_Name) || CL.DName.Contains(data.L_Name.Trim()))
+					  (string.IsNullOrEmpty(data.S_ID) || CL.DId.Contains(data.S_ID.Trim())) &&
+					  (string.IsNullOrEmpty(data.S_Name) || CL.DName.Contains(data.S_Name.Trim())) &&
+					  (string.IsNullOrEmpty(data.L_Name) || CL.LName.Contains(data.L_Name.Trim()))
 					  )
 					  select new AssignClassViewModel.CL()
 					  {
@@ -133,8 +134,8 @@ namespace Clea_Web.Service
 						  S_Name = CL.DName,
 						  L_Name = CL.LName,
 						  Status = CL.Status,
-						  D_Hour = CL.DHour
-						  //IsEvaluate = (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault() == null ? false : (from ed in db.EEvaluateDetails where ed.MatchKey2 == CL.ClUid select ed).FirstOrDefault().EScoreA == null ? false : true
+						  D_Hour = CL.DHour,
+						  IsClose = CL.IsClose
 					  }).OrderBy(x => x.S_Name).ThenBy(x => x.L_Name).ToList();
 
 			return result.ToPagedList(page, pagesize);
@@ -344,6 +345,10 @@ namespace Clea_Web.Service
 				result.Abstract = eEvaluationSche.ETeachAbstract;
 				result.IsClose = eEvaluateDetail.IsClose;
 				result.Status = eEvaluateDetail.Status;
+				if (result.Score_A != null)
+				{
+					result.TotalScore = (result.Score_A.Value + result.Score_B.Value + result.Score_C.Value + result.Score_D.Value + result.Score_E.Value);
+				}
 			}
 
 			return result;
@@ -371,29 +376,15 @@ namespace Clea_Web.Service
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 				if (eEvaluateDetail != null)
 				{
-					if (data.Status == 4 && data.IsClose)
-					{
-						eEvaluateDetail.Status = 6;
-					}
-					else if (data.Status == 4 && !data.IsClose)
-					{
-						eEvaluateDetail.Status = 4;
-					}
-					else if (data.Status == 5 && data.IsClose)
-					{
-						eEvaluateDetail.Status = 7;
-					}
-					else if (data.Status == 5 && !data.IsClose)
-					{
-						eEvaluateDetail.Status = 5;
-					}
+					Double Total = 0;
 					eEvaluateDetail.EScoreA = data.Score_A;
 					eEvaluateDetail.EScoreB = data.Score_B;
 					eEvaluateDetail.EScoreC = data.Score_C;
 					eEvaluateDetail.EScoreD = data.Score_D;
 					eEvaluateDetail.EScoreE = data.Score_E;
+					Total = eEvaluateDetail.EScoreA.Value + eEvaluateDetail.EScoreB.Value + eEvaluateDetail.EScoreC.Value + eEvaluateDetail.EScoreD.Value + eEvaluateDetail.EScoreE.Value;
+					eEvaluateDetail.Status = Total >= 85 ? 4 : 5;
 					eEvaluateDetail.ERemark = data.Remark;
-					eEvaluateDetail.IsClose = data.IsClose;
 					eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
 					eEvaluateDetail.Upddate = DateTime.Now;
 					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
@@ -406,6 +397,52 @@ namespace Clea_Web.Service
 			}
 
 			return result;
+		}
+		#endregion
+
+		#region 結案狀態
+		public void SaveClose(Guid ES_ID, Boolean IsType)
+		{
+			List<EEvaluateDetail> eEvaluateDetails = db.EEvaluateDetails.Where(x => x.EsId == ES_ID).ToList();
+			if (eEvaluateDetails != null && eEvaluateDetails.Count > 0)
+			{
+				foreach (EEvaluateDetail item in eEvaluateDetails)
+				{
+					item.IsClose = IsType;
+					if (IsType)
+					{
+						switch (item.Status)
+						{
+							case 4:
+								item.Status = 6;
+								break;
+							case 5:
+								item.Status = 7;
+								break;
+							default:
+								break;
+						}
+					}
+					else
+					{
+						switch (item.Status)
+						{
+							case 6:
+								item.Status = 4;
+								break;
+							case 7:
+								item.Status = 5;
+								break;
+							default:
+								break;
+						}
+					}				
+
+					item.Upduser = Guid.Parse(GetUserID(user));
+					item.Upddate = DateTime.Now;
+				}
+				db.SaveChanges();
+			}
 		}
 		#endregion
 

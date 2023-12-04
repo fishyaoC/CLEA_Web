@@ -215,7 +215,10 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('#PersonID').select2();
+        $('#PersonID').select2({
+            placeholder: "展開後可使用下方搜尋框搜尋",
+            allowClear: true,
+        });
     });
 </script>
 

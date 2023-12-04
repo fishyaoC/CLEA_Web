@@ -44,6 +44,7 @@ namespace Clea_Web.ViewModels
 			public Int32 M_Status { get; set; }
 			public Guid ED_ID { get; set; }
 			public Int32 T_Count { get; set; }
+			public Boolean IsClose { get; set; }
 		}
 		#endregion
 
@@ -91,6 +92,8 @@ namespace Clea_Web.ViewModels
 
 		#region V_Index
 		public List<EDInfo> lst_EDInfo { get; set; }
+		public Guid E_ID { get; set; }
+		public Boolean IsClose { get; set; }
 		public class EDInfo
 		{
 			public Guid ED_ID { get; set; }
@@ -105,6 +108,7 @@ namespace Clea_Web.ViewModels
 			public String M_lv_Teacher { get; set; }
 			public Guid ES_ID { get; set; }
 			public Guid E_ID { get; set; }
+			public Boolean IsClose { get; set; }
 		}
 		#endregion
 
@@ -136,6 +140,7 @@ namespace Clea_Web.ViewModels
 			public String? Remark { get; set; }
 			public Boolean IsClose { get; set; }
 			public Int32 Status { get; set; }
+			public Double TotalScore { get; set; }
 		}
 		#endregion
 

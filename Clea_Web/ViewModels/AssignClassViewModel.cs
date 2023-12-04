@@ -54,6 +54,7 @@ namespace Clea_Web.ViewModels
 
 		public class CLschItem
 		{
+			public String? S_ID { get; set; }
 			public String? S_Name { get; set; }
 			public String? L_Name { get; set; }
 		}
@@ -69,6 +70,7 @@ namespace Clea_Web.ViewModels
 			public Int32 Status { get; set; }
 			public Int32 ScheNum { get; set; }
 			public Int32? D_Hour { get; set; }
+			public Boolean IsClose { get; set; }
 		}
 		#endregion
 
@@ -156,6 +158,7 @@ namespace Clea_Web.ViewModels
 			public String? Abstract { get; set; }
 			public Int32 Status { get; set; }
 			public Boolean IsClose { get; set; }
+			public Double TotalScore { get; set; }
 		}
 		#endregion
 
@@ -192,6 +195,7 @@ namespace Clea_Web.ViewModels
 			public String BookNumber { get; set; }
 			public String Write { get; set; }
 			public Boolean? IsPass { get; set; }
+			public Boolean IsClose { get; set; }
 		}
 		#endregion
 		public class schClassItem

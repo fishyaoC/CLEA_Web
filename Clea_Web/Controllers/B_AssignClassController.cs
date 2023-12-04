@@ -102,6 +102,7 @@ namespace Clea_Web.Controllers
 								ScheNum = 0,
 								IsSche = true,
 								IsClose = false,
+								IsPass = null,
 								Creuser = ccl.Creuser.Value,
 								Credate = ccl.Credate.Value
 							};
@@ -397,7 +398,8 @@ namespace Clea_Web.Controllers
 					S_ID = viewBAssignClassLector.DId,
 					S_Name = viewBAssignClassLector.DName,
 					L_ID = viewBAssignClassLector.LId,
-					L_Name = viewBAssignClassLector.LName
+					L_Name = viewBAssignClassLector.LName,
+
 				};
 				vmd.picPath = _fileService.GetImageBase64List_PNG(viewBAssignClassLector.EsId);
 				vmd.v_ScoreModel = _assignService.GetVModel(ED_ID);
@@ -432,13 +434,13 @@ namespace Clea_Web.Controllers
 		#endregion
 
 		#region 匯出審查表
-		public IActionResult Export_ScoreWord(Guid ES_ID)
+		public IActionResult Export_ScoreWord(Guid ED_ID)
 		{
-			ViewBAssignClassScore? viewBAssignClassScore = db.ViewBAssignClassScores.Where(x => x.EsId == ES_ID).FirstOrDefault() ?? null;
+			ViewBAssignClassScore? viewBAssignClassScore = db.ViewBAssignClassScores.Where(x => x.EdId == ED_ID).FirstOrDefault() ?? null;
 			ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == viewBAssignClassScore.EsId).FirstOrDefault() ?? null;
 
 			String L_Name = viewBAssignClassScore != null ? viewBAssignClassScore.LName : string.Empty;
-			String ScoreT = ((viewBAssignClassScore.EScoreA.Value) + (viewBAssignClassScore.EScoreB.Value) + (viewBAssignClassScore.EScoreC.Value) + (viewBAssignClassScore.EScoreD.Value) + (viewBAssignClassScore.EScoreE.Value)).ToString("#.##");
+			String ScoreT = ((viewBAssignClassScore.EScoreA == null ? 0 : viewBAssignClassScore.EScoreA.Value) + (viewBAssignClassScore.EScoreB == null ? 0 : viewBAssignClassScore.EScoreB.Value) + (viewBAssignClassScore.EScoreC == null ? 0 : viewBAssignClassScore.EScoreC.Value) + (viewBAssignClassScore.EScoreD == null ? 0 : viewBAssignClassScore.EScoreD.Value) + (viewBAssignClassScore.EScoreE == null ? 0 : viewBAssignClassScore.EScoreE.Value)).ToString("#.##");
 
 			String SourcePath = "./SampleFile/ClassEvaExample.docx";
 			String SavePath = "./SampleFile/Output/" + L_Name + "-教學內容審查表.docx";
@@ -458,8 +460,16 @@ namespace Clea_Web.Controllers
 				doc.ReplaceText("[@ScoreE$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EScoreE.ToString());
 				doc.ReplaceText("[@ScoreT$]", ScoreT);
 				doc.ReplaceText("[@Remark$]", viewBAssignClassScore is null ? string.Empty : string.IsNullOrEmpty(viewBAssignClassScore.ERemark) ? string.Empty : viewBAssignClassScore.ERemark);
-				doc.ReplaceText("[@Pass$]", Convert.ToDouble(ScoreT) >= 85 ? "■" : "□");
-				doc.ReplaceText("[@Fail$]", Convert.ToDouble(ScoreT) >= 85 ? "□" : "■");
+				if (!string.IsNullOrEmpty(ScoreT))
+				{
+					doc.ReplaceText("[@Pass$]", Convert.ToDouble(ScoreT) >= 85 ? "■" : "□");
+					doc.ReplaceText("[@Fail$]", Convert.ToDouble(ScoreT) >= 85 ? "□" : "■");
+				}
+				else
+				{
+					doc.ReplaceText("[@Pass$]", "□");
+					doc.ReplaceText("[@Fail$]", "□");
+				}
 
 				doc.SaveAs(SavePath);
 			}
@@ -512,14 +522,30 @@ namespace Clea_Web.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult ScoreIndex(AssignClassViewModel.S_Model vmd)
 		{
+			_assignService.user = User;
+			AssignClassViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			BaseService baseService = new BaseService();
 			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(vmd.ES_ID) ?? null;
-			if (eEvaluationSche != null && vmd.IsPass != null)
+			if (eEvaluationSche != null)
 			{
+				_assignService.SaveClose(vmd.ES_ID, vmd.IsClose);
 				eEvaluationSche.IsPass = vmd.IsPass;
+				eEvaluationSche.IsClose = vmd.IsClose;
 				eEvaluationSche.Upduser = Guid.Parse(baseService.GetUserID(User)); ;
 				eEvaluationSche.Upddate = DateTime.Now;
-				db.SaveChanges();
+				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+			}
+
+			if (result.CheckMsg)
+			{
+				TempData["TempMsgType"] = "success";
+				TempData["TempMsgTitle"] = "儲存成功";
+			}
+			else
+			{
+				TempData["TempMsgType"] = "error";
+				TempData["TempMsgTitle"] = "儲存失敗";
+				TempData["TempMsg"] = result.ErrorMsg;
 			}
 			return RedirectToAction("ScoreIndex", new { ES_ID = vmd.ES_ID });
 		}
@@ -611,6 +637,55 @@ namespace Clea_Web.Controllers
 			System.IO.File.Delete(SavePath);
 
 			return File(result, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", vmd.ClassSub + "(" + vmd.ClassName + ")-教學單元大綱.docx");
+		}
+		#endregion
+
+		#region 退回重審
+		public IActionResult Modify_Back(Guid ED_ID)
+		{
+			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
+			BaseService baseService = new BaseService();
+			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
+			if (eEvaluateDetail != null)
+			{
+				CLector? cLector = db.CLectors.Find(eEvaluateDetail.Evaluate) ?? null;
+				eEvaluateDetail.Status = 2;
+				eEvaluateDetail.EScoreA = null;
+				eEvaluateDetail.EScoreB = null;
+				eEvaluateDetail.EScoreC = null;
+				eEvaluateDetail.EScoreD = null;
+				eEvaluateDetail.EScoreD = null;
+				eEvaluateDetail.ERemark = null;
+				eEvaluateDetail.IsMail = false;
+				eEvaluateDetail.Upddate = DateTime.Now;
+				eEvaluateDetail.Upduser = Guid.Parse(baseService.GetUserID(User));
+				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				//List<string> lst_mail = new List<string>();
+				//if (cLector != null)
+				//{
+				//	lst_mail.Add(cLector.LEmail);
+				//	_smtpService.SendMail(lst_mail, "[通知]-CLEA評分提醒", cLector.LName + "老師您好，請至本會網站進行評分工作，謝謝您。");
+				//}
+			}
+			else
+			{
+				result.CheckMsg = false;
+				result.ErrorMsg = "查無此筆資料!";
+			}
+
+			if (result.CheckMsg)
+			{
+				TempData["TempMsgType"] = "success";
+				TempData["TempMsgTitle"] = "儲存成功";
+				TempData["TempMsg"] = "已退回";
+			}
+			else
+			{
+				TempData["TempMsgType"] = "error";
+				TempData["TempMsgTitle"] = "儲存失敗";
+				TempData["TempMsg"] = result.ErrorMsg;
+			}
+			return RedirectToAction("V_Modify", new { ED_ID = ED_ID });
 		}
 		#endregion
 	}

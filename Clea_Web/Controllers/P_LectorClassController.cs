@@ -52,7 +52,7 @@ namespace Clea_Web.Controllers
 			_lectorClassService.user = User;
 			String chkExt = string.IsNullOrEmpty(data.modify.FileName) ? Path.GetExtension(data.modify.file.FileName) : data.modify.FileName;
 
-			if (chkExt.Contains(".ppt"))
+			if (chkExt.Contains(".ppt") || chkExt.Contains(".pdf"))
 			{
 				result = _lectorClassService.SaveModifyData(data.modify);
 				if (data.modify.IsUpdate)

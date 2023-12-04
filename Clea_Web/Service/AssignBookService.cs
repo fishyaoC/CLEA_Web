@@ -44,6 +44,7 @@ namespace Clea_Web.Service
 						  E_ID = book.EId.Value,
 						  M_Index = book.MIndex,
 						  M_Name = book.MName,
+						  IsClose = book.IsClose.Value,
 						  T_Count = (from eed in db.EEvaluateDetails where eed.EId == book.EId select eed).Count(),
 						  M_Status = (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault() == null ? 0 : (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault().Status
 					  }).ToList();
@@ -128,8 +129,13 @@ namespace Clea_Web.Service
 						};
 						db.EEvaluationSches.Add(eEvaluationSche);
 					}
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 				}
-				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				else
+				{
+					result.CheckMsg = false;
+					result.ErrorMsg = "教材種類尚未指定訓練單位(出版社)!";
+				}				
 			}
 			catch (Exception ex)
 			{
@@ -254,7 +260,8 @@ namespace Clea_Web.Service
 						  M_Book = item.MName,
 						  M_Publish = item.BpName,
 						  M_lv_Teacher = item.LName,
-						  M_Status = item.Status
+						  M_Status = item.Status,
+						  IsClose = item.IsClose
 					  }).OrderBy(x => x.M_lv_Teacher).ToList();
 
 			return result;
@@ -267,7 +274,7 @@ namespace Clea_Web.Service
 			AssignBookViewModel.ScoreModify result = new AssignBookViewModel.ScoreModify();
 			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
 			if (eEvaluateDetail != null)
-			{
+			{				
 				result.E_ID = eEvaluateDetail.EId;
 				result.ED_ID = ED_ID;
 				result.Score_A = eEvaluateDetail.EScoreA;
@@ -276,6 +283,10 @@ namespace Clea_Web.Service
 				result.Remark = eEvaluateDetail.ERemark;
 				result.IsClose = eEvaluateDetail.IsClose;
 				result.Status = eEvaluateDetail.Status;
+				if (result.Score_A != null)
+				{
+					result.TotalScore = result.Score_A.Value + result.Score_C.Value + result.Score_B.Value;
+				}
 			}
 
 			return result;
@@ -427,7 +438,7 @@ namespace Clea_Web.Service
 		public Byte[] Export_ScoreZip(Guid E_ID, String dir)
 		{
 			List<ViewBAssignBookScore> viewBAssignBookScore = db.ViewBAssignBookScores.Where(x => x.EId == E_ID).OrderBy(x => x.BpName).ToList();
-			String B_Name = viewBAssignBookScore.Count > 0 ? viewBAssignBookScore.FirstOrDefault().MName : string.Empty;
+			String B_Name = viewBAssignBookScore.Count > 0 ? viewBAssignBookScore.FirstOrDefault().MName.Trim() : string.Empty;
 			Int32 PublishCount = viewBAssignBookScore.GroupBy(i => i.BpName).Count();
 			var lstPublish = viewBAssignBookScore.GroupBy(x => x.BpName).ToList();  //評鑑版本
 			Int32 EvTeacherCount = viewBAssignBookScore.GroupBy(x => x.Evaluate).Count();

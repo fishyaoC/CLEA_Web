@@ -81,8 +81,6 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<ViewBookEvaluate> ViewBookEvaluates { get; set; }
 
-    public virtual DbSet<ViewBookEvaluateTeacher> ViewBookEvaluateTeachers { get; set; }
-
     public virtual DbSet<ViewBridgeCBook> ViewBridgeCBooks { get; set; }
 
     public virtual DbSet<ViewBridgeCBookPublish> ViewBridgeCBookPublishes { get; set; }
@@ -102,8 +100,6 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<ViewClassLector> ViewClassLectors { get; set; }
 
     public virtual DbSet<ViewClassLectorEvaluate> ViewClassLectorEvaluates { get; set; }
-
-    public virtual DbSet<ViewClassLectorUnFileLoad> ViewClassLectorUnFileLoads { get; set; }
 
     public virtual DbSet<ViewEvaluateDetailInfo> ViewEvaluateDetailInfos { get; set; }
 
@@ -489,7 +485,7 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("評核PK")
                 .HasColumnName("ES_ID");
             entity.Property(e => e.FileFullName)
-                .HasMaxLength(150)
+                .HasMaxLength(250)
                 .IsUnicode(false)
                 .HasComment("檔案全名");
             entity.Property(e => e.IsUpdate).HasComment("是否為重大更新");
@@ -1411,24 +1407,6 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnName("M_Name");
         });
 
-        modelBuilder.Entity<ViewBookEvaluateTeacher>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("View_BookEvaluateTeacher");
-
-            entity.Property(e => e.EId).HasColumnName("E_ID");
-            entity.Property(e => e.LId)
-                .HasMaxLength(10)
-                .IsUnicode(false)
-                .HasColumnName("L_ID");
-            entity.Property(e => e.LName)
-                .HasMaxLength(300)
-                .IsUnicode(false)
-                .HasColumnName("L_NAME");
-            entity.Property(e => e.LUid).HasColumnName("L_UID");
-        });
-
         modelBuilder.Entity<ViewBridgeCBook>(entity =>
         {
             entity
@@ -1792,32 +1770,6 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.LevYear).HasColumnName("LEv_Year");
         });
 
-        modelBuilder.Entity<ViewClassLectorUnFileLoad>(entity =>
-        {
-            entity
-                .HasNoKey()
-                .ToView("View_ClassLectorUnFileLoad");
-
-            entity.Property(e => e.CName)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("C_Name");
-            entity.Property(e => e.DName)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("D_Name");
-            entity.Property(e => e.EId).HasColumnName("E_ID");
-            entity.Property(e => e.EType).HasColumnName("E_Type");
-            entity.Property(e => e.EYear).HasColumnName("E_Year");
-            entity.Property(e => e.EdId).HasColumnName("ED_ID");
-            entity.Property(e => e.FMatchKey).HasColumnName("F_MatchKey");
-            entity.Property(e => e.LName)
-                .HasMaxLength(300)
-                .IsUnicode(false)
-                .HasColumnName("L_NAME");
-            entity.Property(e => e.MatchKey2).HasColumnName("matchKey2");
-        });
-
         modelBuilder.Entity<ViewEvaluateDetailInfo>(entity =>
         {
             entity
@@ -1943,6 +1895,7 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasColumnName("D_Name");
             entity.Property(e => e.EId).HasColumnName("E_ID");
+            entity.Property(e => e.EScoreA).HasColumnName("E_ScoreA");
             entity.Property(e => e.EType).HasColumnName("E_Type");
             entity.Property(e => e.EdId).HasColumnName("ED_ID");
             entity.Property(e => e.EsId).HasColumnName("ES_ID");

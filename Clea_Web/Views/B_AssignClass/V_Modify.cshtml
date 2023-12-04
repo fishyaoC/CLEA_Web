@@ -23,10 +23,10 @@
 								</div>
 							</div>
 							<div class="row">
-@* 								<div class="col-md-4">
-									<div class="form-group">
-										<h3>評鑑年度: @(Model.cLInfo.Year) 年</h3>
-									</div>
+								@* 								<div class="col-md-4">
+								<div class="form-group">
+								<h3>評鑑年度: @(Model.cLInfo.Year) 年</h3>
+								</div>
 								</div> *@
 								<div class="col-md-6">
 									<div class="form-group">
@@ -207,6 +207,19 @@
 													@Html.ValidationMessageFor(x => x.v_ScoreModel.Score_E)
 												</td>
 											</tr>
+											<tr>
+												<td colspan="2">平均分數</td>
+												<td>
+													@if (Model.v_ScoreModel.TotalScore >= 85 && Model.v_ScoreModel.TotalScore <= 100)
+													{
+														<a><span style="color:green">@Model.v_ScoreModel.TotalScore (及格)</span></a>
+													}
+													else
+													{
+														<a><span style="color:red">@Model.v_ScoreModel.TotalScore (不及格)</span></a>
+													}
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -222,61 +235,35 @@
 									@Html.TextAreaFor(x => x.v_ScoreModel.Remark, new { @class = "form-control form-control" })
 								}
 							</div>
-							<div class="card-body">
-								<label for="exampleInputName1">是否通過</label>
-								@if (Model.v_ScoreModel.IsClose)
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.Status, 4, new { @class="form-check-input", id = "4", disabled = "disabled" })<lable for="4">通過</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.Status, 5, new { @class="form-check-input", id = "5", disabled = "disabled" })<lable for="5">未通過</lable>
-									</div>
-								}
-								else
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.Status, 4, new { @class="form-check-input", id = "4" })<lable for="4">通過</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.Status, 5, new { @class="form-check-input", id = "5" })<lable for="5">未通過</lable>
-									</div>
-								}
-
-								@Html.ValidationMessageFor(x => x.v_ScoreModel.IsClose)
+							@* 							<div class="card-body">
+							<label for="exampleInputName1">是否通過</label>
+							<div class="form-check">
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							@Html.RadioButtonFor(x=>x.v_ScoreModel.Status, 4, new { @class="form-check-input", id = "4" })<lable for="4">通過</lable>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							@Html.RadioButtonFor(x=>x.v_ScoreModel.Status, 5, new { @class="form-check-input", id = "5" })<lable for="5">未通過</lable>
+							</div>
+							@Html.ValidationMessageFor(x => x.v_ScoreModel.IsClose)
 							</div>
 							<div class="card-body">
-								<label for="exampleInputName1">是否結案</label>
-								@if (Model.v_ScoreModel.IsClose)
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.IsClose, false, new { @class="form-check-input", id = "N", disabled = "disabled" })<lable for="N">未結案</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.IsClose, true, new { @class="form-check-input", id = "Y", disabled = "disabled" })<lable for="Y">結案</lable>
-									</div>
-								}
-								else
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.IsClose, false, new { @class="form-check-input", id = "N" })<lable for="N">未結案</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.v_ScoreModel.IsClose, true, new { @class="form-check-input", id = "Y" })<lable for="Y">結案</lable>
-
-									</div>
-								}
-
-								@Html.ValidationMessageFor(x => x.v_ScoreModel.IsClose)
+							<label for="exampleInputName1">是否結案</label>
+							<div class="form-check">
+							&nbsp;&nbsp;&nbsp;&nbsp;
+							@Html.RadioButtonFor(x=>x.v_ScoreModel.IsClose, false, new { @class="form-check-input", id = "N" })<lable for="N">未結案</lable>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							@Html.RadioButtonFor(x=>x.v_ScoreModel.IsClose, true, new { @class="form-check-input", id = "Y" })<lable for="Y">結案</lable>
 							</div>
+							@Html.ValidationMessageFor(x => x.v_ScoreModel.IsClose)
+							</div> *@
 							<div class="card-body">
 								@if (Model.v_ScoreModel.IsClose)
 								{
-									<button type="button" class="btn btn-primary mr-2" disabled="disabled" )>已結案</button>
+									<button class="btn btn-primary mr-2" disabled="disabled">已結案</button>
 								}
 								else
 								{
-									<button type="submit" class="btn btn-primary mr-2" )>儲存變更</button>
+									<button type="submit" class="btn btn-info mr-2" )>儲存變更</button>
+									<a href="@Url.Action("Modify_Back", "B_AssignClass", new { ED_ID = Model.v_ScoreModel.ED_ID })" class="btn btn-danger mr-2")>退回重評</a>
 								}
 							</div>
 						</div>

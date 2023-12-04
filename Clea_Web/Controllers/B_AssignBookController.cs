@@ -67,7 +67,7 @@ namespace Clea_Web.Controllers
 		#region 新增教材評鑑
 		public IActionResult Add()
 		{
-			AssignBookViewModel.AddModel vmd = new AssignBookViewModel.AddModel();			
+			AssignBookViewModel.AddModel vmd = new AssignBookViewModel.AddModel();
 			vmd.selectListItemsBook = _assignBookService.GetSelectListItemsBook();
 			return View(vmd);
 		}
@@ -142,7 +142,7 @@ namespace Clea_Web.Controllers
 			_assignBookService.user = User;
 			_fileService.user = User;
 
-			if(data.uploadFiles.Count > 0)
+			if (data.uploadFiles.Count > 0)
 			{
 				foreach (var item in data.uploadFiles)
 				{
@@ -199,7 +199,7 @@ namespace Clea_Web.Controllers
 
 			vmd.bookInfor = _assignBookService.GetBookInfor(E_ID);
 			vmd.modify = new AssignBookViewModel.Modify();
-			vmd.modify.E_ID = E_ID;			
+			vmd.modify.E_ID = E_ID;
 			vmd.modify.B_UID = eEvaluate.MatchKey;
 			vmd.lst_evTeacher = _assignBookService.getEvTeacherList(E_ID);
 			vmd.selectListItems = _assignBookService.selectListItemsTeacher();
@@ -240,7 +240,7 @@ namespace Clea_Web.Controllers
 			if (result.CheckMsg)
 			{
 				result = _assignBookService.SaveModify(vmd.modify);
-			}					
+			}
 
 			if (result.CheckMsg)
 			{
@@ -299,6 +299,12 @@ namespace Clea_Web.Controllers
 		{
 			AssignBookViewModel vmd = new AssignBookViewModel();
 			vmd.lst_EDInfo = _assignBookService.getEDInfoList(E_ID);
+			vmd.E_ID = E_ID;
+			EEvaluationSche? evaluationSche = db.EEvaluationSches.Where(x => x.EId == E_ID).FirstOrDefault() ?? null;
+			if(evaluationSche != null)
+			{
+				vmd.IsClose = evaluationSche.IsClose;
+			}
 			return View(vmd);
 		}
 		#endregion
@@ -387,5 +393,42 @@ namespace Clea_Web.Controllers
 		}
 		#endregion
 
+		#region 結案
+		public IActionResult Modify_Status(Guid E_ID, Boolean IsType)
+		{
+			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
+			AssignClassService assignClassService = new AssignClassService(db);
+			BaseService baseService = new BaseService();
+			assignClassService.user = User;
+
+			List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
+			if (eEvaluationSches != null && eEvaluationSches.Count > 0)
+			{
+				foreach (EEvaluationSche item in eEvaluationSches)
+				{
+					item.IsClose = IsType;
+					item.Upduser = Guid.Parse(baseService.GetUserID(User));
+					item.Upddate = DateTime.Now;
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+					assignClassService.SaveClose(item.EsId, IsType);
+				}
+				
+				
+			}
+			if (result.CheckMsg)
+			{
+				TempData["TempMsgType"] = "success";
+				TempData["TempMsgTitle"] = "儲存成功";
+			}
+			else
+			{
+				TempData["TempMsgType"] = "error";
+				TempData["TempMsgTitle"] = "儲存失敗";
+				TempData["TempMsg"] = result.ErrorMsg;
+			}
+
+			return RedirectToAction("Index");
+		}
+		#endregion
 	}
 }

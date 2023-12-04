@@ -173,6 +173,19 @@
 													@Html.ValidationMessageFor(x => x.scoreModify.Score_C)
 												</td>
 											</tr>
+											<tr>
+												<td colspan="2">平均分數</td>
+												<td>
+													@if (Model.scoreModify.TotalScore >= 85 && Model.scoreModify.TotalScore <= 100)
+													{
+														<a><span style="color:green">@Model.scoreModify.TotalScore (及格)</span></a>
+													}
+													else
+													{
+														<a><span style="color:red">@Model.scoreModify.TotalScore (不及格)</span></a>
+													}
+												</td>
+											</tr>
 										</tbody>
 									</table>
 								</div>
@@ -188,61 +201,34 @@
 									@Html.TextAreaFor(x => x.scoreModify.Remark, new { @class = "form-control form-control" })
 								}
 							</div>
-							<div class="card-body">
+							@* <div class="card-body">
 								<label for="exampleInputName1">是否通過</label>
-								@if (Model.scoreModify.IsClose)
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.Status, 4, new { @class="form-check-input", id = "4", disabled = "disabled" })<lable for="4">通過</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.Status, 5, new { @class="form-check-input", id = "5", disabled = "disabled" })<lable for="5">未通過</lable>
-									</div>
-								}
-								else
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.Status, 4, new { @class="form-check-input", id = "4" })<lable for="4">通過</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.Status, 5, new { @class="form-check-input", id = "5" })<lable for="5">未通過</lable>
-									</div>
-								}
-
+								<div class="form-check">
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									@Html.RadioButtonFor(x=>x.scoreModify.Status, 4, new { @class="form-check-input", id = "4" })<lable for="4">通過</lable>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									@Html.RadioButtonFor(x=>x.scoreModify.Status, 5, new { @class="form-check-input", id = "5" })<lable for="5">未通過</lable>
+								</div>
 								@Html.ValidationMessageFor(x => x.scoreModify.IsClose)
 							</div>
 							<div class="card-body">
 								<label for="exampleInputName1">是否結案</label>
-								@if (Model.scoreModify.IsClose)
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.IsClose, false, new { @class="form-check-input", id = "N", disabled = "disabled" })<lable for="N">未結案</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.IsClose, true, new { @class="form-check-input", id = "Y", disabled = "disabled" })<lable for="Y">結案</lable>
-									</div>
-								}
-								else
-								{
-									<div class="form-check">
-										&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.IsClose, false, new { @class="form-check-input", id = "N" })<lable for="N">未結案</lable>
-										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-										@Html.RadioButtonFor(x=>x.scoreModify.IsClose, true, new { @class="form-check-input", id = "Y" })<lable for="Y">結案</lable>
-
-									</div>
-								}
-
+								<div class="form-check">
+									&nbsp;&nbsp;&nbsp;&nbsp;
+									@Html.RadioButtonFor(x=>x.scoreModify.IsClose, false, new { @class="form-check-input", id = "N" })<lable for="N">未結案</lable>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									@Html.RadioButtonFor(x=>x.scoreModify.IsClose, true, new { @class="form-check-input", id = "Y" })<lable for="Y">結案</lable>
+								</div>
 								@Html.ValidationMessageFor(x => x.scoreModify.IsClose)
-							</div>
+							</div> *@
 							<div class="card-body">
 								@if (Model.scoreModify.IsClose)
 								{
-									<button type="button" class="btn btn-primary mr-2" disabled="disabled")>已結案</button>
+									<button type="button" class="btn btn-primary mr-2" disabled="disabled" )>已結案</button>
 								}
 								else
 								{
-									<button type="submit" class="btn btn-primary mr-2")>儲存變更</button>
+									<button type="button" class="btn btn-primary mr-2")>儲存</button>
 								}
 							</div>
 						</div>

@@ -27,5 +27,11 @@ public partial class ViewPLectorEvaluate
 
     public Guid? Evaluate { get; set; }
 
+    public bool? IsPass { get; set; }
+
+    public bool IsClose { get; set; }
+
     public DateTime Credate { get; set; }
+
+    public int? EScoreA { get; set; }
 }

@@ -38,7 +38,7 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="exampleInputName1">操作</label>
-											<button class="form-control form-control btn btn-primary mr-2" type="submit">儲存</button>
+											<button class="form-control form-control btn btn-info mr-2" type="submit">儲存</button>
 										</div>
 									</div>
 								</div>
@@ -65,16 +65,16 @@
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputName1">備查文號</label>
-											@Html.TextBoxFor(x=>x.R_Number, new { @class = "form-control form-control" })
-											@Html.ValidationMessageFor(x=>x.R_Number)
+											<label for="exampleInputName1">備查日期</label>
+											@Html.TextBoxFor(x=>x.R_Date, new { @class = "form-control form-control", @type = "date" })
+											@Html.ValidationMessageFor(x=>x.R_Date)
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputName1">備查日期</label>
-											@Html.TextBoxFor(x=>x.R_Date, new { @class = "form-control form-control", @type = "date" })
-											@Html.ValidationMessageFor(x=>x.R_Date)
+											<label for="exampleInputName1">備查文號</label>
+											@Html.TextBoxFor(x=>x.R_Number, new { @class = "form-control form-control" })
+											@Html.ValidationMessageFor(x=>x.R_Number)
 										</div>
 									</div>
 								</div>
@@ -82,7 +82,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											@* <label for="exampleInputName1">操作</label> *@
-											<button class="form-control form-control btn btn-warning mr-2" type="submit">新增</button>
+											<button class="form-control form-control btn btn-info mr-2" type="submit">新增</button>
 										</div>
 									</div>
 								</div>

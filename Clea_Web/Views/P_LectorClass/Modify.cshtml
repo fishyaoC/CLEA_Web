@@ -99,7 +99,7 @@
 										<div class="col-md-4">
 											<div class="form-group">
 												<label for="exampleInputName1">操作</label>
-												<button type="button" class="form-control form-control btn btn-danger" onclick="del('@Model.modify.F_ID')">刪除檔案</button>
+												<button type="button" class="form-control form-control btn btn-warning" onclick="del('@Model.modify.F_ID')">更換檔案</button>
 											</div>
 										</div>
 									}
@@ -156,11 +156,11 @@
 										<div class="form-group">
 											@if (Model.modify.Status == 0 || Model.modify.Status == 10)
 											{
-												<button type="submit" class="form-control form-control btn btn-primary" onclick="dela()">儲存</button>
+												<button type="submit" class="form-control form-control btn btn-info" onclick="dela()">儲存</button>
 											}
 											else
 											{
-												<button type="button" class="form-control form-control btn btn-primary" disabled="disabled">儲存</button>
+												<button type="button" class="form-control form-control btn btn-info" disabled="disabled">儲存</button>
 											}
 										</div>
 									</div>
@@ -281,7 +281,7 @@
 	function del(F_ID) {
 		//刪除按紐
 		Swal.fire({
-			title: '是否確定要刪除？',
+			title: '是否確定要更換檔案？',
 			icon: 'warning',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',

@@ -31,128 +31,132 @@
                 </div>
             </div>
         </div>
-        <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data' onsubmit="validateForm()">
+    </div>
+
+
+    <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data' onsubmit="validateForm()">
+        <div class="mb-2 mt-2">
             <button type="submit" class="btn btn-info ">儲存</button>
-            @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
-            @*設定頁面*@
-            @Html.AntiForgeryToken()
-            @*回傳狀態*@
-            @Html.HiddenFor(x => x.IsEdit)
-            @*回傳Uid*@
-            @Html.HiddenFor(x => x.UId)
-            <div class="col-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.OldPW, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.PasswordFor(x => x.OldPW, new { @class = "form-control form-control-lg", id = "OldPW", placeholder = "舊密碼" })
-                                        @Html.ValidationMessageFor(x => x.OldPW)
-                                    </div>
+        </div>
+        @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
+        @*設定頁面*@
+        @Html.AntiForgeryToken()
+        @*回傳狀態*@
+        @Html.HiddenFor(x => x.IsEdit)
+        @*回傳Uid*@
+        @Html.HiddenFor(x => x.UId)
+        <div class="col-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.OldPW, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-9">
+                                    @Html.PasswordFor(x => x.OldPW, new { @class = "form-control form-control-lg", id = "OldPW", placeholder = "舊密碼" })
+                                    @Html.ValidationMessageFor(x => x.OldPW)
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.NewPW, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-9">
+                                    @Html.PasswordFor(x => x.NewPW, new { @class = "form-control form-control-lg", id = "NewPW", placeholder = "新密碼" })
+                                    @Html.ValidationMessageFor(x => x.NewPW)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                @Html.LabelFor(x => x.CheckNewPW, new { @class = "col-sm-3 col-form-label" })
+                                <div class="col-sm-9">
+                                    @Html.PasswordFor(x => x.CheckNewPW, new { @class = "form-control form-control-lg", id = "CheckNewPW", placeholder = "再次確認新密碼" })
+                                    @Html.ValidationMessageFor(x => x.CheckNewPW)
                                 </div>
 
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.NewPW, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.PasswordFor(x => x.NewPW, new { @class = "form-control form-control-lg", id = "NewPW", placeholder = "新密碼" })
-                                        @Html.ValidationMessageFor(x => x.NewPW)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.CheckNewPW, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.PasswordFor(x => x.CheckNewPW, new { @class = "form-control form-control-lg", id = "CheckNewPW", placeholder = "再次確認新密碼" })
-                                        @Html.ValidationMessageFor(x => x.CheckNewPW)
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <!--<div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳電子簽名檔</label>
-                                    <div class="col-sm-9">
-                                        @if (@Model.FilePath != null)
-                                        {
-                                            // 有檔案
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group row">
-                                                        <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                                        <div class="col-sm-9">
-                                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="exampleInputName" class="col-sm-3 col-form-label">上傳電子簽名檔</label>
+                                <div class="col-sm-9">
+                    @if (@Model.FilePath != null)
+                    {
+                    // 有檔案
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                                            <div class="col-sm-9">
+                                                                <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        }
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group row">
-                                                    <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
-                                                    <div class="col-sm-9">
-                                                        @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control", id = "file", placeholder = "電子簽名檔", @type = "file" })
-                                                        @* @Html.ValidationMessageFor(x => x.file) *@
-                                                    </div>
+                    }
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label for="exampleInputName" class="col-sm-3 col-form-label">電子簽名檔</label>
+                                                <div class="col-sm-9">
+                    @Html.TextBoxFor(x => x.file, new { @class = "form-control form-control", id = "file", placeholder = "電子簽名檔", @type = "file" })
+                    @* @Html.ValidationMessageFor(x => x.file) *@
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                    </div>
+                        </div>
+                    </div> -->
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
 <script>
 
-function validatePassword() {
-    var newPassword = document.getElementById('NewPW').value;
-    var checkNewPassword = document.getElementById('CheckNewPW').value;
+    function validatePassword() {
+        var newPassword = document.getElementById('NewPW').value;
+        var checkNewPassword = document.getElementById('CheckNewPW').value;
 
-    if (newPassword.length < 8) {
-        alert("新密碼必須大於8個字符");
-        return false;
-    }
-    else if (newPassword !== checkNewPassword) {
-        alert("新密碼與再次確認新密碼不一致");
-        return false;
-    }
-    else {
-        return true; // 密碼驗證通過
-    }
-}
-
-function validateFile() {
-    var filePath = "@Model.FilePath";
-
-    if (filePath === null || filePath === '') {
-        var fileInput = document.getElementById('file');
-        if (fileInput.value === '') {
-            alert("請上傳檔案");
+        if (newPassword.length < 8) {
+            alert("新密碼必須大於8個字符");
             return false;
         }
-    } else {
-        return true;
+        else if (newPassword !== checkNewPassword) {
+            alert("新密碼與再次確認新密碼不一致");
+            return false;
+        }
+        else {
+            return true; // 密碼驗證通過
+        }
     }
 
-    return true; // 檔案驗證通過
-}
+    function validateFile() {
+        var filePath = "@Model.FilePath";
+
+        if (filePath === null || filePath === '') {
+            var fileInput = document.getElementById('file');
+            if (fileInput.value === '') {
+                alert("請上傳檔案");
+                return false;
+            }
+        } else {
+            return true;
+        }
+
+        return true; // 檔案驗證通過
+    }
 
     function validateForm() {
         if (!validatePassword()) {

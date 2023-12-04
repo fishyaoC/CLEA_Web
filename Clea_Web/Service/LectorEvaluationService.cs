@@ -27,12 +27,14 @@ namespace Clea_Web.Service
 					  {
 						  ED_ID = ple.EdId,
 						  mType = ple.EType == 0 ? "課程" : "教材",
-						  ClassName_BookName = ple.EType == 0 ?ple.CName:ple.MName,
+						  ClassName_BookName = ple.EType == 0 ? ple.CName : ple.MName,
 						  SubName_PName = ple.EType == 0 ? ple.DName : ple.BpName,
 						  Status = ple.Status,
-						  IsUpload = (from fi in db.SysFiles where fi.FMatchKey == ple.EsId select fi).Count() > 0 ? true:false,
-						  CreDate = ple.Credate
-					  }).OrderByDescending(x=>x.CreDate).ToList();
+						  IsUpload = (from fi in db.SysFiles where fi.FMatchKey == ple.EsId select fi).Count() > 0 ? true : false,
+						  CreDate = ple.Credate,
+						  IsClose = ple.IsClose,
+						  ScoreA = ple.EScoreA
+					  }).OrderByDescending(x => x.CreDate).ToList();
 
 			return result.ToPagedList(page, pagesize);
 		}
@@ -47,6 +49,7 @@ namespace Clea_Web.Service
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 				if (eEvaluateDetail != null)
 				{
+					Double Total = 0;
 					eEvaluateDetail.EScoreA = data.ScoreA;
 					eEvaluateDetail.EScoreB = data.mType == 0 ? data.ScoreB : data.ScoreBB;
 					eEvaluateDetail.EScoreC = data.mType == 0 ? data.ScoreC : data.ScoreCB;
@@ -54,7 +57,13 @@ namespace Clea_Web.Service
 					{
 						eEvaluateDetail.EScoreD = data.ScoreD;
 						eEvaluateDetail.EScoreE = data.ScoreE;
+						Total = (eEvaluateDetail.EScoreA.Value + eEvaluateDetail.EScoreB.Value + eEvaluateDetail.EScoreC.Value + eEvaluateDetail.EScoreD.Value + eEvaluateDetail.EScoreE.Value);
 					}
+					else
+					{
+						Total = (eEvaluateDetail.EScoreA.Value + eEvaluateDetail.EScoreB.Value + eEvaluateDetail.EScoreC.Value);
+					}
+					eEvaluateDetail.Status = Total >= 85 ? 4 : 5;
 					eEvaluateDetail.ERemark = data.Remark;
 					eEvaluateDetail.Status = 3;
 					eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));

@@ -82,300 +82,300 @@ namespace Clea_Web.Service
 			/// </summary>
 			public string PhysicalFilePath { get; set; } = string.Empty;
 		}
-        #endregion
+		#endregion
 
-        /// <summary>
-        /// 講師進修資料_檔案上傳
-        /// </summary>
-        /// <param name="matchKey">MatchKey</param>
-        /// <param name="file">檔案</param>
-        /// <param name="overwrite">是否複寫檔案</param>
-        /// <returns></returns>
-        public bool UploadAdvFile(Guid matchKey, IFormFile file, bool overwrite = true)
-        {
+		/// <summary>
+		/// 講師進修資料_檔案上傳
+		/// </summary>
+		/// <param name="matchKey">MatchKey</param>
+		/// <param name="file">檔案</param>
+		/// <param name="overwrite">是否複寫檔案</param>
+		/// <returns></returns>
+		public bool UploadAdvFile(Guid matchKey, IFormFile file, bool overwrite = true)
+		{
 
-            //搜尋檔案資料表
-            SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+			//搜尋檔案資料表
+			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
 
-            //刪除
+			//刪除
 
-            //如果已經有檔案又沒開複寫就失敗
-            if (sysFile != null && !overwrite)
-            {
-                return false;
-            }
+			//如果已經有檔案又沒開複寫就失敗
+			if (sysFile != null && !overwrite)
+			{
+				return false;
+			}
 
-            //取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
-            String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
-            //String directory = mType == 0 ? "Handouts" : "Books";
+			//取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
+			String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+			//String directory = mType == 0 ? "Handouts" : "Books";
 
-            //取得失敗
-            if (string.IsNullOrEmpty(directory.ToString()))
-            {
-                return false;
-            }
+			//取得失敗
+			if (string.IsNullOrEmpty(directory.ToString()))
+			{
+				return false;
+			}
 
-            string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
 
-            //如果不存在建立目錄
-            if (!Directory.Exists(physicalPath))
-            {
-                Directory.CreateDirectory(physicalPath);
-            }
-            else
-            {
+			//如果不存在建立目錄
+			if (!Directory.Exists(physicalPath))
+			{
+				Directory.CreateDirectory(physicalPath);
+			}
+			else
+			{
 
-            }
+			}
 
-            if (sysFile == null)
-            {
-                //新檔案
-                sysFile = new SysFile()
-                {
-                    FileId = Guid.NewGuid(),
-                    FModule = "B_LectorAdv",
-                    FMatchKey = matchKey,
-                    FMimeType = GetMimeType(file.FileName),
-                    FFullName = file.FileName,
-                    FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
-                    FNameDl = Guid.NewGuid().ToString(),
-                    FExt = Path.GetExtension(file.FileName).Replace(".", ""),
-                    FPath = directory.ToString(),
-                    FDescription = null,
-                    FOrder = null,
-                    FRemark = null,
-                    Creuser = Guid.Parse(GetUserID(user)),
-                    Credate = DateTime.Now
-                };
+			if (sysFile == null)
+			{
+				//新檔案
+				sysFile = new SysFile()
+				{
+					FileId = Guid.NewGuid(),
+					FModule = "B_LectorAdv",
+					FMatchKey = matchKey,
+					FMimeType = GetMimeType(file.FileName),
+					FFullName = file.FileName,
+					FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
+					FNameDl = Guid.NewGuid().ToString(),
+					FExt = Path.GetExtension(file.FileName).Replace(".", ""),
+					FPath = directory.ToString(),
+					FDescription = null,
+					FOrder = null,
+					FRemark = null,
+					Creuser = Guid.Parse(GetUserID(user)),
+					Credate = DateTime.Now
+				};
 
-                db.SysFiles.Add(sysFile);
-            }
-            else
-            {
-                //已經有檔案
-                sysFile.FFullName = file.FileName;
-                sysFile.FMimeType = GetMimeType(file.FileName);
-                sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
-                sysFile.FNameDl = Guid.NewGuid().ToString();
-                sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
-                sysFile.FPath = directory.ToString();
-                sysFile.Upduser = Guid.Parse(GetUserID(user));
-                sysFile.Upddate = DateTime.Now;
+				db.SysFiles.Add(sysFile);
+			}
+			else
+			{
+				//已經有檔案
+				sysFile.FFullName = file.FileName;
+				sysFile.FMimeType = GetMimeType(file.FileName);
+				sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
+				sysFile.FNameDl = Guid.NewGuid().ToString();
+				sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
+				sysFile.FPath = directory.ToString();
+				sysFile.Upduser = Guid.Parse(GetUserID(user));
+				sysFile.Upddate = DateTime.Now;
 
-                db.SysFiles.Update(sysFile);
-            }
+				db.SysFiles.Update(sysFile);
+			}
 
-            //上傳
-            string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
-            //string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
-            //String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
-            using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
-            {
-                file.CopyTo(fileStream);
-            }
-            db.SaveChanges();
-
-
-            return true;
-        }
-        /// <summary>
-        /// 電子簽名檔_檔案上傳
-        /// </summary>
-        /// <param name="matchKey">MatchKey</param>
-        /// <param name="file">檔案</param>
-        /// <param name="overwrite">是否複寫檔案</param>
-        /// <returns></returns>
-        public bool UploadSignFile(Guid matchKey, IFormFile file, bool overwrite = true)
-        {
-
-            //搜尋檔案資料表
-            SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
-
-            //刪除
-
-            //如果已經有檔案又沒開複寫就失敗
-            if (sysFile != null && !overwrite)
-            {
-                return false;
-            }
-
-            //取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
-            String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
-            //String directory = mType == 0 ? "Handouts" : "Books";
-
-            //取得失敗
-            if (string.IsNullOrEmpty(directory.ToString()))
-            {
-                return false;
-            }
-
-            string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
-
-            //如果不存在建立目錄
-            if (!Directory.Exists(physicalPath))
-            {
-                Directory.CreateDirectory(physicalPath);
-            }
-            else
-            {
-
-            }
-
-            if (sysFile == null)
-            {
-                //新檔案
-                sysFile = new SysFile()
-                {
-                    FileId = Guid.NewGuid(),
-                    FModule = "Sys_Setting",
-                    FMatchKey = matchKey,
-                    FMimeType = GetMimeType(file.FileName),
-                    FFullName = file.FileName,
-                    FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
-                    FNameDl = Guid.NewGuid().ToString(),
-                    FExt = Path.GetExtension(file.FileName).Replace(".", ""),
-                    FPath = directory.ToString(),
-                    FDescription = null,
-                    FOrder = null,
-                    FRemark = null,
-                    Creuser = Guid.Parse(GetUserID(user)),
-                    Credate = DateTime.Now
-                };
-
-                db.SysFiles.Add(sysFile);
-            }
-            else
-            {
-                //已經有檔案
-                sysFile.FFullName = file.FileName;
-                sysFile.FMimeType = GetMimeType(file.FileName);
-                sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
-                sysFile.FNameDl = Guid.NewGuid().ToString();
-                sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
-                sysFile.FPath = directory.ToString();
-                sysFile.Upduser = Guid.Parse(GetUserID(user));
-                sysFile.Upddate = DateTime.Now;
-
-                db.SysFiles.Update(sysFile);
-            }
-
-            //上傳
-            string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
-            //string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
-            //String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
-            using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
-            {
-                file.CopyTo(fileStream);
-            }
-            db.SaveChanges();
+			//上傳
+			string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+			//string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
+			//String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
+			using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+			{
+				file.CopyTo(fileStream);
+			}
+			db.SaveChanges();
 
 
-            return true;
-        }
-        /// <summary>
-        /// 公佈欄資料_檔案上傳
-        /// </summary>
-        /// <param name="matchKey">MatchKey</param>
-        /// <param name="file">檔案</param>
-        /// <param name="overwrite">是否複寫檔案</param>
-        /// <returns></returns>
-        public bool UploadNewFile(Guid matchKey, IFormFile file, bool overwrite = true)
-        {
+			return true;
+		}
+		/// <summary>
+		/// 電子簽名檔_檔案上傳
+		/// </summary>
+		/// <param name="matchKey">MatchKey</param>
+		/// <param name="file">檔案</param>
+		/// <param name="overwrite">是否複寫檔案</param>
+		/// <returns></returns>
+		public bool UploadSignFile(Guid matchKey, IFormFile file, bool overwrite = true)
+		{
 
-            //搜尋檔案資料表
-            SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+			//搜尋檔案資料表
+			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
 
-            //刪除
+			//刪除
 
-            //如果已經有檔案又沒開複寫就失敗
-            if (sysFile != null && !overwrite)
-            {
-                return false;
-            }
+			//如果已經有檔案又沒開複寫就失敗
+			if (sysFile != null && !overwrite)
+			{
+				return false;
+			}
 
-            //取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
-            String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
-            //String directory = mType == 0 ? "Handouts" : "Books";
+			//取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
+			String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+			//String directory = mType == 0 ? "Handouts" : "Books";
 
-            //取得失敗
-            if (string.IsNullOrEmpty(directory.ToString()))
-            {
-                return false;
-            }
+			//取得失敗
+			if (string.IsNullOrEmpty(directory.ToString()))
+			{
+				return false;
+			}
 
-            string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
 
-            //如果不存在建立目錄
-            if (!Directory.Exists(physicalPath))
-            {
-                Directory.CreateDirectory(physicalPath);
-            }
-            else
-            {
+			//如果不存在建立目錄
+			if (!Directory.Exists(physicalPath))
+			{
+				Directory.CreateDirectory(physicalPath);
+			}
+			else
+			{
 
-            }
+			}
 
-            if (sysFile == null)
-            {
-                //新檔案
-                sysFile = new SysFile()
-                {
-                    FileId = Guid.NewGuid(),
-                    FModule = "B_LectorBtn",
-                    FMatchKey = matchKey,
-                    FMimeType = GetMimeType(file.FileName),
-                    FFullName = file.FileName,
-                    FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
-                    FNameDl = Guid.NewGuid().ToString(),
-                    FExt = Path.GetExtension(file.FileName).Replace(".", ""),
-                    FPath = directory.ToString(),
-                    FDescription = null,
-                    FOrder = null,
-                    FRemark = null,
-                    Creuser = Guid.Parse(GetUserID(user)),
-                    Credate = DateTime.Now
-                };
+			if (sysFile == null)
+			{
+				//新檔案
+				sysFile = new SysFile()
+				{
+					FileId = Guid.NewGuid(),
+					FModule = "Sys_Setting",
+					FMatchKey = matchKey,
+					FMimeType = GetMimeType(file.FileName),
+					FFullName = file.FileName,
+					FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
+					FNameDl = Guid.NewGuid().ToString(),
+					FExt = Path.GetExtension(file.FileName).Replace(".", ""),
+					FPath = directory.ToString(),
+					FDescription = null,
+					FOrder = null,
+					FRemark = null,
+					Creuser = Guid.Parse(GetUserID(user)),
+					Credate = DateTime.Now
+				};
 
-                db.SysFiles.Add(sysFile);
-            }
-            else
-            {
-                //已經有檔案
-                sysFile.FFullName = file.FileName;
-                sysFile.FMimeType = GetMimeType(file.FileName);
-                sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
-                sysFile.FNameDl = Guid.NewGuid().ToString();
-                sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
-                sysFile.FPath = directory.ToString();
-                sysFile.Upduser = Guid.Parse(GetUserID(user));
-                sysFile.Upddate = DateTime.Now;
+				db.SysFiles.Add(sysFile);
+			}
+			else
+			{
+				//已經有檔案
+				sysFile.FFullName = file.FileName;
+				sysFile.FMimeType = GetMimeType(file.FileName);
+				sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
+				sysFile.FNameDl = Guid.NewGuid().ToString();
+				sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
+				sysFile.FPath = directory.ToString();
+				sysFile.Upduser = Guid.Parse(GetUserID(user));
+				sysFile.Upddate = DateTime.Now;
 
-                db.SysFiles.Update(sysFile);
-            }
+				db.SysFiles.Update(sysFile);
+			}
 
-            //上傳
-            string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
-            //string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
-            //String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
-            using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
-            {
-                file.CopyTo(fileStream);
-            }
-            db.SaveChanges();
+			//上傳
+			string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+			//string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
+			//String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
+			using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+			{
+				file.CopyTo(fileStream);
+			}
+			db.SaveChanges();
 
 
-            return true;
-        }
+			return true;
+		}
+		/// <summary>
+		/// 公佈欄資料_檔案上傳
+		/// </summary>
+		/// <param name="matchKey">MatchKey</param>
+		/// <param name="file">檔案</param>
+		/// <param name="overwrite">是否複寫檔案</param>
+		/// <returns></returns>
+		public bool UploadNewFile(Guid matchKey, IFormFile file, bool overwrite = true)
+		{
 
-        /// <summary>
-        /// 檔案上傳含PPT轉PNG
-        /// </summary>
-        /// <param name="mType">功能模組ID 0:課程 1:教材</param>
-        /// <param name="matchKey">MatchKey</param>
-        /// <param name="file">檔案</param>
-        /// <param name="overwrite">是否複寫檔案</param>
-        /// <returns></returns>
-        public bool UploadFile(Boolean IsTrans, Int32 mType, Guid matchKey, IFormFile file, Boolean IsStatusUpdate, bool overwrite = false)
+			//搜尋檔案資料表
+			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+
+			//刪除
+
+			//如果已經有檔案又沒開複寫就失敗
+			if (sysFile != null && !overwrite)
+			{
+				return false;
+			}
+
+			//取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
+			String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+			//String directory = mType == 0 ? "Handouts" : "Books";
+
+			//取得失敗
+			if (string.IsNullOrEmpty(directory.ToString()))
+			{
+				return false;
+			}
+
+			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+
+			//如果不存在建立目錄
+			if (!Directory.Exists(physicalPath))
+			{
+				Directory.CreateDirectory(physicalPath);
+			}
+			else
+			{
+
+			}
+
+			if (sysFile == null)
+			{
+				//新檔案
+				sysFile = new SysFile()
+				{
+					FileId = Guid.NewGuid(),
+					FModule = "B_LectorBtn",
+					FMatchKey = matchKey,
+					FMimeType = GetMimeType(file.FileName),
+					FFullName = file.FileName,
+					FNameReal = Path.GetFileNameWithoutExtension(file.FileName),
+					FNameDl = Guid.NewGuid().ToString(),
+					FExt = Path.GetExtension(file.FileName).Replace(".", ""),
+					FPath = directory.ToString(),
+					FDescription = null,
+					FOrder = null,
+					FRemark = null,
+					Creuser = Guid.Parse(GetUserID(user)),
+					Credate = DateTime.Now
+				};
+
+				db.SysFiles.Add(sysFile);
+			}
+			else
+			{
+				//已經有檔案
+				sysFile.FFullName = file.FileName;
+				sysFile.FMimeType = GetMimeType(file.FileName);
+				sysFile.FNameReal = Path.GetFileNameWithoutExtension(file.FileName);
+				sysFile.FNameDl = Guid.NewGuid().ToString();
+				sysFile.FExt = Path.GetExtension(file.FileName).Replace(".", "");
+				sysFile.FPath = directory.ToString();
+				sysFile.Upduser = Guid.Parse(GetUserID(user));
+				sysFile.Upddate = DateTime.Now;
+
+				db.SysFiles.Update(sysFile);
+			}
+
+			//上傳
+			string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+			//string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
+			//String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
+			using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
+			{
+				file.CopyTo(fileStream);
+			}
+			db.SaveChanges();
+
+
+			return true;
+		}
+
+		/// <summary>
+		/// 檔案上傳含PPT轉PNG
+		/// </summary>
+		/// <param name="mType">功能模組ID 0:課程 1:教材</param>
+		/// <param name="matchKey">MatchKey</param>
+		/// <param name="file">檔案</param>
+		/// <param name="overwrite">是否複寫檔案</param>
+		/// <returns></returns>
+		public bool UploadFile(Boolean IsTrans, Int32 mType, Guid matchKey, IFormFile file, Boolean IsStatusUpdate, bool overwrite = false)
 		{
 
 
@@ -478,8 +478,8 @@ namespace Clea_Web.Service
 				else if (file.FileName.Contains(".pdf"))
 				{
 					pdfToPng(Guid.NewGuid(), savePath, physicalPath);
-				}				
-			}			
+				}
+			}
 
 			return true;
 		}
@@ -509,31 +509,12 @@ namespace Clea_Web.Service
 		public void pdfToPng(Guid matchKey, String sourcePath, String savePath)
 		{
 
-			//GhostscriptVersionInfo version = GetCustomGhostscriptVersionInfo("C:\\Users\\asiai\\.nuget\\packages\\ghostscript.netcore");
-
-
-			//GhostscriptVersionInfo version = GhostscriptVersionInfo.GetLastInstalledVersion();
-
-			//using (var rasterizer = new GhostscriptRasterizer())
-			//{
-			//	rasterizer.Open(sourcePath, version, false);
-
-			//	for (int pageNumber = 1; pageNumber <= rasterizer.PageCount; pageNumber++)
-			//	{
-			//		using (var img = rasterizer.GetPage(300, pageNumber))
-			//		{
-			//			string outputPngPath = Path.Combine(savePath, $"page_{pageNumber}.png");
-			//			img.Save(outputPngPath, System.Drawing.Imaging.ImageFormat.Png);
-			//		}
-			//	}
-			//}
-
 			using (PdfDocument pdfDocument = PdfDocument.Load(sourcePath))
 			{
 
 				for (int pageNumber = 0; pageNumber < pdfDocument.PageCount; pageNumber++)
 				{
-					using (var image = pdfDocument.Render(pageNumber, 600, 800, true))
+					using (var image = pdfDocument.Render(pageNumber, 1280, 720, true))
 					{
 						string outputPath = Path.Combine(savePath, $"page_{pageNumber}.png");
 						image.Save(outputPath, ImageFormat.Png);
@@ -555,9 +536,9 @@ namespace Clea_Web.Service
 			SysFile? file = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
 
 			if (file != null)
-			{				
+			{
 				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
-				String[] dirFile = Directory.GetFiles(physicalPath, "*.png");
+				String[] dirFile = Directory.GetFiles(physicalPath, "*.png") == null ? new string[] { } : Directory.GetFiles(physicalPath, "*.png");
 				if (dirFile.Length > 0)
 				{
 					foreach (String p in dirFile)
@@ -566,8 +547,8 @@ namespace Clea_Web.Service
 						string base64WithPrefix = $"data:image/png;base64,{base64}";
 						result.Add(base64WithPrefix);
 					}
-				}				
-			}			
+				}
+			}
 
 			return result;
 		}
@@ -650,9 +631,9 @@ namespace Clea_Web.Service
 		#endregion
 
 		#region 取得檔案路徑
-        public List<String> GetFilePath(Guid matchKey)
-        {
-            List<String> result = new List<string>();
+		public List<String> GetFilePath(Guid matchKey)
+		{
+			List<String> result = new List<string>();
 			SysFile? file = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
 
 			if (file != null)
@@ -670,7 +651,7 @@ namespace Clea_Web.Service
 				}
 			}
 			return result;
-        }
+		}
 		#endregion
 	}
 }

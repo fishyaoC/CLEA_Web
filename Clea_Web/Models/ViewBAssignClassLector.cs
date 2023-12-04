@@ -37,6 +37,10 @@ public partial class ViewBAssignClassLector
 
     public int ScheNum { get; set; }
 
+    public bool? IsPass { get; set; }
+
+    public bool IsClose { get; set; }
+
     public long ChkNum { get; set; }
 
     public DateTime Credate { get; set; }

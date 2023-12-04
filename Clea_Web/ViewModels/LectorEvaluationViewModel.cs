@@ -18,7 +18,9 @@ namespace Clea_Web.ViewModels
 			public String ClassName_BookName { get; set; }
 			public String SubName_PName { get; set; }
 			public Boolean IsUpload { get; set; }
-			public DateTime CreDate { get; set; }			
+			public DateTime CreDate { get; set; }	
+			public Boolean IsClose { get; set; }
+			public Int32? ScoreA { get; set; }
 		}
 
 		#endregion
