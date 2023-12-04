@@ -155,7 +155,8 @@
                                     <div class="form-group row">
                                         <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
                                         <div class="col-sm-9">
-                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName </a>
+                                            <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@Model.NewsId')"></button>
                                         </div>
                                     </div>
                                 </div>
@@ -195,6 +196,65 @@
 </div>
 
 <script>
+    function del(Uid) {
+        //刪除按紐
+        Swal.fire({
+            title: '是否確定要刪除檔案？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            heightAuto: false
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '../B_LectorBtn/DeleteFile',
+                    data: { Uid: Uid },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.chk) {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'success',
+                                title: '刪除成功'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'warning',
+                                title: '刪除失敗',
+                                text: response.msg
+                            });
+                        }
+                    },
+                    error: function (thrownError) {
+                        Swal.fire({
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '確定',
+                            heightAuto: false,
+                            icon: 'warning',
+                            title: '刪除失敗',
+                            text: '系統異常，請洽管理員'
+                        });
+                    }
+                });
+            }
+
+        })
+    }
     function pageLoad() {
         init();
     }

@@ -35,7 +35,7 @@
 
 
     <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Setting")" enctype='multipart/form-data' onsubmit="validateForm()">
-        <div class="mb-2 mt-2">
+        <div class="col-lg-12 grid-margin stretch-card">
             <button type="submit" class="btn btn-info ">儲存</button>
         </div>
         @* <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a> *@
@@ -91,16 +91,16 @@
                     @if (@Model.FilePath != null)
                     {
                     // 有檔案
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group row">
-                                                            <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
-                                                            <div class="col-sm-9">
-                                                                <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group row">
+                                                                <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                                                <div class="col-sm-9">
+                                                                    <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName</a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
                     }
                                     <div class="row">
                                         <div class="col-md-6">

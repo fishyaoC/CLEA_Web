@@ -229,6 +229,32 @@ namespace Clea_Web.Service
 
         #endregion
 
+        #region 刪除檔案
+        public BaseViewModel.errorMsg DelFile(Guid NewsId)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            SysFile sf = db.SysFiles.Where(x => x.FMatchKey == NewsId).FirstOrDefault();
+            //PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
+            //vm = new B_LectorBtnViewModel.Modify();
+
+            try
+            {
+                //db.PNews.Remove(_PNews);
+                db.SysFiles.Remove(sf);
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
+
         #region 匯出Excel
         public Byte[] ExportExcel(Guid NewsID, String Title, Boolean? Role, String RId)
         {
