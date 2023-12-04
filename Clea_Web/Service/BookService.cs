@@ -151,7 +151,7 @@ namespace Clea_Web.Service
 			result = (from pub in db.CBookPublishes
 					  where
 					  (
-					  (string.IsNullOrEmpty(data.BP_Name) || pub.BpName.Contains(data.BP_Name))
+					  (string.IsNullOrEmpty(data.BP_Name) || pub.BpName.Contains(data.BP_Name.Trim()))
 					  )
 					  select new BookViewModel.PublishInfo()
 					  {

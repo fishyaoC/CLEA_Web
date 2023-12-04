@@ -487,6 +487,7 @@ namespace Clea_Web.Controllers
 			EEvaluate? eEvaluate = db.EEvaluates.Find(eEvaluationSche.EId) ?? null;
 			if (eEvaluationSche != null)
 			{
+				vmd.E_ID = eEvaluationSche.EId;
 				vmd.ES_ID = ES_ID;
 				CClassLector? cClassLector = db.CClassLectors.Find(eEvaluationSche.MatchKey) ?? null;
 				CClass? cClass = db.CClasses.Where(x => x.CUid == cClassLector.CUid).FirstOrDefault() ?? null;

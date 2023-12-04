@@ -61,6 +61,18 @@ namespace Clea_Web.Service
 					eEvaluateDetail.Upddate = DateTime.Now;
 					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 
+					if (result.CheckMsg)
+					{
+						EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(eEvaluateDetail.EsId) ?? null;
+						if (eEvaluationSche != null)
+						{
+							eEvaluationSche.Status = 3;
+							eEvaluationSche.Upduser = Guid.Parse(GetUserID(user));
+							eEvaluationSche.Upddate = DateTime.Now;
+							result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+						}
+					}
+
 					List<string> strings = new List<string>() { "asiaice2010@hotmail.com" };
 					_smtpService.SendMail(strings, "[審核通知]CLEA_System", "系統測試郵件，請勿直接回覆並直接忽視本郵件");
 				}

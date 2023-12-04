@@ -24,14 +24,14 @@
 
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputEmail3">教材代碼</label>
-											@Html.TextBoxFor(x => x.schBookItem.M_Index, new {id = "num", @class = "form-control form-control", placeholder = "教材代碼" })
+											<label for="exampleInputEmail3">教材種類代碼</label>
+											@Html.TextBoxFor(x => x.schBookItem.M_Index, new {id = "num", @class = "form-control form-control", placeholder = "教材種類代碼" })
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputEmail3">教材名稱</label>
-											@Html.TextBoxFor(x => x.schBookItem.M_Name, new { id = "name",@class = "form-control form-control", placeholder = "教材名稱" })
+											<label for="exampleInputEmail3">教材種類名稱</label>
+											@Html.TextBoxFor(x => x.schBookItem.M_Name, new { id = "name",@class = "form-control form-control", placeholder = "教材種類名稱" })
 										</div>
 									</div>
 								</div>
@@ -46,21 +46,21 @@
 				<!--搜尋End-->
 				<!--動作-->
 				<div class="mb-2 mt-2">
-					<a class="btn btn-warning mr-2" href="@Url.Action("Add")">新增教材</a>
+					<a class="btn btn-warning mr-2" href="@Url.Action("Add")">新增教材種類</a>
 				</div>
 				<!--動作End-->
 				<!--資料Table-->
 				<div class="col-lg-12 grid-margin stretch-card">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">教材管理</h4>
+							<h4 class="card-title">教材種類管理</h4>
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
 										<tr>
 											<th>序</th>
-											<th>教材代碼</th>
-											<th>教材名稱</th>
+											<th>教材種類代碼</th>
+											<th>教材種類名稱</th>
 											<th>操作</th>
 										</tr>
 									</thead>

@@ -11,6 +11,7 @@
 			<div class="accordion" id="accordionPanelsStayOpenExample">
 				<!--動作-->
 				<div class="mb-2 mt-2">
+					<a class="btn btn-primary mr-2" href="@Url.Action("TC_Index","B_AssignClass", new { U_ID = Model.E_ID })">回前頁</a>
 					<button type="button" class="btn btn-warning mr-2" onclick="location.href='@Url.Action("ScoreExport", "B_AssignClass", new { ES_ID = Model.ES_ID })'">匯出科目教學大綱</button>
 				</div>
 				<!--動作End-->

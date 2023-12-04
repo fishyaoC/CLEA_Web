@@ -31,8 +31,8 @@ namespace Clea_Web.Service
 					  (
 					  (CE.EType == 0) &&
 					  (data.Year == null || CE.EYear == data.Year) &&
-					  (string.IsNullOrEmpty(data.C_Number) || CE.CId.Contains(data.C_Number)) &&
-					  (string.IsNullOrEmpty(data.C_Name) || CE.CName.Contains(data.C_Name))
+					  (string.IsNullOrEmpty(data.C_Number) || CE.CId.Contains(data.C_Number.Trim())) &&
+					  (string.IsNullOrEmpty(data.C_Name) || CE.CName.Contains(data.C_Name.Trim()))
 					  )
 					  select new AssignClassViewModel.ClassInfor()
 					  {
@@ -122,8 +122,8 @@ namespace Clea_Web.Service
 					  where
 					  (
 					  (CL.EId == E_ID) &&
-					  (string.IsNullOrEmpty(data.S_Name) || CL.CName.Contains(data.S_Name)) &&
-					  (string.IsNullOrEmpty(data.L_Name) || CL.LName.Contains(data.L_Name))
+					  (string.IsNullOrEmpty(data.S_Name) || CL.DId.Contains(data.S_Name.Trim())) &&
+					  (string.IsNullOrEmpty(data.L_Name) || CL.DName.Contains(data.L_Name.Trim()))
 					  )
 					  select new AssignClassViewModel.CL()
 					  {
@@ -231,23 +231,17 @@ namespace Clea_Web.Service
 					result.ErrorMsg = "查無此筆紀錄!";
 				}
 
-
-
-
-				//CClassLector? cClassLector = db.CClassLectors.Find(data.ES_ID) ?? null;
-				//EEvaluateDetail eEvaluateDetail = new EEvaluateDetail()
-				//{
-				//	EdId = Guid.NewGuid(),
-				//	EsId = data.ES_ID,
-				//	MatchKey2 = data.ES_ID,
-				//	//Reception = cClassLector.LUid.Value,
-				//	Evaluate = data.L_UID_Ev,
-				//	Creuser = Guid.Parse(GetUserID(user)),
-				//	Credate = DateTime.Now
-				//};
-
-
-
+				if (result.CheckMsg)
+				{
+					EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(data.ES_ID) ?? null;
+					if (eEvaluationSche != null)
+					{
+						eEvaluationSche.Status = 2;
+						eEvaluationSche.Upduser = Guid.Parse(GetUserID(user));
+						eEvaluationSche.Upddate = DateTime.Now;
+					}
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
 			}
 			catch (Exception ex)
 			{
@@ -337,6 +331,7 @@ namespace Clea_Web.Service
 
 			if (eEvaluateDetail != null)
 			{
+				EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(eEvaluateDetail.EsId) ?? null;
 				result.ED_ID = eEvaluateDetail.EdId;
 				result.Score_A = eEvaluateDetail.EScoreA;
 				result.Score_B = eEvaluateDetail.EScoreB;
@@ -344,9 +339,9 @@ namespace Clea_Web.Service
 				result.Score_D = eEvaluateDetail.EScoreD;
 				result.Score_E = eEvaluateDetail.EScoreE;
 				result.Remark = eEvaluateDetail.ERemark;
-				result.Syllabus = eEvaluateDetail.ETeachSyllabus;
-				result.Object = eEvaluateDetail.ETeachObject;
-				result.Abstract = eEvaluateDetail.ETeachAbstract;
+				result.Syllabus = eEvaluationSche.ETeachSyllabus;
+				result.Object = eEvaluationSche.ETeachObject;
+				result.Abstract = eEvaluationSche.ETeachAbstract;
 				result.IsClose = eEvaluateDetail.IsClose;
 				result.Status = eEvaluateDetail.Status;
 			}

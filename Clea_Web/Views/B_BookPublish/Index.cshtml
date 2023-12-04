@@ -23,8 +23,8 @@
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputEmail3">出版名稱</label>
-											@Html.TextBoxFor(x => x.schBookItem.BP_Name, new { id = "name",@class = "form-control form-control", placeholder = "教材名稱" })
+											<label for="exampleInputEmail3">訓練單位(出版社)</label>
+											@Html.TextBoxFor(x => x.schBookItem.BP_Name, new { id = "name",@class = "form-control form-control", placeholder = "訓練單位(出版社)" })
 										</div>
 									</div>
 								</div>
@@ -39,20 +39,20 @@
 				<!--搜尋End-->
 				<!--動作-->
 				<div class="mb-2 mt-2">
-					<a class="btn btn-warning mr-2" href="@Url.Action("Add")">新增出版</a>
+					<a class="btn btn-warning mr-2" href="@Url.Action("Add")">新增訓練單位(出版社)</a>
 				</div>
 				<!--動作End-->
 				<!--資料Table-->
 				<div class="col-lg-12 grid-margin stretch-card">
 					<div class="card">
 						<div class="card-body">
-							<h4 class="card-title">出版管理</h4>
+							<h4 class="card-title">訓練單位(出版社)管理</h4>
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
 										<tr>
 											<th>序</th>
-											<th>出版名稱</th>
+											<th>訓練單位(出版社)</th>
 											<th>操作</th>
 										</tr>
 									</thead>

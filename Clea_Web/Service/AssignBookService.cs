@@ -36,8 +36,8 @@ namespace Clea_Web.Service
 			result = (from book in db.ViewBAssignBooks
 					  where
 					  (
-					  (string.IsNullOrEmpty(data.B_ID) || book.MIndex.ToString().Contains(data.B_ID)) &&
-					  (string.IsNullOrEmpty(data.B_Name) || book.MName.Contains(data.B_Name))
+					  (string.IsNullOrEmpty(data.B_ID) || book.MIndex.ToString().Contains(data.B_ID.Trim())) &&
+					  (string.IsNullOrEmpty(data.B_Name) || book.MName.Contains(data.B_Name.Trim()))
 					  )
 					  select new AssignBookViewModel.BookInfor()
 					  {

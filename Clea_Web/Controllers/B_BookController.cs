@@ -81,7 +81,7 @@ namespace Clea_Web.Controllers
 			if (!(cBook is null))
 			{
 				result.CheckMsg = false;
-				result.ErrorMsg = "教材代碼重複!";
+				result.ErrorMsg = "教材種類代碼重複!";
 			}
 			else
 			{

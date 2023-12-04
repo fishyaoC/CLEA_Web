@@ -212,6 +212,8 @@ namespace Clea_Web.Service
 				foreach (EClassUploadLog old in eClassUploadLogs)
 				{
 					EClassUploadLog eClassUploadLog = new EClassUploadLog();
+					eClassUploadLog = old;
+					eClassUploadLog.Sn = 0;
 					eClassUploadLog.EsId = ES_ID_N;
 					db.EClassUploadLogs.Add(eClassUploadLog);
 				}

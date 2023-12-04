@@ -177,6 +177,7 @@ namespace Clea_Web.ViewModels
 		#region ScoreView
 		public class S_Model
 		{
+			public Guid E_ID { get; set; }
 			public Guid ES_ID { get; set; }
 			public String ClassType { get; set; }
 			public String ClassName { get; set; }

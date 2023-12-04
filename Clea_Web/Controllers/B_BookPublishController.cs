@@ -78,7 +78,7 @@ namespace Clea_Web.Controllers
 			if (!(cBookPublish is null))
 			{
 				result.CheckMsg = false;
-				result.ErrorMsg = "出版社名稱重複!";
+				result.ErrorMsg = "訓練單位(出版社)!";
 			}
 			else
 			{

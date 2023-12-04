@@ -23,14 +23,14 @@
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputName1">教材代碼</label>
+											<label for="exampleInputName1">教材種類代碼</label>
 											@Html.TextBoxFor(x=>x.M_Index, new { @class = "form-control form-control" })
 											@Html.ValidationMessageFor(x=>x.M_Index)
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputName1">教材名稱</label>
+											<label for="exampleInputName1">教材種類名稱</label>
 											@Html.TextBoxFor(x=>x.M_Name, new { @class = "form-control form-control" })
 											@Html.ValidationMessageFor(x=>x.M_Name)
 										</div>
@@ -54,11 +54,11 @@
 					<div class="col-lg-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
-								<h4 class="card-title">新增出版社資料</h4>
+								<h4 class="card-title">新增訓練單位(出版社)資料</h4>
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<label for="exampleInputName1">出版社(訓練單位)</label>
+											<label for="exampleInputName1">訓練單位(出版社)</label>
 											@Html.DropDownListFor(x=>x.BP_ID, Model.PublishItemList, new { @class = "form-control form-control" })
 											@Html.ValidationMessageFor(x=>x.BP_ID)
 										</div>
@@ -102,7 +102,7 @@
 									<thead>
 										<tr>
 											<th>序</th>
-											<th>出版社</th>
+											<th>訓練單位(出版社)</th>
 											<th>備查文號</th>
 											<th>備查日期</th>
 											<th>操作</th>
