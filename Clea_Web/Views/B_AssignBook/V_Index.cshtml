@@ -92,8 +92,7 @@
 														}
 													</td>
 													<td>
-														@* <a href="@Url.Action("V_Modify", "B_AssignBook", new { ED_ID = ed.ED_ID })" class="btn btn-success">檢視教材審查表</a> *@
-														@if (ed.M_Status > 2 && ed.M_Status < 7)
+														@if (ed.M_Status > 2 && ed.M_Status <= 7)
 														{
 															<a href="@Url.Action("V_Modify", "B_AssignBook", new { ED_ID = ed.ED_ID })" class="btn btn-success">檢視教材審查表</a>
 														}

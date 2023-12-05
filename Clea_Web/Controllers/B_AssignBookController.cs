@@ -23,12 +23,14 @@ namespace Clea_Web.Controllers
 		private readonly ILogger<B_AssignBookController> _logger;
 		private AssignBookService _assignBookService;
 		private FileService _fileService;
-		public B_AssignBookController(ILogger<B_AssignBookController> logger, dbContext dbCLEA, AssignBookService Service, FileService fileService)
+		private SMTPService _smtpService;
+		public B_AssignBookController(ILogger<B_AssignBookController> logger, dbContext dbCLEA, AssignBookService Service, FileService fileService, SMTPService smtpService)
 		{
 			_logger = logger;
 			db = dbCLEA;
 			_assignBookService = Service;
 			_fileService = fileService;
+			_smtpService = smtpService;
 		}
 
 		#region 教材列表
@@ -400,20 +402,26 @@ namespace Clea_Web.Controllers
 			AssignClassService assignClassService = new AssignClassService(db);
 			BaseService baseService = new BaseService();
 			assignClassService.user = User;
-
-			List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
-			if (eEvaluationSches != null && eEvaluationSches.Count > 0)
+			List<EEvaluateDetail> eEvaluateDetails = db.EEvaluateDetails.Where(x => x.EId == E_ID && x.Status < 4).ToList();
+			if (IsType && eEvaluateDetails != null && eEvaluateDetails.Count > 0)
 			{
-				foreach (EEvaluationSche item in eEvaluationSches)
+				result.CheckMsg = false;
+				result.ErrorMsg = "尚有項目未完成(檔案未上傳、尚未評分、尚未審核)";
+			}
+			else
+			{
+				List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
+				if (eEvaluationSches != null && eEvaluationSches.Count > 0)
 				{
-					item.IsClose = IsType;
-					item.Upduser = Guid.Parse(baseService.GetUserID(User));
-					item.Upddate = DateTime.Now;
-					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-					assignClassService.SaveClose(item.EsId, IsType);
+					foreach (EEvaluationSche item in eEvaluationSches)
+					{
+						item.IsClose = IsType;
+						item.Upduser = Guid.Parse(baseService.GetUserID(User));
+						item.Upddate = DateTime.Now;
+						result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+						assignClassService.SaveClose(item.EsId, IsType);
+					}
 				}
-				
-				
 			}
 			if (result.CheckMsg)
 			{

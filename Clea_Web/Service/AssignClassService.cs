@@ -220,11 +220,23 @@ namespace Clea_Web.Service
 						EId = viewBAssignClassLector.EId,
 						EsId = data.ES_ID,
 						Evaluate = data.L_UID_Ev,
+						IsClose = false,
+						Status = 2,
 						Creuser = Guid.Parse(GetUserID(user)),
 						Credate = DateTime.Now
 					};
 					db.EEvaluateDetails.Add(eEvaluateDetail);
 					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+					//if (result.CheckMsg)
+					//{
+					//	CLector? cLector = db.CLectors.Find(data.L_UID_Ev) ?? null;
+					//	List<string> lst_mail = new List<string>();
+					//	if (cLector != null)
+					//	{
+					//		lst_mail.Add(cLector.LEmail);
+					//		result.CheckMsg = smtpService.SendMail(lst_mail, "[通知]-評分提醒", cLector.LName + "老師您好，請至本會網站進行教材評分工作，謝謝您。");
+					//	}
+					//}					
 				}
 				else
 				{
@@ -436,7 +448,7 @@ namespace Clea_Web.Service
 							default:
 								break;
 						}
-					}				
+					}
 
 					item.Upduser = Guid.Parse(GetUserID(user));
 					item.Upddate = DateTime.Now;

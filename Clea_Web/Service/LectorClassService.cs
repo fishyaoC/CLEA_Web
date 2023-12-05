@@ -33,6 +33,7 @@ namespace Clea_Web.Service
 						  SubName = plc.DName,
 						  Status = plc.Status,
 						  IsUpload = string.IsNullOrEmpty(plc.FileName) ? false : true,
+						  IsClose = plc.IsClose,
 						  CREDATE = plc.Credate
 					  }).OrderByDescending(x => x.CREDATE).ToList();
 
@@ -130,8 +131,8 @@ namespace Clea_Web.Service
 					result.ErrorMsg = "查無此筆資料!";
 				}
 
-				List<string> strings = new List<string>() { "asiaice2010@hotmail.com" };
-				_smtpService.SendMail(strings, "[審核通知]CLEA_System", "系統測試郵件，請勿直接回覆並直接忽視本郵件");
+				//List<string> strings = new List<string>() { "pp740729@hotmail.com" };
+				//_smtpService.SendMail(strings, "[審核通知]CLEA_System", "有新的課程審核項目，請承辦人至後台進行審核，請勿直接回覆並直接忽視本郵件");
 			}
 			catch (Exception ex)
 			{

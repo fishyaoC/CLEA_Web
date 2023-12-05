@@ -77,14 +77,18 @@
 													<td>@cMenu.ClassName</td>
 													<td>@cMenu.SubName</td>
 													<td>
-														@if (cMenu.IsUpload || cMenu.Status == 10 || (cMenu.Status > 0 && cMenu.Status < 6))
+														@if (cMenu.IsClose)
+														{
+															<a href="@Url.Action("Modify", "P_LectorClass", new { ES_ID = cMenu.ES_ID })" class="btn btn-success">檢視教學資料</a>
+														}
+														else if (!cMenu.IsClose && cMenu.IsUpload)
 														{
 															<a href="@Url.Action("Modify", "P_LectorClass", new { ES_ID = cMenu.ES_ID })" class="btn btn-info">編輯教學資料</a>
 														}
 														else
 														{
 															<a href="@Url.Action("Modify", "P_LectorClass", new { ES_ID = cMenu.ES_ID })" class="btn btn-danger">建立教學資料</a>
-														}
+														}														
 													</td>
 												</tr>
 											}

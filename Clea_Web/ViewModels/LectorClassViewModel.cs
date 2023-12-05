@@ -17,6 +17,7 @@ namespace Clea_Web.ViewModels
 			public Boolean IsUpload { get; set; }
 			public Int32 Status { get; set; }
 			public DateTime CREDATE { get; set; }
+			public Boolean IsClose { get; set; }
 		}
 
 		#endregion

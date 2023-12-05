@@ -1899,6 +1899,9 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.EType).HasColumnName("E_Type");
             entity.Property(e => e.EdId).HasColumnName("ED_ID");
             entity.Property(e => e.EsId).HasColumnName("ES_ID");
+            entity.Property(e => e.Expr1)
+                .HasMaxLength(200)
+                .IsUnicode(false);
             entity.Property(e => e.LName)
                 .HasMaxLength(300)
                 .IsUnicode(false)

@@ -19,9 +19,11 @@ namespace Clea_Web.Service
 	//評鑑 mType => 0:課程 1:教材
 	public class AssignBookService : BaseService
 	{
-		public AssignBookService(dbContext dbContext)
+		private SMTPService smtpService;
+		public AssignBookService(dbContext dbContext, SMTPService sMTPService)
 		{
 			db = dbContext;
+			smtpService = smtpService;
 		}
 
 		#region BackEnd
@@ -32,11 +34,10 @@ namespace Clea_Web.Service
 		public IPagedList<AssignBookViewModel.BookInfor> GetSchBookItemPageList(AssignBookViewModel.SchBookItems data, Int32 page)
 		{
 			List<AssignBookViewModel.BookInfor> result = new List<AssignBookViewModel.BookInfor>();
-
 			result = (from book in db.ViewBAssignBooks
 					  where
 					  (
-					  (string.IsNullOrEmpty(data.B_ID) || book.MIndex.ToString().Contains(data.B_ID.Trim())) &&
+					  (string.IsNullOrEmpty(data.B_ID) || book.MIndex.Contains(data.B_ID.Trim())) &&
 					  (string.IsNullOrEmpty(data.B_Name) || book.MName.Contains(data.B_Name.Trim()))
 					  )
 					  select new AssignBookViewModel.BookInfor()
@@ -135,7 +136,7 @@ namespace Clea_Web.Service
 				{
 					result.CheckMsg = false;
 					result.ErrorMsg = "教材種類尚未指定訓練單位(出版社)!";
-				}				
+				}
 			}
 			catch (Exception ex)
 			{
@@ -230,6 +231,16 @@ namespace Clea_Web.Service
 						db.EEvaluateDetails.Add(eEvaluateDetail);
 					}
 					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+					//if (result.CheckMsg)
+					//{
+					//	CLector? cLector = db.CLectors.Find(data.L_UID_Ev) ?? null;
+					//	List<string> lst_mail = new List<string>();
+					//	if (cLector != null)
+					//	{
+					//		lst_mail.Add(cLector.LEmail);
+					//		result.CheckMsg = smtpService.SendMail(lst_mail, "[通知]-評分提醒", cLector.LName + "老師您好，請至本會網站進行教材評分工作，謝謝您。");
+					//	}
+					//}					
 				}
 				else
 				{
@@ -274,7 +285,7 @@ namespace Clea_Web.Service
 			AssignBookViewModel.ScoreModify result = new AssignBookViewModel.ScoreModify();
 			EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID) ?? null;
 			if (eEvaluateDetail != null)
-			{				
+			{
 				result.E_ID = eEvaluateDetail.EId;
 				result.ED_ID = ED_ID;
 				result.Score_A = eEvaluateDetail.EScoreA;
@@ -301,25 +312,12 @@ namespace Clea_Web.Service
 			{
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 
-				if (data.Status == 4 && data.IsClose)
-				{
-					eEvaluateDetail.Status = 6;
-				}
-				else if (data.Status == 4 && !data.IsClose)
-				{
-					eEvaluateDetail.Status = 4;
-				}
-				else if (data.Status == 5 && data.IsClose)
-				{
-					eEvaluateDetail.Status = 7;
-				}
-				else if (data.Status == 5 && !data.IsClose)
-				{
-					eEvaluateDetail.Status = 5;
-				}
+				Double TotalScore = 0;
 				eEvaluateDetail.EScoreA = data.Score_A;
 				eEvaluateDetail.EScoreB = data.Score_B;
 				eEvaluateDetail.EScoreC = data.Score_C;
+				TotalScore = eEvaluateDetail.EScoreA.Value + eEvaluateDetail.EScoreB.Value + eEvaluateDetail.EScoreC.Value;
+				eEvaluateDetail.Status = TotalScore >= 85 ? 4 : 5;
 				eEvaluateDetail.ERemark = data.Remark;
 				eEvaluateDetail.IsClose = data.IsClose;
 				eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));

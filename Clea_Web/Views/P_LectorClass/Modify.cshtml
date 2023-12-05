@@ -36,6 +36,16 @@
 										</div>
 									</div>
 								</div>
+								@if (Model.modify.IsClose)
+								{
+									<div class="row">
+										<div class="col-md-6">
+											<div class="form-group">
+												<h3>狀態:已結案</h3>
+											</div>
+										</div>
+									</div>
+								}
 								<div class="row">
 									<div class="col-md-12">
 										<div class="form-group">
@@ -96,10 +106,14 @@
 												<a class="form-control form-control">@Model.modify.FileName</a>
 											</div>
 										</div>
+
 										<div class="col-md-4">
 											<div class="form-group">
-												<label for="exampleInputName1">操作</label>
-												<button type="button" class="form-control form-control btn btn-warning" onclick="del('@Model.modify.F_ID')">更換檔案</button>
+												@if (!Model.modify.IsClose)
+												{
+													<label for="exampleInputName1">操作</label>
+													<button type="button" class="form-control form-control btn btn-warning" onclick="del('@Model.modify.F_ID')">更換檔案</button>
+												}
 											</div>
 										</div>
 									}
@@ -157,10 +171,6 @@
 											@if (Model.modify.Status == 0 || Model.modify.Status == 10)
 											{
 												<button type="submit" class="form-control form-control btn btn-info" onclick="dela()">儲存</button>
-											}
-											else
-											{
-												<button type="button" class="form-control form-control btn btn-info" disabled="disabled">儲存</button>
 											}
 										</div>
 									</div>
@@ -270,12 +280,14 @@
 	}
 
 	function dela() {
-		Swal.fire({
-			showConfirmButton: false,
-			icon: 'info',
-			title: '上傳檔案',
-			text: '如檔案大小太大，請靜待15~20秒，謝謝配合!'
-		});
+		if ($('#modify_file').val() != null && $('#modify_file').val() != '') {
+			Swal.fire({
+				showConfirmButton: false,
+				icon: 'info',
+				title: '上傳檔案',
+				text: '如檔案大小太大，請靜待15~20秒，謝謝配合!'
+			});
+		}
 	}
 
 	function del(F_ID) {

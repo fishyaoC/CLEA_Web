@@ -9,15 +9,17 @@ public partial class ViewPLectorEvaluate
 
     public int EType { get; set; }
 
-    public string? MName { get; set; }
-
     public string? CName { get; set; }
+
+    public string? DName { get; set; }
 
     public Guid EsId { get; set; }
 
+    public string? MName { get; set; }
+
     public string? BpName { get; set; }
 
-    public string? DName { get; set; }
+    public string? Expr1 { get; set; }
 
     public Guid EdId { get; set; }
 

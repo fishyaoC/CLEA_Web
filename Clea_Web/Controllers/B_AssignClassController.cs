@@ -439,7 +439,7 @@ namespace Clea_Web.Controllers
 			ViewBAssignClassScore? viewBAssignClassScore = db.ViewBAssignClassScores.Where(x => x.EdId == ED_ID).FirstOrDefault() ?? null;
 			ViewBAssignClassLector? viewBAssignClassLector = db.ViewBAssignClassLectors.Where(x => x.EsId == viewBAssignClassScore.EsId).FirstOrDefault() ?? null;
 
-			String L_Name = viewBAssignClassScore != null ? viewBAssignClassScore.LName : string.Empty;
+			String L_Name = viewBAssignClassScore != null ? viewBAssignClassScore.LName.Trim() : string.Empty;
 			String ScoreT = ((viewBAssignClassScore.EScoreA == null ? 0 : viewBAssignClassScore.EScoreA.Value) + (viewBAssignClassScore.EScoreB == null ? 0 : viewBAssignClassScore.EScoreB.Value) + (viewBAssignClassScore.EScoreC == null ? 0 : viewBAssignClassScore.EScoreC.Value) + (viewBAssignClassScore.EScoreD == null ? 0 : viewBAssignClassScore.EScoreD.Value) + (viewBAssignClassScore.EScoreE == null ? 0 : viewBAssignClassScore.EScoreE.Value)).ToString("#.##");
 
 			String SourcePath = "./SampleFile/ClassEvaExample.docx";
@@ -515,6 +515,7 @@ namespace Clea_Web.Controllers
 				vmd.ClassTeacher = "授課講師:" + db.CLectors.Find(cClassLector.LUid).LName + "\n 符合職業安全衛生教育訓練規則:" + cClassLector.ClQualify;
 				vmd.IsPass = eEvaluationSche.IsPass;
 				vmd.BookNamePublish = c_Book == null ? string.Empty : string.IsNullOrEmpty(c_Book.MName) ? string.Empty : c_Book.MName;
+				vmd.IsClose = eEvaluationSche.IsClose;
 			}
 			return View(vmd);
 		}
@@ -525,17 +526,34 @@ namespace Clea_Web.Controllers
 			_assignService.user = User;
 			AssignClassViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			BaseService baseService = new BaseService();
-			EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(vmd.ES_ID) ?? null;
-			if (eEvaluationSche != null)
-			{
-				_assignService.SaveClose(vmd.ES_ID, vmd.IsClose);
-				eEvaluationSche.IsPass = vmd.IsPass;
-				eEvaluationSche.IsClose = vmd.IsClose;
-				eEvaluationSche.Upduser = Guid.Parse(baseService.GetUserID(User)); ;
-				eEvaluationSche.Upddate = DateTime.Now;
-				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-			}
 
+			if (vmd.IsClose && vmd.IsPass == null)
+			{
+				result.CheckMsg = false;
+				result.ErrorMsg = "尚未選擇審核狀態!";
+			}
+			else
+			{
+				EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(vmd.ES_ID) ?? null;
+				if (eEvaluationSche != null)
+				{
+					List<EEvaluateDetail> eEvaluateDetails = db.EEvaluateDetails.Where(x => x.EsId == vmd.ES_ID && x.Status < 4).ToList();
+					if (vmd.IsClose && eEvaluateDetails != null && eEvaluateDetails.Count > 0)
+					{
+						result.CheckMsg = false;
+						result.ErrorMsg = "尚有項目未完成(檔案未上傳、尚未評分、尚未審核)";
+					}
+					else
+					{
+						_assignService.SaveClose(vmd.ES_ID, vmd.IsClose);
+						eEvaluationSche.IsPass = vmd.IsPass;
+						eEvaluationSche.IsClose = vmd.IsClose;
+						eEvaluationSche.Upduser = Guid.Parse(baseService.GetUserID(User)); ;
+						eEvaluationSche.Upddate = DateTime.Now;
+						result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+					}
+				}
+			}
 			if (result.CheckMsg)
 			{
 				TempData["TempMsgType"] = "success";
@@ -573,8 +591,8 @@ namespace Clea_Web.Controllers
 				vmd.Syllabus = eEvaluationSche.ETeachSyllabus;
 				vmd.Objectives = eEvaluationSche.ETeachObject;
 				vmd.Abstract = eEvaluationSche.ETeachAbstract;
-				vmd.ClassName = db.CClasses.Find(eEvaluate.MatchKey).CName;
-				vmd.ClassSub = db.CClassSubjects.Find(cClassLector.DUid).DName;
+				vmd.ClassName = db.CClasses.Find(eEvaluate.MatchKey).CName.Trim();
+				vmd.ClassSub = db.CClassSubjects.Find(cClassLector.DUid).DName.Trim();
 				vmd.SubClassTime = db.CClassSubjects.Find(cClassLector.DUid).DHour.ToString();
 				vmd.ClassTeacher = db.CLectors.Find(cClassLector.LUid).LName;
 			}

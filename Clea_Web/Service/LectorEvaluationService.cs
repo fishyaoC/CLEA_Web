@@ -46,10 +46,10 @@ namespace Clea_Web.Service
 			BaseViewModel.errorMsg result = new BaseViewModel.errorMsg();
 			try
 			{
+				String Content = string.Empty;
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(data.ED_ID) ?? null;
 				if (eEvaluateDetail != null)
 				{
-					Double Total = 0;
 					eEvaluateDetail.EScoreA = data.ScoreA;
 					eEvaluateDetail.EScoreB = data.mType == 0 ? data.ScoreB : data.ScoreBB;
 					eEvaluateDetail.EScoreC = data.mType == 0 ? data.ScoreC : data.ScoreCB;
@@ -57,13 +57,12 @@ namespace Clea_Web.Service
 					{
 						eEvaluateDetail.EScoreD = data.ScoreD;
 						eEvaluateDetail.EScoreE = data.ScoreE;
-						Total = (eEvaluateDetail.EScoreA.Value + eEvaluateDetail.EScoreB.Value + eEvaluateDetail.EScoreC.Value + eEvaluateDetail.EScoreD.Value + eEvaluateDetail.EScoreE.Value);
+						Content = "有新的[課程]評分審核項目";
 					}
 					else
 					{
-						Total = (eEvaluateDetail.EScoreA.Value + eEvaluateDetail.EScoreB.Value + eEvaluateDetail.EScoreC.Value);
+						Content = "有新的[教材]評分審核項目";
 					}
-					eEvaluateDetail.Status = Total >= 85 ? 4 : 5;
 					eEvaluateDetail.ERemark = data.Remark;
 					eEvaluateDetail.Status = 3;
 					eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
@@ -82,8 +81,8 @@ namespace Clea_Web.Service
 						}
 					}
 
-					List<string> strings = new List<string>() { "asiaice2010@hotmail.com" };
-					_smtpService.SendMail(strings, "[審核通知]CLEA_System", "系統測試郵件，請勿直接回覆並直接忽視本郵件");
+					//List<string> strings = new List<string>() { "pp740729@hotmail.com" };									
+					//_smtpService.SendMail(strings, "[審核通知]CLEA_System", Content + "請承辦人至後台進行審核，請勿直接回覆並直接忽視本郵件");
 				}
 				else
 				{
