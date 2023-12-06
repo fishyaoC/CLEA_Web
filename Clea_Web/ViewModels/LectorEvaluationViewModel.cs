@@ -18,7 +18,7 @@ namespace Clea_Web.ViewModels
 			public String ClassName_BookName { get; set; }
 			public String SubName_PName { get; set; }
 			public Boolean IsUpload { get; set; }
-			public DateTime CreDate { get; set; }	
+			public DateTime CreDate { get; set; }
 			public Boolean IsClose { get; set; }
 			public Int32? ScoreA { get; set; }
 		}
@@ -30,6 +30,14 @@ namespace Clea_Web.ViewModels
 		{
 			public EvInfo evInfo { get; set; }
 			public scoreModify scoreModify { get; set; }
+			public SubInfo subInfo { get; set; }
+		}
+
+		public class SubInfo
+		{
+			public String Syllabus { get; set; }
+			public String Object { get; set; }
+			public String Abstract { get; set; }
 		}
 
 		public class EvInfo

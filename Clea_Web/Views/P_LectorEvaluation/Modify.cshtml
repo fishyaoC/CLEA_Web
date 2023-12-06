@@ -50,6 +50,36 @@
 					<a class="btn btn-primary mr-2" href="@Url.Action("Index","P_LectorEvaluation")">回前頁</a>
 				</div>
 				<!--搜尋End-->
+				@if (Model.scoreModify.mType == 0)
+				{
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h4 class="card-title">課程單元內容</h4>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="exampleInputName1">教學大綱</label>
+											@Html.TextAreaFor(x => x.subInfo.Syllabus, new { @class = "form-control form-control", placeholder = "教學大綱", rows="10", disabled="disabled" })
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="exampleInputName1">教學目標</label>
+											@Html.TextAreaFor(x => x.subInfo.Object, new { @class = "form-control form-control", placeholder = "教學目標", rows="10", disabled="disabled" })
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="exampleInputName1">教學內容摘要</label>
+											@Html.TextAreaFor(x => x.subInfo.Abstract, new { @class = "form-control form-control", placeholder = "教學內容摘要", rows="10", disabled="disabled" })
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
 				<!--圖片檢視-->
 				<div class="col-lg-12 grid-margin stretch-card">
 					<div class="card">

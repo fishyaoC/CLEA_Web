@@ -50,6 +50,7 @@ namespace Clea_Web.ViewModels
 			public CLschItem cLschItem { get; set; }
 			public Guid E_ID { get; set; }
 			public EvaluationActonInfo evaluationActonInfo { get; set; }
+			public List<SelectListItem> StatusItems { get; set; }
 		}
 
 		public class CLschItem
@@ -57,6 +58,7 @@ namespace Clea_Web.ViewModels
 			public String? S_ID { get; set; }
 			public String? S_Name { get; set; }
 			public String? L_Name { get; set; }
+			public String? Status { get; set; }
 		}
 
 		public class CL

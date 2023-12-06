@@ -43,6 +43,20 @@ namespace Clea_Web.Controllers
 			if (viewPLectorEvaluate != null)
 			{
 				EEvaluateDetail? eEvaluateDetail = db.EEvaluateDetails.Find(ED_ID);
+				if (viewPLectorEvaluate.EType == 0)
+				{
+					EEvaluationSche? eEvaluationSche = db.EEvaluationSches.Find(eEvaluateDetail.EsId) ?? null;
+					if (eEvaluationSche != null)
+					{
+						vmd.subInfo = new LectorEvaluationViewModel.SubInfo()
+						{
+							Syllabus = eEvaluationSche.ETeachSyllabus,
+							Object = eEvaluationSche.ETeachObject,
+							Abstract = eEvaluationSche.ETeachAbstract
+						};
+					}
+				}
+
 				vmd.evInfo = new LectorEvaluationViewModel.EvInfo()
 				{
 					mType = viewPLectorEvaluate.EType == 0 ? "課程" : "教材",

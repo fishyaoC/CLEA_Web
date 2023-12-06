@@ -255,12 +255,14 @@ namespace Clea_Web.Controllers
 
 			ViewBag.EvaInfo = JsonConvert.SerializeObject(vmd.evaluationActonInfo);
 			vmd.cLPageLists = _assignService.GetClPageList(U_ID, vmd.cLschItem, page.Value);
+			vmd.StatusItems = _assignService.StatusItems();
 			return View(vmd);
 		}
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult TC_Index(AssignClassViewModel.TC_Model vmd)
 		{
+			vmd.StatusItems = _assignService.StatusItems();
 			vmd.cLPageLists = _assignService.GetClPageList(vmd.evaluationActonInfo.Key, vmd.cLschItem, 1);
 			ViewBag.schPageList = JsonConvert.SerializeObject(vmd.cLschItem);
 			ViewBag.EvaInfo = JsonConvert.SerializeObject(vmd.evaluationActonInfo);

@@ -23,22 +23,28 @@
                                 @Html.HiddenFor(x => x.evaluationActonInfo.ControllerName)
                                 @Html.HiddenFor(x => x.evaluationActonInfo.Key)
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputName1">教學單元代碼</label>
                                             @Html.TextBoxFor(x => x.cLschItem.S_ID, new { id = "SI", @class = "form-control form-control", placeholder = "教學單元代碼" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputEmail3">教學單元名稱</label>
                                             @Html.TextBoxFor(x => x.cLschItem.S_Name, new { id = "SN",@class = "form-control form-control", placeholder = "教學單元名稱" })
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="exampleInputEmail3">授課教師名稱</label>
                                             @Html.TextBoxFor(x => x.cLschItem.L_Name, new { id = "LN",@class = "form-control form-control", placeholder = "授課教師名稱" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail3">進度狀態</label>
+                                            @Html.DropDownListFor(x => x.cLschItem.Status, Model.StatusItems, new { id = "SL",@class = "form-control form-control", placeholder = "進度狀態" })
                                         </div>
                                     </div>
                                 </div>
@@ -138,5 +144,6 @@
         $('#SN').val(null);
         $('#SI').val(null);
         $('#LN').val(null);
+        $('#SL').val('');
     }
 </script>
