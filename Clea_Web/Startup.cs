@@ -1,7 +1,9 @@
 ﻿using Clea_Web.Models;
 using Clea_Web.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Clea_Web
 {
@@ -28,9 +30,9 @@ namespace Clea_Web
             services.AddTransient<AccountSettingService>();
             services.AddTransient<LoginService>();
             services.AddTransient<HomeService>();
+            services.AddTransient<BookService>();
             services.AddTransient<AssignClassService>();
             services.AddTransient<AssignBookService>();
-            services.AddTransient<BookService>();
             services.AddTransient<LectorClassService>();
             services.AddTransient<LectorEvaluationService>();
             services.AddTransient<SMTPService>();
@@ -40,41 +42,10 @@ namespace Clea_Web
             services.AddTransient<B_LectorAdvService>();
             services.AddTransient<P_LectorAdvService>();
 
-            ////加入Mapper
-            //var mapperConfig = new MapperConfiguration(mc =>
-            //{
-            //    mc.AddProfile(new AllMapperProfile());
-            //    mc.AddProfile(new FileServiceProfile());
-            //    mc.AddProfile(new WSB02Profile());
-            //    mc.AddProfile(new WSB03Profile());
-            //    mc.AddProfile(new WSB04Profile());
-            //    mc.AddProfile(new WSB08Profile());
-            //    mc.AddProfile(new WSB09Profile());
-            //    mc.AddProfile(new WSB10Profile());
-            //});
-            //IMapper mapper = mapperConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-
-            //services.AddControllers().AddJsonOptions(
-            //    options =>
-            //    {
-            //        //options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
-            //        //options.SerializerSettings.DateFormatString = "dd/MM/yyyy";
-            //        options.JsonSerializerOptions.Converters.Add(new DateTimeOffsetJsonConverter());
-            //    }
-            //    );
-
-            //    .Add(options =>
-            //{
-            //    options.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Utc;
-            //    options.SerializerSettings.DateFormatString = "dd/MM/yyyy";
-            //});
-
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AuthorizeFilter());
             });
-            //.AddJsonOptions(x => x.JsonSerializerOptions.Converters.Add(new DateTimeOffsetJsonConverter())).AddControllersAsServices();
             services.AddControllersWithViews();
             //Ū��appsetting
             //string TicketAuthTimeout = APUtils.ConfigData("AppConfiguration:TicketAuthTimeout");
@@ -104,7 +75,26 @@ namespace Clea_Web
             
             //services.AddDbContext<DCPortal>();
             services.AddTransient<AccountService, AccountService>();
+            services.Configure<FormOptions>(option => 
+            {
+                option.ValueLengthLimit = int.MaxValue;
+                option.MultipartBodyLengthLimit = 4L * 1024L * 1024L * 1024L;
+                option.MultipartBoundaryLengthLimit = int.MaxValue;
+                option.MultipartHeadersCountLimit = int.MaxValue;
+                option.MultipartHeadersLengthLimit = int.MaxValue;
+                option.BufferBodyLengthLimit = 4L * 1024L * 1024L * 1024L;
+                option.BufferBody = true;
+                option.ValueCountLimit = int.MaxValue;
+            });
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.MaxRequestBodySize = Int64.MaxValue;
+            });
 
+            services.Configure<KestrelServerOptions>(options =>
+            {
+                options.Limits.MaxRequestBodySize = Int64.MaxValue;
+            });
         }
     }
 }
