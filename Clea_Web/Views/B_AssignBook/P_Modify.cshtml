@@ -40,35 +40,7 @@
 												@Html.TextBoxFor(x => x.bookInfo.B_ID, new { @class = "form-control form-control", placeholder = "教材代碼", disabled = "disabled" })
 											</div>
 										</div>
-									</div>
-									@* <div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputEmail3">教材版本</label>
-												@Html.TextBoxFor(x => x.bookInfo.B_Version, new { @class = "form-control form-control", placeholder = "教材版本", disabled = "disabled" })
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputEmail3">教材出版人</label>
-												@Html.TextBoxFor(x => x.bookInfo.B_Publish, new { @class = "form-control form-control", placeholder = "教材出版人", disabled = "disabled" })
-											</div>
-										</div>
-									</div> *@
-									@* <div class="row">
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputEmail3">教材證號</label>
-												@Html.TextBoxFor(x => x.bookInfo.B_Name, new { @class = "form-control form-control", placeholder = "教材證號", disabled = "disabled" })
-											</div>
-										</div>
-										<div class="col-md-6">
-											<div class="form-group">
-												<label for="exampleInputEmail3">備註</label>
-												@Html.TextAreaFor(x => x.bookInfo.B_ID, new { @class = "form-control form-control", placeholder = "備註", disabled = "disabled" })
-											</div>
-										</div>
-									</div> *@									
+									</div>							
 								</div>
 							</div>
 						</div>
@@ -100,9 +72,6 @@
 						<div class="card">
 							<div class="card-body">
 								<h4 class="card-title">評鑑教師</h4>
-								@*<p class="card-description">
-								Add class <code>.table</code>
-								</p> *@
 								<div class="table-responsive">
 									<table class="table">
 										<thead>
@@ -133,22 +102,16 @@
 											else
 											{
 												<tr>
-													<td colspan="6" align="center">查無資料!</td>
+													<td colspan="4" align="center">查無資料!</td>
 												</tr>
 											}
 										</tbody>
 									</table>
-									<!--換頁模組-->
-									@* 									@if (!(Model.getClassLectorPageLists is null) && Model.getClassLectorPageLists.Count > 0)
-									{
-									@Html.Partial("../Shared/_pageList", Model.getClassLectorPageLists)
-									} *@
 								</div>
 							</div>
 						</div>
 					</div>
 					<!--資料Table End-->
-
 				</div>
 			</div>
 		</div>

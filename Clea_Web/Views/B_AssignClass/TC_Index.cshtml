@@ -95,9 +95,6 @@
                                             <td>@cL.L_Name</td>
                                             <td>@(cL.IsClose ? "結案" : "未結案")</td>
                                             <td>
-                                                @* <a href="@Url.Action("V_Index","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-success">檢視評鑑資訊</a>
-                                        <a href="@Url.Action("ScoreIndex","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-warning">檢視教學單元大綱</a> *@
-
                                                 @if (cL.Status > 0 && cL.Status != 8 && !cL.IsClose)
                                                 {
                                                     <a href="@Url.Action("TC_Modify","B_AssignClass", new { ES_ID = cL.ES_ID })" class="btn btn-info">評鑑授課教師</a>
@@ -122,7 +119,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="6" align="center">查無資料!</td>
+                                        <td colspan="7" align="center">查無資料!</td>
                                     </tr>
                                 }
                             </tbody>

@@ -21,7 +21,6 @@
                             <form class="forms-sample" method="post" action="@Url.Action("Index","B_Book")">
                                 @Html.AntiForgeryToken()
                                 <div class="row">
-
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="exampleInputEmail3">教材種類代碼</label>
@@ -79,7 +78,6 @@
                                             <td>@book.M_Name</td>
                                             <td>
                                                 <a href="@Url.Action("Modify","B_Book", new { U_ID = book.M_ID })" class="btn btn-success">編輯</a>
-                                                @* <a href="@Url.Action("Modify","B_Book", new { U_ID = book.M_ID })" class="btn btn-warning">上傳教材</a> *@
                                                 <button type="button" class="btn btn-danger" onclick="del('@book.M_ID')">刪除</button>
                                             </td>
                                         </tr>
@@ -88,7 +86,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="6" align="center">查無資料!</td>
+                                        <td colspan="4" align="center">查無資料!</td>
                                     </tr>
                                 }
                             </tbody>

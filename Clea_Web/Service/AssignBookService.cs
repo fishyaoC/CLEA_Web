@@ -20,10 +20,12 @@ namespace Clea_Web.Service
 	public class AssignBookService : BaseService
 	{
 		private SMTPService smtpService;
-		public AssignBookService(dbContext dbContext, SMTPService sMTPService)
+		private IConfiguration configuration;
+		public AssignBookService(dbContext dbContext, SMTPService sMTPService, IConfiguration configuration)
 		{
 			db = dbContext;
 			smtpService = smtpService;
+			this.configuration = configuration;
 		}
 
 		#region BackEnd
@@ -45,8 +47,8 @@ namespace Clea_Web.Service
 						  E_ID = book.EId,
 						  M_Index = book.MIndex,
 						  M_Name = book.MName,
-						  //IsClose = book.IsClose,
-						  T_Count = (from de in db.EEvaluateDetails where de.EId == book.EId select de).FirstOrDefault() == null ? 0: (from de in db.EEvaluateDetails where de.EId == book.EId select de).Count(),
+						  IsClose = book.IsClose,
+						  T_Count = (from de in db.EEvaluateDetails where de.EId == book.EId select de).FirstOrDefault() == null ? 0 : (from de in db.EEvaluateDetails where de.EId == book.EId select de).Count(),
 						  M_Status = (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault() == null ? 0 : (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).OrderBy(x => x.Status).FirstOrDefault().Status
 					  }).OrderBy(x => x.M_Name).ThenBy(x => x.M_Status).ToList();
 
@@ -403,10 +405,10 @@ namespace Clea_Web.Service
 						{
 							foreach (ViewBAssignBookScore sc in viewBAssignBookScores)
 							{
-								Score += sc.EScoreA is null ? 0 : sc.EScoreA.Value + sc.EScoreB is null ? 0 : sc.EScoreB.Value + sc.EScoreC is null ? 0 : sc.EScoreC.Value;
+								Score += (sc.EScoreA is null ? 0 : sc.EScoreA.Value) + (sc.EScoreB is null ? 0 : sc.EScoreB.Value) + (sc.EScoreC is null ? 0 : sc.EScoreC.Value);
 							}
 						}
-						scoreTable.Add(new AssignBookViewModel.ScoreTable() { P_Name = p.Key.Trim(), P_Score = (Score / EvTeacherCount).ToString("#0.00") });
+						scoreTable.Add(new AssignBookViewModel.ScoreTable() { P_Name = p.Key.Trim(), P_Score = ((decimal)Score / (decimal)EvTeacherCount).ToString("0.00") });
 					}
 				}
 
@@ -464,6 +466,7 @@ namespace Clea_Web.Service
 
 							scoreTable.Add(new AssignBookViewModel.ScoreTable()
 							{
+								Lv_Teacher = sc.Evaluate.Value,
 								P_Name = P_Name,
 								P_ScoreA = sc.EScoreA == null ? "0" : sc.EScoreA.ToString(),
 								P_ScoreB = sc.EScoreB == null ? "0" : sc.EScoreB.ToString(),
@@ -535,6 +538,32 @@ namespace Clea_Web.Service
 									c++;
 								}
 								doc.ReplaceText("[@Remark$]", RemarkTotle);
+
+								Guid? Lv_T = viewBAssignBookScore.Where(x => x.LName.Equals(t.Key.ToString())).FirstOrDefault() == null ? null : viewBAssignBookScore.Where(x => x.LName.Equals(t.Key.ToString())).FirstOrDefault().Evaluate;
+								if (Lv_T != null)
+								{
+									SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == Lv_T.Value).FirstOrDefault() ?? null;
+									String PicWrite = sysFile == null ? string.Empty : Path.Combine(configuration.GetValue<String>("FileRootPath"), sysFile.FPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt);
+									if (!string.IsNullOrEmpty(PicWrite))
+									{
+										var docxImage1 = doc.AddImage(PicWrite);
+										var paragraphs = doc.Paragraphs.Where(x => x.Text.Equals("[@Evaluater$]"));
+										foreach (var paragraph in paragraphs)
+										{
+											paragraph.InsertPicture(docxImage1.CreatePicture(50, 150), 0);
+											paragraph.ReplaceText("[@Evaluater$]", "");
+										}
+									}
+									else
+									{
+										doc.ReplaceText("[@Evaluater$]", "");
+									}
+								}
+								else
+								{
+									doc.ReplaceText("[@Evaluater$]", "");
+								}
+
 								doc.SaveAs(SavePath + "/" + t.Key.ToString() + "-" + B_Name + "教材審查表.docx");
 							}
 						}

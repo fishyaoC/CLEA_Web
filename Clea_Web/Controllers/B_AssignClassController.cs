@@ -443,8 +443,8 @@ namespace Clea_Web.Controllers
 
             String L_Name = viewBAssignClassScore != null ? viewBAssignClassScore.LName.Trim() : string.Empty;
             String ScoreT = ((viewBAssignClassScore.EScoreA == null ? 0 : viewBAssignClassScore.EScoreA.Value) + (viewBAssignClassScore.EScoreB == null ? 0 : viewBAssignClassScore.EScoreB.Value) + (viewBAssignClassScore.EScoreC == null ? 0 : viewBAssignClassScore.EScoreC.Value) + (viewBAssignClassScore.EScoreD == null ? 0 : viewBAssignClassScore.EScoreD.Value) + (viewBAssignClassScore.EScoreE == null ? 0 : viewBAssignClassScore.EScoreE.Value)).ToString("#.##");
-
-            String SourcePath = "./SampleFile/ClassEvaExample.docx";
+			SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == viewBAssignClassLector.LUid).FirstOrDefault() ?? null;
+			String SourcePath = "./SampleFile/ClassEvaExample.docx";
             String SavePath = "./SampleFile/Output/" + L_Name + "-教學內容審查表.docx";
 
             using (DocX doc = DocX.Load(SourcePath))
@@ -473,7 +473,23 @@ namespace Clea_Web.Controllers
                     doc.ReplaceText("[@Fail$]", "□");
                 }
 
-                doc.SaveAs(SavePath);
+				String PicWrite = sysFile == null ? string.Empty : Path.Combine(configuration.GetValue<String>("FileRootPath"), sysFile.FPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt);
+				if (!string.IsNullOrEmpty(PicWrite))
+				{
+					var docxImage1 = doc.AddImage(PicWrite);
+					var paragraphs = doc.Paragraphs.Where(x => x.Text.Equals("[@Evaluater$]"));
+					foreach (var paragraph in paragraphs)
+					{
+						paragraph.InsertPicture(docxImage1.CreatePicture(50, 150), 0);
+						paragraph.ReplaceText("[@Evaluater$]", "");
+					}
+				}
+				else
+				{
+					doc.ReplaceText("[@Evaluater$]", "");
+				}
+
+				doc.SaveAs(SavePath);
             }
 
             Byte[] result = System.IO.File.ReadAllBytes(SavePath);

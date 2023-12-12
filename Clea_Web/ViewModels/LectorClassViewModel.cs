@@ -49,14 +49,17 @@ namespace Clea_Web.ViewModels
 			public String S_Name { get; set; }
 			[DisplayName("教學大綱")]
 			[Required(ErrorMessage = "必填欄位!")]
+			[StringLength(1000, ErrorMessage = "已超過限定字數1000")]
 			public String Syllabus { get; set; }
 
 			[DisplayName("教學目標")]
 			[Required(ErrorMessage = "必填欄位!")]
+			[StringLength(1000, ErrorMessage = "已超過限定字數1000")]
 			public String Object { get; set; }
 
 			[DisplayName("內容摘要")]
 			[Required(ErrorMessage = "必填欄位!")]
+			[StringLength(1000, ErrorMessage = "已超過限定字數1000")]
 			public String Abstract { get; set; }
 
 			[DisplayName("上傳檔案")]

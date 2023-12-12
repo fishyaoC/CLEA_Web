@@ -21,12 +21,6 @@
 							<form class="forms-sample" method="post" action="@Url.Action("Index","B_AssignClass")">
 								@Html.AntiForgeryToken()
 								<div class="row">
-@* 									<div class="col-md-4">
-										<div class="form-group">
-											<label for="exampleInputName1">年度</label>
-											@Html.DropDownListFor(x => x.schClassItem.Year, Model.selectListItems, new { id = "year", @class = "form-control form-control", placeholder = "年度" })
-										</div>
-									</div> *@
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="exampleInputEmail3">課程代碼</label>
@@ -51,9 +45,7 @@
 				<!--搜尋End-->
 				<!--動作-->
 				<div class="mb-2 mt-2">
-					@*2023.12.07 測試專用按鈕：載入授課資訊*@
-					@* <a class="btn btn-warning mr-2" href="@Url.Action("AddNewEv")">載入授課資訊</a> *@
-					@* <a class="btn btn-warning mr-2" href="@Url.Action("Add")">新增評鑑</a> *@
+					<a class="btn btn-warning mr-2" href="@Url.Action("AddNewEv")">載入授課資訊</a>
 					<button type="button" class="btn btn-primary mr-2" onclick="location.href='@Url.Action("V_Export", "B_AssignClass")'">匯出未上傳資訊</button>
 				</div>
 				<!--動作End-->
@@ -62,15 +54,11 @@
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">評鑑指定 - 課程資訊</h4>
-							@*<p class="card-description">
-							Add class <code>.table</code>
-							</p> *@
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
 										<tr>
 											<th>序</th>
-											@* <th>年度</th> *@
 											<th>課程代碼</th>
 											<th>課程名稱</th>
 											<th>操作</th>
@@ -85,7 +73,6 @@
 												rowCount++;
 												<tr>
 													<td>@rowCount</td>
-													@* <td>@Class.Year</td> *@
 													<td>@Class.C_ID</td>
 													<td>@Class.C_Name</td>
 													<td>
@@ -97,7 +84,7 @@
 										else
 										{
 											<tr>
-												<td colspan="6" align="center">查無資料!</td>
+												<td colspan="4" align="center">查無資料!</td>
 											</tr>
 										}
 									</tbody>

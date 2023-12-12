@@ -137,6 +137,7 @@ namespace Clea_Web.ViewModels
 			[Range(0, 20, ErrorMessage = "※分數範圍:0~20")]
 			public Int32? Score_C { get; set; }
 
+			[StringLength(500, ErrorMessage = "已超過限定字數500")]
 			public String? Remark { get; set; }
 			public Boolean IsClose { get; set; }
 			public Int32 Status { get; set; }
@@ -191,6 +192,7 @@ namespace Clea_Web.ViewModels
 			/// 版本名稱
 			/// </summary>
 			public String P_Name { get; set; }
+			public Guid Lv_Teacher { get; set; }
 			/// <summary>
 			/// 加總
 			/// </summary>

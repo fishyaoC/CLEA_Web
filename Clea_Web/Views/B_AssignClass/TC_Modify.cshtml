@@ -24,11 +24,6 @@
 									</div>
 								</div>
 								<div class="row">
-@* 									<div class="col-md-6">
-										<div class="form-group">
-											<h3>評鑑年度: @(Model.cLInfo.Year) 年</h3>
-										</div>
-									</div> *@
 									<div class="col-md-6">
 										<div class="form-group">
 											<h3>教師名稱: @(Model.cLInfo.L_Name) ( @(Model.cLInfo.L_ID) )</h3>
@@ -85,9 +80,6 @@
 					<div class="card">
 						<div class="card-body">
 							<h4 class="card-title">評鑑教師</h4>
-							@*<p class="card-description">
-							Add class <code>.table</code>
-							</p> *@
 							<div class="table-responsive">
 								<table class="table">
 									<thead>
@@ -118,7 +110,7 @@
 										else
 										{
 											<tr>
-												<td colspan="6" align="center">查無資料!</td>
+												<td colspan="4" align="center">查無資料!</td>
 											</tr>
 										}
 									</tbody>
@@ -129,7 +121,6 @@
 					</div>
 				</div>
 				<!--資料Table End-->
-
 			</div>
 		</div>
 	</div>

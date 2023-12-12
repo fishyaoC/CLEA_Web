@@ -81,6 +81,7 @@ namespace Clea_Web.ViewModels
 			[Required(ErrorMessage = "此欄位為必填!")]
 			[Range(0, 10, ErrorMessage = "範圍為0~10!")]
 			public Int32? ScoreE { get; set; }
+			[StringLength(500, ErrorMessage = "已超過限定字數500")]
 			public String? Remark { get; set; }
 			public Boolean IsClose { get; set; }
 			public Int32 Status { get; set; }

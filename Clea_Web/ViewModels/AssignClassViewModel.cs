@@ -150,6 +150,7 @@ namespace Clea_Web.ViewModels
 			[Range(0, 10, ErrorMessage = "※分數範圍:0~10")]
 			public Int32? Score_E { get; set; }
 
+			[StringLength(500, ErrorMessage = "已超過限定字數500")]
 			public String? Remark { get; set; }
 
 			[Required(ErrorMessage = "此欄位為必填!")]
