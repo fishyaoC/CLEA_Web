@@ -94,7 +94,7 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("發布對象")]
             [Required(ErrorMessage = "必填項目!")]
-            public bool? NRole { get; set; }
+            public bool? NRole { get; set; } = false;
 
             /// <summary>
             /// 角色代碼(觀看權限)

@@ -151,12 +151,12 @@ namespace Clea_Web.Controllers
         {
             List<SelectListItem> result = new List<SelectListItem>();
             result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysUser> lst_sysuser = db.SysUsers.ToList();
-            if (lst_sysuser != null && lst_sysuser.Count() > 0)
+            List<CLector> lst_lector = db.CLectors.Where(x =>x.LActive == true).ToList();
+            if (lst_lector != null && lst_lector.Count() > 0)
             {
-                foreach (SysUser L in lst_sysuser)
+                foreach (CLector L in lst_lector)
                 {
-                    result.Add(new SelectListItem() { Text = L.UName, Value = L.UId.ToString() });
+                    result.Add(new SelectListItem() { Text = L.LName, Value = L.LUid.ToString() });
                 }
             }
             return result;

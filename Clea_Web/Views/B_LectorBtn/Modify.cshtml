@@ -113,7 +113,7 @@
                                 <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
                                     <div class="col-sm-9">
-                                        @Html.DropDownListFor(x => x.GroupID, Model.DropDownList, new { @class = "form-control form-control" })
+                                        @Html.DropDownListFor(x => x.GroupID, Model.DropDownList, new { @class = "form-control form-control", id="GroupID" })
                                         <div id="groupErrorMessage" style="color: red; display: none;">請選擇發布對象</div>
                                     </div>
                                 </div>
@@ -270,6 +270,15 @@
         debugger;
         datetime();
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Check the initial value of NRole and show/hide fields accordingly
+        var initialNRole = @Model.NRole.ToString().ToLower(); // Assuming Model.NRole is a boolean
+        if (initialNRole === true) {
+            showGroup();
+        }
+    });
+
     function showIndividual() {
         document.getElementById("individual").style.display = "block";
         document.getElementById("group").style.display = "none";

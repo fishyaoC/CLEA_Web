@@ -222,27 +222,27 @@ namespace Clea_Web.Controllers
             Byte[] file = _B_LectorAdvService.Export_LectorAnnaulZip(LUid, YearNow);
             return File(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", YearNow.ToString() + "年-" + su.UName + "-進修資料.zip");
         }
-        #endregion
+		#endregion
 
-        #region 教師下拉選單
-        public List<SelectListItem> getsysuserItem()
-        {
-            List<SelectListItem> result = new List<SelectListItem>();
-            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
-            List<SysUser> lst_sysuser = db.SysUsers.ToList();
-            if (lst_sysuser != null && lst_sysuser.Count() > 0)
-            {
-                foreach (SysUser L in lst_sysuser)
-                {
-                    result.Add(new SelectListItem() { Text = L.UName, Value = L.UId.ToString() });
-                }
-            }
-            return result;
-        }
-        #endregion
+		#region 教師下拉選單
+		public List<SelectListItem> getsysuserItem()
+		{
+			List<SelectListItem> result = new List<SelectListItem>();
+			result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+			List<CLector> lst_lector = db.CLectors.Where(x => x.LActive == true).ToList();
+			if (lst_lector != null && lst_lector.Count() > 0)
+			{
+				foreach (CLector L in lst_lector)
+				{
+					result.Add(new SelectListItem() { Text = L.LName, Value = L.LUid.ToString() });
+				}
+			}
+			return result;
+		}
+		#endregion
 
-        #region 年度下拉選單
-        public List<SelectListItem> getYearItem()
+		#region 年度下拉選單
+		public List<SelectListItem> getYearItem()
         {
             List<SelectListItem> result = new List<SelectListItem>();
             result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
