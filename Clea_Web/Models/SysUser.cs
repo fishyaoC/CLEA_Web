@@ -65,6 +65,8 @@ public partial class SysUser
     /// </summary>
     public bool UStatus { get; set; }
 
+    public bool IsOutSide { get; set; }
+
     /// <summary>
     /// 建立者
     /// </summary>

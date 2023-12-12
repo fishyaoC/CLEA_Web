@@ -265,7 +265,7 @@ namespace Clea_Web.Service
             using (var exportData = new MemoryStream())
             {
                 IWorkbook wb = new XSSFWorkbook();  //字型定義
-                ISheet sheet = wb.CreateSheet(Title);
+                ISheet sheet = wb.CreateSheet("已讀名單");
                 XSSFCellStyle TitleStyle = (XSSFCellStyle)wb.CreateCellStyle(); //標題字型
                 TitleStyle.BorderBottom = NPOI.SS.UserModel.BorderStyle.Thin;
                 TitleStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;

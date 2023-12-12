@@ -89,6 +89,12 @@ namespace Clea_Web.ViewModels
             public bool UStatus { get; set; } = true;
 
             /// <summary>
+            /// 啟用狀態 True = 外聘 ; False = 非外聘
+            /// </summary>
+            [DisplayName("啟用狀態")]
+            public bool isOutSide { get; set; } = false;
+
+            /// <summary>
             /// 編輯狀態 True = 編輯 ; False = 新增
             /// </summary>
             [DisplayName("編輯狀態")]

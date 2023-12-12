@@ -7,11 +7,11 @@
 }
 
 <div class="content-wrapper">
-    <form class="form-sample" method="post" action="@Url.Action("Modify","B_LectorBtn")" enctype='multipart/form-data'>
+    <form class="form-sample" method="post" action="@Url.Action("Modify","B_LectorBtn")" onsubmit="return validateForm()" enctype='multipart/form-data'>
         <div class="mb-2 mt-2">
-        <button type="submit" class="btn btn-info">儲存</button>
-        @* <button type="button" class="btn btn-secondary">取消</button> *@
-        <a href="@Url.Action("Index","B_LectorBtn")" class="btn btn-secondary">取消</a>
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("Index","B_LectorBtn")" class="btn btn-secondary">取消</a>
         </div>
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
@@ -36,6 +36,7 @@
                                     <div class="col-sm-9">
                                         @* <input type="text" class="form-control" /> *@
                                         @Html.TextBoxFor(x => x.NTitle, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                        @Html.ValidationMessageFor(x=>x.NTitle)
                                     </div>
                                 </div>
                             </div>
@@ -47,7 +48,7 @@
 
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check">
-@*                                             @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" }) *@
+                                            @*                                             @Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" }) *@
                                             @Html.CheckBoxFor(x => x.NIsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios", @checked = Model.NIsTop ? "checked" : "" })
                                             @Html.LabelFor(x => x.NIsTop, new { @class = "col-sm-12 control-label" })
                                             @*  <label for="S1">
@@ -72,6 +73,7 @@
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">公告類型</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(x => x.NType, Model.DropDownListType, new { @class = "form-control form-control" })
+                                        @Html.ValidationMessageFor(x=>x.NType)
                                     </div>
                                 </div>
                             </div>
@@ -94,22 +96,25 @@
                                                 群組通知
                                             </label>
                                         </div>
+                                        @Html.ValidationMessageFor(x=>x.NRole)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6" id="individual" style="display: block;">
-                                <div class="form-group row"  >
+                                <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">發布講師</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(x => x.PersonID, Model.DropDownListUser, new { @class = "form-control form-control" , id="PersonID"})
+                                        <div id="individualErrorMessage" style="color: red; display: none;">請選擇發布講師</div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6" id="group" style="display:none;">
-                                <div class="form-group row" >
+                                <div class="form-group row">
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">發布對象</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(x => x.GroupID, Model.DropDownList, new { @class = "form-control form-control" })
+                                        <div id="groupErrorMessage" style="color: red; display: none;">請選擇發布對象</div>
                                     </div>
                                 </div>
                             </div>
@@ -122,6 +127,7 @@
                                     @Html.LabelFor(x => x.NStartDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.EditorFor(x => x.NStartDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.ValidationMessageFor(x=>x.NStartDate)
                                     </div>
                                 </div>
                             </div>
@@ -132,6 +138,7 @@
                                     @Html.LabelFor(x => x.NEndDate, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.EditorFor(x => x.NEndDate, new { @class = "form-control form-control date-picker" })
+                                        @Html.ValidationMessageFor(x=>x.NEndDate)
                                     </div>
                                 </div>
                             </div>
@@ -142,6 +149,7 @@
                                     @Html.LabelFor(x => x.NContent, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.TextAreaFor(x => x.NContent,20,150, new { @class = "form-control form-control" })
+                                        @Html.ValidationMessageFor(x=>x.NContent)
                                     </div>
                                 </div>
                             </div>
@@ -265,10 +273,31 @@
     function showIndividual() {
         document.getElementById("individual").style.display = "block";
         document.getElementById("group").style.display = "none";
+        document.getElementById("PersonID").required = true;
+        document.getElementById("GroupID").required = false;
+
+        document.getElementById("groupErrorMessage").style.display = "none";
+        document.getElementById("individualErrorMessage").style.display = "none";
     }
     function showGroup() {
         document.getElementById("individual").style.display = "none";
         document.getElementById("group").style.display = "block";
+        document.getElementById("PersonID").required = false;
+        document.getElementById("GroupID").required = true;
+
+        document.getElementById("groupErrorMessage").style.display = "none";
+        document.getElementById("individualErrorMessage").style.display = "none";
+    }
+    function validateForm() {
+        if (document.getElementById("PersonID").required && document.getElementById("PersonID").value === "") {
+            document.getElementById("individualErrorMessage").style.display = "block";
+            return false;
+        }
+        if (document.getElementById("GroupID").required && document.getElementById("GroupID").value === "") {
+            document.getElementById("groupErrorMessage").style.display = "block";
+            return false;
+        }
+        return true;
     }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

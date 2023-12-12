@@ -1,6 +1,7 @@
 ﻿using Clea_Web.Models;
 using X.PagedList;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Clea_Web.ViewModels
 {
@@ -29,7 +30,7 @@ namespace Clea_Web.ViewModels
             /// <summary>
             /// Uid
             /// </summary>
-            [DisplayName("Uid")]
+            [DisplayName("Uid")]            
             public Guid RUId { get; set; }
 
             /// <summary>

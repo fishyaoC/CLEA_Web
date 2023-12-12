@@ -42,13 +42,13 @@ namespace Clea_Web.Service
 					  )
 					  select new AssignBookViewModel.BookInfor()
 					  {
-						  E_ID = book.EId.Value,
+						  E_ID = book.EId,
 						  M_Index = book.MIndex,
 						  M_Name = book.MName,
-						  IsClose = book.IsClose.Value,
-						  T_Count = (from eed in db.EEvaluateDetails where eed.EId == book.EId select eed).Count(),
-						  M_Status = (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault() == null ? 0 : (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault().Status
-					  }).ToList();
+						  //IsClose = book.IsClose,
+						  T_Count = (from de in db.EEvaluateDetails where de.EId == book.EId select de).FirstOrDefault() == null ? 0: (from de in db.EEvaluateDetails where de.EId == book.EId select de).Count(),
+						  M_Status = (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).FirstOrDefault() == null ? 0 : (from ees in db.EEvaluationSches where ees.EId == book.EId select ees).OrderBy(x => x.Status).FirstOrDefault().Status
+					  }).OrderBy(x => x.M_Name).ThenBy(x => x.M_Status).ToList();
 
 			return result.ToPagedList(page, pagesize);
 		}
@@ -374,7 +374,7 @@ namespace Clea_Web.Service
 				for (int i = 0; i < 4; i++) //row
 				{
 					sheet.CreateRow(i);
-					for (int j = 0; j < lst_Header.Length; j++)
+					for (int j = 0; j <= lst_Header.Length; j++)
 					{
 						sheet.GetRow(i).CreateCell(j).CellStyle = ContentStyle; //產生 cell
 						sheet.SetColumnWidth(j, 24 * 512);//寬度
@@ -406,7 +406,7 @@ namespace Clea_Web.Service
 								Score += sc.EScoreA is null ? 0 : sc.EScoreA.Value + sc.EScoreB is null ? 0 : sc.EScoreB.Value + sc.EScoreC is null ? 0 : sc.EScoreC.Value;
 							}
 						}
-						scoreTable.Add(new AssignBookViewModel.ScoreTable() { P_Name = p.Key, P_Score = (Score / EvTeacherCount).ToString("#0.00") });
+						scoreTable.Add(new AssignBookViewModel.ScoreTable() { P_Name = p.Key.Trim(), P_Score = (Score / EvTeacherCount).ToString("#0.00") });
 					}
 				}
 
@@ -496,8 +496,8 @@ namespace Clea_Web.Service
 							using (DocX doc = DocX.Load(SourcePath))
 							{
 								doc.ReplaceText("[@Year$]", DateTime.Now.Year.ToString());    //年
-								doc.ReplaceText("[@Month$]", DateTime.Now.Year.ToString().PadLeft(2, '0'));                            //月
-								doc.ReplaceText("[@Day$]", DateTime.Now.Year.ToString().PadLeft(2, '0'));                                //日
+								doc.ReplaceText("[@Month$]", DateTime.Now.Month.ToString().PadLeft(2, '0'));                            //月
+								doc.ReplaceText("[@Day$]", DateTime.Now.Day.ToString().PadLeft(2, '0'));                                //日
 								doc.ReplaceText("[@BName$]", B_Name);
 								doc.ReplaceText("[@L_Name_Ev$]", t.Key.ToString());
 

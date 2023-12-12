@@ -10,9 +10,9 @@
     <form class="form-sample" method="post" action="@Url.Action("Modify","B_Account")">
         <div class="mb-2 mt-2">
 
-        <button type="submit" class="btn btn-info">儲存</button>
-        @* <button type="button" class="btn btn-secondary">取消</button> *@
-        <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a>
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("Index","B_Account")" class="btn btn-secondary">取消</a>
         </div>
         <div class="row">
 
@@ -104,6 +104,27 @@
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(x=>x.RUid, Model.DropDownItem, new { @class = "form-control form-control" })
                                         @*@Html.TextBoxFor(x=> x.RUid, new { @class="form-control form-control", placeholder="帳號權限"})*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">是否為外聘人員</label>
+                                    @* @Html.LabelFor(x=> x.UStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                    <div class="col-sm-4 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.isOutSide, true, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            <label for="S1">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.isOutSide, false, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" })
+                                            <label for="S0">
+                                                否
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

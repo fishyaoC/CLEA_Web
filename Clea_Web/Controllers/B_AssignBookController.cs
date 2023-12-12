@@ -242,6 +242,7 @@ namespace Clea_Web.Controllers
             if (result.CheckMsg)
             {
                 result = _assignBookService.SaveModify(vmd.modify);
+
             }
 
             if (result.CheckMsg)
@@ -410,20 +411,51 @@ namespace Clea_Web.Controllers
             }
             else
             {
-                List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
-                if (eEvaluationSches != null && eEvaluationSches.Count > 0)
+                DateTime UPDDate = DateTime.Now;
+				List<EEvaluationSche> eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
+                List<EEvaluateDetail> lsteEvaluateDetails = db.EEvaluateDetails.Where(x => x.EId == E_ID).ToList();
+
+                if (lsteEvaluateDetails != null && lsteEvaluateDetails.Count > 0)
+                {
+                    foreach (EEvaluateDetail ditem in lsteEvaluateDetails)
+                    {
+                        ditem.IsClose = IsType;
+
+                        if (IsType && ditem.Status == 4)
+                        {
+                            ditem.Status = 6;
+						}
+						else if (IsType && ditem.Status == 5)
+						{
+							ditem.Status = 7;
+						}
+						else if (!IsType && ditem.Status == 6)
+						{
+							ditem.Status = 4;
+						}
+						else if (!IsType && ditem.Status == 7)
+						{
+							ditem.Status = 5;
+						}
+
+						ditem.Upddate = UPDDate;
+						ditem.Upduser = Guid.Parse(baseService.GetUserID(User));
+					}
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
+
+                if (result.CheckMsg && eEvaluationSches != null && eEvaluationSches.Count > 0)
                 {
                     foreach (EEvaluationSche item in eEvaluationSches)
                     {
                         item.IsClose = IsType;
                         item.Status = IsType ? 4 : item.Status;
                         item.Upduser = Guid.Parse(baseService.GetUserID(User));
-                        item.Upddate = DateTime.Now;
-                        result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-                        assignClassService.SaveClose(item.EsId, IsType);
+                        item.Upddate = UPDDate;
                     }
-                }
-            }
+					result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
+			}
             if (result.CheckMsg)
             {
                 TempData["TempMsgType"] = "success";

@@ -88,12 +88,31 @@ namespace Clea_Web.Service
                 SysUser.UEmail = vm.UEmail;
                 SysUser.UPhone = vm.UPhone;
                 SysUser.UStatus = vm.UStatus;
+                SysUser.IsOutSide = vm.isOutSide;
+
 
                 if (vm != null && vm.IsEdit == true)
                 {
                     //編輯
                     SysUser.Upduser = Guid.Parse(GetUserID(user));
                     SysUser.Upddate = DateTime.Now;
+
+                    if (vm.isOutSide == false)
+                    {
+                        //繼續不動作
+                    }
+                    else
+                    {
+                        //儲存到講師
+                        CLector cl = db.CLectors.Where(x=>x.LUid == SysUser.UId).FirstOrDefault();
+                        cl.LId = vm.UAccount;
+                        cl.LName = vm.UName;
+                        cl.LBrithday = vm.UBirthday;
+                        cl.LType = "11";
+                        cl.Upduser = Guid.Parse(GetUserID(user));
+                        cl.Upddate = DateTime.Now;
+
+                    }
                 }
                 else if (vm != null && vm.IsEdit == false)
                 {
@@ -102,6 +121,26 @@ namespace Clea_Web.Service
                     SysUser.Creuser = Guid.Parse(GetUserID(user));
                     SysUser.Credate = DateTime.Now;
                     db.SysUsers.Add(SysUser);
+
+                    if (vm.isOutSide == false)
+                    {
+                        //繼續不動作
+                    }
+                    else
+                    {
+                        //儲存到講師
+                        CLector cl = new CLector();
+                        cl.LUid = SysUser.UId;
+                        cl.LId = vm.UAccount;
+                        cl.LName = vm.UName;
+                        cl.LBrithday = vm.UBirthday;
+                        cl.LType = "11";
+                        cl.Creuser = Guid.Parse(GetUserID(user));
+                        cl.Credate = DateTime.Now;
+                        db.CLectors.Add(cl);
+
+
+                    }
                 }
 
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
@@ -132,6 +171,7 @@ namespace Clea_Web.Service
                 vm.UPhone = sysUser.UPhone;
                 vm.UStatus = sysUser.UStatus;
                 vm.RUid = sysUser.RUid;
+                vm.isOutSide = sysUser.IsOutSide;
                 vm.IsEdit = true;
             }
             return vm;
@@ -145,11 +185,14 @@ namespace Clea_Web.Service
 
             //撈資料
             SysUser sysUser = db.SysUsers.Find(U_ID);
+            CLector cl = db.CLectors.Find(U_ID);
             vm = new AccountViewModel.Modify();
 
             try
             {
                 db.SysUsers.Remove(sysUser);
+                db.CLectors.Remove(cl);
+
             }
             catch (Exception e)
             {

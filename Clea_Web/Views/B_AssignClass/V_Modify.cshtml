@@ -86,28 +86,33 @@
 						<div class="card-body">
 							<h4 class="card-title">課程檔案</h4>
 							<!--Banner-->
-							<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+							<div id="carouselExampleIndicators" class="carousel slide dark-carousel" data-ride="carousel">
+								<ol class="carousel-indicators">
+									<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+									<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+									<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+								</ol>
 								<div class="carousel-inner">
 									@if (Model.picPath.Count() > 0)
 									{
 										Boolean First = true;
 										foreach (String path in Model.picPath)
 										{
-											<div class="carousel-item @(First ? "active":"")">
-												<img src="@path" class="d-block w-100" alt="教學內容">
+											<div class="carousel-item @(First ? "active":"")" data-bs-interval="10000">
+												<img src="@path" class="d-block w-100" alt="教學資料">
 											</div>
 											First = false;
 										}
 									}
 								</div>
-								<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+								<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
 									<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-									<span class="visually-hidden">Previous</span>
-								</button>
-								<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+									<span class="sr-only">Previous</span>
+								</a>
+								<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
 									<span class="carousel-control-next-icon" aria-hidden="true"></span>
-									<span class="visually-hidden">Next</span>
-								</button>
+									<span class="sr-only">Next</span>
+								</a>
 							</div>
 							<!--Banner-->
 						</div>
@@ -243,7 +248,7 @@
 								else
 								{
 									<button type="submit" class="btn btn-info mr-2" )>儲存變更(確認)</button>
-									<a href="@Url.Action("Modify_Back", "B_AssignClass", new { ED_ID = Model.v_ScoreModel.ED_ID })" class="btn btn-danger mr-2")>退回重評</a>
+									<a href="@Url.Action("Modify_Back", "B_AssignClass", new { ED_ID = Model.v_ScoreModel.ED_ID })" class="btn btn-danger mr-2" )>退回重評</a>
 								}
 							</div>
 						</div>
@@ -254,3 +259,26 @@
 		</div>
 	</div>
 </div>
+<style>
+	/* 背景色調整為暗色調 */
+	.dark-carousel {
+		background-color: #333;
+	}
+
+		/* 按鈕背景色設置為暗色系 */
+		.dark-carousel .carousel-control-prev, .dark-carousel .carousel-control-next {
+			background-color: rgba(255, 255, 255, 0.5); /* 半透明白色背景 */
+			border-color: #fff; /* 按钮边框颜色为白色 */
+		}
+
+		/* 按鈕箭頭顏色設置為白色 */
+		.dark-carousel .carousel-control-prev-icon,
+		.dark-carousel .carousel-control-next-icon {
+			filter: invert(100%); /* 箭头颜色反相，使其呈现白色 */
+		}
+
+		/* 指示器激活狀態的背景色為白色 */
+		.dark-carousel .carousel-indicators .active {
+			background-color: #fff;
+		}
+</style>

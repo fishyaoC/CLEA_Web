@@ -34,6 +34,7 @@ namespace Clea_Web.ViewModels
             /// 功能模組代碼
             /// </summary>
             [DisplayName("功能模組代碼")]
+            [Required(ErrorMessage = "必填項目!")]
             public string NType { get; set; } = null!;
 
             /// <summary>
@@ -53,12 +54,14 @@ namespace Clea_Web.ViewModels
             /// 起始日
             /// </summary>
             [DisplayName("公告起始日")]
+            [Required(ErrorMessage = "必填項目!")]
             public DateTime NStartDate { get; set; }
 
             /// <summary>
             /// 結束日
             /// </summary>
             [DisplayName("公告結束日")]
+            [Required(ErrorMessage = "必填項目!")]
             public DateTime NEndDate { get; set; }
 
             /// <summary>
@@ -83,12 +86,14 @@ namespace Clea_Web.ViewModels
             /// 內文
             /// </summary>
             [DisplayName("公告內容")]
+            [Required(ErrorMessage = "必填項目!")]
             public string NContent { get; set; } = null!;
 
             /// <summary>
             /// true=群發，false=個人
             /// </summary>
             [DisplayName("發布對象")]
+            [Required(ErrorMessage = "必填項目!")]
             public bool? NRole { get; set; }
 
             /// <summary>

@@ -928,7 +928,7 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("儲存後名稱")
                 .HasColumnName("F_NameDL");
             entity.Property(e => e.FNameReal)
-                .HasMaxLength(50)
+                .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasComment("檔案實體名稱")
                 .HasColumnName("F_NameReal");
@@ -1117,6 +1117,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.Creuser)
                 .HasComment("建立者")
                 .HasColumnName("CREUSER");
+            entity.Property(e => e.IsOutSide).HasColumnName("isOutSide");
             entity.Property(e => e.RUid)
                 .HasComment("角色UID")
                 .HasColumnName("R_UID");
