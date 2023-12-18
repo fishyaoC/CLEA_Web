@@ -546,12 +546,18 @@ namespace Clea_Web.Service
 									String PicWrite = sysFile == null ? string.Empty : Path.Combine(configuration.GetValue<String>("FileRootPath"), sysFile.FPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt);
 									if (!string.IsNullOrEmpty(PicWrite))
 									{
-										var docxImage1 = doc.AddImage(PicWrite);
-										var paragraphs = doc.Paragraphs.Where(x => x.Text.Equals("[@Evaluater$]"));
-										foreach (var paragraph in paragraphs)
+										using (MemoryStream ms = new MemoryStream())
 										{
-											paragraph.InsertPicture(docxImage1.CreatePicture(50, 150), 0);
-											paragraph.ReplaceText("[@Evaluater$]", "");
+											System.Drawing.Image myImg = System.Drawing.Image.FromFile(PicWrite);
+											myImg.Save(ms, myImg.RawFormat);
+											ms.Seek(0, SeekOrigin.Begin);
+											var docxImage1 = doc.AddImage(ms);
+											var paragraphs = doc.Paragraphs.Where(x => x.Text.Equals("[@Evaluater$]"));
+											foreach (var paragraph in paragraphs)
+											{
+												paragraph.InsertPicture(docxImage1.CreatePicture(50, 150), 0);
+												paragraph.ReplaceText("[@Evaluater$]", "");
+											}
 										}
 									}
 									else
