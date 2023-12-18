@@ -93,7 +93,13 @@ namespace Clea_Web.Service
                 PNews.NTitle = vm.NTitle;
                 PNews.NClass = vm.NClass;
                 PNews.NStartDate = vm.NStartDate.Date;
-                PNews.NEndDate = vm.NEndDate.Date;
+                if (vm.NEndDate != null)
+                {
+                    PNews.NEndDate = Convert.ToDateTime(vm.NEndDate).Date;
+                }
+                else {
+                    PNews.NEndDate = null;
+                }
                 PNews.NIsTop = vm.NIsTop;
                 PNews.NIsShow = vm.NIsShow;
                 PNews.NStatus = vm.NStatus;
@@ -299,11 +305,14 @@ namespace Clea_Web.Service
                     List<CLector> clList = new List<CLector>();
                     if (pn.RId.ToLower() == "ABD874FC-6C65-4CC1-84A1-92869D599E77".ToLower())
                     {
-                        clList = db.CLectors.ToList();
+                        //全部講師
+                        clList = db.CLectors.Where(x => x.LActive == true).ToList();
                     }
-                    else {
-                        SysCode sc = db.SysCodes.Where(x=>x.Uid == Guid.Parse(pn.RId)).FirstOrDefault();
-                        clList = db.CLectors.Where(x=>x.LType == sc.CItemCode).ToList();
+                    else
+                    {
+                        //講師(依分類)
+                        SysCode sc = db.SysCodes.Where(x => x.Uid == Guid.Parse(pn.RId)).FirstOrDefault();
+                        clList = db.CLectors.Where(x => x.LType == sc.CItemCode && x.LActive == true).ToList();
                     }
 
 

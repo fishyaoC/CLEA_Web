@@ -30,7 +30,7 @@ public partial class PNews
     /// <summary>
     /// 結束日
     /// </summary>
-    public DateTime NEndDate { get; set; }
+    public DateTime? NEndDate { get; set; }
 
     /// <summary>
     /// 是否置頂

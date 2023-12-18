@@ -61,8 +61,7 @@ namespace Clea_Web.ViewModels
             /// 結束日
             /// </summary>
             [DisplayName("公告結束日")]
-            [Required(ErrorMessage = "必填項目!")]
-            public DateTime NEndDate { get; set; }
+            public DateTime? NEndDate { get; set; }
 
             /// <summary>
             /// 是否置頂
