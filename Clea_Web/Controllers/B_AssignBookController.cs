@@ -64,10 +64,73 @@ namespace Clea_Web.Controllers
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schBookItems);
             return View(vmd);
         }
-        #endregion
+		#endregion
 
-        #region 新增教材評鑑
-        public IActionResult Add()
+		#region 刪除教材評鑑
+        public IActionResult Delete_BookEv(Guid E_ID)
+        {
+			BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+			try
+			{
+                EEvaluate? eEvaluate = db.EEvaluates.Find(E_ID) ?? null;
+                if (eEvaluate != null)
+                {
+                    error.CheckMsg = true;
+				}
+                else
+                {
+                    error.CheckMsg = false;
+                    error.ErrorMsg = "查無此筆評鑑資料!";
+				}
+
+                List<EEvaluateDetail> eEvaluateDetails = new List<EEvaluateDetail>();
+                eEvaluateDetails = db.EEvaluateDetails.Where(x => x.EId == E_ID).ToList();
+
+                if (eEvaluateDetails.Count > 0)
+                {
+                    foreach (EEvaluateDetail detail in eEvaluateDetails)
+                    {
+                        db.EEvaluateDetails.Remove(detail);
+                    }
+					error.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+                }
+
+                List<EEvaluationSche> eEvaluationSches = new List<EEvaluationSche>();
+                eEvaluationSches = db.EEvaluationSches.Where(x => x.EId == E_ID).ToList();
+				List<SysFile> sysFiles = new List<SysFile>();
+
+				if (error.CheckMsg && eEvaluationSches.Count > 0)
+                {
+                    foreach (EEvaluationSche sche in eEvaluationSches)
+                    {
+                        SysFile? syfile = db.SysFiles.Where(x => x.FMatchKey == sche.EsId).FirstOrDefault() ?? null;
+                        if (syfile != null)
+                        {
+							_fileService.DeleteFile(syfile);
+                            db.SysFiles.Remove(syfile);
+						}
+                        db.EEvaluationSches.Remove(sche);
+                    }
+					error.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
+
+                if (error.CheckMsg)
+                {
+                    db.EEvaluates.Remove(eEvaluate);
+					error.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+				}
+			}
+			catch (Exception ex)
+			{
+				error.CheckMsg = false;
+				error.ErrorMsg = ex.Message;
+			}
+			return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+		}
+		#endregion
+
+		#region 新增教材評鑑
+		public IActionResult Add()
         {
             AssignBookViewModel.AddModel vmd = new AssignBookViewModel.AddModel();
             vmd.selectListItemsBook = _assignBookService.GetSelectListItemsBook();

@@ -449,9 +449,9 @@ namespace Clea_Web.Controllers
 
 			using (DocX doc = DocX.Load(SourcePath))
 			{
-				doc.ReplaceText("[@Year$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.Credate.Year.ToString());    //年
-				doc.ReplaceText("[@Month$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.Credate.Month.ToString());                            //月
-				doc.ReplaceText("[@Day$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.Credate.Day.ToString());                                //日
+				doc.ReplaceText("[@Year$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EFirstScoreDate == null ? string.Empty : viewBAssignClassScore.EFirstScoreDate.Value.Year.ToString());    //年
+				doc.ReplaceText("[@Month$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EFirstScoreDate == null ? string.Empty : viewBAssignClassScore.EFirstScoreDate.Value.Month.ToString());                            //月
+				doc.ReplaceText("[@Day$]", viewBAssignClassScore is null ? string.Empty : viewBAssignClassScore.EFirstScoreDate == null ? string.Empty : viewBAssignClassScore.EFirstScoreDate.Value.Day.ToString());                                //日
 				doc.ReplaceText("[@ClassName$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.CName);
 				doc.ReplaceText("[@SubName$]", viewBAssignClassLector is null ? string.Empty : viewBAssignClassLector.DName);
 				doc.ReplaceText("[@LecName$]", L_Name);

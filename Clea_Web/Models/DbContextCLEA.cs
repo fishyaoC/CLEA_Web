@@ -539,6 +539,9 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.EFirstScoreDate)
+                .HasColumnType("date")
+                .HasColumnName("E_FirstScoreDate");
             entity.Property(e => e.EId).HasColumnName("E_ID");
             entity.Property(e => e.ERemark)
                 .HasMaxLength(500)
@@ -1356,6 +1359,9 @@ public partial class DbContextCLEA : DbContext
                 .HasNoKey()
                 .ToView("View_B_AssignClassScore");
 
+            entity.Property(e => e.EFirstScoreDate)
+                .HasColumnType("date")
+                .HasColumnName("E_FirstScoreDate");
             entity.Property(e => e.EId).HasColumnName("E_ID");
             entity.Property(e => e.ERemark)
                 .HasMaxLength(500)

@@ -46,6 +46,8 @@ public partial class EEvaluateDetail
     /// </summary>
     public string? ETeachAbstract { get; set; }
 
+    public DateTime? EFirstScoreDate { get; set; }
+
     public bool IsMail { get; set; }
 
     public int Status { get; set; }

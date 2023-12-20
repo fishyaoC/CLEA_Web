@@ -322,8 +322,10 @@ namespace Clea_Web.Service
 				eEvaluateDetail.Status = TotalScore >= 85 ? 4 : 5;
 				eEvaluateDetail.ERemark = data.Remark;
 				eEvaluateDetail.IsClose = data.IsClose;
+				eEvaluateDetail.EFirstScoreDate = eEvaluateDetail.EFirstScoreDate == null ? DateTime.Now.Date : eEvaluateDetail.EFirstScoreDate;
 				eEvaluateDetail.Upduser = Guid.Parse(GetUserID(user));
 				eEvaluateDetail.Upddate = DateTime.Now;
+
 
 				result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 			}

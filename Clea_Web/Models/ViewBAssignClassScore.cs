@@ -30,4 +30,6 @@ public partial class ViewBAssignClassScore
     public int Status { get; set; }
 
     public bool IsClose { get; set; }
+
+    public DateTime? EFirstScoreDate { get; set; }
 }
