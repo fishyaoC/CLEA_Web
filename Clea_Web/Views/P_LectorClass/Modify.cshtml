@@ -50,7 +50,7 @@
 									<div class="col-md-12">
 										<div class="form-group">
 											<label for="exampleInputName1">教學大綱 (限制字數為1000字以內)</label>
-											@if (Model.modify.Status == 0 || Model.modify.Status == 10)
+											@if (Model.modify.Status >= 0 && Model.modify.Status <= 6 || Model.modify.Status == 10)
 											{
 												@Html.TextAreaFor(x => x.modify.Syllabus, new { @class = "form-control form-control", placeholder = "教學大綱 (限制字數為1000字以內)", rows="10" })
 											}
@@ -62,7 +62,7 @@
 										</div>
 										<div class="form-group">
 											<label for="exampleInputName1">教學目標 (限制字數為1000字以內)</label>
-											@if (Model.modify.Status == 0 || Model.modify.Status == 10)
+											@if (Model.modify.Status >= 0 && Model.modify.Status <= 6 || Model.modify.Status == 10)
 											{
 												@Html.TextAreaFor(x => x.modify.Object, new { @class = "form-control form-control", placeholder = "教學目標 (限制字數為1000字以內)", rows="10" })
 											}
@@ -74,7 +74,7 @@
 										</div>
 										<div class="form-group">
 											<label for="exampleInputName1">教學內容摘要 (限制字數為1000字以內)</label>
-											@if (Model.modify.Status == 0 || Model.modify.Status == 10)
+											@if (Model.modify.Status >= 0 && Model.modify.Status <= 6 || Model.modify.Status == 10)
 											{
 												@Html.TextAreaFor(x => x.modify.Abstract, new { @class = "form-control form-control", placeholder = "教學內容摘要 (限制字數為1000字以內)", rows="10" })
 											}
