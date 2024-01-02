@@ -1,0 +1,3214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CELA_WEBDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="C_Book">
+          <Key>
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="M_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_Index" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="M_Order" Type="int" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_BookDetail">
+          <Key>
+            <PropertyRef Name="MD_ID" />
+          </Key>
+          <Property Name="MD_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MD_Publish" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="R_Number" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="R_Date" Type="date" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_BookPublish">
+          <Key>
+            <PropertyRef Name="BP_ID" />
+          </Key>
+          <Property Name="BP_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BP_Number" Type="varchar" MaxLength="50" />
+          <Property Name="BP_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_Class">
+          <Key>
+            <PropertyRef Name="C_UID" />
+          </Key>
+          <Property Name="C_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_ID" Type="varchar" MaxLength="10" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="C_Type" Type="varchar" MaxLength="200" />
+          <Property Name="C_BookNum" Type="varchar" MaxLength="200" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_ClassLector">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="CL_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_UID" Type="uniqueidentifier" />
+          <Property Name="D_UID" Type="uniqueidentifier" />
+          <Property Name="L_UID" Type="uniqueidentifier" />
+          <Property Name="CL_ID" Type="int" />
+          <Property Name="CL_Order" Type="int" />
+          <Property Name="CL_HourlyRate" Type="int" />
+          <Property Name="CL_Qualify" Type="varchar" MaxLength="200" />
+          <Property Name="CL_IsActive" Type="bit" />
+          <Property Name="IsEvaluate" Type="bit" />
+          <Property Name="CREUSER" Type="uniqueidentifier" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_ClassSubject">
+          <Key>
+            <PropertyRef Name="D_UID" />
+          </Key>
+          <Property Name="D_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_UID" Type="uniqueidentifier" />
+          <Property Name="D_ID" Type="varchar" MaxLength="50" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="D_Hour" Type="int" />
+          <Property Name="D_HourlyRate" Type="int" />
+          <Property Name="D_Type" Type="varchar" MaxLength="1" />
+          <Property Name="D_IsTest" Type="bit" />
+          <Property Name="D_Memo" Type="varchar" MaxLength="500" />
+          <Property Name="CREUSER" Type="uniqueidentifier" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_Lector">
+          <Key>
+            <PropertyRef Name="L_UID" />
+          </Key>
+          <Property Name="L_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="L_ID" Type="varchar" MaxLength="20" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="L_BRITHDAY" Type="date" />
+          <Property Name="L_Edu" Type="varchar" MaxLength="300" />
+          <Property Name="L_EduSchool" Type="varchar" MaxLength="300" />
+          <Property Name="L_PosCode" Type="int" />
+          <Property Name="L_Address" Type="varchar" MaxLength="300" />
+          <Property Name="L_CPosCode" Type="int" />
+          <Property Name="L_CAddress" Type="varchar" MaxLength="300" />
+          <Property Name="L_Phone" Type="varchar" MaxLength="100" />
+          <Property Name="L_CellPhone" Type="varchar" MaxLength="100" />
+          <Property Name="L_Email" Type="varchar" MaxLength="100" />
+          <Property Name="L_Type" Type="varchar" MaxLength="100" />
+          <Property Name="L_TravelExpenses" Type="int" />
+          <Property Name="L_IsCheck" Type="bit" />
+          <Property Name="L_Active" Type="bit" />
+          <Property Name="L_Memo" Type="varchar" MaxLength="500" />
+          <Property Name="CREUSER" Type="uniqueidentifier" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="C_LectorAdvInfo">
+          <Key>
+            <PropertyRef Name="LA_UID" />
+          </Key>
+          <Property Name="LA_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="L_UID" Type="uniqueidentifier" />
+          <Property Name="LA_Year" Type="int" />
+          <Property Name="LA_Title" Type="varchar" MaxLength="100" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E_ClassUploadLog">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FileFullName" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="IsUpdate" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="int" />
+          <Property Name="Other" Type="varchar" MaxLength="100" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E_Evaluate">
+          <Key>
+            <PropertyRef Name="E_ID" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_Type" Type="int" Nullable="false" />
+          <Property Name="E_Year" Type="int" Nullable="false" />
+          <Property Name="matchKey" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E_EvaluateDetail">
+          <Key>
+            <PropertyRef Name="ED_ID" />
+          </Key>
+          <Property Name="ED_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Evaluate" Type="uniqueidentifier" />
+          <Property Name="E_ScoreA" Type="int" />
+          <Property Name="E_ScoreB" Type="int" />
+          <Property Name="E_ScoreC" Type="int" />
+          <Property Name="E_ScoreD" Type="int" />
+          <Property Name="E_ScoreE" Type="int" />
+          <Property Name="E_Remark" Type="varchar" MaxLength="500" />
+          <Property Name="E_TeachSyllabus" Type="varchar" MaxLength="1000" />
+          <Property Name="E_TeachObject" Type="varchar" MaxLength="1000" />
+          <Property Name="E_TeachAbstract" Type="varchar" MaxLength="1000" />
+          <Property Name="E_FirstScoreDate" Type="date" />
+          <Property Name="IsMail" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="E_EvaluationSche">
+          <Key>
+            <PropertyRef Name="ES_ID" />
+          </Key>
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="matchKey" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Reception" Type="uniqueidentifier" />
+          <Property Name="E_TeachSyllabus" Type="varchar" MaxLength="1000" />
+          <Property Name="E_TeachObject" Type="varchar" MaxLength="1000" />
+          <Property Name="E_TeachAbstract" Type="varchar" MaxLength="1000" />
+          <Property Name="ChkNum" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsMail" Type="bit" Nullable="false" />
+          <Property Name="ScheNum" Type="int" Nullable="false" />
+          <Property Name="IsSche" Type="bit" Nullable="false" />
+          <Property Name="IsPass" Type="bit" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="P_Banner">
+          <Key>
+            <PropertyRef Name="Banner_ID" />
+          </Key>
+          <Property Name="Banner_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BannerType" Type="int" Nullable="false" />
+          <Property Name="BannerName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="BannerURL" Type="varchar" MaxLength="250" />
+          <Property Name="BannerStart" Type="date" />
+          <Property Name="BannerEnd" Type="date" />
+          <Property Name="BannerOrder" Type="int" />
+          <Property Name="BannerStatus" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="P_File">
+          <Key>
+            <PropertyRef Name="File_ID" />
+          </Key>
+          <Property Name="File_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="F_Type" Type="int" Nullable="false" />
+          <Property Name="F_Title" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="F_Memo" Type="varchar" MaxLength="250" />
+          <Property Name="F_Status" Type="bit" Nullable="false" />
+          <Property Name="F_IsTop" Type="bit" Nullable="false" />
+          <Property Name="F_Order" Type="int" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="P_Link">
+          <Key>
+            <PropertyRef Name="Link_ID" />
+          </Key>
+          <Property Name="Link_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="L_Type" Type="int" Nullable="false" />
+          <Property Name="L_Class" Type="int" Nullable="false" />
+          <Property Name="L_Title" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="L_URL" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="L_Order" Type="int" />
+          <Property Name="L_IsTop" Type="bit" Nullable="false" />
+          <Property Name="L_Status" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="P_News">
+          <Key>
+            <PropertyRef Name="News_ID" />
+          </Key>
+          <Property Name="News_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="N_Type" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="N_Title" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="N_Class" Type="int" Nullable="false" />
+          <Property Name="N_StartDate" Type="date" Nullable="false" />
+          <Property Name="N_EndDate" Type="date" />
+          <Property Name="N_IsTop" Type="bit" Nullable="false" />
+          <Property Name="N_IsShow" Type="bit" Nullable="false" />
+          <Property Name="N_Status" Type="bit" Nullable="false" />
+          <Property Name="N_Content" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="N_Role" Type="bit" />
+          <Property Name="R_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="P_NewsReadLog">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="News_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_Code">
+          <Key>
+            <PropertyRef Name="Uid" />
+          </Key>
+          <Property Name="Uid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_ParentUid" Type="varchar" MaxLength="50" />
+          <Property Name="C_ParentCode" Type="varchar" MaxLength="50" />
+          <Property Name="C_itemCode" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="C_itemName" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="C_itemOrder" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isActive" Type="bit" Nullable="false" />
+          <Property Name="isShow" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_File">
+          <Key>
+            <PropertyRef Name="File_ID" />
+          </Key>
+          <Property Name="File_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="F_Module" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="F_MatchKey" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="F_MatchKey2" Type="varchar" MaxLength="150" />
+          <Property Name="F_FullName" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="F_NameReal" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="F_NameDL" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="F_MimeType" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="F_Ext" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="F_Path" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="F_Description" Type="varchar" MaxLength="100" />
+          <Property Name="F_Order" Type="int" />
+          <Property Name="F_Remark" Type="varchar" MaxLength="250" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_Menu">
+          <Key>
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="M_ID" Type="bigint" Nullable="false" />
+          <Property Name="M_Type" Type="nvarchar" MaxLength="1" Nullable="false" />
+          <Property Name="M_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="M_ParentID" Type="bigint" Nullable="false" />
+          <Property Name="M_Level" Type="int" Nullable="false" />
+          <Property Name="M_Url" Type="varchar" MaxLength="50" />
+          <Property Name="M_Order" Type="int" Nullable="false" />
+          <Property Name="M_IsActice" Type="bit" Nullable="false" />
+          <Property Name="M_IsShow" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_Power">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="R_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_ID" Type="bigint" Nullable="false" />
+          <Property Name="CreateData" Type="bit" Nullable="false" />
+          <Property Name="SearchData" Type="bit" Nullable="false" />
+          <Property Name="ModifyData" Type="bit" Nullable="false" />
+          <Property Name="DeleteData" Type="bit" Nullable="false" />
+          <Property Name="ImportData" Type="bit" Nullable="false" />
+          <Property Name="Exportdata" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_Role">
+          <Key>
+            <PropertyRef Name="R_UID" />
+          </Key>
+          <Property Name="R_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="R_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="R_BackEnd" Type="bit" Nullable="false" />
+          <Property Name="R_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="R_Order" Type="tinyint" Nullable="false" />
+          <Property Name="R_Status" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_Unit">
+          <Key>
+            <PropertyRef Name="Un_ID" />
+          </Key>
+          <Property Name="Un_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Un_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Un_Status" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <EntityType Name="SYS_User">
+          <Key>
+            <PropertyRef Name="U_ID" />
+          </Key>
+          <Property Name="U_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="R_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="U_Account" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="U_Password" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="U_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="U_Email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="U_Phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="U_Address" Type="varchar" MaxLength="100" />
+          <Property Name="U_Sex" Type="tinyint" />
+          <Property Name="U_Birthday" Type="date" />
+          <Property Name="Un_ID" Type="varchar" MaxLength="50" />
+          <Property Name="U_Status" Type="bit" Nullable="false" />
+          <Property Name="isOutSide" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="uniqueidentifier" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignBook' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignBook">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_ID" Type="uniqueidentifier" />
+          <Property Name="M_Index" Type="varchar" MaxLength="100" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignBookEvaluateTeacher' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignBookEvaluateTeacher">
+          <Key>
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="IsClose" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="ED_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Evaluate" Type="uniqueidentifier" />
+          <Property Name="E_ScoreA" Type="int" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="M_ID" Type="uniqueidentifier" />
+          <Property Name="M_Index" Type="varchar" MaxLength="100" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" />
+          <Property Name="L_UID" Type="uniqueidentifier" />
+          <Property Name="L_ID" Type="varchar" MaxLength="20" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="BP_ID" Type="uniqueidentifier" />
+          <Property Name="BP_Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignBookScore' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignBookScore">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="ED_ID" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BP_Name" Type="varchar" MaxLength="50" />
+          <Property Name="ED_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Evaluate" Type="uniqueidentifier" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="E_ScoreA" Type="int" />
+          <Property Name="E_ScoreB" Type="int" />
+          <Property Name="E_ScoreC" Type="int" />
+          <Property Name="E_ScoreD" Type="int" />
+          <Property Name="E_ScoreE" Type="int" />
+          <Property Name="E_Remark" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignBookUnLoadFile' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignBookUnLoadFile">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="F_MatchKey" Type="uniqueidentifier" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignClassEvaluate' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignClassEvaluate">
+          <Key>
+            <PropertyRef Name="C_UID" />
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="E_Year" />
+          </Key>
+          <Property Name="C_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_ID" Type="varchar" MaxLength="10" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_Type" Type="int" Nullable="false" />
+          <Property Name="E_Year" Type="int" Nullable="false" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignClassLector' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignClassLector">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Year" />
+            <PropertyRef Name="C_UID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="CL_UID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsSche" />
+            <PropertyRef Name="ScheNum" />
+            <PropertyRef Name="IsClose" />
+            <PropertyRef Name="ChkNum" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_Year" Type="int" Nullable="false" />
+          <Property Name="C_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_ID" Type="varchar" MaxLength="10" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CL_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="D_ID" Type="varchar" MaxLength="50" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="D_Hour" Type="int" />
+          <Property Name="L_UID" Type="uniqueidentifier" />
+          <Property Name="L_ID" Type="varchar" MaxLength="20" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsSche" Type="bit" Nullable="false" />
+          <Property Name="ScheNum" Type="int" Nullable="false" />
+          <Property Name="IsPass" Type="bit" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="ChkNum" Type="bigint" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_AssignClassScore' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_AssignClassScore">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ED_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Evaluate" Type="uniqueidentifier" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="E_ScoreA" Type="int" />
+          <Property Name="E_ScoreB" Type="int" />
+          <Property Name="E_ScoreC" Type="int" />
+          <Property Name="E_ScoreD" Type="int" />
+          <Property Name="E_ScoreE" Type="int" />
+          <Property Name="E_Remark" Type="varchar" MaxLength="500" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="E_FirstScoreDate" Type="date" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_B_BookEvaluateTeacher' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_B_BookEvaluateTeacher">
+          <Key>
+            <PropertyRef Name="E_ID" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Evaluate" Type="uniqueidentifier" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="L_ID" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_BookEvaluate' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_BookEvaluate">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="E_Year" />
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_Type" Type="int" Nullable="false" />
+          <Property Name="E_Year" Type="int" Nullable="false" />
+          <Property Name="M_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_Index" Type="int" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_C_Book' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Bridge_C_Book">
+          <Key>
+            <PropertyRef Name="M_Index" />
+          </Key>
+          <Property Name="M_Index" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="M_Name" Type="nvarchar" MaxLength="80" />
+          <Property Name="M_Publish" Type="nvarchar" MaxLength="20" />
+          <Property Name="M_Number" Type="nvarchar" MaxLength="40" />
+          <Property Name="M_Version" Type="nvarchar" MaxLength="20" />
+          <Property Name="M_Order" Type="int" />
+          <Property Name="M_Memo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CREUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_C_BookPublish' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Bridge_C_BookPublish">
+          <Key>
+            <PropertyRef Name="M_Index" />
+          </Key>
+          <Property Name="M_Index" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="M_Name" Type="nvarchar" MaxLength="80" />
+          <Property Name="M_Publish" Type="nvarchar" MaxLength="20" />
+          <Property Name="M_Number" Type="nvarchar" MaxLength="40" />
+          <Property Name="M_Version" Type="nvarchar" MaxLength="20" />
+          <Property Name="M_Order" Type="int" />
+          <Property Name="M_Memo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CREUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_C_Class' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Bridge_C_Class">
+          <Key>
+            <PropertyRef Name="C_ID" />
+            <PropertyRef Name="CREUSER" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="C_ID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="C_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="C_Type" Type="nvarchar" MaxLength="20" />
+          <Property Name="C_BookNum" Type="nvarchar" MaxLength="10" />
+          <Property Name="CREUSER" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_C_ClassLector' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Bridge_C_ClassLector">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="CL_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_UID" Type="nvarchar" MaxLength="10" />
+          <Property Name="D_UID" Type="nvarchar" MaxLength="10" />
+          <Property Name="L_UID" Type="nvarchar" MaxLength="20" />
+          <Property Name="CL_Order" Type="int" />
+          <Property Name="CL_HourlyRate" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CL_Qualify" Type="varchar" MaxLength="250" />
+          <Property Name="CL_IsActive" Type="nvarchar" MaxLength="10" />
+          <Property Name="CREUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_C_ClassSubject' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Bridge_C_ClassSubject">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_UID" Type="nvarchar" MaxLength="10" />
+          <Property Name="D_ID" Type="nvarchar" MaxLength="10" />
+          <Property Name="D_Name" Type="nvarchar" MaxLength="200" />
+          <Property Name="D_Hour" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="D_HourlyRate" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="D_Type" Type="nvarchar" MaxLength="1" />
+          <Property Name="D_IsTest" Type="nvarchar" MaxLength="50" />
+          <Property Name="D_Memo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CREUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_C_Lector' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Bridge_C_Lector">
+          <Key>
+            <PropertyRef Name="L_ID" />
+          </Key>
+          <Property Name="L_ID" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="L_NAME" Type="nvarchar" MaxLength="20" />
+          <Property Name="L_BRITHDAY" Type="datetime" />
+          <Property Name="L_Edu" Type="nvarchar" MaxLength="4" />
+          <Property Name="L_EduSchool" Type="nvarchar" MaxLength="30" />
+          <Property Name="L_PosCode" Type="nvarchar" MaxLength="8" />
+          <Property Name="L_Address" Type="nvarchar" MaxLength="80" />
+          <Property Name="L_CPosCode" Type="nvarchar" MaxLength="8" />
+          <Property Name="L_CAddress" Type="nvarchar" MaxLength="80" />
+          <Property Name="L_Phone" Type="nvarchar" MaxLength="30" />
+          <Property Name="L_CellPhone" Type="nvarchar" MaxLength="30" />
+          <Property Name="L_Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="L_Type" Type="nvarchar" MaxLength="4" />
+          <Property Name="L_TravelExpenses" Type="int" />
+          <Property Name="L_IsCheck" Type="nvarchar" MaxLength="50" />
+          <Property Name="L_Active" Type="nvarchar" MaxLength="50" />
+          <Property Name="L_Memo" Type="nvarchar" MaxLength="50" />
+          <Property Name="CREUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="CREDATE" Type="datetime" />
+          <Property Name="UPDUSER" Type="nvarchar" MaxLength="20" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6013: 資料表/檢視 'CELA_WEBDB.dbo.View_Bridge_Publish_T' 未定義主索引鍵，也無法推斷有效的主索引鍵。此資料表/檢視已被排除。如果要使用此實體，您必須檢閱您的結構描述，加入正確的索引鍵，並將它取消註解。
+        <EntityType Name="View_Bridge_Publish_T">
+          <Property Name="Publish" Type="nvarchar" MaxLength="20" />
+        </EntityType>-->
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_ClassEvaluate' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_ClassEvaluate">
+          <Key>
+            <PropertyRef Name="C_UID" />
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="E_Year" />
+          </Key>
+          <Property Name="C_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_ID" Type="varchar" MaxLength="10" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_Type" Type="int" Nullable="false" />
+          <Property Name="E_Year" Type="int" Nullable="false" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_ClassLector' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_ClassLector">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="ED_ID" Type="uniqueidentifier" />
+          <Property Name="CL_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_UID" Type="uniqueidentifier" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_ClassLectorEvaluate' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_ClassLectorEvaluate">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="CL_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_UID" Type="uniqueidentifier" />
+          <Property Name="C_ID" Type="varchar" MaxLength="10" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="D_UID" Type="uniqueidentifier" />
+          <Property Name="D_ID" Type="varchar" MaxLength="50" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="L_UID" Type="uniqueidentifier" />
+          <Property Name="L_ID" Type="varchar" MaxLength="10" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="Expr1" Type="uniqueidentifier" />
+          <Property Name="Expr2" Type="varchar" MaxLength="10" />
+          <Property Name="Expr3" Type="varchar" MaxLength="300" />
+          <Property Name="LEv_Year" Type="int" />
+          <Property Name="LEv_Type" Type="int" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_EvaluateDetailInfo' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_EvaluateDetailInfo">
+          <Key>
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="E_ID" />
+          </Key>
+          <Property Name="ED_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_ScoreA" Type="int" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" />
+          <Property Name="MD_Publish" Type="uniqueidentifier" />
+          <Property Name="F_MatchKey" Type="uniqueidentifier" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_MenuRolePower' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_MenuRolePower">
+          <Key>
+            <PropertyRef Name="R_UID" />
+          </Key>
+          <Property Name="R_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_ID" Type="bigint" />
+          <Property Name="M_Name" Type="varchar" MaxLength="50" />
+          <Property Name="M_Level" Type="int" />
+          <Property Name="M_Order" Type="int" />
+          <Property Name="M_Type" Type="nvarchar" MaxLength="1" />
+          <Property Name="M_Url" Type="varchar" MaxLength="50" />
+          <Property Name="CreateData" Type="bit" />
+          <Property Name="SearchData" Type="bit" />
+          <Property Name="ModifyData" Type="bit" />
+          <Property Name="DeleteData" Type="bit" />
+          <Property Name="ImportData" Type="bit" />
+          <Property Name="Exportdata" Type="bit" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_P_LectorClass' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_P_LectorClass">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="CREDATE" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="matchKey" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="ScheNum" />
+            <PropertyRef Name="IsSche" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="matchKey" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ScheNum" Type="int" Nullable="false" />
+          <Property Name="IsSche" Type="bit" Nullable="false" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="Reception" Type="uniqueidentifier" />
+          <Property Name="fileName" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_P_LectorClassAbstract' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_P_LectorClassAbstract">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="AM" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="BM" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AM" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="BM" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="E_TeachAbstract" Type="varchar" MaxLength="1000" />
+          <Property Name="E_TeachObject" Type="varchar" MaxLength="1000" />
+          <Property Name="E_TeachSyllabus" Type="varchar" MaxLength="1000" />
+          <Property Name="D_UID" Type="uniqueidentifier" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_P_LectorEvaluate' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_P_LectorEvaluate">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsClose" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="E_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="E_Type" Type="int" Nullable="false" />
+          <Property Name="C_Name" Type="varchar" MaxLength="200" />
+          <Property Name="D_Name" Type="varchar" MaxLength="200" />
+          <Property Name="ES_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="M_Name" Type="varchar" MaxLength="100" />
+          <Property Name="BP_Name" Type="varchar" MaxLength="50" />
+          <Property Name="Expr1" Type="varchar" MaxLength="200" />
+          <Property Name="ED_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="L_NAME" Type="varchar" MaxLength="300" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Evaluate" Type="uniqueidentifier" />
+          <Property Name="IsPass" Type="bit" />
+          <Property Name="IsClose" Type="bit" Nullable="false" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="E_ScoreA" Type="int" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'CELA_WEBDB.dbo.View_Role' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="View_Role">
+          <Key>
+            <PropertyRef Name="R_UID" />
+            <PropertyRef Name="R_ID" />
+            <PropertyRef Name="R_BackEnd" />
+            <PropertyRef Name="R_Name" />
+            <PropertyRef Name="R_Order" />
+            <PropertyRef Name="R_Status" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="R_UID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="R_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="R_BackEnd" Type="bit" Nullable="false" />
+          <Property Name="R_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="R_Order" Type="tinyint" Nullable="false" />
+          <Property Name="R_Status" Type="bit" Nullable="false" />
+          <Property Name="CREUSER" Type="varchar" MaxLength="50" />
+          <Property Name="CREDATE" Type="datetime" Nullable="false" />
+          <Property Name="UPDUSER" Type="varchar" MaxLength="50" />
+          <Property Name="UPDDATE" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_P_NewsReadLog_P_News">
+          <End Role="P_News" Type="Self.P_News" Multiplicity="1" />
+          <End Role="P_NewsReadLog" Type="Self.P_NewsReadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_News">
+              <PropertyRef Name="News_ID" />
+            </Principal>
+            <Dependent Role="P_NewsReadLog">
+              <PropertyRef Name="News_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYS_Power_SYS_Power">
+          <End Role="SYS_Role" Type="Self.SYS_Role" Multiplicity="1" />
+          <End Role="SYS_Power" Type="Self.SYS_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_Role">
+              <PropertyRef Name="R_UID" />
+            </Principal>
+            <Dependent Role="SYS_Power">
+              <PropertyRef Name="R_UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYS_Role_SYS_Role">
+          <End Role="SYS_Role" Type="Self.SYS_Role" Multiplicity="1" />
+          <End Role="SYS_Role1" Type="Self.SYS_Role" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_Role">
+              <PropertyRef Name="R_UID" />
+            </Principal>
+            <Dependent Role="SYS_Role1">
+              <PropertyRef Name="R_UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYS_User_SYS_User">
+          <End Role="SYS_Role" Type="Self.SYS_Role" Multiplicity="1" />
+          <End Role="SYS_User" Type="Self.SYS_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_Role">
+              <PropertyRef Name="R_UID" />
+            </Principal>
+            <Dependent Role="SYS_User">
+              <PropertyRef Name="R_UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CELA_WEBDBModelStoreContainer">
+          <EntitySet Name="C_Book" EntityType="Self.C_Book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_BookDetail" EntityType="Self.C_BookDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_BookPublish" EntityType="Self.C_BookPublish" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Class" EntityType="Self.C_Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_ClassLector" EntityType="Self.C_ClassLector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_ClassSubject" EntityType="Self.C_ClassSubject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Lector" EntityType="Self.C_Lector" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_LectorAdvInfo" EntityType="Self.C_LectorAdvInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E_ClassUploadLog" EntityType="Self.E_ClassUploadLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E_Evaluate" EntityType="Self.E_Evaluate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E_EvaluateDetail" EntityType="Self.E_EvaluateDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="E_EvaluationSche" EntityType="Self.E_EvaluationSche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="P_Banner" EntityType="Self.P_Banner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="P_File" EntityType="Self.P_File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="P_Link" EntityType="Self.P_Link" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="P_News" EntityType="Self.P_News" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="P_NewsReadLog" EntityType="Self.P_NewsReadLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_Code" EntityType="Self.SYS_Code" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_File" EntityType="Self.SYS_File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_Menu" EntityType="Self.SYS_Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_Power" EntityType="Self.SYS_Power" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_Role" EntityType="Self.SYS_Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_Unit" EntityType="Self.SYS_Unit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SYS_User" EntityType="Self.SYS_User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_B_AssignBook" EntityType="Self.View_B_AssignBook" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignBook].[E_ID] AS [E_ID], 
+    [View_B_AssignBook].[M_ID] AS [M_ID], 
+    [View_B_AssignBook].[M_Index] AS [M_Index], 
+    [View_B_AssignBook].[M_Name] AS [M_Name], 
+    [View_B_AssignBook].[IsClose] AS [IsClose]
+    FROM [dbo].[View_B_AssignBook] AS [View_B_AssignBook]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_AssignBookEvaluateTeacher" EntityType="Self.View_B_AssignBookEvaluateTeacher" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignBookEvaluateTeacher].[ED_ID] AS [ED_ID], 
+    [View_B_AssignBookEvaluateTeacher].[E_ID] AS [E_ID], 
+    [View_B_AssignBookEvaluateTeacher].[ES_ID] AS [ES_ID], 
+    [View_B_AssignBookEvaluateTeacher].[Evaluate] AS [Evaluate], 
+    [View_B_AssignBookEvaluateTeacher].[E_ScoreA] AS [E_ScoreA], 
+    [View_B_AssignBookEvaluateTeacher].[IsClose] AS [IsClose], 
+    [View_B_AssignBookEvaluateTeacher].[Status] AS [Status], 
+    [View_B_AssignBookEvaluateTeacher].[M_ID] AS [M_ID], 
+    [View_B_AssignBookEvaluateTeacher].[M_Index] AS [M_Index], 
+    [View_B_AssignBookEvaluateTeacher].[M_Name] AS [M_Name], 
+    [View_B_AssignBookEvaluateTeacher].[L_UID] AS [L_UID], 
+    [View_B_AssignBookEvaluateTeacher].[L_ID] AS [L_ID], 
+    [View_B_AssignBookEvaluateTeacher].[L_NAME] AS [L_NAME], 
+    [View_B_AssignBookEvaluateTeacher].[BP_ID] AS [BP_ID], 
+    [View_B_AssignBookEvaluateTeacher].[BP_Name] AS [BP_Name]
+    FROM [dbo].[View_B_AssignBookEvaluateTeacher] AS [View_B_AssignBookEvaluateTeacher]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_AssignBookScore" EntityType="Self.View_B_AssignBookScore" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignBookScore].[E_ID] AS [E_ID], 
+    [View_B_AssignBookScore].[M_Name] AS [M_Name], 
+    [View_B_AssignBookScore].[ES_ID] AS [ES_ID], 
+    [View_B_AssignBookScore].[BP_Name] AS [BP_Name], 
+    [View_B_AssignBookScore].[ED_ID] AS [ED_ID], 
+    [View_B_AssignBookScore].[Evaluate] AS [Evaluate], 
+    [View_B_AssignBookScore].[L_NAME] AS [L_NAME], 
+    [View_B_AssignBookScore].[E_ScoreA] AS [E_ScoreA], 
+    [View_B_AssignBookScore].[E_ScoreB] AS [E_ScoreB], 
+    [View_B_AssignBookScore].[E_ScoreC] AS [E_ScoreC], 
+    [View_B_AssignBookScore].[E_ScoreD] AS [E_ScoreD], 
+    [View_B_AssignBookScore].[E_ScoreE] AS [E_ScoreE], 
+    [View_B_AssignBookScore].[E_Remark] AS [E_Remark]
+    FROM [dbo].[View_B_AssignBookScore] AS [View_B_AssignBookScore]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_AssignBookUnLoadFile" EntityType="Self.View_B_AssignBookUnLoadFile" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignBookUnLoadFile].[E_ID] AS [E_ID], 
+    [View_B_AssignBookUnLoadFile].[ES_ID] AS [ES_ID], 
+    [View_B_AssignBookUnLoadFile].[F_MatchKey] AS [F_MatchKey], 
+    [View_B_AssignBookUnLoadFile].[L_NAME] AS [L_NAME], 
+    [View_B_AssignBookUnLoadFile].[C_Name] AS [C_Name], 
+    [View_B_AssignBookUnLoadFile].[D_Name] AS [D_Name]
+    FROM [dbo].[View_B_AssignBookUnLoadFile] AS [View_B_AssignBookUnLoadFile]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_AssignClassEvaluate" EntityType="Self.View_B_AssignClassEvaluate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignClassEvaluate].[C_UID] AS [C_UID], 
+    [View_B_AssignClassEvaluate].[C_ID] AS [C_ID], 
+    [View_B_AssignClassEvaluate].[C_Name] AS [C_Name], 
+    [View_B_AssignClassEvaluate].[E_ID] AS [E_ID], 
+    [View_B_AssignClassEvaluate].[E_Type] AS [E_Type], 
+    [View_B_AssignClassEvaluate].[E_Year] AS [E_Year]
+    FROM [dbo].[View_B_AssignClassEvaluate] AS [View_B_AssignClassEvaluate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_AssignClassLector" EntityType="Self.View_B_AssignClassLector" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignClassLector].[E_ID] AS [E_ID], 
+    [View_B_AssignClassLector].[E_Year] AS [E_Year], 
+    [View_B_AssignClassLector].[C_UID] AS [C_UID], 
+    [View_B_AssignClassLector].[C_ID] AS [C_ID], 
+    [View_B_AssignClassLector].[C_Name] AS [C_Name], 
+    [View_B_AssignClassLector].[ES_ID] AS [ES_ID], 
+    [View_B_AssignClassLector].[CL_UID] AS [CL_UID], 
+    [View_B_AssignClassLector].[D_ID] AS [D_ID], 
+    [View_B_AssignClassLector].[D_Name] AS [D_Name], 
+    [View_B_AssignClassLector].[D_Hour] AS [D_Hour], 
+    [View_B_AssignClassLector].[L_UID] AS [L_UID], 
+    [View_B_AssignClassLector].[L_ID] AS [L_ID], 
+    [View_B_AssignClassLector].[L_NAME] AS [L_NAME], 
+    [View_B_AssignClassLector].[Status] AS [Status], 
+    [View_B_AssignClassLector].[IsSche] AS [IsSche], 
+    [View_B_AssignClassLector].[ScheNum] AS [ScheNum], 
+    [View_B_AssignClassLector].[IsPass] AS [IsPass], 
+    [View_B_AssignClassLector].[IsClose] AS [IsClose], 
+    [View_B_AssignClassLector].[ChkNum] AS [ChkNum], 
+    [View_B_AssignClassLector].[CREDATE] AS [CREDATE]
+    FROM [dbo].[View_B_AssignClassLector] AS [View_B_AssignClassLector]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_AssignClassScore" EntityType="Self.View_B_AssignClassScore" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_AssignClassScore].[E_ID] AS [E_ID], 
+    [View_B_AssignClassScore].[ES_ID] AS [ES_ID], 
+    [View_B_AssignClassScore].[ED_ID] AS [ED_ID], 
+    [View_B_AssignClassScore].[Evaluate] AS [Evaluate], 
+    [View_B_AssignClassScore].[L_NAME] AS [L_NAME], 
+    [View_B_AssignClassScore].[E_ScoreA] AS [E_ScoreA], 
+    [View_B_AssignClassScore].[E_ScoreB] AS [E_ScoreB], 
+    [View_B_AssignClassScore].[E_ScoreC] AS [E_ScoreC], 
+    [View_B_AssignClassScore].[E_ScoreD] AS [E_ScoreD], 
+    [View_B_AssignClassScore].[E_ScoreE] AS [E_ScoreE], 
+    [View_B_AssignClassScore].[E_Remark] AS [E_Remark], 
+    [View_B_AssignClassScore].[Status] AS [Status], 
+    [View_B_AssignClassScore].[IsClose] AS [IsClose], 
+    [View_B_AssignClassScore].[E_FirstScoreDate] AS [E_FirstScoreDate]
+    FROM [dbo].[View_B_AssignClassScore] AS [View_B_AssignClassScore]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_B_BookEvaluateTeacher" EntityType="Self.View_B_BookEvaluateTeacher" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_B_BookEvaluateTeacher].[E_ID] AS [E_ID], 
+    [View_B_BookEvaluateTeacher].[Evaluate] AS [Evaluate], 
+    [View_B_BookEvaluateTeacher].[L_NAME] AS [L_NAME], 
+    [View_B_BookEvaluateTeacher].[L_ID] AS [L_ID]
+    FROM [dbo].[View_B_BookEvaluateTeacher] AS [View_B_BookEvaluateTeacher]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_BookEvaluate" EntityType="Self.View_BookEvaluate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_BookEvaluate].[E_ID] AS [E_ID], 
+    [View_BookEvaluate].[E_Type] AS [E_Type], 
+    [View_BookEvaluate].[E_Year] AS [E_Year], 
+    [View_BookEvaluate].[M_ID] AS [M_ID], 
+    [View_BookEvaluate].[M_Index] AS [M_Index], 
+    [View_BookEvaluate].[M_Name] AS [M_Name]
+    FROM [dbo].[View_BookEvaluate] AS [View_BookEvaluate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Bridge_C_Book" EntityType="Self.View_Bridge_C_Book" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Bridge_C_Book].[M_Index] AS [M_Index], 
+    [View_Bridge_C_Book].[M_Name] AS [M_Name], 
+    [View_Bridge_C_Book].[M_Publish] AS [M_Publish], 
+    [View_Bridge_C_Book].[M_Number] AS [M_Number], 
+    [View_Bridge_C_Book].[M_Version] AS [M_Version], 
+    [View_Bridge_C_Book].[M_Order] AS [M_Order], 
+    [View_Bridge_C_Book].[M_Memo] AS [M_Memo], 
+    [View_Bridge_C_Book].[CREUSER] AS [CREUSER], 
+    [View_Bridge_C_Book].[CREDATE] AS [CREDATE], 
+    [View_Bridge_C_Book].[UPDUSER] AS [UPDUSER], 
+    [View_Bridge_C_Book].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Bridge_C_Book] AS [View_Bridge_C_Book]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Bridge_C_BookPublish" EntityType="Self.View_Bridge_C_BookPublish" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Bridge_C_BookPublish].[M_Index] AS [M_Index], 
+    [View_Bridge_C_BookPublish].[M_Name] AS [M_Name], 
+    [View_Bridge_C_BookPublish].[M_Publish] AS [M_Publish], 
+    [View_Bridge_C_BookPublish].[M_Number] AS [M_Number], 
+    [View_Bridge_C_BookPublish].[M_Version] AS [M_Version], 
+    [View_Bridge_C_BookPublish].[M_Order] AS [M_Order], 
+    [View_Bridge_C_BookPublish].[M_Memo] AS [M_Memo], 
+    [View_Bridge_C_BookPublish].[CREUSER] AS [CREUSER], 
+    [View_Bridge_C_BookPublish].[CREDATE] AS [CREDATE], 
+    [View_Bridge_C_BookPublish].[UPDUSER] AS [UPDUSER], 
+    [View_Bridge_C_BookPublish].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Bridge_C_BookPublish] AS [View_Bridge_C_BookPublish]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Bridge_C_Class" EntityType="Self.View_Bridge_C_Class" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Bridge_C_Class].[C_ID] AS [C_ID], 
+    [View_Bridge_C_Class].[C_Name] AS [C_Name], 
+    [View_Bridge_C_Class].[C_Type] AS [C_Type], 
+    [View_Bridge_C_Class].[C_BookNum] AS [C_BookNum], 
+    [View_Bridge_C_Class].[CREUSER] AS [CREUSER], 
+    [View_Bridge_C_Class].[CREDATE] AS [CREDATE], 
+    [View_Bridge_C_Class].[UPDUSER] AS [UPDUSER], 
+    [View_Bridge_C_Class].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Bridge_C_Class] AS [View_Bridge_C_Class]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Bridge_C_ClassLector" EntityType="Self.View_Bridge_C_ClassLector" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Bridge_C_ClassLector].[CL_UID] AS [CL_UID], 
+    [View_Bridge_C_ClassLector].[C_UID] AS [C_UID], 
+    [View_Bridge_C_ClassLector].[D_UID] AS [D_UID], 
+    [View_Bridge_C_ClassLector].[L_UID] AS [L_UID], 
+    [View_Bridge_C_ClassLector].[CL_Order] AS [CL_Order], 
+    [View_Bridge_C_ClassLector].[CL_HourlyRate] AS [CL_HourlyRate], 
+    [View_Bridge_C_ClassLector].[CL_Qualify] AS [CL_Qualify], 
+    [View_Bridge_C_ClassLector].[CL_IsActive] AS [CL_IsActive], 
+    [View_Bridge_C_ClassLector].[CREUSER] AS [CREUSER], 
+    [View_Bridge_C_ClassLector].[CREDATE] AS [CREDATE], 
+    [View_Bridge_C_ClassLector].[UPDUSER] AS [UPDUSER], 
+    [View_Bridge_C_ClassLector].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Bridge_C_ClassLector] AS [View_Bridge_C_ClassLector]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Bridge_C_ClassSubject" EntityType="Self.View_Bridge_C_ClassSubject" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Bridge_C_ClassSubject].[SN] AS [SN], 
+    [View_Bridge_C_ClassSubject].[C_UID] AS [C_UID], 
+    [View_Bridge_C_ClassSubject].[D_ID] AS [D_ID], 
+    [View_Bridge_C_ClassSubject].[D_Name] AS [D_Name], 
+    [View_Bridge_C_ClassSubject].[D_Hour] AS [D_Hour], 
+    [View_Bridge_C_ClassSubject].[D_HourlyRate] AS [D_HourlyRate], 
+    [View_Bridge_C_ClassSubject].[D_Type] AS [D_Type], 
+    [View_Bridge_C_ClassSubject].[D_IsTest] AS [D_IsTest], 
+    [View_Bridge_C_ClassSubject].[D_Memo] AS [D_Memo], 
+    [View_Bridge_C_ClassSubject].[CREUSER] AS [CREUSER], 
+    [View_Bridge_C_ClassSubject].[CREDATE] AS [CREDATE], 
+    [View_Bridge_C_ClassSubject].[UPDUSER] AS [UPDUSER], 
+    [View_Bridge_C_ClassSubject].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Bridge_C_ClassSubject] AS [View_Bridge_C_ClassSubject]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Bridge_C_Lector" EntityType="Self.View_Bridge_C_Lector" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Bridge_C_Lector].[L_ID] AS [L_ID], 
+    [View_Bridge_C_Lector].[L_NAME] AS [L_NAME], 
+    [View_Bridge_C_Lector].[L_BRITHDAY] AS [L_BRITHDAY], 
+    [View_Bridge_C_Lector].[L_Edu] AS [L_Edu], 
+    [View_Bridge_C_Lector].[L_EduSchool] AS [L_EduSchool], 
+    [View_Bridge_C_Lector].[L_PosCode] AS [L_PosCode], 
+    [View_Bridge_C_Lector].[L_Address] AS [L_Address], 
+    [View_Bridge_C_Lector].[L_CPosCode] AS [L_CPosCode], 
+    [View_Bridge_C_Lector].[L_CAddress] AS [L_CAddress], 
+    [View_Bridge_C_Lector].[L_Phone] AS [L_Phone], 
+    [View_Bridge_C_Lector].[L_CellPhone] AS [L_CellPhone], 
+    [View_Bridge_C_Lector].[L_Email] AS [L_Email], 
+    [View_Bridge_C_Lector].[L_Type] AS [L_Type], 
+    [View_Bridge_C_Lector].[L_TravelExpenses] AS [L_TravelExpenses], 
+    [View_Bridge_C_Lector].[L_IsCheck] AS [L_IsCheck], 
+    [View_Bridge_C_Lector].[L_Active] AS [L_Active], 
+    [View_Bridge_C_Lector].[L_Memo] AS [L_Memo], 
+    [View_Bridge_C_Lector].[CREUSER] AS [CREUSER], 
+    [View_Bridge_C_Lector].[CREDATE] AS [CREDATE], 
+    [View_Bridge_C_Lector].[UPDUSER] AS [UPDUSER], 
+    [View_Bridge_C_Lector].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Bridge_C_Lector] AS [View_Bridge_C_Lector]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_ClassEvaluate" EntityType="Self.View_ClassEvaluate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_ClassEvaluate].[C_UID] AS [C_UID], 
+    [View_ClassEvaluate].[C_ID] AS [C_ID], 
+    [View_ClassEvaluate].[C_Name] AS [C_Name], 
+    [View_ClassEvaluate].[E_ID] AS [E_ID], 
+    [View_ClassEvaluate].[E_Type] AS [E_Type], 
+    [View_ClassEvaluate].[E_Year] AS [E_Year]
+    FROM [dbo].[View_ClassEvaluate] AS [View_ClassEvaluate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_ClassLector" EntityType="Self.View_ClassLector" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_ClassLector].[ED_ID] AS [ED_ID], 
+    [View_ClassLector].[CL_UID] AS [CL_UID], 
+    [View_ClassLector].[C_UID] AS [C_UID], 
+    [View_ClassLector].[C_Name] AS [C_Name], 
+    [View_ClassLector].[D_Name] AS [D_Name], 
+    [View_ClassLector].[L_NAME] AS [L_NAME]
+    FROM [dbo].[View_ClassLector] AS [View_ClassLector]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_ClassLectorEvaluate" EntityType="Self.View_ClassLectorEvaluate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_ClassLectorEvaluate].[CL_UID] AS [CL_UID], 
+    [View_ClassLectorEvaluate].[C_UID] AS [C_UID], 
+    [View_ClassLectorEvaluate].[C_ID] AS [C_ID], 
+    [View_ClassLectorEvaluate].[C_Name] AS [C_Name], 
+    [View_ClassLectorEvaluate].[D_UID] AS [D_UID], 
+    [View_ClassLectorEvaluate].[D_ID] AS [D_ID], 
+    [View_ClassLectorEvaluate].[D_Name] AS [D_Name], 
+    [View_ClassLectorEvaluate].[L_UID] AS [L_UID], 
+    [View_ClassLectorEvaluate].[L_ID] AS [L_ID], 
+    [View_ClassLectorEvaluate].[L_NAME] AS [L_NAME], 
+    [View_ClassLectorEvaluate].[Expr1] AS [Expr1], 
+    [View_ClassLectorEvaluate].[Expr2] AS [Expr2], 
+    [View_ClassLectorEvaluate].[Expr3] AS [Expr3], 
+    [View_ClassLectorEvaluate].[LEv_Year] AS [LEv_Year], 
+    [View_ClassLectorEvaluate].[LEv_Type] AS [LEv_Type]
+    FROM [dbo].[View_ClassLectorEvaluate] AS [View_ClassLectorEvaluate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_EvaluateDetailInfo" EntityType="Self.View_EvaluateDetailInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_EvaluateDetailInfo].[ED_ID] AS [ED_ID], 
+    [View_EvaluateDetailInfo].[E_ID] AS [E_ID], 
+    [View_EvaluateDetailInfo].[E_ScoreA] AS [E_ScoreA], 
+    [View_EvaluateDetailInfo].[M_Name] AS [M_Name], 
+    [View_EvaluateDetailInfo].[MD_Publish] AS [MD_Publish], 
+    [View_EvaluateDetailInfo].[F_MatchKey] AS [F_MatchKey]
+    FROM [dbo].[View_EvaluateDetailInfo] AS [View_EvaluateDetailInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_MenuRolePower" EntityType="Self.View_MenuRolePower" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_MenuRolePower].[R_UID] AS [R_UID], 
+    [View_MenuRolePower].[M_ID] AS [M_ID], 
+    [View_MenuRolePower].[M_Name] AS [M_Name], 
+    [View_MenuRolePower].[M_Level] AS [M_Level], 
+    [View_MenuRolePower].[M_Order] AS [M_Order], 
+    [View_MenuRolePower].[M_Type] AS [M_Type], 
+    [View_MenuRolePower].[M_Url] AS [M_Url], 
+    [View_MenuRolePower].[CreateData] AS [CreateData], 
+    [View_MenuRolePower].[SearchData] AS [SearchData], 
+    [View_MenuRolePower].[ModifyData] AS [ModifyData], 
+    [View_MenuRolePower].[DeleteData] AS [DeleteData], 
+    [View_MenuRolePower].[ImportData] AS [ImportData], 
+    [View_MenuRolePower].[Exportdata] AS [Exportdata]
+    FROM [dbo].[View_MenuRolePower] AS [View_MenuRolePower]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_P_LectorClass" EntityType="Self.View_P_LectorClass" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_P_LectorClass].[E_ID] AS [E_ID], 
+    [View_P_LectorClass].[C_Name] AS [C_Name], 
+    [View_P_LectorClass].[CREDATE] AS [CREDATE], 
+    [View_P_LectorClass].[ES_ID] AS [ES_ID], 
+    [View_P_LectorClass].[matchKey] AS [matchKey], 
+    [View_P_LectorClass].[D_Name] AS [D_Name], 
+    [View_P_LectorClass].[Status] AS [Status], 
+    [View_P_LectorClass].[ScheNum] AS [ScheNum], 
+    [View_P_LectorClass].[IsSche] AS [IsSche], 
+    [View_P_LectorClass].[IsClose] AS [IsClose], 
+    [View_P_LectorClass].[Reception] AS [Reception], 
+    [View_P_LectorClass].[fileName] AS [fileName]
+    FROM [dbo].[View_P_LectorClass] AS [View_P_LectorClass]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_P_LectorClassAbstract" EntityType="Self.View_P_LectorClassAbstract" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_P_LectorClassAbstract].[E_ID] AS [E_ID], 
+    [View_P_LectorClassAbstract].[AM] AS [AM], 
+    [View_P_LectorClassAbstract].[ES_ID] AS [ES_ID], 
+    [View_P_LectorClassAbstract].[BM] AS [BM], 
+    [View_P_LectorClassAbstract].[Status] AS [Status], 
+    [View_P_LectorClassAbstract].[IsClose] AS [IsClose], 
+    [View_P_LectorClassAbstract].[E_TeachAbstract] AS [E_TeachAbstract], 
+    [View_P_LectorClassAbstract].[E_TeachObject] AS [E_TeachObject], 
+    [View_P_LectorClassAbstract].[E_TeachSyllabus] AS [E_TeachSyllabus], 
+    [View_P_LectorClassAbstract].[D_UID] AS [D_UID], 
+    [View_P_LectorClassAbstract].[D_Name] AS [D_Name], 
+    [View_P_LectorClassAbstract].[C_Name] AS [C_Name], 
+    [View_P_LectorClassAbstract].[L_NAME] AS [L_NAME]
+    FROM [dbo].[View_P_LectorClassAbstract] AS [View_P_LectorClassAbstract]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_P_LectorEvaluate" EntityType="Self.View_P_LectorEvaluate" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_P_LectorEvaluate].[E_ID] AS [E_ID], 
+    [View_P_LectorEvaluate].[E_Type] AS [E_Type], 
+    [View_P_LectorEvaluate].[C_Name] AS [C_Name], 
+    [View_P_LectorEvaluate].[D_Name] AS [D_Name], 
+    [View_P_LectorEvaluate].[ES_ID] AS [ES_ID], 
+    [View_P_LectorEvaluate].[M_Name] AS [M_Name], 
+    [View_P_LectorEvaluate].[BP_Name] AS [BP_Name], 
+    [View_P_LectorEvaluate].[Expr1] AS [Expr1], 
+    [View_P_LectorEvaluate].[ED_ID] AS [ED_ID], 
+    [View_P_LectorEvaluate].[L_NAME] AS [L_NAME], 
+    [View_P_LectorEvaluate].[Status] AS [Status], 
+    [View_P_LectorEvaluate].[Evaluate] AS [Evaluate], 
+    [View_P_LectorEvaluate].[IsPass] AS [IsPass], 
+    [View_P_LectorEvaluate].[IsClose] AS [IsClose], 
+    [View_P_LectorEvaluate].[CREDATE] AS [CREDATE], 
+    [View_P_LectorEvaluate].[E_ScoreA] AS [E_ScoreA]
+    FROM [dbo].[View_P_LectorEvaluate] AS [View_P_LectorEvaluate]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_Role" EntityType="Self.View_Role" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Role].[R_UID] AS [R_UID], 
+    [View_Role].[R_ID] AS [R_ID], 
+    [View_Role].[R_BackEnd] AS [R_BackEnd], 
+    [View_Role].[R_Name] AS [R_Name], 
+    [View_Role].[R_Order] AS [R_Order], 
+    [View_Role].[R_Status] AS [R_Status], 
+    [View_Role].[CREUSER] AS [CREUSER], 
+    [View_Role].[CREDATE] AS [CREDATE], 
+    [View_Role].[UPDUSER] AS [UPDUSER], 
+    [View_Role].[UPDDATE] AS [UPDDATE]
+    FROM [dbo].[View_Role] AS [View_Role]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_P_NewsReadLog_P_News" Association="Self.FK_P_NewsReadLog_P_News">
+            <End Role="P_News" EntitySet="P_News" />
+            <End Role="P_NewsReadLog" EntitySet="P_NewsReadLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYS_Power_SYS_Power" Association="Self.FK_SYS_Power_SYS_Power">
+            <End Role="SYS_Role" EntitySet="SYS_Role" />
+            <End Role="SYS_Power" EntitySet="SYS_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYS_Role_SYS_Role" Association="Self.FK_SYS_Role_SYS_Role">
+            <End Role="SYS_Role" EntitySet="SYS_Role" />
+            <End Role="SYS_Role1" EntitySet="SYS_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYS_User_SYS_User" Association="Self.FK_SYS_User_SYS_User">
+            <End Role="SYS_Role" EntitySet="SYS_Role" />
+            <End Role="SYS_User" EntitySet="SYS_User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CELA_WEBDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C_Book">
+          <Key>
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="M_ID" Type="Guid" Nullable="false" />
+          <Property Name="M_Index" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="M_Order" Type="Int32" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_BookDetail">
+          <Key>
+            <PropertyRef Name="MD_ID" />
+          </Key>
+          <Property Name="MD_ID" Type="Guid" Nullable="false" />
+          <Property Name="M_ID" Type="Guid" Nullable="false" />
+          <Property Name="MD_Publish" Type="Guid" Nullable="false" />
+          <Property Name="R_Number" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="R_Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_BookPublish">
+          <Key>
+            <PropertyRef Name="BP_ID" />
+          </Key>
+          <Property Name="BP_ID" Type="Guid" Nullable="false" />
+          <Property Name="BP_Number" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BP_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_Class">
+          <Key>
+            <PropertyRef Name="C_UID" />
+          </Key>
+          <Property Name="C_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="C_Type" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="C_BookNum" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_ClassLector">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="CL_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_UID" Type="Guid" />
+          <Property Name="D_UID" Type="Guid" />
+          <Property Name="L_UID" Type="Guid" />
+          <Property Name="CL_ID" Type="Int32" />
+          <Property Name="CL_Order" Type="Int32" />
+          <Property Name="CL_HourlyRate" Type="Int32" />
+          <Property Name="CL_Qualify" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CL_IsActive" Type="Boolean" />
+          <Property Name="IsEvaluate" Type="Boolean" />
+          <Property Name="CREUSER" Type="Guid" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_ClassSubject">
+          <Key>
+            <PropertyRef Name="D_UID" />
+          </Key>
+          <Property Name="D_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_UID" Type="Guid" />
+          <Property Name="D_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="D_Hour" Type="Int32" />
+          <Property Name="D_HourlyRate" Type="Int32" />
+          <Property Name="D_Type" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="D_IsTest" Type="Boolean" />
+          <Property Name="D_Memo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CREUSER" Type="Guid" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_Lector">
+          <Key>
+            <PropertyRef Name="L_UID" />
+          </Key>
+          <Property Name="L_UID" Type="Guid" Nullable="false" />
+          <Property Name="L_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="L_BRITHDAY" Type="DateTime" Precision="0" />
+          <Property Name="L_Edu" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="L_EduSchool" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="L_PosCode" Type="Int32" />
+          <Property Name="L_Address" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="L_CPosCode" Type="Int32" />
+          <Property Name="L_CAddress" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="L_Phone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="L_CellPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="L_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="L_Type" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="L_TravelExpenses" Type="Int32" />
+          <Property Name="L_IsCheck" Type="Boolean" />
+          <Property Name="L_Active" Type="Boolean" />
+          <Property Name="L_Memo" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CREUSER" Type="Guid" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="C_LectorAdvInfo">
+          <Key>
+            <PropertyRef Name="LA_UID" />
+          </Key>
+          <Property Name="LA_UID" Type="Guid" Nullable="false" />
+          <Property Name="L_UID" Type="Guid" />
+          <Property Name="LA_Year" Type="Int32" />
+          <Property Name="LA_Title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E_ClassUploadLog">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="FileFullName" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsUpdate" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" />
+          <Property Name="Other" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E_Evaluate">
+          <Key>
+            <PropertyRef Name="E_ID" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_Type" Type="Int32" Nullable="false" />
+          <Property Name="E_Year" Type="Int32" Nullable="false" />
+          <Property Name="matchKey" Type="Guid" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E_EvaluateDetail">
+          <Key>
+            <PropertyRef Name="ED_ID" />
+          </Key>
+          <Property Name="ED_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="Evaluate" Type="Guid" />
+          <Property Name="E_ScoreA" Type="Int32" />
+          <Property Name="E_ScoreB" Type="Int32" />
+          <Property Name="E_ScoreC" Type="Int32" />
+          <Property Name="E_ScoreD" Type="Int32" />
+          <Property Name="E_ScoreE" Type="Int32" />
+          <Property Name="E_Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachSyllabus" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachObject" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachAbstract" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_FirstScoreDate" Type="DateTime" Precision="0" />
+          <Property Name="IsMail" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="E_EvaluationSche">
+          <Key>
+            <PropertyRef Name="ES_ID" />
+          </Key>
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="matchKey" Type="Guid" Nullable="false" />
+          <Property Name="Reception" Type="Guid" />
+          <Property Name="E_TeachSyllabus" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachObject" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachAbstract" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="ChkNum" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsMail" Type="Boolean" Nullable="false" />
+          <Property Name="ScheNum" Type="Int32" Nullable="false" />
+          <Property Name="IsSche" Type="Boolean" Nullable="false" />
+          <Property Name="IsPass" Type="Boolean" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="P_Banner">
+          <Key>
+            <PropertyRef Name="Banner_ID" />
+          </Key>
+          <Property Name="Banner_ID" Type="Guid" Nullable="false" />
+          <Property Name="BannerType" Type="Int32" Nullable="false" />
+          <Property Name="BannerName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BannerURL" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="BannerStart" Type="DateTime" Precision="0" />
+          <Property Name="BannerEnd" Type="DateTime" Precision="0" />
+          <Property Name="BannerOrder" Type="Int32" />
+          <Property Name="BannerStatus" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="P_File">
+          <Key>
+            <PropertyRef Name="File_ID" />
+          </Key>
+          <Property Name="File_ID" Type="Guid" Nullable="false" />
+          <Property Name="F_Type" Type="Int32" Nullable="false" />
+          <Property Name="F_Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_Memo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="F_Status" Type="Boolean" Nullable="false" />
+          <Property Name="F_IsTop" Type="Boolean" Nullable="false" />
+          <Property Name="F_Order" Type="Int32" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="P_Link">
+          <Key>
+            <PropertyRef Name="Link_ID" />
+          </Key>
+          <Property Name="Link_ID" Type="Guid" Nullable="false" />
+          <Property Name="L_Type" Type="Int32" Nullable="false" />
+          <Property Name="L_Class" Type="Int32" Nullable="false" />
+          <Property Name="L_Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="L_URL" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="L_Order" Type="Int32" />
+          <Property Name="L_IsTop" Type="Boolean" Nullable="false" />
+          <Property Name="L_Status" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="P_News">
+          <Key>
+            <PropertyRef Name="News_ID" />
+          </Key>
+          <Property Name="News_ID" Type="Guid" Nullable="false" />
+          <Property Name="N_Type" Type="String" MaxLength="5" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="N_Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="N_Class" Type="Int32" Nullable="false" />
+          <Property Name="N_StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="N_EndDate" Type="DateTime" Precision="0" />
+          <Property Name="N_IsTop" Type="Boolean" Nullable="false" />
+          <Property Name="N_IsShow" Type="Boolean" Nullable="false" />
+          <Property Name="N_Status" Type="Boolean" Nullable="false" />
+          <Property Name="N_Content" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="N_Role" Type="Boolean" />
+          <Property Name="R_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="P_NewsReadLog" Relationship="Self.FK_P_NewsReadLog_P_News" FromRole="P_News" ToRole="P_NewsReadLog" />
+        </EntityType>
+        <EntityType Name="P_NewsReadLog">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="News_ID" Type="Guid" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="P_News" Relationship="Self.FK_P_NewsReadLog_P_News" FromRole="P_NewsReadLog" ToRole="P_News" />
+        </EntityType>
+        <EntityType Name="SYS_Code">
+          <Key>
+            <PropertyRef Name="Uid" />
+          </Key>
+          <Property Name="Uid" Type="Guid" Nullable="false" />
+          <Property Name="C_ParentUid" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C_ParentCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="C_itemCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="C_itemName" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="C_itemOrder" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isActive" Type="Boolean" Nullable="false" />
+          <Property Name="isShow" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_File">
+          <Key>
+            <PropertyRef Name="File_ID" />
+          </Key>
+          <Property Name="File_ID" Type="Guid" Nullable="false" />
+          <Property Name="F_Module" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_MatchKey" Type="Guid" Nullable="false" />
+          <Property Name="F_MatchKey2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="F_FullName" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_NameReal" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_NameDL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_MimeType" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_Ext" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_Path" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="F_Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="F_Order" Type="Int32" />
+          <Property Name="F_Remark" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_Menu">
+          <Key>
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="M_ID" Type="Int64" Nullable="false" />
+          <Property Name="M_Type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="M_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="M_ParentID" Type="Int64" Nullable="false" />
+          <Property Name="M_Level" Type="Int32" Nullable="false" />
+          <Property Name="M_Url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="M_Order" Type="Int32" Nullable="false" />
+          <Property Name="M_IsActice" Type="Boolean" Nullable="false" />
+          <Property Name="M_IsShow" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_Power">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="R_UID" Type="Guid" Nullable="false" />
+          <Property Name="M_ID" Type="Int64" Nullable="false" />
+          <Property Name="CreateData" Type="Boolean" Nullable="false" />
+          <Property Name="SearchData" Type="Boolean" Nullable="false" />
+          <Property Name="ModifyData" Type="Boolean" Nullable="false" />
+          <Property Name="DeleteData" Type="Boolean" Nullable="false" />
+          <Property Name="ImportData" Type="Boolean" Nullable="false" />
+          <Property Name="Exportdata" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SYS_Role" Relationship="Self.FK_SYS_Power_SYS_Power" FromRole="SYS_Power" ToRole="SYS_Role" />
+        </EntityType>
+        <EntityType Name="SYS_Role">
+          <Key>
+            <PropertyRef Name="R_UID" />
+          </Key>
+          <Property Name="R_UID" Type="Guid" Nullable="false" />
+          <Property Name="R_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="R_BackEnd" Type="Boolean" Nullable="false" />
+          <Property Name="R_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="R_Order" Type="Byte" Nullable="false" />
+          <Property Name="R_Status" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SYS_Power" Relationship="Self.FK_SYS_Power_SYS_Power" FromRole="SYS_Role" ToRole="SYS_Power" />
+          <NavigationProperty Name="SYS_Role1" Relationship="Self.FK_SYS_Role_SYS_Role" FromRole="SYS_Role" ToRole="SYS_Role1" />
+          <NavigationProperty Name="SYS_Role2" Relationship="Self.FK_SYS_Role_SYS_Role" FromRole="SYS_Role1" ToRole="SYS_Role" />
+          <NavigationProperty Name="SYS_User" Relationship="Self.FK_SYS_User_SYS_User" FromRole="SYS_Role" ToRole="SYS_User" />
+        </EntityType>
+        <EntityType Name="SYS_Unit">
+          <Key>
+            <PropertyRef Name="Un_ID" />
+          </Key>
+          <Property Name="Un_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Un_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Un_Status" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="SYS_User">
+          <Key>
+            <PropertyRef Name="U_ID" />
+          </Key>
+          <Property Name="U_ID" Type="Guid" Nullable="false" />
+          <Property Name="R_UID" Type="Guid" Nullable="false" />
+          <Property Name="U_Account" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="U_Password" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="U_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="U_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="U_Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="U_Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="U_Sex" Type="Byte" />
+          <Property Name="U_Birthday" Type="DateTime" Precision="0" />
+          <Property Name="Un_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="U_Status" Type="Boolean" Nullable="false" />
+          <Property Name="isOutSide" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="Guid" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="Guid" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SYS_Role" Relationship="Self.FK_SYS_User_SYS_User" FromRole="SYS_User" ToRole="SYS_Role" />
+        </EntityType>
+        <EntityType Name="View_B_AssignBook">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="M_ID" Type="Guid" />
+          <Property Name="M_Index" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="View_B_AssignBookEvaluateTeacher">
+          <Key>
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="IsClose" />
+            <PropertyRef Name="Status" />
+          </Key>
+          <Property Name="ED_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="Evaluate" Type="Guid" />
+          <Property Name="E_ScoreA" Type="Int32" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="M_ID" Type="Guid" />
+          <Property Name="M_Index" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="L_UID" Type="Guid" />
+          <Property Name="L_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="BP_ID" Type="Guid" />
+          <Property Name="BP_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_B_AssignBookScore">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="ED_ID" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="BP_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ED_ID" Type="Guid" Nullable="false" />
+          <Property Name="Evaluate" Type="Guid" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="E_ScoreA" Type="Int32" />
+          <Property Name="E_ScoreB" Type="Int32" />
+          <Property Name="E_ScoreC" Type="Int32" />
+          <Property Name="E_ScoreD" Type="Int32" />
+          <Property Name="E_ScoreE" Type="Int32" />
+          <Property Name="E_Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_B_AssignBookUnLoadFile">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="F_MatchKey" Type="Guid" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_B_AssignClassEvaluate">
+          <Key>
+            <PropertyRef Name="C_UID" />
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="E_Year" />
+          </Key>
+          <Property Name="C_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_Type" Type="Int32" Nullable="false" />
+          <Property Name="E_Year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="View_B_AssignClassLector">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Year" />
+            <PropertyRef Name="C_UID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="CL_UID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsSche" />
+            <PropertyRef Name="ScheNum" />
+            <PropertyRef Name="IsClose" />
+            <PropertyRef Name="ChkNum" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_Year" Type="Int32" Nullable="false" />
+          <Property Name="C_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="CL_UID" Type="Guid" Nullable="false" />
+          <Property Name="D_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="D_Hour" Type="Int32" />
+          <Property Name="L_UID" Type="Guid" />
+          <Property Name="L_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsSche" Type="Boolean" Nullable="false" />
+          <Property Name="ScheNum" Type="Int32" Nullable="false" />
+          <Property Name="IsPass" Type="Boolean" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="ChkNum" Type="Int64" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_B_AssignClassScore">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="ED_ID" Type="Guid" Nullable="false" />
+          <Property Name="Evaluate" Type="Guid" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="E_ScoreA" Type="Int32" />
+          <Property Name="E_ScoreB" Type="Int32" />
+          <Property Name="E_ScoreC" Type="Int32" />
+          <Property Name="E_ScoreD" Type="Int32" />
+          <Property Name="E_ScoreE" Type="Int32" />
+          <Property Name="E_Remark" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="E_FirstScoreDate" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="View_B_BookEvaluateTeacher">
+          <Key>
+            <PropertyRef Name="E_ID" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="Evaluate" Type="Guid" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="L_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_BookEvaluate">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="E_Year" />
+            <PropertyRef Name="M_ID" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_Type" Type="Int32" Nullable="false" />
+          <Property Name="E_Year" Type="Int32" Nullable="false" />
+          <Property Name="M_ID" Type="Guid" Nullable="false" />
+          <Property Name="M_Index" Type="Int32" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_Bridge_C_Book">
+          <Key>
+            <PropertyRef Name="M_Index" />
+          </Key>
+          <Property Name="M_Index" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="M_Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="M_Publish" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="M_Number" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="M_Version" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="M_Order" Type="Int32" />
+          <Property Name="M_Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CREUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_Bridge_C_BookPublish">
+          <Key>
+            <PropertyRef Name="M_Index" />
+          </Key>
+          <Property Name="M_Index" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="M_Name" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="M_Publish" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="M_Number" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="M_Version" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="M_Order" Type="Int32" />
+          <Property Name="M_Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CREUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_Bridge_C_Class">
+          <Key>
+            <PropertyRef Name="C_ID" />
+            <PropertyRef Name="CREUSER" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="C_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="C_Type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="C_BookNum" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CREUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_Bridge_C_ClassLector">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="CL_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_UID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="D_UID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="L_UID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CL_Order" Type="Int32" />
+          <Property Name="CL_HourlyRate" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CL_Qualify" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="CL_IsActive" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CREUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_Bridge_C_ClassSubject">
+          <Key>
+            <PropertyRef Name="SN" />
+          </Key>
+          <Property Name="SN" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_UID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="D_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="D_Hour" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="D_HourlyRate" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="D_Type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="D_IsTest" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="D_Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CREUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_Bridge_C_Lector">
+          <Key>
+            <PropertyRef Name="L_ID" />
+          </Key>
+          <Property Name="L_ID" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="L_BRITHDAY" Type="DateTime" Precision="3" />
+          <Property Name="L_Edu" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="L_EduSchool" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="L_PosCode" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="L_Address" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="L_CPosCode" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="L_CAddress" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="L_Phone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="L_CellPhone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="L_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="L_Type" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="L_TravelExpenses" Type="Int32" />
+          <Property Name="L_IsCheck" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="L_Active" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="L_Memo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="CREUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="CREDATE" Type="DateTime" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="View_ClassEvaluate">
+          <Key>
+            <PropertyRef Name="C_UID" />
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="E_Year" />
+          </Key>
+          <Property Name="C_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_Type" Type="Int32" Nullable="false" />
+          <Property Name="E_Year" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="View_ClassLector">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="ED_ID" Type="Guid" />
+          <Property Name="CL_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_UID" Type="Guid" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_ClassLectorEvaluate">
+          <Key>
+            <PropertyRef Name="CL_UID" />
+          </Key>
+          <Property Name="CL_UID" Type="Guid" Nullable="false" />
+          <Property Name="C_UID" Type="Guid" />
+          <Property Name="C_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="D_UID" Type="Guid" />
+          <Property Name="D_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="L_UID" Type="Guid" />
+          <Property Name="L_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Expr1" Type="Guid" />
+          <Property Name="Expr2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Expr3" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="LEv_Year" Type="Int32" />
+          <Property Name="LEv_Type" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_EvaluateDetailInfo">
+          <Key>
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="E_ID" />
+          </Key>
+          <Property Name="ED_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_ScoreA" Type="Int32" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MD_Publish" Type="Guid" />
+          <Property Name="F_MatchKey" Type="Guid" />
+        </EntityType>
+        <EntityType Name="View_MenuRolePower">
+          <Key>
+            <PropertyRef Name="R_UID" />
+          </Key>
+          <Property Name="R_UID" Type="Guid" Nullable="false" />
+          <Property Name="M_ID" Type="Int64" />
+          <Property Name="M_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="M_Level" Type="Int32" />
+          <Property Name="M_Order" Type="Int32" />
+          <Property Name="M_Type" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="M_Url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreateData" Type="Boolean" />
+          <Property Name="SearchData" Type="Boolean" />
+          <Property Name="ModifyData" Type="Boolean" />
+          <Property Name="DeleteData" Type="Boolean" />
+          <Property Name="ImportData" Type="Boolean" />
+          <Property Name="Exportdata" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="View_P_LectorClass">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="CREDATE" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="matchKey" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="ScheNum" />
+            <PropertyRef Name="IsSche" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="matchKey" Type="Guid" Nullable="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ScheNum" Type="Int32" Nullable="false" />
+          <Property Name="IsSche" Type="Boolean" Nullable="false" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="Reception" Type="Guid" />
+          <Property Name="fileName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_P_LectorClassAbstract">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="AM" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="BM" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsClose" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="AM" Type="Guid" Nullable="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="BM" Type="Guid" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="E_TeachAbstract" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachObject" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="E_TeachSyllabus" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="D_UID" Type="Guid" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="View_P_LectorEvaluate">
+          <Key>
+            <PropertyRef Name="E_ID" />
+            <PropertyRef Name="E_Type" />
+            <PropertyRef Name="ES_ID" />
+            <PropertyRef Name="ED_ID" />
+            <PropertyRef Name="Status" />
+            <PropertyRef Name="IsClose" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="E_ID" Type="Guid" Nullable="false" />
+          <Property Name="E_Type" Type="Int32" Nullable="false" />
+          <Property Name="C_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="D_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ES_ID" Type="Guid" Nullable="false" />
+          <Property Name="M_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BP_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Expr1" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="ED_ID" Type="Guid" Nullable="false" />
+          <Property Name="L_NAME" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Evaluate" Type="Guid" />
+          <Property Name="IsPass" Type="Boolean" />
+          <Property Name="IsClose" Type="Boolean" Nullable="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="E_ScoreA" Type="Int32" />
+        </EntityType>
+        <EntityType Name="View_Role">
+          <Key>
+            <PropertyRef Name="R_UID" />
+            <PropertyRef Name="R_ID" />
+            <PropertyRef Name="R_BackEnd" />
+            <PropertyRef Name="R_Name" />
+            <PropertyRef Name="R_Order" />
+            <PropertyRef Name="R_Status" />
+            <PropertyRef Name="CREDATE" />
+          </Key>
+          <Property Name="R_UID" Type="Guid" Nullable="false" />
+          <Property Name="R_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="R_BackEnd" Type="Boolean" Nullable="false" />
+          <Property Name="R_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="R_Order" Type="Byte" Nullable="false" />
+          <Property Name="R_Status" Type="Boolean" Nullable="false" />
+          <Property Name="CREUSER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CREDATE" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UPDUSER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UPDDATE" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="FK_P_NewsReadLog_P_News">
+          <End Role="P_News" Type="Self.P_News" Multiplicity="1" />
+          <End Role="P_NewsReadLog" Type="Self.P_NewsReadLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="P_News">
+              <PropertyRef Name="News_ID" />
+            </Principal>
+            <Dependent Role="P_NewsReadLog">
+              <PropertyRef Name="News_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYS_Power_SYS_Power">
+          <End Role="SYS_Role" Type="Self.SYS_Role" Multiplicity="1" />
+          <End Role="SYS_Power" Type="Self.SYS_Power" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_Role">
+              <PropertyRef Name="R_UID" />
+            </Principal>
+            <Dependent Role="SYS_Power">
+              <PropertyRef Name="R_UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYS_Role_SYS_Role">
+          <End Role="SYS_Role" Type="Self.SYS_Role" Multiplicity="1" />
+          <End Role="SYS_Role1" Type="Self.SYS_Role" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_Role">
+              <PropertyRef Name="R_UID" />
+            </Principal>
+            <Dependent Role="SYS_Role1">
+              <PropertyRef Name="R_UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SYS_User_SYS_User">
+          <End Role="SYS_Role" Type="Self.SYS_Role" Multiplicity="1" />
+          <End Role="SYS_User" Type="Self.SYS_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SYS_Role">
+              <PropertyRef Name="R_UID" />
+            </Principal>
+            <Dependent Role="SYS_User">
+              <PropertyRef Name="R_UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CELA_WEBDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C_Book" EntityType="Self.C_Book" />
+          <EntitySet Name="C_BookDetail" EntityType="Self.C_BookDetail" />
+          <EntitySet Name="C_BookPublish" EntityType="Self.C_BookPublish" />
+          <EntitySet Name="C_Class" EntityType="Self.C_Class" />
+          <EntitySet Name="C_ClassLector" EntityType="Self.C_ClassLector" />
+          <EntitySet Name="C_ClassSubject" EntityType="Self.C_ClassSubject" />
+          <EntitySet Name="C_Lector" EntityType="Self.C_Lector" />
+          <EntitySet Name="C_LectorAdvInfo" EntityType="Self.C_LectorAdvInfo" />
+          <EntitySet Name="E_ClassUploadLog" EntityType="Self.E_ClassUploadLog" />
+          <EntitySet Name="E_Evaluate" EntityType="Self.E_Evaluate" />
+          <EntitySet Name="E_EvaluateDetail" EntityType="Self.E_EvaluateDetail" />
+          <EntitySet Name="E_EvaluationSche" EntityType="Self.E_EvaluationSche" />
+          <EntitySet Name="P_Banner" EntityType="Self.P_Banner" />
+          <EntitySet Name="P_File" EntityType="Self.P_File" />
+          <EntitySet Name="P_Link" EntityType="Self.P_Link" />
+          <EntitySet Name="P_News" EntityType="Self.P_News" />
+          <EntitySet Name="P_NewsReadLog" EntityType="Self.P_NewsReadLog" />
+          <EntitySet Name="SYS_Code" EntityType="Self.SYS_Code" />
+          <EntitySet Name="SYS_File" EntityType="Self.SYS_File" />
+          <EntitySet Name="SYS_Menu" EntityType="Self.SYS_Menu" />
+          <EntitySet Name="SYS_Power" EntityType="Self.SYS_Power" />
+          <EntitySet Name="SYS_Role" EntityType="Self.SYS_Role" />
+          <EntitySet Name="SYS_Unit" EntityType="Self.SYS_Unit" />
+          <EntitySet Name="SYS_User" EntityType="Self.SYS_User" />
+          <EntitySet Name="View_B_AssignBook" EntityType="Self.View_B_AssignBook" />
+          <EntitySet Name="View_B_AssignBookEvaluateTeacher" EntityType="Self.View_B_AssignBookEvaluateTeacher" />
+          <EntitySet Name="View_B_AssignBookScore" EntityType="Self.View_B_AssignBookScore" />
+          <EntitySet Name="View_B_AssignBookUnLoadFile" EntityType="Self.View_B_AssignBookUnLoadFile" />
+          <EntitySet Name="View_B_AssignClassEvaluate" EntityType="Self.View_B_AssignClassEvaluate" />
+          <EntitySet Name="View_B_AssignClassLector" EntityType="Self.View_B_AssignClassLector" />
+          <EntitySet Name="View_B_AssignClassScore" EntityType="Self.View_B_AssignClassScore" />
+          <EntitySet Name="View_B_BookEvaluateTeacher" EntityType="Self.View_B_BookEvaluateTeacher" />
+          <EntitySet Name="View_BookEvaluate" EntityType="Self.View_BookEvaluate" />
+          <EntitySet Name="View_Bridge_C_Book" EntityType="Self.View_Bridge_C_Book" />
+          <EntitySet Name="View_Bridge_C_BookPublish" EntityType="Self.View_Bridge_C_BookPublish" />
+          <EntitySet Name="View_Bridge_C_Class" EntityType="Self.View_Bridge_C_Class" />
+          <EntitySet Name="View_Bridge_C_ClassLector" EntityType="Self.View_Bridge_C_ClassLector" />
+          <EntitySet Name="View_Bridge_C_ClassSubject" EntityType="Self.View_Bridge_C_ClassSubject" />
+          <EntitySet Name="View_Bridge_C_Lector" EntityType="Self.View_Bridge_C_Lector" />
+          <EntitySet Name="View_ClassEvaluate" EntityType="Self.View_ClassEvaluate" />
+          <EntitySet Name="View_ClassLector" EntityType="Self.View_ClassLector" />
+          <EntitySet Name="View_ClassLectorEvaluate" EntityType="Self.View_ClassLectorEvaluate" />
+          <EntitySet Name="View_EvaluateDetailInfo" EntityType="Self.View_EvaluateDetailInfo" />
+          <EntitySet Name="View_MenuRolePower" EntityType="Self.View_MenuRolePower" />
+          <EntitySet Name="View_P_LectorClass" EntityType="Self.View_P_LectorClass" />
+          <EntitySet Name="View_P_LectorClassAbstract" EntityType="Self.View_P_LectorClassAbstract" />
+          <EntitySet Name="View_P_LectorEvaluate" EntityType="Self.View_P_LectorEvaluate" />
+          <EntitySet Name="View_Role" EntityType="Self.View_Role" />
+          <AssociationSet Name="FK_P_NewsReadLog_P_News" Association="Self.FK_P_NewsReadLog_P_News">
+            <End Role="P_News" EntitySet="P_News" />
+            <End Role="P_NewsReadLog" EntitySet="P_NewsReadLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYS_Power_SYS_Power" Association="Self.FK_SYS_Power_SYS_Power">
+            <End Role="SYS_Role" EntitySet="SYS_Role" />
+            <End Role="SYS_Power" EntitySet="SYS_Power" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYS_Role_SYS_Role" Association="Self.FK_SYS_Role_SYS_Role">
+            <End Role="SYS_Role" EntitySet="SYS_Role" />
+            <End Role="SYS_Role1" EntitySet="SYS_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SYS_User_SYS_User" Association="Self.FK_SYS_User_SYS_User">
+            <End Role="SYS_Role" EntitySet="SYS_Role" />
+            <End Role="SYS_User" EntitySet="SYS_User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CELA_WEBDBModelStoreContainer" CdmEntityContainer="CELA_WEBDBEntities">
+          <EntitySetMapping Name="C_Book">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_Book">
+              <MappingFragment StoreEntitySet="C_Book">
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="M_Index" ColumnName="M_Index" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="M_Order" ColumnName="M_Order" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_BookDetail">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_BookDetail">
+              <MappingFragment StoreEntitySet="C_BookDetail">
+                <ScalarProperty Name="MD_ID" ColumnName="MD_ID" />
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="MD_Publish" ColumnName="MD_Publish" />
+                <ScalarProperty Name="R_Number" ColumnName="R_Number" />
+                <ScalarProperty Name="R_Date" ColumnName="R_Date" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_BookPublish">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_BookPublish">
+              <MappingFragment StoreEntitySet="C_BookPublish">
+                <ScalarProperty Name="BP_ID" ColumnName="BP_ID" />
+                <ScalarProperty Name="BP_Number" ColumnName="BP_Number" />
+                <ScalarProperty Name="BP_Name" ColumnName="BP_Name" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Class">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_Class">
+              <MappingFragment StoreEntitySet="C_Class">
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="C_Type" ColumnName="C_Type" />
+                <ScalarProperty Name="C_BookNum" ColumnName="C_BookNum" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_ClassLector">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_ClassLector">
+              <MappingFragment StoreEntitySet="C_ClassLector">
+                <ScalarProperty Name="CL_UID" ColumnName="CL_UID" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="D_UID" ColumnName="D_UID" />
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="CL_ID" ColumnName="CL_ID" />
+                <ScalarProperty Name="CL_Order" ColumnName="CL_Order" />
+                <ScalarProperty Name="CL_HourlyRate" ColumnName="CL_HourlyRate" />
+                <ScalarProperty Name="CL_Qualify" ColumnName="CL_Qualify" />
+                <ScalarProperty Name="CL_IsActive" ColumnName="CL_IsActive" />
+                <ScalarProperty Name="IsEvaluate" ColumnName="IsEvaluate" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_ClassSubject">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_ClassSubject">
+              <MappingFragment StoreEntitySet="C_ClassSubject">
+                <ScalarProperty Name="D_UID" ColumnName="D_UID" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="D_ID" ColumnName="D_ID" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="D_Hour" ColumnName="D_Hour" />
+                <ScalarProperty Name="D_HourlyRate" ColumnName="D_HourlyRate" />
+                <ScalarProperty Name="D_Type" ColumnName="D_Type" />
+                <ScalarProperty Name="D_IsTest" ColumnName="D_IsTest" />
+                <ScalarProperty Name="D_Memo" ColumnName="D_Memo" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Lector">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_Lector">
+              <MappingFragment StoreEntitySet="C_Lector">
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="L_ID" ColumnName="L_ID" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="L_BRITHDAY" ColumnName="L_BRITHDAY" />
+                <ScalarProperty Name="L_Edu" ColumnName="L_Edu" />
+                <ScalarProperty Name="L_EduSchool" ColumnName="L_EduSchool" />
+                <ScalarProperty Name="L_PosCode" ColumnName="L_PosCode" />
+                <ScalarProperty Name="L_Address" ColumnName="L_Address" />
+                <ScalarProperty Name="L_CPosCode" ColumnName="L_CPosCode" />
+                <ScalarProperty Name="L_CAddress" ColumnName="L_CAddress" />
+                <ScalarProperty Name="L_Phone" ColumnName="L_Phone" />
+                <ScalarProperty Name="L_CellPhone" ColumnName="L_CellPhone" />
+                <ScalarProperty Name="L_Email" ColumnName="L_Email" />
+                <ScalarProperty Name="L_Type" ColumnName="L_Type" />
+                <ScalarProperty Name="L_TravelExpenses" ColumnName="L_TravelExpenses" />
+                <ScalarProperty Name="L_IsCheck" ColumnName="L_IsCheck" />
+                <ScalarProperty Name="L_Active" ColumnName="L_Active" />
+                <ScalarProperty Name="L_Memo" ColumnName="L_Memo" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_LectorAdvInfo">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.C_LectorAdvInfo">
+              <MappingFragment StoreEntitySet="C_LectorAdvInfo">
+                <ScalarProperty Name="LA_UID" ColumnName="LA_UID" />
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="LA_Year" ColumnName="LA_Year" />
+                <ScalarProperty Name="LA_Title" ColumnName="LA_Title" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_ClassUploadLog">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.E_ClassUploadLog">
+              <MappingFragment StoreEntitySet="E_ClassUploadLog">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="FileFullName" ColumnName="FileFullName" />
+                <ScalarProperty Name="IsUpdate" ColumnName="IsUpdate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_Evaluate">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.E_Evaluate">
+              <MappingFragment StoreEntitySet="E_Evaluate">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_Type" ColumnName="E_Type" />
+                <ScalarProperty Name="E_Year" ColumnName="E_Year" />
+                <ScalarProperty Name="matchKey" ColumnName="matchKey" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_EvaluateDetail">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.E_EvaluateDetail">
+              <MappingFragment StoreEntitySet="E_EvaluateDetail">
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="Evaluate" ColumnName="Evaluate" />
+                <ScalarProperty Name="E_ScoreA" ColumnName="E_ScoreA" />
+                <ScalarProperty Name="E_ScoreB" ColumnName="E_ScoreB" />
+                <ScalarProperty Name="E_ScoreC" ColumnName="E_ScoreC" />
+                <ScalarProperty Name="E_ScoreD" ColumnName="E_ScoreD" />
+                <ScalarProperty Name="E_ScoreE" ColumnName="E_ScoreE" />
+                <ScalarProperty Name="E_Remark" ColumnName="E_Remark" />
+                <ScalarProperty Name="E_TeachSyllabus" ColumnName="E_TeachSyllabus" />
+                <ScalarProperty Name="E_TeachObject" ColumnName="E_TeachObject" />
+                <ScalarProperty Name="E_TeachAbstract" ColumnName="E_TeachAbstract" />
+                <ScalarProperty Name="E_FirstScoreDate" ColumnName="E_FirstScoreDate" />
+                <ScalarProperty Name="IsMail" ColumnName="IsMail" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="E_EvaluationSche">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.E_EvaluationSche">
+              <MappingFragment StoreEntitySet="E_EvaluationSche">
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="matchKey" ColumnName="matchKey" />
+                <ScalarProperty Name="Reception" ColumnName="Reception" />
+                <ScalarProperty Name="E_TeachSyllabus" ColumnName="E_TeachSyllabus" />
+                <ScalarProperty Name="E_TeachObject" ColumnName="E_TeachObject" />
+                <ScalarProperty Name="E_TeachAbstract" ColumnName="E_TeachAbstract" />
+                <ScalarProperty Name="ChkNum" ColumnName="ChkNum" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsMail" ColumnName="IsMail" />
+                <ScalarProperty Name="ScheNum" ColumnName="ScheNum" />
+                <ScalarProperty Name="IsSche" ColumnName="IsSche" />
+                <ScalarProperty Name="IsPass" ColumnName="IsPass" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_Banner">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.P_Banner">
+              <MappingFragment StoreEntitySet="P_Banner">
+                <ScalarProperty Name="Banner_ID" ColumnName="Banner_ID" />
+                <ScalarProperty Name="BannerType" ColumnName="BannerType" />
+                <ScalarProperty Name="BannerName" ColumnName="BannerName" />
+                <ScalarProperty Name="BannerURL" ColumnName="BannerURL" />
+                <ScalarProperty Name="BannerStart" ColumnName="BannerStart" />
+                <ScalarProperty Name="BannerEnd" ColumnName="BannerEnd" />
+                <ScalarProperty Name="BannerOrder" ColumnName="BannerOrder" />
+                <ScalarProperty Name="BannerStatus" ColumnName="BannerStatus" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_File">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.P_File">
+              <MappingFragment StoreEntitySet="P_File">
+                <ScalarProperty Name="File_ID" ColumnName="File_ID" />
+                <ScalarProperty Name="F_Type" ColumnName="F_Type" />
+                <ScalarProperty Name="F_Title" ColumnName="F_Title" />
+                <ScalarProperty Name="F_Memo" ColumnName="F_Memo" />
+                <ScalarProperty Name="F_Status" ColumnName="F_Status" />
+                <ScalarProperty Name="F_IsTop" ColumnName="F_IsTop" />
+                <ScalarProperty Name="F_Order" ColumnName="F_Order" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_Link">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.P_Link">
+              <MappingFragment StoreEntitySet="P_Link">
+                <ScalarProperty Name="Link_ID" ColumnName="Link_ID" />
+                <ScalarProperty Name="L_Type" ColumnName="L_Type" />
+                <ScalarProperty Name="L_Class" ColumnName="L_Class" />
+                <ScalarProperty Name="L_Title" ColumnName="L_Title" />
+                <ScalarProperty Name="L_URL" ColumnName="L_URL" />
+                <ScalarProperty Name="L_Order" ColumnName="L_Order" />
+                <ScalarProperty Name="L_IsTop" ColumnName="L_IsTop" />
+                <ScalarProperty Name="L_Status" ColumnName="L_Status" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_News">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.P_News">
+              <MappingFragment StoreEntitySet="P_News">
+                <ScalarProperty Name="News_ID" ColumnName="News_ID" />
+                <ScalarProperty Name="N_Type" ColumnName="N_Type" />
+                <ScalarProperty Name="N_Title" ColumnName="N_Title" />
+                <ScalarProperty Name="N_Class" ColumnName="N_Class" />
+                <ScalarProperty Name="N_StartDate" ColumnName="N_StartDate" />
+                <ScalarProperty Name="N_EndDate" ColumnName="N_EndDate" />
+                <ScalarProperty Name="N_IsTop" ColumnName="N_IsTop" />
+                <ScalarProperty Name="N_IsShow" ColumnName="N_IsShow" />
+                <ScalarProperty Name="N_Status" ColumnName="N_Status" />
+                <ScalarProperty Name="N_Content" ColumnName="N_Content" />
+                <ScalarProperty Name="N_Role" ColumnName="N_Role" />
+                <ScalarProperty Name="R_ID" ColumnName="R_ID" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="P_NewsReadLog">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.P_NewsReadLog">
+              <MappingFragment StoreEntitySet="P_NewsReadLog">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="News_ID" ColumnName="News_ID" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_Code">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_Code">
+              <MappingFragment StoreEntitySet="SYS_Code">
+                <ScalarProperty Name="Uid" ColumnName="Uid" />
+                <ScalarProperty Name="C_ParentUid" ColumnName="C_ParentUid" />
+                <ScalarProperty Name="C_ParentCode" ColumnName="C_ParentCode" />
+                <ScalarProperty Name="C_itemCode" ColumnName="C_itemCode" />
+                <ScalarProperty Name="C_itemName" ColumnName="C_itemName" />
+                <ScalarProperty Name="C_itemOrder" ColumnName="C_itemOrder" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="isShow" ColumnName="isShow" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_File">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_File">
+              <MappingFragment StoreEntitySet="SYS_File">
+                <ScalarProperty Name="File_ID" ColumnName="File_ID" />
+                <ScalarProperty Name="F_Module" ColumnName="F_Module" />
+                <ScalarProperty Name="F_MatchKey" ColumnName="F_MatchKey" />
+                <ScalarProperty Name="F_MatchKey2" ColumnName="F_MatchKey2" />
+                <ScalarProperty Name="F_FullName" ColumnName="F_FullName" />
+                <ScalarProperty Name="F_NameReal" ColumnName="F_NameReal" />
+                <ScalarProperty Name="F_NameDL" ColumnName="F_NameDL" />
+                <ScalarProperty Name="F_MimeType" ColumnName="F_MimeType" />
+                <ScalarProperty Name="F_Ext" ColumnName="F_Ext" />
+                <ScalarProperty Name="F_Path" ColumnName="F_Path" />
+                <ScalarProperty Name="F_Description" ColumnName="F_Description" />
+                <ScalarProperty Name="F_Order" ColumnName="F_Order" />
+                <ScalarProperty Name="F_Remark" ColumnName="F_Remark" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_Menu">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_Menu">
+              <MappingFragment StoreEntitySet="SYS_Menu">
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="M_Type" ColumnName="M_Type" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="M_ParentID" ColumnName="M_ParentID" />
+                <ScalarProperty Name="M_Level" ColumnName="M_Level" />
+                <ScalarProperty Name="M_Url" ColumnName="M_Url" />
+                <ScalarProperty Name="M_Order" ColumnName="M_Order" />
+                <ScalarProperty Name="M_IsActice" ColumnName="M_IsActice" />
+                <ScalarProperty Name="M_IsShow" ColumnName="M_IsShow" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_Power">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_Power">
+              <MappingFragment StoreEntitySet="SYS_Power">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="R_UID" ColumnName="R_UID" />
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="CreateData" ColumnName="CreateData" />
+                <ScalarProperty Name="SearchData" ColumnName="SearchData" />
+                <ScalarProperty Name="ModifyData" ColumnName="ModifyData" />
+                <ScalarProperty Name="DeleteData" ColumnName="DeleteData" />
+                <ScalarProperty Name="ImportData" ColumnName="ImportData" />
+                <ScalarProperty Name="Exportdata" ColumnName="Exportdata" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_Role">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_Role">
+              <MappingFragment StoreEntitySet="SYS_Role">
+                <ScalarProperty Name="R_UID" ColumnName="R_UID" />
+                <ScalarProperty Name="R_ID" ColumnName="R_ID" />
+                <ScalarProperty Name="R_BackEnd" ColumnName="R_BackEnd" />
+                <ScalarProperty Name="R_Name" ColumnName="R_Name" />
+                <ScalarProperty Name="R_Order" ColumnName="R_Order" />
+                <ScalarProperty Name="R_Status" ColumnName="R_Status" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_Unit">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_Unit">
+              <MappingFragment StoreEntitySet="SYS_Unit">
+                <ScalarProperty Name="Un_ID" ColumnName="Un_ID" />
+                <ScalarProperty Name="Un_Name" ColumnName="Un_Name" />
+                <ScalarProperty Name="Un_Status" ColumnName="Un_Status" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SYS_User">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.SYS_User">
+              <MappingFragment StoreEntitySet="SYS_User">
+                <ScalarProperty Name="U_ID" ColumnName="U_ID" />
+                <ScalarProperty Name="R_UID" ColumnName="R_UID" />
+                <ScalarProperty Name="U_Account" ColumnName="U_Account" />
+                <ScalarProperty Name="U_Password" ColumnName="U_Password" />
+                <ScalarProperty Name="U_Name" ColumnName="U_Name" />
+                <ScalarProperty Name="U_Email" ColumnName="U_Email" />
+                <ScalarProperty Name="U_Phone" ColumnName="U_Phone" />
+                <ScalarProperty Name="U_Address" ColumnName="U_Address" />
+                <ScalarProperty Name="U_Sex" ColumnName="U_Sex" />
+                <ScalarProperty Name="U_Birthday" ColumnName="U_Birthday" />
+                <ScalarProperty Name="Un_ID" ColumnName="Un_ID" />
+                <ScalarProperty Name="U_Status" ColumnName="U_Status" />
+                <ScalarProperty Name="isOutSide" ColumnName="isOutSide" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignBook">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignBook">
+              <MappingFragment StoreEntitySet="View_B_AssignBook">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="M_Index" ColumnName="M_Index" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignBookEvaluateTeacher">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignBookEvaluateTeacher">
+              <MappingFragment StoreEntitySet="View_B_AssignBookEvaluateTeacher">
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="Evaluate" ColumnName="Evaluate" />
+                <ScalarProperty Name="E_ScoreA" ColumnName="E_ScoreA" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="M_Index" ColumnName="M_Index" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="L_ID" ColumnName="L_ID" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="BP_ID" ColumnName="BP_ID" />
+                <ScalarProperty Name="BP_Name" ColumnName="BP_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignBookScore">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignBookScore">
+              <MappingFragment StoreEntitySet="View_B_AssignBookScore">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="BP_Name" ColumnName="BP_Name" />
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="Evaluate" ColumnName="Evaluate" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="E_ScoreA" ColumnName="E_ScoreA" />
+                <ScalarProperty Name="E_ScoreB" ColumnName="E_ScoreB" />
+                <ScalarProperty Name="E_ScoreC" ColumnName="E_ScoreC" />
+                <ScalarProperty Name="E_ScoreD" ColumnName="E_ScoreD" />
+                <ScalarProperty Name="E_ScoreE" ColumnName="E_ScoreE" />
+                <ScalarProperty Name="E_Remark" ColumnName="E_Remark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignBookUnLoadFile">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignBookUnLoadFile">
+              <MappingFragment StoreEntitySet="View_B_AssignBookUnLoadFile">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="F_MatchKey" ColumnName="F_MatchKey" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignClassEvaluate">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignClassEvaluate">
+              <MappingFragment StoreEntitySet="View_B_AssignClassEvaluate">
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_Type" ColumnName="E_Type" />
+                <ScalarProperty Name="E_Year" ColumnName="E_Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignClassLector">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignClassLector">
+              <MappingFragment StoreEntitySet="View_B_AssignClassLector">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_Year" ColumnName="E_Year" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="CL_UID" ColumnName="CL_UID" />
+                <ScalarProperty Name="D_ID" ColumnName="D_ID" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="D_Hour" ColumnName="D_Hour" />
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="L_ID" ColumnName="L_ID" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsSche" ColumnName="IsSche" />
+                <ScalarProperty Name="ScheNum" ColumnName="ScheNum" />
+                <ScalarProperty Name="IsPass" ColumnName="IsPass" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="ChkNum" ColumnName="ChkNum" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_AssignClassScore">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_AssignClassScore">
+              <MappingFragment StoreEntitySet="View_B_AssignClassScore">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="Evaluate" ColumnName="Evaluate" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="E_ScoreA" ColumnName="E_ScoreA" />
+                <ScalarProperty Name="E_ScoreB" ColumnName="E_ScoreB" />
+                <ScalarProperty Name="E_ScoreC" ColumnName="E_ScoreC" />
+                <ScalarProperty Name="E_ScoreD" ColumnName="E_ScoreD" />
+                <ScalarProperty Name="E_ScoreE" ColumnName="E_ScoreE" />
+                <ScalarProperty Name="E_Remark" ColumnName="E_Remark" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="E_FirstScoreDate" ColumnName="E_FirstScoreDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_B_BookEvaluateTeacher">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_B_BookEvaluateTeacher">
+              <MappingFragment StoreEntitySet="View_B_BookEvaluateTeacher">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="Evaluate" ColumnName="Evaluate" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="L_ID" ColumnName="L_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_BookEvaluate">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_BookEvaluate">
+              <MappingFragment StoreEntitySet="View_BookEvaluate">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_Type" ColumnName="E_Type" />
+                <ScalarProperty Name="E_Year" ColumnName="E_Year" />
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="M_Index" ColumnName="M_Index" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Bridge_C_Book">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Bridge_C_Book">
+              <MappingFragment StoreEntitySet="View_Bridge_C_Book">
+                <ScalarProperty Name="M_Index" ColumnName="M_Index" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="M_Publish" ColumnName="M_Publish" />
+                <ScalarProperty Name="M_Number" ColumnName="M_Number" />
+                <ScalarProperty Name="M_Version" ColumnName="M_Version" />
+                <ScalarProperty Name="M_Order" ColumnName="M_Order" />
+                <ScalarProperty Name="M_Memo" ColumnName="M_Memo" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Bridge_C_BookPublish">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Bridge_C_BookPublish">
+              <MappingFragment StoreEntitySet="View_Bridge_C_BookPublish">
+                <ScalarProperty Name="M_Index" ColumnName="M_Index" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="M_Publish" ColumnName="M_Publish" />
+                <ScalarProperty Name="M_Number" ColumnName="M_Number" />
+                <ScalarProperty Name="M_Version" ColumnName="M_Version" />
+                <ScalarProperty Name="M_Order" ColumnName="M_Order" />
+                <ScalarProperty Name="M_Memo" ColumnName="M_Memo" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Bridge_C_Class">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Bridge_C_Class">
+              <MappingFragment StoreEntitySet="View_Bridge_C_Class">
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="C_Type" ColumnName="C_Type" />
+                <ScalarProperty Name="C_BookNum" ColumnName="C_BookNum" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Bridge_C_ClassLector">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Bridge_C_ClassLector">
+              <MappingFragment StoreEntitySet="View_Bridge_C_ClassLector">
+                <ScalarProperty Name="CL_UID" ColumnName="CL_UID" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="D_UID" ColumnName="D_UID" />
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="CL_Order" ColumnName="CL_Order" />
+                <ScalarProperty Name="CL_HourlyRate" ColumnName="CL_HourlyRate" />
+                <ScalarProperty Name="CL_Qualify" ColumnName="CL_Qualify" />
+                <ScalarProperty Name="CL_IsActive" ColumnName="CL_IsActive" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Bridge_C_ClassSubject">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Bridge_C_ClassSubject">
+              <MappingFragment StoreEntitySet="View_Bridge_C_ClassSubject">
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="D_ID" ColumnName="D_ID" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="D_Hour" ColumnName="D_Hour" />
+                <ScalarProperty Name="D_HourlyRate" ColumnName="D_HourlyRate" />
+                <ScalarProperty Name="D_Type" ColumnName="D_Type" />
+                <ScalarProperty Name="D_IsTest" ColumnName="D_IsTest" />
+                <ScalarProperty Name="D_Memo" ColumnName="D_Memo" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Bridge_C_Lector">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Bridge_C_Lector">
+              <MappingFragment StoreEntitySet="View_Bridge_C_Lector">
+                <ScalarProperty Name="L_ID" ColumnName="L_ID" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="L_BRITHDAY" ColumnName="L_BRITHDAY" />
+                <ScalarProperty Name="L_Edu" ColumnName="L_Edu" />
+                <ScalarProperty Name="L_EduSchool" ColumnName="L_EduSchool" />
+                <ScalarProperty Name="L_PosCode" ColumnName="L_PosCode" />
+                <ScalarProperty Name="L_Address" ColumnName="L_Address" />
+                <ScalarProperty Name="L_CPosCode" ColumnName="L_CPosCode" />
+                <ScalarProperty Name="L_CAddress" ColumnName="L_CAddress" />
+                <ScalarProperty Name="L_Phone" ColumnName="L_Phone" />
+                <ScalarProperty Name="L_CellPhone" ColumnName="L_CellPhone" />
+                <ScalarProperty Name="L_Email" ColumnName="L_Email" />
+                <ScalarProperty Name="L_Type" ColumnName="L_Type" />
+                <ScalarProperty Name="L_TravelExpenses" ColumnName="L_TravelExpenses" />
+                <ScalarProperty Name="L_IsCheck" ColumnName="L_IsCheck" />
+                <ScalarProperty Name="L_Active" ColumnName="L_Active" />
+                <ScalarProperty Name="L_Memo" ColumnName="L_Memo" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_ClassEvaluate">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_ClassEvaluate">
+              <MappingFragment StoreEntitySet="View_ClassEvaluate">
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_Type" ColumnName="E_Type" />
+                <ScalarProperty Name="E_Year" ColumnName="E_Year" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_ClassLector">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_ClassLector">
+              <MappingFragment StoreEntitySet="View_ClassLector">
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="CL_UID" ColumnName="CL_UID" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_ClassLectorEvaluate">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_ClassLectorEvaluate">
+              <MappingFragment StoreEntitySet="View_ClassLectorEvaluate">
+                <ScalarProperty Name="CL_UID" ColumnName="CL_UID" />
+                <ScalarProperty Name="C_UID" ColumnName="C_UID" />
+                <ScalarProperty Name="C_ID" ColumnName="C_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="D_UID" ColumnName="D_UID" />
+                <ScalarProperty Name="D_ID" ColumnName="D_ID" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="L_UID" ColumnName="L_UID" />
+                <ScalarProperty Name="L_ID" ColumnName="L_ID" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="Expr3" ColumnName="Expr3" />
+                <ScalarProperty Name="LEv_Year" ColumnName="LEv_Year" />
+                <ScalarProperty Name="LEv_Type" ColumnName="LEv_Type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_EvaluateDetailInfo">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_EvaluateDetailInfo">
+              <MappingFragment StoreEntitySet="View_EvaluateDetailInfo">
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_ScoreA" ColumnName="E_ScoreA" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="MD_Publish" ColumnName="MD_Publish" />
+                <ScalarProperty Name="F_MatchKey" ColumnName="F_MatchKey" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_MenuRolePower">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_MenuRolePower">
+              <MappingFragment StoreEntitySet="View_MenuRolePower">
+                <ScalarProperty Name="R_UID" ColumnName="R_UID" />
+                <ScalarProperty Name="M_ID" ColumnName="M_ID" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="M_Level" ColumnName="M_Level" />
+                <ScalarProperty Name="M_Order" ColumnName="M_Order" />
+                <ScalarProperty Name="M_Type" ColumnName="M_Type" />
+                <ScalarProperty Name="M_Url" ColumnName="M_Url" />
+                <ScalarProperty Name="CreateData" ColumnName="CreateData" />
+                <ScalarProperty Name="SearchData" ColumnName="SearchData" />
+                <ScalarProperty Name="ModifyData" ColumnName="ModifyData" />
+                <ScalarProperty Name="DeleteData" ColumnName="DeleteData" />
+                <ScalarProperty Name="ImportData" ColumnName="ImportData" />
+                <ScalarProperty Name="Exportdata" ColumnName="Exportdata" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_P_LectorClass">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_P_LectorClass">
+              <MappingFragment StoreEntitySet="View_P_LectorClass">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="matchKey" ColumnName="matchKey" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ScheNum" ColumnName="ScheNum" />
+                <ScalarProperty Name="IsSche" ColumnName="IsSche" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="Reception" ColumnName="Reception" />
+                <ScalarProperty Name="fileName" ColumnName="fileName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_P_LectorClassAbstract">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_P_LectorClassAbstract">
+              <MappingFragment StoreEntitySet="View_P_LectorClassAbstract">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="AM" ColumnName="AM" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="BM" ColumnName="BM" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="E_TeachAbstract" ColumnName="E_TeachAbstract" />
+                <ScalarProperty Name="E_TeachObject" ColumnName="E_TeachObject" />
+                <ScalarProperty Name="E_TeachSyllabus" ColumnName="E_TeachSyllabus" />
+                <ScalarProperty Name="D_UID" ColumnName="D_UID" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_P_LectorEvaluate">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_P_LectorEvaluate">
+              <MappingFragment StoreEntitySet="View_P_LectorEvaluate">
+                <ScalarProperty Name="E_ID" ColumnName="E_ID" />
+                <ScalarProperty Name="E_Type" ColumnName="E_Type" />
+                <ScalarProperty Name="C_Name" ColumnName="C_Name" />
+                <ScalarProperty Name="D_Name" ColumnName="D_Name" />
+                <ScalarProperty Name="ES_ID" ColumnName="ES_ID" />
+                <ScalarProperty Name="M_Name" ColumnName="M_Name" />
+                <ScalarProperty Name="BP_Name" ColumnName="BP_Name" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="ED_ID" ColumnName="ED_ID" />
+                <ScalarProperty Name="L_NAME" ColumnName="L_NAME" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Evaluate" ColumnName="Evaluate" />
+                <ScalarProperty Name="IsPass" ColumnName="IsPass" />
+                <ScalarProperty Name="IsClose" ColumnName="IsClose" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="E_ScoreA" ColumnName="E_ScoreA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Role">
+            <EntityTypeMapping TypeName="CELA_WEBDBModel.View_Role">
+              <MappingFragment StoreEntitySet="View_Role">
+                <ScalarProperty Name="R_UID" ColumnName="R_UID" />
+                <ScalarProperty Name="R_ID" ColumnName="R_ID" />
+                <ScalarProperty Name="R_BackEnd" ColumnName="R_BackEnd" />
+                <ScalarProperty Name="R_Name" ColumnName="R_Name" />
+                <ScalarProperty Name="R_Order" ColumnName="R_Order" />
+                <ScalarProperty Name="R_Status" ColumnName="R_Status" />
+                <ScalarProperty Name="CREUSER" ColumnName="CREUSER" />
+                <ScalarProperty Name="CREDATE" ColumnName="CREDATE" />
+                <ScalarProperty Name="UPDUSER" ColumnName="UPDUSER" />
+                <ScalarProperty Name="UPDDATE" ColumnName="UPDDATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

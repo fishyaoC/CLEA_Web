@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="707d8b93cf744dcd9d6e834753b77c58" Name="Diagram1">
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_Book" Width="1.5" PointX="5.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_BookDetail" Width="1.5" PointX="7.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_BookPublish" Width="1.5" PointX="9.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_Class" Width="1.5" PointX="7.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_ClassLector" Width="1.5" PointX="9.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_ClassSubject" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_Lector" Width="1.5" PointX="0.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.C_LectorAdvInfo" Width="1.5" PointX="2.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.E_ClassUploadLog" Width="1.5" PointX="4.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.E_Evaluate" Width="1.5" PointX="11.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.E_EvaluateDetail" Width="1.5" PointX="11.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.E_EvaluationSche" Width="1.5" PointX="13.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.P_Banner" Width="1.5" PointX="13.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.P_File" Width="1.5" PointX="6.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.P_Link" Width="1.5" PointX="13.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.P_News" Width="1.5" PointX="5.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.P_NewsReadLog" Width="1.5" PointX="8" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_Code" Width="1.5" PointX="2.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_File" Width="1.5" PointX="8.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_Menu" Width="1.5" PointX="13.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_Power" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_Role" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_Unit" Width="1.5" PointX="15.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.SYS_User" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignBook" Width="1.5" PointX="15.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignBookEvaluateTeacher" Width="1.5" PointX="15.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignBookScore" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignBookUnLoadFile" Width="1.5" PointX="15.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignClassEvaluate" Width="1.5" PointX="15.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignClassLector" Width="1.5" PointX="17.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_AssignClassScore" Width="1.5" PointX="4.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_B_BookEvaluateTeacher" Width="1.5" PointX="17.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_BookEvaluate" Width="1.5" PointX="17.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Bridge_C_Book" Width="1.5" PointX="17.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Bridge_C_BookPublish" Width="1.5" PointX="17.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Bridge_C_Class" Width="1.5" PointX="0.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Bridge_C_ClassLector" Width="1.5" PointX="19.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Bridge_C_ClassSubject" Width="1.5" PointX="19.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Bridge_C_Lector" Width="1.5" PointX="6.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_ClassEvaluate" Width="1.5" PointX="19.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_ClassLector" Width="1.5" PointX="19.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_ClassLectorEvaluate" Width="1.5" PointX="12.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_EvaluateDetailInfo" Width="1.5" PointX="14.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_MenuRolePower" Width="1.5" PointX="19.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_P_LectorClass" Width="1.5" PointX="8.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_P_LectorClassAbstract" Width="1.5" PointX="16.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_P_LectorEvaluate" Width="1.5" PointX="18.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CELA_WEBDBModel.View_Role" Width="1.5" PointX="20.75" PointY="20.75" IsExpanded="true" />
+        <AssociationConnector Association="CELA_WEBDBModel.FK_P_NewsReadLog_P_News" ManuallyRouted="false" />
+        <AssociationConnector Association="CELA_WEBDBModel.FK_SYS_Power_SYS_Power" ManuallyRouted="false" />
+        <AssociationConnector Association="CELA_WEBDBModel.FK_SYS_Role_SYS_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="CELA_WEBDBModel.FK_SYS_User_SYS_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
