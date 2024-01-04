@@ -589,112 +589,112 @@ namespace Clea_Trans
 
             #region E_Evaluate/E_EvaluationSche
 
-            List<String> lst_mail = new List<string>();
-            Int32 Count = 0;
+            //List<String> lst_mail = new List<string>();
+            //Int32 Count = 0;
 
-            Log("開始處理E_Evaluate/E_EvaluationSche");
-            Console.WriteLine("開始處理E_Evaluate/E_EvaluationScher");
+            //Log("開始處理E_Evaluate/E_EvaluationSche");
+            //Console.WriteLine("開始處理E_Evaluate/E_EvaluationScher");
 
-            try
-            {
-                List<C_ClassLector> cClassLectors = db.C_ClassLector.Where(x => x.IsEvaluate == false).OrderBy(x => x.C_UID).ToList();
+            //try
+            //{
+            //    List<C_ClassLector> cClassLectors = db.C_ClassLector.Where(x => x.IsEvaluate == false).OrderBy(x => x.C_UID).ToList();
 
 
-                if (cClassLectors != null && cClassLectors.Count > 0)
-                {
-                    foreach (C_ClassLector ccl in cClassLectors)
-                    {
-                        E_Evaluate eEvaluateOri = db.E_Evaluate.Where(x => x.matchKey == ccl.C_UID).FirstOrDefault() ?? null;
-                        if (eEvaluateOri != null)
-                        {
-                            E_EvaluationSche eEvaluationSche = new E_EvaluationSche()
-                            {
-                                ES_ID = Guid.NewGuid(),
-                                E_ID = eEvaluateOri.E_ID,
-                                matchKey = ccl.CL_UID,
-                                Reception = ccl.L_UID,
-                                ChkNum = 0,
-                                Status = 0,
-                                IsMail = false,
-                                ScheNum = 0,
-                                IsSche = true,
-                                IsClose = false,
-                                IsPass = null,
-                                CREUSER = ccl.CREUSER.Value,
-                                CREDATE = ccl.CREDATE.Value
-                            };
-                            db.E_EvaluationSche.Add(eEvaluationSche);
-                            db.SaveChanges();
-                        }
-                        else
-                        {
-                            E_Evaluate eEvaluate = new E_Evaluate()
-                            {
-                                E_ID = Guid.NewGuid(),
-                                E_Type = 0,
-                                E_Year = DateTime.Now.Year,
-                                matchKey = ccl.C_UID.Value,
-                                CREUSER = ccl.CREUSER.Value,
-                                CREDATE = ccl.CREDATE.Value
-                            };
-                            db.E_Evaluate.Add(eEvaluate);
+            //    if (cClassLectors != null && cClassLectors.Count > 0)
+            //    {
+            //        foreach (C_ClassLector ccl in cClassLectors)
+            //        {
+            //            E_Evaluate eEvaluateOri = db.E_Evaluate.Where(x => x.matchKey == ccl.C_UID).FirstOrDefault() ?? null;
+            //            if (eEvaluateOri != null)
+            //            {
+            //                E_EvaluationSche eEvaluationSche = new E_EvaluationSche()
+            //                {
+            //                    ES_ID = Guid.NewGuid(),
+            //                    E_ID = eEvaluateOri.E_ID,
+            //                    matchKey = ccl.CL_UID,
+            //                    Reception = ccl.L_UID,
+            //                    ChkNum = 0,
+            //                    Status = 0,
+            //                    IsMail = false,
+            //                    ScheNum = 0,
+            //                    IsSche = true,
+            //                    IsClose = false,
+            //                    IsPass = null,
+            //                    CREUSER = ccl.CREUSER.Value,
+            //                    CREDATE = ccl.CREDATE.Value
+            //                };
+            //                db.E_EvaluationSche.Add(eEvaluationSche);
+            //                db.SaveChanges();
+            //            }
+            //            else
+            //            {
+            //                E_Evaluate eEvaluate = new E_Evaluate()
+            //                {
+            //                    E_ID = Guid.NewGuid(),
+            //                    E_Type = 0,
+            //                    E_Year = DateTime.Now.Year,
+            //                    matchKey = ccl.C_UID.Value,
+            //                    CREUSER = ccl.CREUSER.Value,
+            //                    CREDATE = ccl.CREDATE.Value
+            //                };
+            //                db.E_Evaluate.Add(eEvaluate);
 
-                            E_EvaluationSche eEvaluationSche = new E_EvaluationSche()
-                            {
-                                ES_ID = Guid.NewGuid(),
-                                E_ID = eEvaluate.E_ID,
-                                matchKey = ccl.CL_UID,
-                                Reception = ccl.L_UID,
-                                ChkNum = 0,
-                                Status = 0,
-                                IsMail = false,
-                                ScheNum = 0,
-                                IsSche = true,
-                                IsClose = false,
-                                CREUSER = ccl.CREUSER.Value,
-                                CREDATE = ccl.CREDATE.Value
-                            };
-                            db.E_EvaluationSche.Add(eEvaluationSche);
-                            db.SaveChanges();
-                        }
-                        Count++;
-                        //CLector? cLector = db.CLectors.Find(ccl.LUid);
-                        //if (cLector != null)
-                        //{
-                        //    if (string.IsNullOrEmpty(cLector.LEmail))
-                        //    {
-                        //        //lst_mail.Add(cLector.LName);
-                        //        continue;
-                        //    }
-                        //    else
-                        //    {
-                        //        lst_mail.Add(cLector.LEmail);
-                        //    }
-                        //}
-                        ccl.IsEvaluate = true;
-                        db.SaveChanges();
-                    }
-                }
-                else
-                {
-                    //Console.WriteLine("目前無新資料");
-                    //Log("目前無新資料");
-                }
+            //                E_EvaluationSche eEvaluationSche = new E_EvaluationSche()
+            //                {
+            //                    ES_ID = Guid.NewGuid(),
+            //                    E_ID = eEvaluate.E_ID,
+            //                    matchKey = ccl.CL_UID,
+            //                    Reception = ccl.L_UID,
+            //                    ChkNum = 0,
+            //                    Status = 0,
+            //                    IsMail = false,
+            //                    ScheNum = 0,
+            //                    IsSche = true,
+            //                    IsClose = false,
+            //                    CREUSER = ccl.CREUSER.Value,
+            //                    CREDATE = ccl.CREDATE.Value
+            //                };
+            //                db.E_EvaluationSche.Add(eEvaluationSche);
+            //                db.SaveChanges();
+            //            }
+            //            Count++;
+            //            //CLector? cLector = db.CLectors.Find(ccl.LUid);
+            //            //if (cLector != null)
+            //            //{
+            //            //    if (string.IsNullOrEmpty(cLector.LEmail))
+            //            //    {
+            //            //        //lst_mail.Add(cLector.LName);
+            //            //        continue;
+            //            //    }
+            //            //    else
+            //            //    {
+            //            //        lst_mail.Add(cLector.LEmail);
+            //            //    }
+            //            //}
+            //            ccl.IsEvaluate = true;
+            //            db.SaveChanges();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        //Console.WriteLine("目前無新資料");
+            //        //Log("目前無新資料");
+            //    }
 
-                Log("結束E_Evaluate/E_EvaluationSche");
-                Console.WriteLine("結束E_Evaluate/E_EvaluationSche");
-                Log("==========================");
-                Console.WriteLine("==========================");
+            //    Log("結束E_Evaluate/E_EvaluationSche");
+            //    Console.WriteLine("結束E_Evaluate/E_EvaluationSche");
+            //    Log("==========================");
+            //    Console.WriteLine("==========================");
 
-                //_smtpService.SendMail(lst_mail, "[通知]-CLEA授課資訊填寫", "老師您好，請至本會網站進行課程授課內容填寫，謝謝您。");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("例外狀況");
-                Log("例外狀況");
-                Console.WriteLine(ex.ToString());
-                Log(ex.ToString());
-            }
+            //    //_smtpService.SendMail(lst_mail, "[通知]-CLEA授課資訊填寫", "老師您好，請至本會網站進行課程授課內容填寫，謝謝您。");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("例外狀況");
+            //    Log("例外狀況");
+            //    Console.WriteLine(ex.ToString());
+            //    Log(ex.ToString());
+            //}
 
             #endregion
 
