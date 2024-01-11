@@ -20,18 +20,22 @@ using PdfiumViewer;
 using System.Drawing.Imaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Clea_Web.Service
 {
 	public class FileService : BaseService
 	{
 		private IConfiguration configuration;
-
-		public FileService(dbContext dbContext, IConfiguration configuration)
+        private readonly IHostingEnvironment _hostingEnvironment;
+        public FileService(dbContext dbContext, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
 		{
 			db = dbContext;
 			this.configuration = configuration;
-		}
+            _hostingEnvironment = hostingEnvironment;
+        }
 
 
 		#region ViewModel
@@ -115,7 +119,8 @@ namespace Clea_Web.Service
 				return false;
 			}
 
-			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+            //string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+            string physicalPath =  ".//cleaFile//" + directory;
 
 			//如果不存在建立目錄
 			if (!Directory.Exists(physicalPath))
@@ -167,8 +172,6 @@ namespace Clea_Web.Service
 
 			//上傳
 			string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
-			//string savePath = "D:\\CLEA_FILES\\df22ae60-1b84-481f-afd7-39c108bdcd4adf22ae60-1b84-481f-afd7-39c108bdcd4a\\";
-			//String SaveName = sysFile.FNameDl + "." + sysFile.FExt;
 			using (FileStream fileStream = new FileStream(savePath, FileMode.Create, FileAccess.Write))
 			{
 				file.CopyTo(fileStream);
@@ -209,7 +212,7 @@ namespace Clea_Web.Service
 				return false;
 			}
 
-			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+            string physicalPath = ".//cleaFile//" + directory;
 
 			//如果不存在建立目錄
 			if (!Directory.Exists(physicalPath))
@@ -303,7 +306,8 @@ namespace Clea_Web.Service
 				return false;
 			}
 
-			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+			//string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+			string physicalPath = ".//cleaFile//" + directory;
 
 			//如果不存在建立目錄
 			if (!Directory.Exists(physicalPath))
@@ -406,7 +410,8 @@ namespace Clea_Web.Service
 				return false;
 			}
 
-			string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+			//string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+			string physicalPath = ".//cleaFile//" + directory;
 
 			//如果不存在建立目錄
 			if (!Directory.Exists(physicalPath))
@@ -537,7 +542,8 @@ namespace Clea_Web.Service
 
 			if (file != null)
 			{
-				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
+				//String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
+				String physicalPath = ".//cleaFile//" + file.FPath;
 				String[] dirFile = Directory.GetFiles(physicalPath, "*.png") == null ? new string[] { } : Directory.GetFiles(physicalPath, "*.png");
 				if (dirFile.Length > 0)
 				{
@@ -610,7 +616,8 @@ namespace Clea_Web.Service
 			try
 			{
 				String directory = file.FPath;
-				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+				//String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+				String physicalPath = ".//cleaFile//" + directory;
 				Directory.Delete(physicalPath, true);
 
 				db.SysFiles.Remove(file);
@@ -638,7 +645,8 @@ namespace Clea_Web.Service
 
 			if (file != null)
 			{
-				String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
+				//String physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), file.FPath);
+				String physicalPath = ".//cleaFile//" + file.FPath;
 				String[] dirFile = Directory.GetFiles(physicalPath, "*.png");
 				if (dirFile.Length > 0)
 				{
