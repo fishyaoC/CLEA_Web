@@ -60,6 +60,7 @@ namespace Clea_Trans
                     su.U_Name = cl.L_NAME;
                     su.U_Email = cl.L_Email;
                     su.U_Birthday = cl.L_BRITHDAY;
+                    su.U_Status = string.IsNullOrEmpty(cl.L_Active) ? false : cl.L_Active.Equals("N") ? true : false;
                     su.UPDUSER = Guid.Parse("5357509C-6E68-4588-BC01-B5E005E30EF9"); //後台管理員
                     su.UPDDATE = DateTime.Now;
 
@@ -244,8 +245,8 @@ namespace Clea_Trans
 
                     }
                     count++;
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
 
                 Log("結束C_Lector");
                 Console.WriteLine("結束C_Lector");
