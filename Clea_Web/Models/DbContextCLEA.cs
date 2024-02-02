@@ -865,6 +865,9 @@ public partial class DbContextCLEA : DbContext
                 .HasDefaultValueSql("((1))")
                 .HasComment("開啟狀態")
                 .HasColumnName("isActive");
+            entity.Property(e => e.IsEdit)
+                .HasComment("是否可在後台編輯")
+                .HasColumnName("isEdit");
             entity.Property(e => e.IsShow)
                 .IsRequired()
                 .HasDefaultValueSql("((1))")

@@ -1,0 +1,104 @@
+﻿@using Clea_Web.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Clea_Web.ViewModels.SysCodeViewModel.Modify
+@{
+    Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+    dbContext db = new dbContext();
+}
+
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("Modify","Sys_Code")">
+        <div class="mb-2 mt-2">
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("Index","Sys_Code")" class="btn btn-secondary">取消</a>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            選單代碼管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.Uid)
+                        @* <p class="card-description">
+                        後臺腳色權限管理-編輯
+                        </p> *@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.CItemName, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.CItemName, new { @class = "form-control form-control", placeholder = "選單名稱" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.CItemCode, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.CItemCode, new { @class = "form-control form-control", placeholder = "選單代碼" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">是否啟用</label>
+                                    @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.IsActive, true, new { @class = "form-check-input", @name = "IsActive" })
+                                            <label for="MTypeB">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.IsActive, false, new {@class = "form-check-input", @name = "IsActive" })
+                                            <label for="MTypeP">
+                                                否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">是否上架</label>
+                                    @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.IsShow, true, new {@class = "form-check-input", @name = "IsShow" })
+                                            <label for="S1">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.IsShow, false, new {@class = "form-check-input", @name = "IsShow" })
+                                            <label for="S0">
+                                                否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

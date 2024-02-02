@@ -43,6 +43,11 @@ public partial class SysCode
     public bool? IsShow { get; set; }
 
     /// <summary>
+    /// 是否可在後台編輯
+    /// </summary>
+    public bool? IsEdit { get; set; }
+
+    /// <summary>
     /// 建立者
     /// </summary>
     public Guid Creuser { get; set; }
