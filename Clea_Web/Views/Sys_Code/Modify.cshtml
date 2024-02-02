@@ -100,6 +100,9 @@
                                     <div class="col-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body" style="background-color:#D0D0D0; border-radius:8px">
+
+
+
                                                 <button type="submit" class="btn btn-info">+新增</button>
                                                 @if (Model.modifies != null)
                                                 {
@@ -114,7 +117,7 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group row">
                                                                 <div class="col-sm-9">
-                                                                    @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { @class = "form-control form-control", placeholder = "選單內容" })
+                                                                    @Html.TextBoxFor(x => x.modifies[count - 1].CItemName, new { @class = "form-control form-control", placeholder = "選單內容" })
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -122,7 +125,26 @@
                                                         count++;
                                                     }
                                                 }
-                                        </div>
+
+                                                <button id="addButton" class="btn btn-primary m-2" onclick="addMenu(menuArray.length - 1)">+ 新增</button>
+                                                <ol id="menuList">
+                                                    <!-- 初始時，直接引用 menuArray[0] -->
+                                                    <li>
+                                                        <div class="d-flex align-items-center">
+                                                            <input type="text" class="form-control" placeholder="選單內容" onchange="updateArrayValue(0, this)">
+                                                            <button class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center mx-2"
+                                                                    style="width: 30px; height: 30px;" onmousedown="addMenu(0)">
+                                                                +
+                                                            </button>
+                                                            <button class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center"
+                                                                    style="width: 30px; height: 30px;" onmousedown="removeMenu(0)">
+                                                                -
+                                                            </button>
+                                                        </div>
+                                                    </li>
+                                                </ol>
+
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -136,5 +158,43 @@
     </form>
 </div>
 <script>
-    //萬哲
+    let menuArray = [""];
+    const addButton = document.getElementById("addButton");
+
+    function addMenu(index) {
+        menuArray.splice(index + 1, 0, "");
+        console.log("陣列內容:", menuArray);
+        updateMenuList();
+    }
+
+    function removeMenu(index) {
+        menuArray.splice(index, 1);
+        console.log("陣列內容:", menuArray);
+        updateMenuList();
+    }
+
+    function updateArrayValue(index, inputField) {
+        menuArray[index] = inputField.value;
+        console.log("陣列內容:", menuArray);
+        updateMenuList();
+    }
+
+    function updateMenuList() {
+        var menuList = document.getElementById("menuList");
+        menuList.innerHTML = "";
+
+        menuArray.forEach(function (item, index) {
+            var liElement = document.createElement("li");
+            liElement.innerHTML = '<div class="d-flex align-items-center">' +
+                '<input type="text" class="form-control" placeholder="選單內容" value="' + item + '" onchange="updateArrayValue(' + index + ', this)">' +
+                '<button class="btn btn-primary rounded-circle d-flex justify-content-center align-items-center mx-2" style="width: 30px; height: 30px;" onmousedown="addMenu(' + index + ')">+</button>' +
+                '<button class="btn btn-danger rounded-circle d-flex justify-content-center align-items-center" style="width: 30px; height: 30px;" onmousedown="removeMenu(' + index + ')">-</button>' +
+                '</div>';
+            menuList.appendChild(liElement);
+
+            if (index === menuArray.length - 1) {
+                liElement.querySelector('input').focus();
+            }
+        });
+    }
 </script>
