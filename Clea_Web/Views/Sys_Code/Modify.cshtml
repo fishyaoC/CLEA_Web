@@ -91,14 +91,50 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            
-                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">選單內容</label>
+                                    <!--萬哲-->
+                                    <div class="col-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body" style="background-color:#D0D0D0; border-radius:8px">
+                                                <button type="submit" class="btn btn-info">+新增</button>
+                                                @if (Model.modifies != null)
+                                                {
+                                                    var count = 1;
+                                                    @foreach (var child in Model.modifies)
+                                                    {
+                                                        <div class="col-md-2">
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-3 col-form-label">@count</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group row">
+                                                                <div class="col-sm-9">
+                                                                    @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { @class = "form-control form-control", placeholder = "選單內容" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        count++;
+                                                    }
+                                                }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+</div>
 
     </form>
 </div>
+<script>
+    //萬哲
+</script>

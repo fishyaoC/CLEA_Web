@@ -15,7 +15,7 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
-            public List<SysCode> modifies = new List<SysCode>();
+            public List<SysCode>? modifies = new List<SysCode>();
             [DisplayName("Uid")]
 
             public Guid Uid { get; set; }

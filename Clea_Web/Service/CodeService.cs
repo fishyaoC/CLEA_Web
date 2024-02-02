@@ -132,9 +132,7 @@ namespace Clea_Web.Service
                 vm.IsActive = sysCode.IsActive;
                 vm.IsShow = sysCode.IsShow;
                 vm.IsEdit = true;
-                List<SysCode> scList = db.SysCodes.Where(x=>x.CParentUid.Equals(Uid)).OrderBy(x=>x.CItemOrder).ToList();
-                vm.modifies = scList;
-
+                vm.modifies = db.SysCodes.Where(x=>x.CParentCode.Equals(sysCode.CItemCode)).OrderBy(x=>x.CItemOrder).ToList();
             }
             else
             {
