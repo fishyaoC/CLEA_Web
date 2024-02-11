@@ -15,7 +15,7 @@ public partial class PLink
     /// <summary>
     /// 連結分類
     /// </summary>
-    public int LClass { get; set; }
+    public string LClass { get; set; } = null!;
 
     /// <summary>
     /// 標題名稱

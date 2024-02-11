@@ -42,6 +42,8 @@ namespace Clea_Web
             services.AddTransient<P_LectorBtnService>();
             services.AddTransient<B_LectorAdvService>();
             services.AddTransient<P_LectorAdvService>();
+            services.AddTransient<LinkService>();
+
 
             services.AddMvc(options =>
             {

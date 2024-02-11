@@ -41,9 +41,13 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<PBanner> PBanners { get; set; }
 
+    public virtual DbSet<PCompanyCv> PCompanyCvs { get; set; }
+
     public virtual DbSet<PFile> PFiles { get; set; }
 
     public virtual DbSet<PLink> PLinks { get; set; }
+
+    public virtual DbSet<PMember> PMembers { get; set; }
 
     public virtual DbSet<PNews> PNews { get; set; }
 
@@ -650,6 +654,87 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
+        modelBuilder.Entity<PCompanyCv>(entity =>
+        {
+            entity.HasKey(e => e.CvUid);
+
+            entity.ToTable("P_CompanyCV");
+
+            entity.Property(e => e.CvUid)
+                .ValueGeneratedNever()
+                .HasColumnName("CV_Uid");
+            entity.Property(e => e.ApproveMemo)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasComment("核准備註");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.CvAddress)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("地址")
+                .HasColumnName("CV_Address");
+            entity.Property(e => e.CvCompanyName)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("求才機構(公司名稱)")
+                .HasColumnName("CV_CompanyName");
+            entity.Property(e => e.CvContact)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("聯絡人")
+                .HasColumnName("CV_Contact");
+            entity.Property(e => e.CvContent)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("應徵內容")
+                .HasColumnName("CV_Content");
+            entity.Property(e => e.CvEmail)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("電子信箱")
+                .HasColumnName("CV_EMail");
+            entity.Property(e => e.CvNum)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("徵才人數")
+                .HasColumnName("CV_Num");
+            entity.Property(e => e.CvPay)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("薪資待遇")
+                .HasColumnName("CV_Pay");
+            entity.Property(e => e.CvPhone)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasComment("電話")
+                .HasColumnName("CV_Phone");
+            entity.Property(e => e.CvPlace)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("工作地點")
+                .HasColumnName("CV_Place");
+            entity.Property(e => e.CvRequire)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasComment("職務要求")
+                .HasColumnName("CV_Require");
+            entity.Property(e => e.CvWay)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("應徵方式")
+                .HasColumnName("CV_Way");
+            entity.Property(e => e.IsApprove)
+                .HasComment("核准狀態")
+                .HasColumnName("isApprove");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
         modelBuilder.Entity<PFile>(entity =>
         {
             entity.HasKey(e => e.FileId);
@@ -703,6 +788,8 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.LClass)
+                .HasMaxLength(50)
+                .IsUnicode(false)
                 .HasComment("連結分類")
                 .HasColumnName("L_Class");
             entity.Property(e => e.LIsTop)
@@ -727,6 +814,94 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("連結網址")
                 .HasColumnName("L_URL");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PMember>(entity =>
+        {
+            entity.HasKey(e => e.Uid);
+
+            entity.ToTable("P_Member");
+
+            entity.Property(e => e.Uid).ValueGeneratedNever();
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.MAddress)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("戶籍住址/聯絡地址")
+                .HasColumnName("M_Address");
+            entity.Property(e => e.MBrithday)
+                .HasComment("生日")
+                .HasColumnType("date")
+                .HasColumnName("M_Brithday");
+            entity.Property(e => e.MCellPhone)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("手機號碼/傳真")
+                .HasColumnName("M_CellPhone");
+            entity.Property(e => e.MContact)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("廠商：聯絡人")
+                .HasColumnName("M_Contact");
+            entity.Property(e => e.MEmail)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("電子郵件/電子郵件")
+                .HasColumnName("M_EMail");
+            entity.Property(e => e.MGraduatedSchool)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("畢業學校")
+                .HasColumnName("M_GraduatedSchool");
+            entity.Property(e => e.MId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("身分證/統一編號")
+                .HasColumnName("M_ID");
+            entity.Property(e => e.MLevel)
+                .HasComment("會員等級")
+                .HasColumnName("M_Level");
+            entity.Property(e => e.MLineId)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("LineID")
+                .HasColumnName("M_LineID");
+            entity.Property(e => e.MName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("姓名/公司名稱")
+                .HasColumnName("M_Name");
+            entity.Property(e => e.MPassword)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasComment("密碼")
+                .HasColumnName("M_Password");
+            entity.Property(e => e.MPhone)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("連絡電話(市話)/連絡電話(市話)")
+                .HasColumnName("M_Phone");
+            entity.Property(e => e.MSex)
+                .HasComment("性別")
+                .HasColumnName("M_Sex");
+            entity.Property(e => e.MStatus)
+                .HasComment("是否啟用")
+                .HasColumnName("M_Status");
+            entity.Property(e => e.MType)
+                .HasComment("會員/廠商")
+                .HasColumnName("M_Type");
+            entity.Property(e => e.MWorkPlace)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("服務單位")
+                .HasColumnName("M_WorkPlace");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
