@@ -43,6 +43,8 @@ namespace Clea_Web
             services.AddTransient<B_LectorAdvService>();
             services.AddTransient<P_LectorAdvService>();
             services.AddTransient<LinkService>();
+            services.AddTransient<BannerService>();
+
 
 
             services.AddMvc(options =>

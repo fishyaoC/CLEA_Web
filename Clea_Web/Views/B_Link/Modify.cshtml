@@ -45,6 +45,7 @@
                                     @Html.LabelFor(x => x.Order, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.Order, new { @class = "form-control form-control", placeholder = "相關連結排序(請填入數字)" })
+                                        @Html.ValidationMessageFor(x=>x.Order)
                                     </div>
                                 </div>
                             </div>
@@ -64,6 +65,7 @@
                                     @Html.LabelFor(x => x.Url, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.Url, new { @class = "form-control form-control", placeholder = "選單代碼" })
+                                        @Html.ValidationMessageFor(x=>x.Url)
                                     </div>
                                 </div>
                             </div>

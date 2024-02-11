@@ -1,0 +1,141 @@
+﻿@using Clea_Web.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Clea_Web.ViewModels.BannerViewModel.Modify
+@{
+    Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+    dbContext db = new dbContext();
+}
+
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("Modify","B_Banner")" enctype='multipart/form-data'>
+        <div class="mb-2 mt-2">
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("Index","B_Banner")" class="btn btn-secondary">取消</a>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            輪播圖管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.Uid)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Name, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control form-control", placeholder = "輪播圖名稱" })
+                                        @Html.ValidationMessageFor(x=>x.Name)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Url, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Url, new { @class = "form-control form-control", placeholder = "輪播圖連結" })
+                                        @Html.ValidationMessageFor(x=>x.Url)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.StartDate, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control form-control date-picker", type = "date" })
+                                        @Html.ValidationMessageFor(x=>x.StartDate)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.EndDate, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control form-control date-picker", type = "date" })
+                                        @Html.ValidationMessageFor(x=>x.EndDate)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Order, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Order, new { @class = "form-control form-control", placeholder = "輪播圖排序(請填入數字)" })
+                                        @Html.ValidationMessageFor(x=>x.Order)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">是否上架</label>
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
+                                            <label for="TypeY">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
+                                            <label for="TypeN">
+                                                否
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.BannerIMG, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        <img id="imagePreview" style="width: 768px; height:272px; border-radius:0px" src="data:image/jpeg;base64,@Model.BannerIMG" />
+                                        @Html.ValidationMessageFor(x => x.BannerIMG)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">輪播圖上傳</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload" })
+                                        @Html.ValidationMessageFor(x => x.file)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    // 添加事件监听器以捕获文件上传事件
+    document.getElementById('fileUpload').addEventListener('change', function (event) {
+        var file = event.target.files[0]; // 获取选定的文件
+        var reader = new FileReader(); // 创建FileReader对象
+
+        // 读取文件并在load事件中触发回调函数
+        reader.onload = function (event) {
+            var imageData = event.target.result; // 获取文件的Base64编码字符串
+            document.getElementById('imagePreview').src = imageData; // 设置图像的src属性，显示预览
+        };
+
+        // 读取文件为DataURL
+        reader.readAsDataURL(file);
+    });
+</script>
