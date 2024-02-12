@@ -876,6 +876,8 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("身分證/統一編號")
                 .HasColumnName("M_ID");
             entity.Property(e => e.MLevel)
+                .HasMaxLength(2)
+                .IsUnicode(false)
                 .HasComment("會員等級")
                 .HasColumnName("M_Level");
             entity.Property(e => e.MLineId)
