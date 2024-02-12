@@ -45,6 +45,8 @@ namespace Clea_Web
             services.AddTransient<LinkService>();
             services.AddTransient<BannerService>();
             services.AddTransient<ENewsService>();
+            services.AddTransient<CVService>();
+
 
 
 

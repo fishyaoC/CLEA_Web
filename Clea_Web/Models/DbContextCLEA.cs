@@ -696,6 +696,9 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("電子信箱")
                 .HasColumnName("CV_EMail");
+            entity.Property(e => e.CvExp)
+                .HasColumnType("date")
+                .HasColumnName("CV_EXP");
             entity.Property(e => e.CvNum)
                 .HasMaxLength(100)
                 .IsUnicode(false)
@@ -721,12 +724,19 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("職務要求")
                 .HasColumnName("CV_Require");
+            entity.Property(e => e.CvStatus).HasColumnName("CV_Status");
+            entity.Property(e => e.CvTitle)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("CV_Title");
             entity.Property(e => e.CvWay)
                 .HasMaxLength(100)
                 .IsUnicode(false)
                 .HasComment("應徵方式")
                 .HasColumnName("CV_Way");
             entity.Property(e => e.IsApprove)
+                .HasMaxLength(2)
+                .IsUnicode(false)
                 .HasComment("核准狀態")
                 .HasColumnName("isApprove");
             entity.Property(e => e.Upddate)

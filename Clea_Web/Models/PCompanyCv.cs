@@ -7,6 +7,8 @@ public partial class PCompanyCv
 {
     public Guid CvUid { get; set; }
 
+    public string CvTitle { get; set; } = null!;
+
     /// <summary>
     /// 工作地點
     /// </summary>
@@ -16,6 +18,8 @@ public partial class PCompanyCv
     /// 徵才人數
     /// </summary>
     public string CvNum { get; set; } = null!;
+
+    public DateTime CvExp { get; set; }
 
     /// <summary>
     /// 薪資待遇
@@ -62,10 +66,12 @@ public partial class PCompanyCv
     /// </summary>
     public string CvRequire { get; set; } = null!;
 
+    public bool CvStatus { get; set; }
+
     /// <summary>
     /// 核准狀態
     /// </summary>
-    public bool IsApprove { get; set; }
+    public string IsApprove { get; set; } = null!;
 
     /// <summary>
     /// 核准備註
