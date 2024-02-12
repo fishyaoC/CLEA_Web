@@ -75,7 +75,7 @@ public partial class PMember
     /// <summary>
     /// 會員等級
     /// </summary>
-    public int? MLevel { get; set; }
+    public string? MLevel { get; set; }
 
     /// <summary>
     /// 是否啟用
