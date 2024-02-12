@@ -985,6 +985,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.NewsId)
                 .HasComment("NEWS ID")
                 .HasColumnName("News_ID");
+            entity.Property(e => e.NewsViews).HasColumnName("News_Views");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");

@@ -44,6 +44,8 @@ namespace Clea_Web
             services.AddTransient<P_LectorAdvService>();
             services.AddTransient<LinkService>();
             services.AddTransient<BannerService>();
+            services.AddTransient<ENewsService>();
+
 
 
 

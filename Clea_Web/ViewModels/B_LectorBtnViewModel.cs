@@ -48,7 +48,7 @@ namespace Clea_Web.ViewModels
             /// 分類
             /// </summary>
             [DisplayName("公告類型")]
-            public int NClass { get; set; }
+            public int? NClass { get; set; }
 
             /// <summary>
             /// 起始日

@@ -15,6 +15,8 @@ public partial class PNewsReadLog
     /// </summary>
     public Guid NewsId { get; set; }
 
+    public int? NewsViews { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }

@@ -20,7 +20,7 @@ public partial class PNews
     /// <summary>
     /// 分類
     /// </summary>
-    public int NClass { get; set; }
+    public int? NClass { get; set; }
 
     /// <summary>
     /// 起始日
@@ -50,7 +50,7 @@ public partial class PNews
     /// <summary>
     /// 內文
     /// </summary>
-    public string NContent { get; set; } = null!;
+    public string? NContent { get; set; }
 
     /// <summary>
     /// true=群發，false=個人
@@ -60,7 +60,7 @@ public partial class PNews
     /// <summary>
     /// 角色代碼(觀看權限)
     /// </summary>
-    public string RId { get; set; } = null!;
+    public string? RId { get; set; }
 
     public Guid Creuser { get; set; }
 
