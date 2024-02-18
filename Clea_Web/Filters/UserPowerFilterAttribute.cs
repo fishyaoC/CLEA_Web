@@ -31,15 +31,18 @@ namespace Clea_Web.Filters
 
         private void GetUserRolePower(ActionExecutingContext context)
         {
+            //Boolean PowerChk = true;
+
+
             dbContext db = new dbContext();
             //取得目前controller name
             String _controller = context.RouteData.Values["controller"].ToString();
             //取得目前action name
             String _action = context.RouteData.Values["action"].ToString();
             //組合Url
-            String Url = "/" + _controller + "/Index";
+            //String Url = "/" + _controller + "/Index";
             String _QString = context.HttpContext.Request.QueryString.Value;
-            //String Url = "/" + _controller + "/" + _action;
+            String Url = "/" + _controller + "/" + _action;
             //取得USER POWER
             var user = context.HttpContext.User;
             var claims = user.Identities.First().Claims.ToArray();
@@ -98,6 +101,8 @@ namespace Clea_Web.Filters
             {
                 UserRedirctPage(context, "F");
             }
+
+
 
         }
 

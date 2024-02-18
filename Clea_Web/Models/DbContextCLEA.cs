@@ -41,6 +41,10 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<PBanner> PBanners { get; set; }
 
+    public virtual DbSet<PClassMain> PClassMains { get; set; }
+
+    public virtual DbSet<PClassPerson> PClassPeople { get; set; }
+
     public virtual DbSet<PCompanyCv> PCompanyCvs { get; set; }
 
     public virtual DbSet<PFile> PFiles { get; set; }
@@ -48,6 +52,8 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<PLink> PLinks { get; set; }
 
     public virtual DbSet<PMember> PMembers { get; set; }
+
+    public virtual DbSet<PNav> PNavs { get; set; }
 
     public virtual DbSet<PNews> PNews { get; set; }
 
@@ -654,6 +660,78 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
+        modelBuilder.Entity<PClassMain>(entity =>
+        {
+            entity.HasKey(e => e.ClassMainId);
+
+            entity.ToTable("P_ClassMain");
+
+            entity.Property(e => e.ClassMainId).ValueGeneratedNever();
+            entity.Property(e => e.CmClassCode)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("CM_ClassCode");
+            entity.Property(e => e.CmClassName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("CM_ClassName");
+            entity.Property(e => e.CmPlace).HasColumnName("CM_Place");
+            entity.Property(e => e.CmStatus).HasColumnName("CM_Status");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PClassPerson>(entity =>
+        {
+            entity.HasKey(e => e.Uid);
+
+            entity.ToTable("P_ClassPerson");
+
+            entity.Property(e => e.Uid).ValueGeneratedNever();
+            entity.Property(e => e.CLinelink)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("LINE好友連結")
+                .HasColumnName("C_LINELink");
+            entity.Property(e => e.CName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasComment("姓名")
+                .HasColumnName("C_Name");
+            entity.Property(e => e.CPhone)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("聯絡方式")
+                .HasColumnName("C_Phone");
+            entity.Property(e => e.CStatus)
+                .HasComment("是否上架")
+                .HasColumnName("C_Status");
+            entity.Property(e => e.CWork)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("負責業務")
+                .HasColumnName("C_Work");
+            entity.Property(e => e.CWorkPlace)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("負責地區")
+                .HasColumnName("C_WorkPlace");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
         modelBuilder.Entity<PCompanyCv>(entity =>
         {
             entity.HasKey(e => e.CvUid);
@@ -767,6 +845,7 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("備註")
                 .HasColumnName("F_Memo");
             entity.Property(e => e.FOrder).HasColumnName("F_Order");
+            entity.Property(e => e.FRoleType).HasColumnName("F_RoleType");
             entity.Property(e => e.FStatus)
                 .HasComment("啟用狀態")
                 .HasColumnName("F_Status");
@@ -914,6 +993,57 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("服務單位")
                 .HasColumnName("M_WorkPlace");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PNav>(entity =>
+        {
+            entity.HasKey(e => e.Uid);
+
+            entity.ToTable("P_Nav");
+
+            entity.Property(e => e.Uid).ValueGeneratedNever();
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.NAddress)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasComment("住址")
+                .HasColumnName("N_Address");
+            entity.Property(e => e.NEmbed)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasComment("googleMap")
+                .HasColumnName("N_Embed");
+            entity.Property(e => e.NFax)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("傳真")
+                .HasColumnName("N_Fax");
+            entity.Property(e => e.NMemo)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasComment("介紹")
+                .HasColumnName("N_Memo");
+            entity.Property(e => e.NOrder).HasColumnName("N_Order");
+            entity.Property(e => e.NPhone)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("電話")
+                .HasColumnName("N_Phone");
+            entity.Property(e => e.NStatus)
+                .HasComment("是否上架")
+                .HasColumnName("N_Status");
+            entity.Property(e => e.NTitle)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("標題")
+                .HasColumnName("N_Title");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");

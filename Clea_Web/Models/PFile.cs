@@ -34,6 +34,8 @@ public partial class PFile
 
     public int? FOrder { get; set; }
 
+    public int? FRoleType { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }

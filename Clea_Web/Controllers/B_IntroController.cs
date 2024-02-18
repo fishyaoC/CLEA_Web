@@ -184,5 +184,132 @@ namespace Clea_Web.Controllers
         #endregion
 
         #endregion
+
+        #region 本會位置 Nav
+        #region 查詢
+        public IActionResult NavIndex(String? data, Int32? page)
+        {
+            IntroViewModel.SchModel vmd = new IntroViewModel.SchModel();
+            page = page ?? 1;
+
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<IntroViewModel.SchItem>(value: data);
+
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new IntroViewModel.SchItem();
+            }
+
+            vmd.schPageList2 = _IntroService.schPagesNav(vmd.schItem, page.Value, 15);
+            //foreach (var item in vmd.schPageList2)
+            //{
+            //    SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(Guid.Parse(item.Uid))).FirstOrDefault();
+            //    if (sf != null)
+            //    {
+            //        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            //        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+            //        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+            //        item.IMG = Convert.ToBase64String(imageBytes);
+            //    }
+            //}
+
+            return View(vmd);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NavIndex(IntroViewModel.SchModel vmd)
+        {
+            vmd.schPageList2 = _IntroService.schPagesNav(vmd.schItem, 1, 15);
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            //foreach (var item in vmd.schPageList2)
+            //{
+            //    SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(Guid.Parse(item.Uid))).FirstOrDefault();
+            //    if (sf != null)
+            //    {
+            //        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            //        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+            //        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+            //        item.IMG = Convert.ToBase64String(imageBytes);
+            //    }
+            //}
+            return View(vmd);
+        }
+        #endregion
+
+        #region 新增/編輯
+        public IActionResult NavModify(Guid Uid)
+        {
+            IntroViewModel.Nav? vm = new IntroViewModel.Nav();
+
+            if (Uid != null)
+            {
+                //編輯
+                vm = _IntroService.GetEditDataNav(Uid);
+            }
+            else
+            {
+                //新增
+                vm = new IntroViewModel.Nav();
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult NavModify(IntroViewModel.Nav vm)
+        {
+            _IntroService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.SaveDataNav(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("Nav");
+        }
+
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult DeleteNav(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.DelDataNav(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+        #endregion
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult Delete(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.DelData(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+        #endregion
     }
 }
