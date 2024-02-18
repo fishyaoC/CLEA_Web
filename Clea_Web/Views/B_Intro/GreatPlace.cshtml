@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Clea_Web.ViewModels.BannerViewModel.SchModel
+@model Clea_Web.ViewModels.IntroViewModel.SchModel
 
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
@@ -18,22 +18,16 @@
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","B_Banner")">
+                        <form class="forms-sample" id="search-form" method="post" action="@Url.Action("GreatPlace","B_Intro")">
                             @Html.AntiForgeryToken()
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="exampleInputName1">輪播圖名稱</label>
-                                        @Html.TextBoxFor(x => x.schItem.BannerName, new { id="search1",@class = "form-control form-control", placeholder = "輪播圖名稱" })
+                                        <label for="exampleInputName1">標題</label>
+                                        @Html.TextBoxFor(x => x.schItem.Title, new { id="search1",@class = "form-control form-control", placeholder = "標題" })
 
                                     </div>
                                 </div>
-                                @*<div class="col-md-6">
-                                <div class="form-group">
-                                <label for="exampleInputName1">相關連結分類</label>
-                                @Html.DropDownListFor(x=>x.schItem.Class, Model.DropDownItem, new { id="search2",@class = "form-control form-control" })
-                                </div>
-                                </div>*@
                             </div>
                             <div class="d-flex">
                                 <button type="submit" class="btn btn-primary mr-2">搜尋</button>
@@ -47,14 +41,14 @@
         <!--搜尋End-->
         <!--動作-->
         <div class="mb-2 mt-2">
-            <a href="@Url.Action("Modify","B_Banner", new{Uid = ""})" class="btn btn-info">新增</a>
+            <a href="@Url.Action("GreatPlaceModify","B_Intro", new{Uid = ""})" class="btn btn-info">新增</a>
         </div>
         <!--動作End-->
         <!--資料Table-->
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">輪播圖管理 - 列表</h4>
+                    <h4 class="card-title">合格場地管理 - 列表</h4>
                     @*<p class="card-description">
                     Add class <code>.table</code>
                     </p> *@
@@ -63,13 +57,10 @@
                             <thead>
                                 <tr>
                                     <th>序</th>
-                                    <th>輪播圖名稱</th>
+                                    <th>標題</th>
                                     <th>圖片預覽</th>
-                                    <th>輪播圖連結</th>
-                                    <th>輪播圖起始日</th>
-                                    <th>輪播圖結束日</th>
-                                    <th>排列順序</th>
                                     <th>是否上架</th>
+                                    <th>排列順序</th>
                                     <th>最後編輯人員</th>
                                     <th>最後編輯時間</th>
                                     <th>操作</th>
@@ -86,23 +77,16 @@
                                         rowCount++;
                                         <tr>
                                             <td>@rowCount</td>
-                                            <td>@item.BannerName</td>
-                                            <td>
-                                                <a href="@item.BannerURL">
-                                                    <img style="width: 384px; height:136px; border-radius:0px" src="data:image/jpeg;base64,@item.BannerIMG" />
-                                                </a>
-                                            </td>
-                                            <td>@item.BannerURL</td>
-                                            <td>@item.BannerStart</td>
-                                            <td>@item.BannerEnd</td>
-                                            <td>@item.BannerOrder</td>
-                                            <td>@item.BannerStatus</td>
+                                            <td>@item.Title</td>
+                                            <td><img style="width: 384px; height:136px; border-radius:0px" src="data:image/jpeg;base64,@item.IMG" /></td>
+                                            <td>@item.Status</td>
+                                            <td>@item.Order</td>
                                             <td>@item.updUser</td>
                                             <td>@item.updDate</td>
                                             <td>
                                                 @*編輯、刪除*@
                                                 @* <button type="button" class="btn btn-success">編輯</button> *@
-                                                <a href="@Url.Action("Modify","B_Banner", new{Uid = item.Uid})" class="btn btn-success">編輯</a>
+                                                <a href="@Url.Action("GreatPlaceModify","B_Intro", new{Uid = item.Uid})" class="btn btn-success">編輯</a>
                                                 <button type="button" class="btn btn-danger" onclick="del('@item.Uid')">刪除</button>
                                             </td>
                                         </tr>
@@ -111,7 +95,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="10" align="center">查無資料!</td>
+                                        <td colspan="8" align="center">查無資料!</td>
                                     </tr>
                                 }
                             </tbody>
@@ -143,7 +127,7 @@
             else {
                 $.ajax({
                     type: "POST",
-                    url: '../B_Banner/Delete',
+                    url: '../B_Intro/Delete',
                     data: { Uid: Uid },
                     dataType: "json",
                     success: function (response) {

@@ -48,6 +48,8 @@ namespace Clea_Web
             services.AddTransient<CVService>();
             services.AddTransient<MemberService>();
             services.AddTransient<CompanyService>();
+            services.AddTransient<IntroService>();
+
 
 
 
