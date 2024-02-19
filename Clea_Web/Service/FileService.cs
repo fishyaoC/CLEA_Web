@@ -484,6 +484,10 @@ namespace Clea_Web.Service
             {
                 FModuleStr = "B_Intro/Nav";
             }
+            else if (FModule == 63)
+            {
+                FModuleStr = "B_Intro/ClassInfo";
+            }
             else {
                 FModuleStr = null;
             }

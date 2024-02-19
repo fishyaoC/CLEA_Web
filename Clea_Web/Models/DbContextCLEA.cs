@@ -41,9 +41,9 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<PBanner> PBanners { get; set; }
 
-    public virtual DbSet<PClassMain> PClassMains { get; set; }
+    public virtual DbSet<PClassInfo> PClassInfos { get; set; }
 
-    public virtual DbSet<PClassPerson> PClassPeople { get; set; }
+    public virtual DbSet<PClassMain> PClassMains { get; set; }
 
     public virtual DbSet<PCompanyCv> PCompanyCvs { get; set; }
 
@@ -660,38 +660,11 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
         });
 
-        modelBuilder.Entity<PClassMain>(entity =>
+        modelBuilder.Entity<PClassInfo>(entity =>
         {
-            entity.HasKey(e => e.ClassMainId);
+            entity.HasKey(e => e.Uid).HasName("PK_P_ClassPerson");
 
-            entity.ToTable("P_ClassMain");
-
-            entity.Property(e => e.ClassMainId).ValueGeneratedNever();
-            entity.Property(e => e.CmClassCode)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("CM_ClassCode");
-            entity.Property(e => e.CmClassName)
-                .HasMaxLength(50)
-                .IsUnicode(false)
-                .HasColumnName("CM_ClassName");
-            entity.Property(e => e.CmPlace).HasColumnName("CM_Place");
-            entity.Property(e => e.CmStatus).HasColumnName("CM_Status");
-            entity.Property(e => e.Credate)
-                .HasColumnType("datetime")
-                .HasColumnName("CREDATE");
-            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
-            entity.Property(e => e.Upddate)
-                .HasColumnType("datetime")
-                .HasColumnName("UPDDATE");
-            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
-        });
-
-        modelBuilder.Entity<PClassPerson>(entity =>
-        {
-            entity.HasKey(e => e.Uid);
-
-            entity.ToTable("P_ClassPerson");
+            entity.ToTable("P_ClassInfo");
 
             entity.Property(e => e.Uid).ValueGeneratedNever();
             entity.Property(e => e.CLinelink)
@@ -704,6 +677,7 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("姓名")
                 .HasColumnName("C_Name");
+            entity.Property(e => e.COrder).HasColumnName("C_Order");
             entity.Property(e => e.CPhone)
                 .HasMaxLength(150)
                 .IsUnicode(false)
@@ -722,6 +696,33 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("負責地區")
                 .HasColumnName("C_WorkPlace");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PClassMain>(entity =>
+        {
+            entity.HasKey(e => e.ClassMainId);
+
+            entity.ToTable("P_ClassMain");
+
+            entity.Property(e => e.ClassMainId).ValueGeneratedNever();
+            entity.Property(e => e.CmClassCode)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("CM_ClassCode");
+            entity.Property(e => e.CmClassName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("CM_ClassName");
+            entity.Property(e => e.CmPlace).HasColumnName("CM_Place");
+            entity.Property(e => e.CmStatus).HasColumnName("CM_Status");
             entity.Property(e => e.Credate)
                 .HasColumnType("datetime")
                 .HasColumnName("CREDATE");

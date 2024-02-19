@@ -42,7 +42,24 @@ namespace Clea_Web.Filters
             //組合Url
             //String Url = "/" + _controller + "/Index";
             String _QString = context.HttpContext.Request.QueryString.Value;
-            String Url = "/" + _controller + "/" + _action;
+            //String Url = "/" + _controller + "/" + _action;
+
+            String Url = "/" + _controller + "/";
+            if (_action.Contains("Index"))
+            {
+                Url += _action;
+            }
+            else if (_action.Contains("Modify"))
+            {
+                string NewUrl = _action.Substring(0, _action.Length - 6) + "Index";
+                Url += NewUrl;
+            }
+            else
+            {
+                Url += "Index";
+            }
+
+
             //取得USER POWER
             var user = context.HttpContext.User;
             var claims = user.Identities.First().Claims.ToArray();

@@ -2,25 +2,25 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Clea_Web.ViewModels.IntroViewModel.Rate
+@model Clea_Web.ViewModels.IntroViewModel.ClassInfo;
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
     dbContext db = new dbContext();
 }
 
 <div class="content-wrapper">
-    <form class="form-sample" method="post" action="@Url.Action("Rate","B_Intro")" enctype='multipart/form-data'>
+    <form class="form-sample" method="post" action="@Url.Action("ClassInfoModify","B_Intro")" enctype='multipart/form-data'>
         <div class="mb-2 mt-2">
             <button type="submit" class="btn btn-info">儲存</button>
             @* <button type="button" class="btn btn-secondary">取消</button> *@
-            <a href="@Url.Action("Index","B_Home")" class="btn btn-secondary">取消</a>
+            <a href="@Url.Action("ClassInfoIndex","B_Intro")" class="btn btn-secondary">取消</a>
         </div>
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            收退費標準管理 - @(Model.IsEdit ? "編輯" : "新增")
+                            課程及承辦資訊管理 - @(Model.IsEdit ? "編輯" : "新增")
                         </h4>
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
@@ -30,23 +30,43 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.Title, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.Name, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "收退費標準標題" })
-                                        @Html.ValidationMessageFor(x=>x.Title)
+                                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control form-control", placeholder = "承辦姓名" })
+                                        @Html.ValidationMessageFor(x=>x.Name)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.Memo, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.Phone, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Memo, new { @class = "form-control form-control", placeholder = "收退費標準備註" })
-                                        @Html.ValidationMessageFor(x=>x.Memo)
+                                        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control form-control", placeholder = "聯絡資訊" })
+                                        @Html.ValidationMessageFor(x=>x.Phone)
                                     </div>
                                 </div>
                             </div>
-                        </div>                      
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Work, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Work, new { @class = "form-control form-control", placeholder = "負責業務" })
+                                        @Html.ValidationMessageFor(x=>x.Work)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.WorkPlace, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.WorkPlace, Model.DropDownRegionItem, new { @class = "form-control form-control" })
+                                        @Html.ValidationMessageFor(x=>x.WorkPlace)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -67,6 +87,26 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Order, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Order, new { @class = "form-control form-control", placeholder = "排列順序" })
+                                        @Html.ValidationMessageFor(x=>x.Order)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.LineLink, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.LineLink, new { @class = "form-control form-control", placeholder = "Line好友連結" })
+                                        @Html.ValidationMessageFor(x=>x.LineLink)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -80,7 +120,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">輪播圖上傳</label>
+                                    <label class="col-sm-3 col-form-label">LINE QRCORD上傳</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload" })
                                         @Html.ValidationMessageFor(x => x.file)

@@ -15,6 +15,8 @@ namespace Clea_Web.Service
     {
         private IntroViewModel.Rate vm = new IntroViewModel.Rate();
         private IntroViewModel.Nav vmNav = new IntroViewModel.Nav();
+        private IntroViewModel.ClassInfo vmClassInfo = new IntroViewModel.ClassInfo();
+
 
         private FileService _fileservice;
         private IConfiguration configuration;
@@ -447,8 +449,180 @@ namespace Clea_Web.Service
 
         #endregion
 
+        #region 課程及承辦資訊 ClassInfo
+
+        #region 查詢
+        public IPagedList<IntroViewModel.schPageList> schPagesClassInfo(IntroViewModel.SchItem data, Int32 page, Int32 pagesize)
+        {
+            //var result = GetPageLists(data);
+
+            //return result.ToPagedList(page, pagesize);
+            return GetPageListsClassInfo(data).ToPagedList(page, pagesize);
+
+        }
+
+        public List<IntroViewModel.schPageList> GetPageListsClassInfo(IntroViewModel.SchItem data)
+        {
+            List<IntroViewModel.schPageList> result = new List<IntroViewModel.schPageList>();
+
+            result = (from pClassInfo in db.PClassInfos
+                      where
+                      (
+                      (string.IsNullOrEmpty(data.Title) || pClassInfo.CName.Contains(data.Title))
+                      )
+                      select new IntroViewModel.schPageList
+                      {
+                          Uid = pClassInfo.Uid.ToString(),
+                          Title = pClassInfo.CName,
+                          Order = pClassInfo.COrder,
+                          Status = pClassInfo.CStatus == true ? "是" : "否",
+                          updDate = pClassInfo.Upddate == null ? pClassInfo.Credate.ToShortDateString() : pClassInfo.Upddate.Value.ToShortDateString(),
+                          updUser = (from user in db.SysUsers where (pClassInfo.Upduser == null ? pClassInfo.Creuser : pClassInfo.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
+                          //BannerIMG = (from file in db.SysFiles where (Banner.BannerId.Equals(file.FMatchKey)) select file).FirstOrDefault().UName,
+                      }).OrderByDescending(x => x.Order).ToList();
+
+            return result;
+        }
+        #endregion
+
+        #region 新增/編輯
+        public IntroViewModel.ClassInfo GetEditDataClassInfo(Guid Uid)
+        {
+            //撈資料
+            PClassInfo? pClassInfo = db.PClassInfos.Where(x => x.Uid.Equals(Uid)).FirstOrDefault();
+            vmClassInfo = new IntroViewModel.ClassInfo();
+
+            if (pClassInfo != null)
+            {
+                vmClassInfo.Uid = pClassInfo.Uid;
+                vmClassInfo.Name = pClassInfo.CName;
+                vmClassInfo.Work = pClassInfo.CWork;
+                //vmClassInfo.WorkPlace = db.SysCodes.Where(x=>x.CParentCode.Equals("region") && x.CItemCode.Equals(pClassInfo.CWorkPlace)).FirstOrDefault().CItemName;
+                vmClassInfo.WorkPlace = pClassInfo.CWorkPlace;
+                vmClassInfo.Phone = pClassInfo.CPhone;
+                vmClassInfo.LineLink = pClassInfo.CLinelink;
+                vmClassInfo.Order = pClassInfo.COrder;
+                vmClassInfo.Status = pClassInfo.CStatus;
+                SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(pClassInfo.Uid)).FirstOrDefault();
+                if (sf != null)
+                {
+                    string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                    string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                    vmClassInfo.IMG = Convert.ToBase64String(imageBytes);
+                }
+                vmClassInfo.IsEdit = true;
+            }
+            else
+            {
+                //新增
+                vmClassInfo.IsEdit = false;
+                String filePath = "./SampleFile/1920x680.gif";
+                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                vmClassInfo.IMG = Convert.ToBase64String(imageBytes);
+            }
+            vmClassInfo.DropDownRegionItem = getRegionItem();
+            return vmClassInfo;
+        }
+        #endregion
+
+        #region 儲存
+        public BaseViewModel.errorMsg SaveDataClassInfo(IntroViewModel.ClassInfo vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                PClassInfo? pClassInfo = db.PClassInfos.Find(vm.Uid);
+
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    pClassInfo.CName = vm.Name;
+                    pClassInfo.CWork = vm.Work;
+                    pClassInfo.CWorkPlace = vm.WorkPlace;
+                    pClassInfo.CLinelink = vm.LineLink;
+                    pClassInfo.CPhone = vm.Phone;
+                    pClassInfo.CStatus = vm.Status;
+                    pClassInfo.COrder = vm.Order;
+                    pClassInfo.Upduser = Guid.Parse(GetUserID(user));
+                    pClassInfo.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    pClassInfo = new PClassInfo();
+                    pClassInfo.Uid = Guid.NewGuid();
+                    pClassInfo.CName = vm.Name;
+                    pClassInfo.CWork = vm.Work;
+                    pClassInfo.CWorkPlace = vm.WorkPlace;
+                    pClassInfo.CLinelink = vm.LineLink;
+                    pClassInfo.CPhone = vm.Phone;
+                    pClassInfo.CStatus = vm.Status;
+                    pClassInfo.COrder = vm.Order;
+                    pClassInfo.Creuser = Guid.Parse(GetUserID(user));
+                    pClassInfo.Credate = DateTime.Now;
+                    db.PClassInfos.Add(pClassInfo);
+                }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadIntro(pClassInfo.Uid, vm.file, 63);
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
 
         #region 刪除
+        public BaseViewModel.errorMsg DelDataClassInfo(Guid Uid)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            PClassInfo pClassInfo = db.PClassInfos.Find(Uid);
+            vm = new IntroViewModel.Rate();
+
+            try
+            {
+                db.PClassInfos.Remove(pClassInfo);
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region 刪除 pFile
         public BaseViewModel.errorMsg DelData(Guid Uid)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
@@ -470,6 +644,23 @@ namespace Clea_Web.Service
             return result;
         }
 
+        #endregion
+
+        #region 負責地區分類_選單
+        public List<SelectListItem> getRegionItem()
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+            List<SysCode> lst_cLectors = db.SysCodes.Where(x => x.CParentCode == "region").ToList();
+            if (lst_cLectors != null && lst_cLectors.Count() > 0)
+            {
+                foreach (SysCode L in lst_cLectors)
+                {
+                    result.Add(new SelectListItem() { Text = L.CItemName, Value = L.CItemCode.ToString() });
+                }
+            }
+            return result;
+        }
         #endregion
 
     }

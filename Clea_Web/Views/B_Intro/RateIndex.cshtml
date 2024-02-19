@@ -2,25 +2,25 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model Clea_Web.ViewModels.IntroViewModel.Nav
+@model Clea_Web.ViewModels.IntroViewModel.Rate
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
     dbContext db = new dbContext();
 }
 
 <div class="content-wrapper">
-    <form class="form-sample" method="post" action="@Url.Action("NavModify","B_Intro")" enctype='multipart/form-data'>
+    <form class="form-sample" method="post" action="@Url.Action("RateIndex","B_Intro")" enctype='multipart/form-data'>
         <div class="mb-2 mt-2">
             <button type="submit" class="btn btn-info">儲存</button>
             @* <button type="button" class="btn btn-secondary">取消</button> *@
-            <a href="@Url.Action("NavIndex","B_Intro")" class="btn btn-secondary">取消</a>
+            <a href="@Url.Action("Index","B_Home")" class="btn btn-secondary">取消</a>
         </div>
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            合格場地管理 - @(Model.IsEdit ? "編輯" : "新增")
+                            收退費標準管理 - @(Model.IsEdit ? "編輯" : "新增")
                         </h4>
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
@@ -32,41 +32,21 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.Title, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "標題" })
+                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "收退費標準標題" })
                                         @Html.ValidationMessageFor(x=>x.Title)
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.Address, new { @class = "col-sm-3 col-form-label" })
+                                    @Html.LabelFor(x => x.Memo, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Address, new { @class = "form-control form-control", placeholder = "地址" })
-                                        @Html.ValidationMessageFor(x=>x.Address)
+                                        @Html.TextBoxFor(x => x.Memo, new { @class = "form-control form-control", placeholder = "收退費標準備註" })
+                                        @Html.ValidationMessageFor(x=>x.Memo)
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.Phone, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control form-control", placeholder = "連絡電話" })
-                                        @Html.ValidationMessageFor(x=>x.Phone)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.Fax, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Fax, new { @class = "form-control form-control", placeholder = "傳真" })
-                                        @Html.ValidationMessageFor(x=>x.Fax)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div>                      
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
@@ -87,26 +67,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.Order, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Order, new { @class = "form-control form-control", placeholder = "排列順序" })
-                                        @Html.ValidationMessageFor(x=>x.Order)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.Embed, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Embed, new { @class = "form-control form-control", placeholder = "GoogleMap內嵌地圖" })
-                                        @Html.ValidationMessageFor(x=>x.Embed)
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -120,7 +80,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">簡圖上傳</label>
+                                    <label class="col-sm-3 col-form-label">輪播圖上傳</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload" })
                                         @Html.ValidationMessageFor(x => x.file)

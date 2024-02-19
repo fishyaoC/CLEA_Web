@@ -33,7 +33,7 @@ namespace Clea_Web.Controllers
         }
 
         #region 收退費標準編輯Rate
-        public IActionResult Rate()
+        public IActionResult RateIndex()
         {
             IntroViewModel.Rate? vm = new IntroViewModel.Rate();
 
@@ -47,7 +47,7 @@ namespace Clea_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Rate(IntroViewModel.Rate vm)
+        public IActionResult RateIndex(IntroViewModel.Rate vm)
         {
             _IntroService.user = User;
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
@@ -66,14 +66,14 @@ namespace Clea_Web.Controllers
                 TempData["TempMsg"] = error.ErrorMsg;
             }
 
-            return RedirectToAction("Rate");
+            return RedirectToAction("RateIndex");
         }
         #endregion
 
         #region 合格場地GreatPlace
 
         #region 查詢
-        public IActionResult GreatPlace(String? data, Int32? page)
+        public IActionResult GreatPlaceIndex(String? data, Int32? page)
         {
             IntroViewModel.SchModel vmd = new IntroViewModel.SchModel();
             page = page ?? 1;
@@ -107,7 +107,7 @@ namespace Clea_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult GreatPlace(IntroViewModel.SchModel vmd)
+        public IActionResult GreatPlaceIndex(IntroViewModel.SchModel vmd)
         {
             vmd.schPageList2 = _IntroService.schPages(vmd.schItem, 1, 15);
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
@@ -166,7 +166,7 @@ namespace Clea_Web.Controllers
                 TempData["TempMsg"] = error.ErrorMsg;
             }
 
-            return RedirectToAction("GreatPlace");
+            return RedirectToAction("GreatPlaceIndex");
         }
         #endregion
 
@@ -280,7 +280,7 @@ namespace Clea_Web.Controllers
                 TempData["TempMsg"] = error.ErrorMsg;
             }
 
-            return RedirectToAction("Nav");
+            return RedirectToAction("NavIndex");
         }
 
 
@@ -298,6 +298,123 @@ namespace Clea_Web.Controllers
         #endregion
         #endregion
 
+        #endregion
+
+        #region 課程及承辦資訊
+        #region 查詢
+        public IActionResult ClassInfoIndex(String? data, Int32? page)
+        {
+            IntroViewModel.SchModel vmd = new IntroViewModel.SchModel();
+            page = page ?? 1;
+
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<IntroViewModel.SchItem>(value: data);
+
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new IntroViewModel.SchItem();
+            }
+
+            vmd.schPageList2 = _IntroService.schPagesClassInfo(vmd.schItem, page.Value, 15);
+            //foreach (var item in vmd.schPageList2)
+            //{
+            //    SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(Guid.Parse(item.Uid))).FirstOrDefault();
+            //    if (sf != null)
+            //    {
+            //        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            //        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+            //        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+            //        item.IMG = Convert.ToBase64String(imageBytes);
+            //    }
+            //}
+
+            return View(vmd);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ClassInfoIndex(IntroViewModel.SchModel vmd)
+        {
+            vmd.schPageList2 = _IntroService.schPagesClassInfo(vmd.schItem, 1, 15);
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            //foreach (var item in vmd.schPageList2)
+            //{
+            //    SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(Guid.Parse(item.Uid))).FirstOrDefault();
+            //    if (sf != null)
+            //    {
+            //        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            //        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+            //        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+            //        item.IMG = Convert.ToBase64String(imageBytes);
+            //    }
+            //}
+            return View(vmd);
+        }
+        #endregion
+
+        #region 新增/編輯
+        public IActionResult ClassInfoModify(Guid Uid)
+        {
+            IntroViewModel.ClassInfo? vm = new IntroViewModel.ClassInfo();
+
+            if (Uid != null)
+            {
+                //編輯
+                vm = _IntroService.GetEditDataClassInfo(Uid);
+            }
+            else
+            {
+                //新增
+                vm = new IntroViewModel.ClassInfo();
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ClassInfoModify(IntroViewModel.ClassInfo vm)
+        {
+            _IntroService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.SaveDataClassInfo(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("ClassInfoIndex");
+        }
+
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult DeleteClassInfo(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.DelDataNav(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+        #endregion
+
+        #endregion
+
         #region 刪除
 
         [HttpPost]
@@ -309,7 +426,6 @@ namespace Clea_Web.Controllers
             return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
             //return RedirectToAction("Index", new { msg = error });
         }
-        #endregion
         #endregion
     }
 }

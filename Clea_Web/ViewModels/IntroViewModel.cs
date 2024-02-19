@@ -67,7 +67,6 @@ namespace Clea_Web.ViewModels
 
         }
 
-
         public class Nav
         {
 
@@ -140,6 +139,78 @@ namespace Clea_Web.ViewModels
             [DisplayName("內嵌地圖")]
             [Required(ErrorMessage = "必填項目!")]
             public string Embed { get; set; }
+
+            [DisplayName("編輯狀態")]
+            public Boolean IsEdit { get; set; }
+
+        }
+
+        public class ClassInfo
+        {
+            public List<SelectListItem> DropDownRegionItem { get; set; }
+
+            [DisplayName("Uid")]
+            public Guid Uid { get; set; }
+
+            [DisplayName("上傳檔案")]
+            public IFormFile? file { get; set; }
+
+            /// <summary>
+            /// 承辦姓名
+            /// </summary>
+            [DisplayName("承辦姓名")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string Name { get; set; }
+
+            /// <summary>
+            /// 承辦業務
+            /// </summary>
+            [DisplayName("承辦業務")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string Work { get; set; }
+
+            /// <summary>
+            /// 排列順序
+            /// </summary>
+            [DisplayName("排列順序")]
+            [Required(ErrorMessage = "必填項目!")]
+            public int Order { get; set; }
+
+            /// <summary>
+            /// 是否上架
+            /// </summary>
+            [DisplayName("是否上架")]
+            [Required(ErrorMessage = "必填項目!")]
+            public bool Status { get; set; }
+
+            /// <summary>
+            /// 圖片預覽
+            /// </summary>
+            [DisplayName("圖片預覽")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string IMG { get; set; }
+
+
+            /// <summary>
+            /// 負責地區
+            /// </summary>
+            [DisplayName("負責地區")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string WorkPlace { get; set; }
+
+            /// <summary>
+            /// 聯絡資訊
+            /// </summary>
+            [DisplayName("聯絡資訊")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string Phone { get; set; }
+
+            /// <summary>
+            /// Line好友連結
+            /// </summary>
+            [DisplayName("Line好友連結")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string LineLink { get; set; }
 
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }
