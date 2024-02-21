@@ -16,6 +16,8 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
+            public List<SelectListItem> DropDownLevel { get; set; }
+
             [DisplayName("Uid")]
             public Guid Uid { get; set; }
 
@@ -37,7 +39,6 @@ namespace Clea_Web.ViewModels
             /// 密碼
             /// </summary>
             [DisplayName("密碼")]
-            [Required(ErrorMessage = "必填項目!")]
             public string? Password { get; set; }
 
             /// <summary>
@@ -67,6 +68,13 @@ namespace Clea_Web.ViewModels
             [DisplayName("公司地址")]
             [Required(ErrorMessage = "必填項目!")]
             public string? Address { get; set; }
+
+            /// <summary>
+            /// 會員等級
+            /// </summary>
+            [DisplayName("會員等級")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string? Level { get; set; }
 
             /// <summary>
             /// 電子郵件

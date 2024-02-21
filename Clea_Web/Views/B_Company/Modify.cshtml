@@ -114,21 +114,32 @@
                                         後台編輯區域
                                     </h4>
                                     <div class="card-body">
-                                        <div class="col-md-6">
-                                            <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">是否上架</label>
-                                                <div class="col-sm-9 d-flex justify-content-around">
-                                                    <div class="form-check">
-                                                        @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
-                                                        <label for="TypeY">
-                                                            是
-                                                        </label>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    @Html.LabelFor(x => x.Level, new { @class = "col-sm-3 col-form-label" })
+                                                    <div class="col-sm-9">
+                                                        @Html.DropDownListFor(x => x.Level, Model.DropDownLevel, new { @class = "form-control form-control" })
+                                                        @Html.ValidationMessageFor(x=>x.Level)
                                                     </div>
-                                                    <div class="form-check">
-                                                        @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
-                                                        <label for="TypeN">
-                                                            否
-                                                        </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-3 col-form-label">是否上架</label>
+                                                    <div class="col-sm-9 d-flex justify-content-around">
+                                                        <div class="form-check">
+                                                            @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
+                                                            <label for="TypeY">
+                                                                是
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
+                                                            <label for="TypeN">
+                                                                否
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

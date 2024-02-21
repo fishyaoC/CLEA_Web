@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            一般會員管理 - @(Model.IsEdit ? "編輯" : "新增")
+                            檔案下載管理 - @(Model.IsEdit ? "編輯" : "新增")
                         </h4>
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
@@ -79,7 +79,6 @@
                                     <label for="exampleInputName" class="col-sm-3 col-form-label">選擇指定課程(非必填)</label>
                                     <div class="col-sm-9">
                                         @Html.DropDownListFor(x => x.Level, Model.DropDownClassID, new { @class = "form-control form-control" })
-                                        @Html.ValidationMessageFor(x=>x.Level)
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +103,7 @@
                                             {
                                                 <div>
                                                     <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = item.FilePath,FileName = item.FileName})" class="btn btn-success">@item.FileName</a>
-                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@Model.Uid')"></button>
+                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@item.FileID')"></button>
                                                 </div>
                                             }
                                         }
@@ -118,10 +117,98 @@
                                 </div>
                             </div>
                         </div>
-                                               
+
                     </div>
                 </div>
             </div>
         </div>
     </form>
 </div>
+
+<script>
+    function displayUploadedFiles(input) {
+        var files = input.files;
+        var uploadedFilesDiv = document.getElementById('uploadedFiles');
+        uploadedFilesDiv.innerHTML = '';
+
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var fileName = files[i].name;
+                var fileLink = document.createElement('a');
+                fileLink.href = "#"; // Replace with the appropriate URL
+                fileLink.innerText = fileName;
+                uploadedFilesDiv.appendChild(fileLink);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.type = "button";
+                deleteButton.className = "ti-close btn-icon btn btn-danger btn-rounded";
+                deleteButton.onclick = function () { /* Handle delete functionality here */ };
+                uploadedFilesDiv.appendChild(deleteButton);
+
+                uploadedFilesDiv.appendChild(document.createElement('br'));
+            }
+        } else {
+            uploadedFilesDiv.innerHTML = '無檔案';
+        }
+    }
+
+    function del(Uid) {
+        //刪除按紐
+        Swal.fire({
+            title: '是否確定要刪除檔案？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            heightAuto: false
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '../B_File/DeleteFile',
+                    data: { Uid: Uid },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.chk) {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'success',
+                                title: '刪除成功'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'warning',
+                                title: '刪除失敗',
+                                text: response.msg
+                            });
+                        }
+                    },
+                    error: function (thrownError) {
+                        Swal.fire({
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '確定',
+                            heightAuto: false,
+                            icon: 'warning',
+                            title: '刪除失敗',
+                            text: '系統異常，請洽管理員'
+                        });
+                    }
+                });
+            }
+
+        })
+    }
+</script>

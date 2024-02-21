@@ -123,7 +123,7 @@
                                             {
                                                 <div>
                                                     <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = item.FilePath,FileName = item.FileName})" class="btn btn-success">@item.FileName</a>
-                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@Model.NewsId')"></button>
+                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@item.FileID')"></button>
                                                 </div>
                                             }
                                         }

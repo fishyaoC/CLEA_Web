@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using NPOI.POIFS.Crypt.Dsig;
 using NPOI.SS.Formula.Functions;
@@ -57,7 +58,7 @@ namespace Clea_Web.Service
                           Uid = pFile.FileId.ToString(),
                           Title = pFile.FTitle,
                           Class = (from code in db.SysCodes where code.CParentCode.Equals("fileDownload") && pFile.FClass.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
-                          Level = (from code in db.SysCodes where code.CParentCode.Equals("MemberLevel") && pFile.FLevel.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
+                          Level = (from code in db.SysCodes where code.CParentCode.Equals("MemberLevel") && pFile.FLevel.ToString().Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Status = pFile.FStatus == true ? "是" : "否",
                           updDate = pFile.Upddate == null ? pFile.Credate.ToShortDateString() : pFile.Upddate.Value.ToShortDateString(),
                           updUser = (from user in db.SysUsers where (pFile.Upduser == null ? pFile.Creuser : pFile.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
@@ -106,6 +107,26 @@ namespace Clea_Web.Service
                 }
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadMultFile(pFile.FileId, vm.file, 27);
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                    _fileservice.user = user;
+                }
+
             }
             catch (Exception e)
             {
@@ -123,6 +144,7 @@ namespace Clea_Web.Service
             //撈資料
             PFile? pFile = db.PFiles.Where(x => x.FileId.Equals(Uid)).FirstOrDefault();
             vm = new FileDownloadViewModel.Modify();
+            List<SysFile> sfList = db.SysFiles.Where(x => x.FMatchKey == Uid).ToList();
 
             if (pFile != null)
             {
@@ -145,6 +167,21 @@ namespace Clea_Web.Service
             vm.DropDownClassID = getClassIDItem();
             vm.DropDownLevel = getLevelItem();
 
+            if (sfList != null)
+            {
+                foreach (var sf in sfList)
+                {
+                    FileDownloadViewModel.FileModel file = new FileDownloadViewModel.FileModel();
+                    file.FileID = sf.FileId;
+                    file.FileName = sf.FFullName;
+                    string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                    string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                    file.FilePath = filePath;
+
+                    vm.fileModels.Add(file);
+                }
+            }
+
             return vm;
         }
         #endregion
@@ -161,6 +198,32 @@ namespace Clea_Web.Service
             try
             {
                 db.PFiles.Remove(pFile);
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
+
+        #region 刪除檔案
+        public BaseViewModel.errorMsg DelFile(Guid Uid)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            SysFile sf = db.SysFiles.Where(x => x.FileId == Uid).FirstOrDefault();
+            //PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
+            //vm = new BtnViewModel.Modify();
+
+            try
+            {
+                //db.PNews.Remove(_PNews);
+                db.SysFiles.Remove(sf);
             }
             catch (Exception e)
             {
@@ -206,7 +269,6 @@ namespace Clea_Web.Service
             return result;
         }
         #endregion
-
 
         #region 課程_選單
         public List<SelectListItem> getClassIDItem()

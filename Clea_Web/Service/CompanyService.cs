@@ -88,6 +88,7 @@ namespace Clea_Web.Service
                     pMember.MCellPhone = vm.CellPhone;
                     pMember.MContact = vm.Contact;
                     pMember.MAddress = vm.Address;
+                    pMember.MLevel = vm.Level;
                     pMember.MEmail = vm.EMail;
                     pMember.MStatus = vm.Status;
                     pMember.Upduser = Guid.Parse(GetUserID(user));
@@ -108,6 +109,7 @@ namespace Clea_Web.Service
                     pMember.MCellPhone = vm.CellPhone;
                     pMember.MContact = vm.Contact;
                     pMember.MAddress = vm.Address;
+                    pMember.MLevel = vm.Level;
                     pMember.MEmail = vm.EMail;
                     pMember.MStatus = vm.Status;
                     pMember.MType = 2;
@@ -146,7 +148,7 @@ namespace Clea_Web.Service
                 vm.Address = pMember.MAddress;
                 vm.EMail = pMember.MEmail;
                 vm.Status = pMember.MStatus;
-
+                vm.Level = pMember.MLevel;
                 vm.IsEdit = true;
             }
             else
@@ -154,6 +156,8 @@ namespace Clea_Web.Service
                 //新增
                 vm.IsEdit = false;
             }
+            vm.DropDownLevel = getLevelItem();
+
             return vm;
         }
         #endregion
@@ -210,6 +214,23 @@ namespace Clea_Web.Service
                 foreach (PMember L in lst_cLectors)
                 {
                     result.Add(new SelectListItem() { Text = L.MName, Value = L.Uid.ToString() });
+                }
+            }
+            return result;
+        }
+        #endregion
+
+        #region 會員等級_選單
+        public List<SelectListItem> getLevelItem()
+        {
+            List<SelectListItem> result = new List<SelectListItem>();
+            result.Add(new SelectListItem() { Text = "請選擇", Value = string.Empty });
+            List<SysCode> lst_cLectors = db.SysCodes.Where(x => x.CParentCode == "MemberLevel").OrderBy(x => x.CItemOrder).ToList();
+            if (lst_cLectors != null && lst_cLectors.Count() > 0)
+            {
+                foreach (SysCode L in lst_cLectors)
+                {
+                    result.Add(new SelectListItem() { Text = L.CItemName, Value = L.CItemCode.ToString() });
                 }
             }
             return result;

@@ -13,6 +13,16 @@ namespace Clea_Web.ViewModels
         public Modify modify { get; set; }
         public SchModel schModel { get; set; }
 
+        public class FileModel
+        {
+            [DisplayName("檔案路徑")]
+            public String? FilePath { get; set; }
+            [DisplayName("檔案名稱")]
+            public String? FileName { get; set; }
+            [DisplayName("檔案PK")]
+            public Guid? FileID { get; set; }
+        }
+
         #region Index
         public class SchModel
         {
@@ -107,15 +117,14 @@ namespace Clea_Web.ViewModels
             public Boolean IsEdit { get; set; }
 
             [DisplayName("上傳檔案")]
-            public IFormFile? file { get; set; }
+            public List<IFormFile>? file { get; set; }
             [DisplayName("檔案路徑")]
             public String? FilePath { get; set; }
             [DisplayName("檔案名稱")]
             public String? FileName { get; set; }
             [DisplayName("檔案PK")]
             public Guid? FileID { get; set; }
-
-            public List<FileModel> fileModels { get; set; }
+            public List<FileModel> fileModels { get; set; } = new List<FileModel>();
 
         }
         #endregion

@@ -128,5 +128,18 @@ namespace Clea_Web.Controllers
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
+
+        #region 刪除檔案
+
+        [HttpPost]
+        public IActionResult DeleteFile(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _FileDownloadService.DelFile(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
     }
 }

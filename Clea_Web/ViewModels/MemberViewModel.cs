@@ -39,7 +39,6 @@ namespace Clea_Web.ViewModels
             /// 密碼
             /// </summary>
             [DisplayName("密碼")]
-            [Required(ErrorMessage = "必填項目!")]
             public string? Password { get; set; }
 
             /// <summary>

@@ -395,6 +395,10 @@ namespace Clea_Web.Service
             {
                 ModuleStr = "B_LectorBtn";
             }
+            else if (MID == 27)
+            {
+                ModuleStr = "B_File";
+            }
             else if (MID == 29)
             {
                 ModuleStr = "B_Btn";

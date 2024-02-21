@@ -250,12 +250,12 @@ namespace Clea_Web.Service
         #endregion
 
         #region 刪除檔案
-        public BaseViewModel.errorMsg DelFile(Guid NewsId)
+        public BaseViewModel.errorMsg DelFile(Guid Uid)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            SysFile sf = db.SysFiles.Where(x => x.FMatchKey == NewsId).FirstOrDefault();
+            SysFile sf = db.SysFiles.Where(x => x.FileId == Uid).FirstOrDefault();
             //PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
             //vm = new BtnViewModel.Modify();
 
