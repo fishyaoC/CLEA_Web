@@ -4,7 +4,7 @@
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.B_LectorBtnViewModel.SchModel
+@model Clea_Web.ViewModels.BtnViewModel.SchModel
 
 <div class="content-wrapper">
     <div class="row">
@@ -18,7 +18,7 @@
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <form class="forms-sample" method="post" action="@Url.Action("Index","B_LectorBtn")">
+                        <form class="forms-sample" method="post" action="@Url.Action("Index","B_Btn")">
                             @Html.AntiForgeryToken()
                             <div class="row">
                                 <div class="col-md-6">
@@ -74,7 +74,7 @@
 
         <div class="mb-2 mt-2">
 
-            <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = ""})" class="btn btn-info">新增</a>
+            <a href="@Url.Action("Modify","B_Btn", new{NewsID = ""})" class="btn btn-info">新增</a>
             @*<button type="button" class="btn btn-info">新增</button>*@
             @* <button type="button" class="btn btn-danger">刪除</button> *@
         </div>
@@ -91,9 +91,12 @@
                         <table class="table">
                             <thead>
                                 <tr>
+                                    <th>序</th>
                                     <th>公告類型</th>
                                     <th>標題</th>
+                                    <th>權限</th>
                                     <th>公告日期</th>
+                                    <th>閱覽次數</th>
                                     <th>是否顯示</th>
                                     <th>操作</th>
                                 </tr>
@@ -101,19 +104,23 @@
                             <tbody>
                                 @if (Model.schPageList2.Count > 0)
                                 {
+                                    Int32 rowCount = 0;
                                     foreach (var item in Model.schPageList2)
                                     {
+                                        rowCount++;
                                         <tr>
+                                            <td>@rowCount</td>
                                             <td>@item.NClassName</td>
                                             <td>@item.NTitle</td>
+                                            <td>@item.NLevel</td>
                                             <td>@item.NStartDateStr</td>
+                                            <td>@item.ViewCount</td>
                                             <td>@(item.NIsShow ? "是" : "否")</td>
                                             <td>
                                                 @*編輯、刪除*@
                                                 @* <button type="button" class="btn btn-success">編輯</button> *@
-                                                <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
+                                                <a href="@Url.Action("Modify","B_Btn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
                                                 <button type="button" class="btn btn-danger" onclick="del('@item.NewsId')">刪除</button>
-                                                <a href="@Url.Action("ExportExcel","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-primary">匯出尚未已讀的講師</a>
                                             </td>
                                         </tr>
                                     }
@@ -121,7 +128,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="5" align="center">查無資料!</td>
+                                        <td colspan="8" align="center">查無資料!</td>
                                     </tr>
                                 }
                             </tbody>
@@ -154,7 +161,7 @@
             else {
                 $.ajax({
                     type: "POST",
-                    url: '../B_LectorBtn/Delete',
+                    url: '../B_Btn/Delete',
                     data: { Uid: Uid },
                     dataType: "json",
                     success: function (response) {

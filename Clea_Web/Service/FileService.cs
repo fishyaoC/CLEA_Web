@@ -20,6 +20,8 @@ using PdfiumViewer;
 using System.Drawing.Imaging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileSystemGlobbing;
+using System.Reflection;
+using NPOI.Util;
 
 namespace Clea_Web.Service
 {
@@ -272,6 +274,8 @@ namespace Clea_Web.Service
 
             return true;
         }
+
+
         /// <summary>
         /// 公佈欄資料_檔案上傳
         /// </summary>
@@ -279,8 +283,18 @@ namespace Clea_Web.Service
         /// <param name="file">檔案</param>
         /// <param name="overwrite">是否複寫檔案</param>
         /// <returns></returns>
-        public bool UploadNewFile(Guid matchKey, IFormFile file, bool overwrite = true)
+        public bool UploadNewFile(Guid matchKey, IFormFile file, int MID, bool overwrite = true)
         {
+            string ModuleStr = "";
+            if (MID == 6)
+            {
+                ModuleStr = "B_LectorBtn";
+            }
+            else if (MID == 29)
+            {
+                ModuleStr = "B_Btn";
+            }
+
 
             //搜尋檔案資料表
             SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
@@ -321,7 +335,7 @@ namespace Clea_Web.Service
                 sysFile = new SysFile()
                 {
                     FileId = Guid.NewGuid(),
-                    FModule = "B_LectorBtn",
+                    FModule = ModuleStr,
                     FMatchKey = matchKey,
                     FMimeType = GetMimeType(file.FileName),
                     FFullName = file.FileName,
@@ -361,6 +375,152 @@ namespace Clea_Web.Service
             {
                 file.CopyTo(fileStream);
             }
+            db.SaveChanges();
+
+
+            return true;
+        }
+
+        /// <summary>
+        /// 公佈欄資料_多檔案上傳
+        /// </summary>
+        /// <param name="matchKey">MatchKey</param>
+        /// <param name="file">檔案</param>
+        /// <param name="overwrite">是否複寫檔案</param>
+        /// <returns></returns>
+        public bool UploadMultFile(Guid matchKey, List<IFormFile> file, int MID, bool overwrite = true)
+        {
+            string ModuleStr = "";
+            if (MID == 6)
+            {
+                ModuleStr = "B_LectorBtn";
+            }
+            else if (MID == 29)
+            {
+                ModuleStr = "B_Btn";
+            }
+
+
+            //搜尋檔案資料表
+            SysFile? sysFile = db.SysFiles.Where(x => x.FMatchKey == matchKey).FirstOrDefault();
+
+            //刪除
+
+            //如果已經有檔案又沒開複寫就失敗
+            if (sysFile != null && !overwrite)
+            {
+                return false;
+            }
+
+            //取得模組對應的目錄 //課程:Handouts=>H_ppt&H_png、教材:Books=>B_ppt&B_png
+            String directory = sysFile != null ? sysFile.FPath : Guid.NewGuid().ToString();
+            //String directory = mType == 0 ? "Handouts" : "Books";
+
+            //取得失敗
+            if (string.IsNullOrEmpty(directory.ToString()))
+            {
+                return false;
+            }
+
+            string physicalPath = Path.Combine(configuration.GetValue<String>("FileRootPath"), directory);
+
+            //如果不存在建立目錄
+            if (!Directory.Exists(physicalPath))
+            {
+                Directory.CreateDirectory(physicalPath);
+            }
+            else
+            {
+
+            }
+
+            if (sysFile == null)
+            {
+                //新檔案
+                foreach (var item in file)
+                {
+
+                    sysFile = new SysFile()
+                    {
+                        FileId = Guid.NewGuid(),
+                        FModule = ModuleStr,
+                        FMatchKey = matchKey,
+                        FMimeType = GetMimeType(item.FileName),
+                        FFullName = item.FileName,
+                        FNameReal = Path.GetFileNameWithoutExtension(item.FileName),
+                        FNameDl = Guid.NewGuid().ToString(),
+                        FExt = Path.GetExtension(item.FileName).Replace(".", ""),
+                        FPath = directory.ToString(),
+                        FDescription = null,
+                        FOrder = null,
+                        FRemark = null,
+                        Creuser = Guid.Parse(GetUserID(user)),
+                        Credate = DateTime.Now
+                    };
+
+                    db.SysFiles.Add(sysFile);
+
+                    // 上傳
+                    foreach (var itemA in file)
+                    {
+                        string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+                        using (FileStream fileStream = new FileStream(savePath, FileMode.Create))
+                        {
+                            itemA.CopyTo(fileStream);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //已經有檔案
+                List<SysFile> sysFiles = db.SysFiles.Where(x => x.FMatchKey == matchKey).ToList();
+                if (sysFiles.Count > 0)
+                {
+                    foreach (var item in sysFiles)
+                    {
+                        db.SysFiles.Remove(item);
+                    }
+                }
+
+
+                //新檔案
+                foreach (var item in file)
+                {
+
+                    sysFile = new SysFile()
+                    {
+                        FileId = Guid.NewGuid(),
+                        FModule = ModuleStr,
+                        FMatchKey = matchKey,
+                        FMimeType = GetMimeType(item.FileName),
+                        FFullName = item.FileName,
+                        FNameReal = Path.GetFileNameWithoutExtension(item.FileName),
+                        FNameDl = Guid.NewGuid().ToString(),
+                        FExt = Path.GetExtension(item.FileName).Replace(".", ""),
+                        FPath = directory.ToString(),
+                        FDescription = null,
+                        FOrder = null,
+                        FRemark = null,
+                        Creuser = Guid.Parse(GetUserID(user)),
+                        Credate = DateTime.Now
+                    };
+
+                    db.SysFiles.Add(sysFile);
+
+                    // 上傳
+                    foreach (var itemA in file)
+                    {
+                        string savePath = physicalPath + "\\" + sysFile.FNameDl + "." + sysFile.FExt;
+                        using (FileStream fileStream = new FileStream(savePath, FileMode.Create))
+                        {
+                            itemA.CopyTo(fileStream);
+                        }
+                    }
+                }
+            }
+
+
             db.SaveChanges();
 
 
@@ -488,7 +648,8 @@ namespace Clea_Web.Service
             {
                 FModuleStr = "B_Intro/ClassInfo";
             }
-            else {
+            else
+            {
                 FModuleStr = null;
             }
 

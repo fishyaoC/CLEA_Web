@@ -8,9 +8,14 @@ public partial class PFile
     public Guid FileId { get; set; }
 
     /// <summary>
-    /// 檔案模組代碼
+    /// 檔案功能模組代碼
     /// </summary>
     public int FType { get; set; }
+
+    /// <summary>
+    /// 選單分類
+    /// </summary>
+    public string? FClass { get; set; }
 
     /// <summary>
     /// 標題名稱
@@ -34,7 +39,12 @@ public partial class PFile
 
     public int? FOrder { get; set; }
 
-    public int? FRoleType { get; set; }
+    public int? FLevel { get; set; }
+
+    /// <summary>
+    /// 課程UID
+    /// </summary>
+    public Guid? FClassId { get; set; }
 
     public Guid Creuser { get; set; }
 

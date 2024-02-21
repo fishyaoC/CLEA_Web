@@ -837,16 +837,24 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("CREDATE");
             entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.FClass)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasComment("選單分類")
+                .HasColumnName("F_Class");
+            entity.Property(e => e.FClassId)
+                .HasComment("課程UID")
+                .HasColumnName("F_ClassID");
             entity.Property(e => e.FIsTop)
                 .HasComment("是否置頂")
                 .HasColumnName("F_IsTop");
+            entity.Property(e => e.FLevel).HasColumnName("F_Level");
             entity.Property(e => e.FMemo)
                 .HasMaxLength(250)
                 .IsUnicode(false)
                 .HasComment("備註")
                 .HasColumnName("F_Memo");
             entity.Property(e => e.FOrder).HasColumnName("F_Order");
-            entity.Property(e => e.FRoleType).HasColumnName("F_RoleType");
             entity.Property(e => e.FStatus)
                 .HasComment("啟用狀態")
                 .HasColumnName("F_Status");
@@ -856,7 +864,7 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("標題名稱")
                 .HasColumnName("F_Title");
             entity.Property(e => e.FType)
-                .HasComment("檔案模組代碼")
+                .HasComment("檔案功能模組代碼")
                 .HasColumnName("F_Type");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
@@ -1081,6 +1089,10 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.NIsTop)
                 .HasComment("是否置頂")
                 .HasColumnName("N_IsTop");
+            entity.Property(e => e.NLevel)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("N_Level");
             entity.Property(e => e.NRole)
                 .HasComment("true=群發，false=個人")
                 .HasColumnName("N_Role");
@@ -1158,8 +1170,6 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("代碼名稱")
                 .HasColumnName("C_itemName");
             entity.Property(e => e.CItemOrder)
-                .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasComment("排序")
                 .HasColumnName("C_itemOrder");
             entity.Property(e => e.CParentCode)

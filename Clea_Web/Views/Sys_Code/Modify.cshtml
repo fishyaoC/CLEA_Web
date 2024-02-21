@@ -96,32 +96,36 @@
                             <div class="col-md-12">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">選單內容</label>
-                                    <!--萬哲-->
                                     <div class="col-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body" style="background-color:#D0D0D0; border-radius:8px">
-                                                <button type="submit" class="btn btn-info">+新增</button>
-                                                @if (Model.modifies != null)
-                                                {
-                                                    var count = 1;
-                                                    @foreach (var child in Model.modifies)
+                                                <button type="button" class="btn btn-info" id="addNew">+新增</button>
+                                                <div id="modifyContainer">                                                   
+                                                    @if (Model.modifies != null)
                                                     {
-                                                        <div class="col-md-2">
-                                                            <div class="form-group row">
-                                                                <label class="col-sm-3 col-form-label">@count</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group row">
-                                                                <div class="col-sm-9">
-                                                                    @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { @class = "form-control form-control", placeholder = "選單內容" })
+                                                        var count = 1;
+                                                        @foreach (var child in Model.modifies)
+                                                        {
+                                                            @Html.HiddenFor(x => x.modifies[count-1].Order)
+                                                            @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { hidden = "hidden" })
+                                                            <div class="col-md-8">
+                                                                <!-- Combined the columns into one -->
+                                                                <div class="form-group row">
+                                                                    <label class="col-sm-1 col-form-label count">@Model.modifies[count-1].Order</label>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { @class = "form-control form-control", placeholder = "選單內容" })
+                                                                    </div>
+                                                                    <div class="col-sm-3">
+                                                                        <button type="button" style="border-radius:50%;" class="ti-plus btn-icon btn btn-primary btn-rounded addButton"></button>
+                                                                        <button type="button" style="border-radius:50%;" class="ti-close btn-icon btn btn-danger btn-rounded removeButton"></button>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-
-                                                        count++;
+                                                            count++;
+                                                        }
                                                     }
-                                                }
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -131,10 +135,139 @@
                 </div>
             </div>
         </div>
-</div>
-
     </form>
 </div>
+
+
 <script>
-    //萬哲
+    function addRemoveButtonListener() {
+        var removeButtons = document.querySelectorAll(".removeButton");
+        removeButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                var container = document.getElementById("modifyContainer");
+                var rowToRemove = this.parentNode.parentNode.parentNode;
+                var rows = container.querySelectorAll('.col-md-8');
+
+                rowToRemove.remove();
+
+                rows.forEach(function (row, index) {
+                    var label = row.querySelector('.col-form-label');
+                    label.textContent = index + 1;
+                });
+            });
+        });
+    }
+
+    document.getElementById("addNew").addEventListener("click", function () {
+        var container = document.getElementById("modifyContainer");
+        var count = container.querySelectorAll(".col-md-8").length + 1;
+
+        var newRow = document.createElement("div");
+        newRow.classList.add("col-md-8");
+
+        var newFormGroup = document.createElement("div");
+        newFormGroup.classList.add("form-group", "row");
+
+        var label = document.createElement("label");
+        label.classList.add("col-sm-1", "col-form-label","count");
+        label.textContent = count;
+
+        var inputDiv = document.createElement("div");
+        inputDiv.classList.add("col-sm-8");
+
+        var input = document.createElement("input");
+        input.setAttribute("type", "text");
+        input.setAttribute("class", "form-control form-control");
+        input.setAttribute("placeholder", "選單內容");
+        input.setAttribute("name", "modifies[" + (count - 1) + "].CItemName");
+
+        inputDiv.appendChild(input);
+        newFormGroup.appendChild(label);
+        newFormGroup.appendChild(inputDiv);
+
+        var buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("col-sm-3");
+
+        var plusButton = document.createElement("button");
+        plusButton.setAttribute("type", "button");
+        plusButton.setAttribute("style", "border-radius:50%;");
+        plusButton.classList.add("ti-plus", "btn-icon", "btn", "btn-primary", "btn-rounded", "addButton");
+
+        var closeButton = document.createElement("button");
+        closeButton.setAttribute("type", "button");
+        closeButton.setAttribute("style", "border-radius:50%;");
+        closeButton.classList.add("ti-close", "btn-icon", "btn", "btn-danger", "btn-rounded", "removeButton");
+
+        buttonDiv.appendChild(plusButton);
+        buttonDiv.appendChild(closeButton);
+
+        newFormGroup.appendChild(buttonDiv);
+        newRow.appendChild(newFormGroup);
+
+        container.appendChild(newRow);
+
+        addRemoveButtonListener();
+    });
+
+    document.addEventListener("click", function (event) {
+        if (event.target.classList.contains('addButton')) {
+            var container = document.getElementById("modifyContainer");
+            var count = container.querySelectorAll(".col-md-8").length + 1;
+
+            var newRow = document.createElement("div");
+            newRow.classList.add("col-md-8");
+
+            var newFormGroup = document.createElement("div");
+            newFormGroup.classList.add("form-group", "row");
+
+            var label = document.createElement("label");
+            label.classList.add("col-sm-1", "col-form-label","count");
+            label.textContent = count;
+
+            var inputDiv = document.createElement("div");
+            inputDiv.classList.add("col-sm-8");
+
+            var input = document.createElement("input");
+            input.setAttribute("type", "text");
+            input.setAttribute("class", "form-control form-control");
+            input.setAttribute("placeholder", "選單內容");
+            input.setAttribute("name", "modifies[" + (count - 1) + "].CItemName");
+
+            inputDiv.appendChild(input);
+            newFormGroup.appendChild(label);
+            newFormGroup.appendChild(inputDiv);
+
+            var buttonDiv = document.createElement("div");
+            buttonDiv.classList.add("col-sm-3");
+
+            var plusButton = document.createElement("button");
+            plusButton.setAttribute("type", "button");
+            plusButton.setAttribute("style", "border-radius:50%;");
+            plusButton.classList.add("ti-plus", "btn-icon", "btn", "btn-primary", "btn-rounded", "addButton");
+
+            var closeButton = document.createElement("button");
+            closeButton.setAttribute("type", "button");
+            closeButton.setAttribute("style", "border-radius:50%;");
+            closeButton.classList.add("ti-close", "btn-icon", "btn", "btn-danger", "btn-rounded", "removeButton");
+
+            buttonDiv.appendChild(plusButton);
+            buttonDiv.appendChild(closeButton);
+
+            newFormGroup.appendChild(buttonDiv);
+            newRow.appendChild(newFormGroup);
+
+            var row = event.target.closest('.col-md-8');
+            container.insertBefore(newRow, row.nextSibling);
+
+            addRemoveButtonListener();
+
+            var rows = container.querySelectorAll('.col-md-8');
+            rows.forEach(function (row, index) {
+                var label = row.querySelector('.col-form-label');
+                label.textContent = index + 1;
+            });
+        }
+    });
+
+    addRemoveButtonListener(); // Adding listener initially
 </script>

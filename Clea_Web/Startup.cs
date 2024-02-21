@@ -49,6 +49,11 @@ namespace Clea_Web
             services.AddTransient<MemberService>();
             services.AddTransient<CompanyService>();
             services.AddTransient<IntroService>();
+            services.AddTransient<BtnService>();
+            services.AddTransient<FileDownloadService>();
+
+
+
 
 
 

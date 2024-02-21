@@ -62,6 +62,8 @@ public partial class PNews
     /// </summary>
     public string? RId { get; set; }
 
+    public string? NLevel { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }

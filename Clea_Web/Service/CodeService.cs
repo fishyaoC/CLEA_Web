@@ -132,12 +132,24 @@ namespace Clea_Web.Service
                 vm.IsActive = sysCode.IsActive;
                 vm.IsShow = sysCode.IsShow;
                 vm.IsEdit = true;
-                vm.modifies = db.SysCodes.Where(x=>x.CParentCode.Equals(sysCode.CItemCode)).OrderBy(x=>x.CItemOrder).ToList();
+                List<SysCode> sc = db.SysCodes.Where(x=>x.CParentCode.Equals(sysCode.CItemCode)).OrderBy(x=>x.CItemOrder).ToList();
+
+                foreach (var item in sc)
+                {
+                    SysCodeViewModel.ChildList childList = new SysCodeViewModel.ChildList();
+                    childList.Order = item.CItemOrder;
+                    childList.CItemName = item.CItemName;
+                    vm.modifies.Add(childList);
+                }
             }
             else
             {
                 //新增
                 vm.IsEdit = false;
+                SysCodeViewModel.ChildList childList = new SysCodeViewModel.ChildList();
+                childList.Order = 0;
+                childList.CItemName = "";
+                vm.modifies.Add(childList);
             }
 
 

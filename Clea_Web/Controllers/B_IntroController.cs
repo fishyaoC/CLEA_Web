@@ -300,7 +300,7 @@ namespace Clea_Web.Controllers
 
         #endregion
 
-        #region 課程及承辦資訊
+        #region 課程及承辦資訊 ClassInfo
         #region 查詢
         public IActionResult ClassInfoIndex(String? data, Int32? page)
         {
@@ -399,6 +399,8 @@ namespace Clea_Web.Controllers
         }
 
 
+        #endregion
+
         #region 刪除
 
         [HttpPost]
@@ -410,7 +412,6 @@ namespace Clea_Web.Controllers
             return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
             //return RedirectToAction("Index", new { msg = error });
         }
-        #endregion
         #endregion
 
         #endregion

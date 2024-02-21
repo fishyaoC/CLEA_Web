@@ -9,13 +9,21 @@ namespace Clea_Web.ViewModels
     {
         public SysCode syscode { get; set; }
         public Modify modify { get; set; }
+        public ChildList childList { get; set; }
         public SchModel schModel { get; set; }
 
+        public class ChildList 
+        {
+            public int Order { get; set; }
+            public string CItemName { get; set; }
+
+
+        }
 
         #region 編輯頁面
         public class Modify
         {
-            public List<SysCode>? modifies = new List<SysCode>();
+            public List<ChildList>? modifies = new List<ChildList>();
             [DisplayName("Uid")]
 
             public Guid Uid { get; set; }
@@ -80,7 +88,7 @@ namespace Clea_Web.ViewModels
             public String cParentUid { get; set; }
             public String cParentCode { get; set; }
             public String itemName { get; set; }
-            public String itemOrder { get; set; }
+            public int itemOrder { get; set; }
             public String? isActive { get; set; }
             public String? isShow { get; set; }
             public String? isEdit { get; set; }

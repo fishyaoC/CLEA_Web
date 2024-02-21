@@ -2,6 +2,7 @@
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
 using MathNet.Numerics;
+using Microsoft.VisualBasic.ApplicationServices;
 using NPOI.OpenXmlFormats;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
@@ -11,13 +12,13 @@ using static Clea_Web.ViewModels.AssignClassViewModel;
 namespace Clea_Web.Service
 {
     //後臺角色權限管理
-    public class B_LectorBtnService : BaseService
+    public class BtnService : BaseService
     {
-        private B_LectorBtnViewModel.Modify vm = new B_LectorBtnViewModel.Modify();
+        private BtnViewModel.Modify vm = new BtnViewModel.Modify();
         private FileService _fileservice;
         private IConfiguration configuration;
 
-        public B_LectorBtnService(dbContext dbContext, FileService fileservice, IConfiguration configuration)
+        public BtnService(dbContext dbContext, FileService fileservice, IConfiguration configuration)
         {
             db = dbContext;
             _fileservice = fileservice;
@@ -25,7 +26,7 @@ namespace Clea_Web.Service
         }
 
         #region 查詢
-        public IPagedList<B_LectorBtnViewModel.schPageList> schPages(B_LectorBtnViewModel.SchItem data, Int32 page, Int32 pagesize)
+        public IPagedList<BtnViewModel.schPageList> schPages(BtnViewModel.SchItem data, Int32 page, Int32 pagesize)
         {
             //var result = GetPageLists(data);
 
@@ -34,10 +35,10 @@ namespace Clea_Web.Service
 
         }
 
-        public List<B_LectorBtnViewModel.schPageList> GetPageLists(B_LectorBtnViewModel.SchItem data)
+        public List<BtnViewModel.schPageList> GetPageLists(BtnViewModel.SchItem data)
         {
-            B_LectorBtnViewModel.schPageList model;
-            List<B_LectorBtnViewModel.schPageList> result = new List<B_LectorBtnViewModel.schPageList>();
+            BtnViewModel.schPageList model;
+            List<BtnViewModel.schPageList> result = new List<BtnViewModel.schPageList>();
 
             result = (from pn in db.PNews
                           //join user in db.SysUsers on r.Creuser equals user.UName
@@ -47,10 +48,10 @@ namespace Clea_Web.Service
                       (string.IsNullOrEmpty(data.NTitle) || pn.NTitle.Contains(data.NTitle)) &&
                       ((string.IsNullOrEmpty(data.NStartDate.ToString()) || pn.NStartDate > data.NStartDate) &&
                       (string.IsNullOrEmpty(data.NEndDate.ToString()) || pn.NEndDate < data.NEndDate)) &&
-                      (string.IsNullOrEmpty(data.NClass) || pn.NClass.Equals(data.NClass)) &&
-                      pn.NType == "6" //模組代號
+                      (string.IsNullOrEmpty(data.NClass) || pn.NType.Equals(data.NClass)) &&
+                      pn.NType == "29"
                       )
-                      select new B_LectorBtnViewModel.schPageList
+                      select new BtnViewModel.schPageList
                       {
                           NewsId = pn.NewsId,
                           //NType = (from code in db.SysCodes where code.CParentCode.Equals("btnType") && pn.NType.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
@@ -65,7 +66,9 @@ namespace Clea_Web.Service
                           NContent = pn.NContent,
                           NRole = pn.NRole,
                           RId = pn.RId,
-                          NClassName = (from code in db.SysCodes where code.CParentCode.Equals("btnType") && pn.NType.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
+                          ViewCount = (from Log in db.PNewsReadLogs where Log.NewsId.Equals(pn.NewsId) select Log).FirstOrDefault().NewsViews,
+                          NLevel = (from code in db.SysCodes where code.CParentCode.Equals("MemberLevel") && pn.NLevel.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
+                          NClassName = (from code in db.SysCodes where code.CParentCode.Equals("btn") && pn.NClass.ToString().Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Date = pn.Upddate == null ? pn.Credate : pn.Upddate.Value
                           //creDate = r.Credate.ToShortDateString(),
                           //creUser = r.Creuser,
@@ -77,101 +80,16 @@ namespace Clea_Web.Service
         }
         #endregion
 
-        #region 儲存
-        public BaseViewModel.errorMsg SaveData(B_LectorBtnViewModel.Modify vm)
-        {
-            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
-            try
-            {
-                PNews? PNews = db.PNews.Find(vm.NewsId);
-
-                if (PNews is null)
-                {
-                    PNews = new PNews();
-                }
-
-                PNews.NTitle = vm.NTitle;
-                PNews.NClass = vm.NClass; //分類
-                PNews.NStartDate = vm.NStartDate.Date;
-                if (vm.NEndDate != null)
-                {
-                    PNews.NEndDate = Convert.ToDateTime(vm.NEndDate).Date;
-                }
-                else
-                {
-                    PNews.NEndDate = null;
-                }
-                PNews.NIsTop = vm.NIsTop;
-                PNews.NIsShow = vm.NIsShow;
-                PNews.NStatus = vm.NStatus;
-                PNews.NContent = vm.NContent;
-                PNews.NRole = vm.NRole;
-                if (vm.NRole == true)
-                {
-                    PNews.RId = vm.GroupID.ToString();
-                }
-                else
-                {
-                    PNews.RId = vm.PersonID.ToString();
-
-                }
-
-                if (vm != null && vm.IsEdit == true)
-                {
-                    //編輯
-                    PNews.Upduser = Guid.Parse(GetUserID(user));
-                    PNews.Upddate = DateTime.Now;
-                }
-                else if (vm != null && vm.IsEdit == false)
-                {
-                    //新增
-                    PNews.NewsId = Guid.NewGuid();
-                    PNews.NType = "6"; //模組代號
-                    PNews.Creuser = Guid.Parse(GetUserID(user));
-                    PNews.Credate = DateTime.Now;
-                    db.PNews.Add(PNews);
-                }
-                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-
-                if (vm.file == null)
-                {
-                    result.CheckMsg = true;
-                }
-                else if (vm.file != null)
-                {
-                    _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadNewFile(PNews.NewsId, vm.file,6);
-                    if (result.CheckMsg)
-                    {
-
-                    }
-                    else
-                    {
-                        result.CheckMsg = false;
-                        result.ErrorMsg = "檔案上傳失敗";
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                result.ErrorMsg = e.Message;
-                //return false;
-            }
-            return result;
-
-        }
-        #endregion
-
         #region 編輯
-        public B_LectorBtnViewModel.Modify GetEditData(string NewsID)
+        public BtnViewModel.Modify GetEditData(string NewsID)
         {
             //撈資料
-            B_LectorBtnViewModel.Modify model = new B_LectorBtnViewModel.Modify();
-            //List<B_LectorBtnViewModel.Modify> result = new List<B_LectorBtnViewModel.Modify>();
+            BtnViewModel.Modify model = new BtnViewModel.Modify();
+            //List<BtnViewModel.Modify> result = new List<BtnViewModel.Modify>();
             var _PNews = db.PNews.Where(x => x.NewsId.ToString() == NewsID).FirstOrDefault();
-            SysFile sf = db.SysFiles.Where(x => x.FMatchKey == Guid.Parse(NewsID)).FirstOrDefault();
+            List<SysFile> sfList = db.SysFiles.Where(x => x.FMatchKey == Guid.Parse(NewsID)).ToList();
 
-            model = new B_LectorBtnViewModel.Modify();
+            model = new BtnViewModel.Modify();
             model.NTitle = _PNews.NTitle;
             model.Upddate = _PNews.Upddate;
             model.Upduser = _PNews.Upduser;
@@ -180,7 +98,6 @@ namespace Clea_Web.Service
             model.NStatus = _PNews.NStatus;
             model.RId = _PNews.RId;
             model.NContent = _PNews.NContent;
-            model.NClass = _PNews.NClass;
             model.NEndDate = _PNews.NEndDate;
             model.NStartDate = _PNews.NStartDate;
             model.NEndDate = _PNews.NEndDate;
@@ -190,26 +107,121 @@ namespace Clea_Web.Service
             model.NIsTop = _PNews.NIsTop;
             model.NIsShow = _PNews.NIsShow;
             model.NIsTop = _PNews.NIsTop;
-            model.NType = _PNews.NType;
-            model.NRole = _PNews.NRole;
-            if (_PNews.NRole == true)
+            model.NClass = _PNews.NClass;
+            //model.NType = _PNews.NType;
+            model.Level = _PNews.NLevel;
+            if (sfList != null)
             {
-                model.GroupID = db.SysCodes.Where(x => x.CParentCode.Equals("L_Type") && x.Uid == Guid.Parse(_PNews.RId)).Select(x => x.Uid).FirstOrDefault();
-            }
-            else
-            {
-                model.PersonID = db.SysUsers.Where(x => x.UId == Guid.Parse(_PNews.RId)).Select(x => x.UId).FirstOrDefault();
-            }
-            if (sf != null)
-            {
-                model.FileID = sf.FileId;
-                model.FileName = sf.FFullName;
-                string fileNameDL = sf.FNameDl + "." + sf.FExt;
-                string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
-                model.FilePath = filePath;
+                foreach (var sf in sfList)
+                {
+                    BtnViewModel.FileModel file = new BtnViewModel.FileModel();
+                    file.FileID = sf.FileId;
+                    file.FileName = sf.FFullName;
+                    string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                    string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                    file.FilePath = filePath;
+
+                    model.fileModels.Add(file);
+                }
             }
 
             return model;
+        }
+        #endregion
+
+        #region 儲存
+        public BaseViewModel.errorMsg SaveData(BtnViewModel.Modify vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                PNews? PNews = db.PNews.Find(vm.NewsId);                
+
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    PNews.NTitle = vm.NTitle;
+                    PNews.NIsShow = vm.NIsShow;
+                    PNews.NIsTop = vm.NIsTop;
+                    PNews.NClass = vm.NClass; //分類
+                    PNews.NLevel = vm.Level;
+                    PNews.NStartDate = vm.NStartDate.Date;
+                    if (vm.NEndDate != null)
+                    {
+                        PNews.NEndDate = Convert.ToDateTime(vm.NEndDate).Date;
+                    }
+                    else
+                    {
+                        PNews.NEndDate = null;
+                    }
+                    PNews.NStatus = vm.NStatus;
+                    PNews.NContent = vm.NContent;
+                    PNews.Upduser = Guid.Parse(GetUserID(user));
+                    PNews.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    PNews = new PNews();
+                    PNews.NewsId = Guid.NewGuid();
+                    PNews.NTitle = vm.NTitle;
+                    PNews.NIsShow = vm.NIsShow;
+                    PNews.NIsTop = vm.NIsTop;
+                    PNews.NType = "29"; //模組
+                    PNews.NLevel = vm.Level;
+                    PNews.NClass = vm.NClass; //分類
+                    PNews.NStartDate = vm.NStartDate.Date;
+                    if (vm.NEndDate != null)
+                    {
+                        PNews.NEndDate = Convert.ToDateTime(vm.NEndDate).Date;
+                    }
+                    else
+                    {
+                        PNews.NEndDate = null;
+                    }
+                    PNews.NStatus = vm.NStatus;
+                    PNews.NContent = vm.NContent;
+                    PNews.Creuser = Guid.Parse(GetUserID(user));
+                    PNews.Credate = DateTime.Now;
+                    db.PNews.Add(PNews);
+
+                    PNewsReadLog pNewsReadLog = new PNewsReadLog();
+                    pNewsReadLog.NewsId = PNews.NewsId;
+                    pNewsReadLog.NewsViews = 0;
+                    pNewsReadLog.Creuser = Guid.Parse(GetUserID(user));
+                    pNewsReadLog.Credate = DateTime.Now;
+                    db.PNewsReadLogs.Add(pNewsReadLog);
+                }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                        _fileservice.user = user;
+                        result.CheckMsg = _fileservice.UploadMultFile(PNews.NewsId, vm.file,29);
+                        if (result.CheckMsg)
+                        {
+
+                        }
+                        else
+                        {
+                            result.CheckMsg = false;
+                            result.ErrorMsg = "檔案上傳失敗";
+                        }
+                        _fileservice.user = user;
+                }
+            }
+            catch (Exception e)
+            {
+                result.CheckMsg = false;
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
         }
         #endregion
 
@@ -220,7 +232,7 @@ namespace Clea_Web.Service
 
             //撈資料
             PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
-            vm = new B_LectorBtnViewModel.Modify();
+            vm = new BtnViewModel.Modify();
 
             try
             {
@@ -245,7 +257,7 @@ namespace Clea_Web.Service
             //撈資料
             SysFile sf = db.SysFiles.Where(x => x.FMatchKey == NewsId).FirstOrDefault();
             //PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
-            //vm = new B_LectorBtnViewModel.Modify();
+            //vm = new BtnViewModel.Modify();
 
             try
             {

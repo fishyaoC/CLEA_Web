@@ -30,7 +30,7 @@ public partial class SysCode
     /// <summary>
     /// 排序
     /// </summary>
-    public string CItemOrder { get; set; } = null!;
+    public int CItemOrder { get; set; }
 
     /// <summary>
     /// 開啟狀態

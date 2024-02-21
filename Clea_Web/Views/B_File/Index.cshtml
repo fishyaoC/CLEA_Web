@@ -1,11 +1,11 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model Clea_Web.ViewModels.FileDownloadViewModel.SchModel
+
 @{
     Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
 }
-@model Clea_Web.ViewModels.B_LectorBtnViewModel.SchModel
-
 <div class="content-wrapper">
     <div class="row">
         <!--搜尋-->
@@ -18,50 +18,26 @@
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <form class="forms-sample" method="post" action="@Url.Action("Index","B_LectorBtn")">
+                        <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","B_File")">
                             @Html.AntiForgeryToken()
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="exampleInputName1" class="col-sm-3 col-form-label">公告類型</label>
-                                        <div class="col-sm-9">
-                                            @Html.DropDownListFor(x => x.schItem.NClass, Model.DropDownListType, new { id="search1",@class = "form-control form-control" })
-                                        </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="exampleInputName1">分類</label>
+                                        @Html.DropDownListFor(x=>x.schItem.Class, Model.DropDownClass, new { id="search1",@class = "form-control form-control" })
+
+
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        <label for="exampleInputName1" class="col-sm-3 col-form-label">公告標題</label>
-                                        <div class="col-sm-9">
-                                            @Html.TextBoxFor(x => x.schItem.NTitle, new { id="search2",@class = "form-control form-control", placeholder = "標題" })
-                                        </div>
-                                    </div>
+                                <div class="col-md-4">
+                                <div class="form-group">
+                                <label for="exampleInputName1">會員等級</label>
+                                        @Html.DropDownListFor(x=>x.schItem.Level, Model.DropDownLevel, new { id="search2",@class = "form-control form-control" })
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                        <label for="exampleInputEmail4" class="col-sm-3 col-form-label">開始日期</label>
-                                        <div class="col-sm-9">
-                                            @* <input type="text" class="form-control" /> *@
-                                            @Html.TextBoxFor(x => x.schItem.NStartDate,new { id="search3",@class = "form-control form-control date-picker", placeholder = "2023/01/01"})
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group row">
-                                        @* <label class="col-sm-3 col-form-label">姓名</label> *@
-                                        <label for="exampleInputEmail4" class="col-sm-3 col-form-label">結束日期</label>
-                                        <div class="col-sm-9">
-                                            @* <input type="text" class="form-control" /> *@
-                                            @Html.TextBoxFor(x => x.schItem.NEndDate,new {id="search4", @class = "form-control form-control date-picker", placeholder = "2023/01/01"})
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex">
-                                <button type="submit" class="btn btn-primary mr-2">搜尋</button>                              
+                                <button type="submit" class="btn btn-primary mr-2">搜尋</button>
                                 <button type="button" class="btn btn-light mr-2" onclick="resetItem()">清除條件</button>
                             </div>
                         </form>
@@ -71,19 +47,15 @@
         </div>
         <!--搜尋End-->
         <!--動作-->
-
         <div class="mb-2 mt-2">
-
-            <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = ""})" class="btn btn-info">新增</a>
-            @*<button type="button" class="btn btn-info">新增</button>*@
-            @* <button type="button" class="btn btn-danger">刪除</button> *@
+            <a href="@Url.Action("Modify","B_File", new{Uid = ""})" class="btn btn-info">新增</a>
         </div>
         <!--動作End-->
         <!--資料Table-->
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">公佈欄管理 - 列表</h4>
+                    <h4 class="card-title">一般會員管理 - 列表</h4>
                     @*<p class="card-description">
                     Add class <code>.table</code>
                     </p> *@
@@ -91,29 +63,38 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>公告類型</th>
+                                    <th>序</th>
+                                    <th>分類</th>
                                     <th>標題</th>
-                                    <th>公告日期</th>
-                                    <th>是否顯示</th>
+                                    <th>權限</th>
+                                    <th>啟用狀態</th>
+                                    <th>最後編輯人員</th>
+                                    <th>最後編輯時間</th>
                                     <th>操作</th>
+
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @if (Model.schPageList2.Count > 0)
                                 {
+                                    Int32 rowCount = 0;
                                     foreach (var item in Model.schPageList2)
                                     {
+                                        rowCount++;
                                         <tr>
-                                            <td>@item.NClassName</td>
-                                            <td>@item.NTitle</td>
-                                            <td>@item.NStartDateStr</td>
-                                            <td>@(item.NIsShow ? "是" : "否")</td>
+                                            <td>@rowCount</td>
+                                            <td>@item.Class</td>
+                                            <td>@item.Title</td>
+                                            <td>@item.Level</td>
+                                            <td>@item.Status</td>
+                                            <td>@item.updUser</td>
+                                            <td>@item.updDate</td>
                                             <td>
                                                 @*編輯、刪除*@
                                                 @* <button type="button" class="btn btn-success">編輯</button> *@
-                                                <a href="@Url.Action("Modify","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-success">編輯</a>
-                                                <button type="button" class="btn btn-danger" onclick="del('@item.NewsId')">刪除</button>
-                                                <a href="@Url.Action("ExportExcel","B_LectorBtn", new{NewsID = item.NewsId})" class="btn btn-primary">匯出尚未已讀的講師</a>
+                                                <a href="@Url.Action("Modify","B_File", new{Uid = item.Uid})" class="btn btn-success">編輯</a>
+                                                <button type="button" class="btn btn-danger" onclick="del('@item.Uid')">刪除</button>
                                             </td>
                                         </tr>
                                     }
@@ -121,7 +102,7 @@
                                 else
                                 {
                                     <tr>
-                                        <td colspan="5" align="center">查無資料!</td>
+                                        <td colspan="7" align="center">查無資料!</td>
                                     </tr>
                                 }
                             </tbody>
@@ -134,7 +115,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     function del(Uid) {
         //刪除按紐
@@ -154,7 +134,7 @@
             else {
                 $.ajax({
                     type: "POST",
-                    url: '../B_LectorBtn/Delete',
+                    url: '../B_File/Delete',
                     data: { Uid: Uid },
                     dataType: "json",
                     success: function (response) {
@@ -195,11 +175,20 @@
 
         })
     }
+
     function resetItem() {
         $('#search1').val(null);
         $('#search2').val(null);
-        $('#search3').val(null);
-        $('#search4').val(null);
-
     }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#search1').select2({
+            placeholder: "展開後可使用下方搜尋框搜尋",
+            allowClear: true,
+        });
+    });
 </script>
