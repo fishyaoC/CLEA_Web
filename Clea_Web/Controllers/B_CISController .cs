@@ -15,17 +15,27 @@ using X.PagedList;
 
 namespace Clea_Web.Controllers
 {
-    //收退費標準管理
+    //即測即評管理
+    //41 = 最新消息
+    //42 = 核定項目 
+    //43 = 報名地點= false
+    //44 = 聯絡資訊
+    //45 = 收費標準
+    //46 = 辦理梯次
+    //47 = 報檢資格
+    //48 = 表單下載
+    //49 = 友善連結
+    //72 = 簡章上傳
     [Authorize]
     [UserPowerFilterAttribute]
-    public class B_SkillController : BaseController
+    public class B_CISController : BaseController
     {
-        private readonly ILogger<B_SkillController> _logger;
+        private readonly ILogger<B_CISController> _logger;
         private TestInfoService _TestInfoService;
         private FileService _fileservice;
         private IConfiguration configuration;
 
-        public B_SkillController(ILogger<B_SkillController> logger, dbContext dbCLEA, TestInfoService Service, FileService fileservice, IConfiguration configuration)
+        public B_CISController(ILogger<B_CISController> logger, dbContext dbCLEA, TestInfoService Service, FileService fileservice, IConfiguration configuration)
         {
             _logger = logger;
             db = dbCLEA;
@@ -54,7 +64,7 @@ namespace Clea_Web.Controllers
                 vmd.schItem = new BtnViewModel.SchItem();
             }
             vmd.DropDownListType = getTypeItem();
-            vmd.schPageList2 = _TestInfoService.schPagesNews(vmd.schItem, page.Value, 15,33);
+            vmd.schPageList2 = _TestInfoService.schPagesNews(vmd.schItem, page.Value, 15,41);
 
             return View(vmd);
         }
@@ -62,7 +72,7 @@ namespace Clea_Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult NewsIndex(BtnViewModel.SchModel vmd)
         {
-            vmd.schPageList2 = _TestInfoService.schPagesNews(vmd.schItem, 1, 15,33);
+            vmd.schPageList2 = _TestInfoService.schPagesNews(vmd.schItem, 1, 15,41);
             vmd.DropDownListType = getTypeItem();
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
@@ -94,7 +104,7 @@ namespace Clea_Web.Controllers
                 vm.NStartDate = DateTime.Now;
                 vm.NEndDate = DateTime.Now;
             }
-            vm.NType = 33;
+            vm.NType = 41;
 
             return View(vm);
         }
@@ -170,9 +180,6 @@ namespace Clea_Web.Controllers
 
         #endregion
 
-        #region 報檢資格
-        #endregion
-
         #region 表單下載(含下載及範本)
 
         #region 查詢
@@ -192,7 +199,7 @@ namespace Clea_Web.Controllers
                 vmd.schItem = new FileDownloadViewModel.SchItem();
             }
 
-            vmd.schPageList2 = _TestInfoService.schPagesFile(vmd.schItem, page.Value, 15,38);
+            vmd.schPageList2 = _TestInfoService.schPagesFile(vmd.schItem, page.Value, 15,48);
             vmd.DropDownLevel = _TestInfoService.getLevelItem();
             vmd.DropDownClass = _TestInfoService.getClassItem();
             return View(vmd);
@@ -202,7 +209,7 @@ namespace Clea_Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult FormIndex(FileDownloadViewModel.SchModel vmd)
         {
-            vmd.schPageList2 = _TestInfoService.schPagesFile(vmd.schItem, 1, 15,38);
+            vmd.schPageList2 = _TestInfoService.schPagesFile(vmd.schItem, 1, 15,48);
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             vmd.DropDownLevel = _TestInfoService.getLevelItem();
             vmd.DropDownClass = _TestInfoService.getClassItem();
@@ -227,7 +234,7 @@ namespace Clea_Web.Controllers
             }
             vm.DropDownLevel = _TestInfoService.getLevelItem();
             vm.DropDownClass = _TestInfoService.getClassItem();
-            vm.Type = 38;
+            vm.Type = 48;
 
 
 
@@ -278,7 +285,7 @@ namespace Clea_Web.Controllers
                 vmd.schItem = new LinkViewModel.SchItem();
             }
 
-            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15,39);
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15,49);
             vmd.DropDownItem = _TestInfoService.getTypeItem();
             return View(vmd);
         }
@@ -288,7 +295,7 @@ namespace Clea_Web.Controllers
         public IActionResult LinkIndex(LinkViewModel.SchModel vmd)
         {
             //39模組代碼
-            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15,39);
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15,49);
             vmd.DropDownItem = _TestInfoService.getTypeItem();
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
@@ -311,7 +318,7 @@ namespace Clea_Web.Controllers
                 //新增
                 vmLink = new LinkViewModel.Modify();
             }
-            vmLink.LType = 39;
+            vmLink.LType = 49;
 
 
             return View(vmLink);
@@ -347,7 +354,7 @@ namespace Clea_Web.Controllers
         public IActionResult DMIndex()
         {
             IntroViewModel.Rate? vm = new IntroViewModel.Rate();
-            vm = _TestInfoService.GetEditDataDM(71);
+            vm = _TestInfoService.GetEditDataDM(72);
             return View(vm);
         }
 
@@ -357,7 +364,7 @@ namespace Clea_Web.Controllers
         {
             _TestInfoService.user = User;
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _TestInfoService.SaveDataDM(vm);
+            error = _TestInfoService.SaveDataDM(vm,72);
 
             //SWAL儲存成功
             if (error.CheckMsg)
@@ -373,6 +380,171 @@ namespace Clea_Web.Controllers
             }
 
             return RedirectToAction("DMIndex");
+        }
+        #endregion
+
+        #region 核定項目
+        public IActionResult ApprovedIndex()
+        {
+            IntroViewModel.Rate? vm = new IntroViewModel.Rate();
+            vm = _TestInfoService.GetEditDataIMG(42);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ApprovedIndex(IntroViewModel.Rate vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataIMG(vm, 42);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("ApprovedIndex");
+        }
+        #endregion
+
+        #region 聯絡資訊
+        public IActionResult ContactInfoIndex()
+        {
+            IntroViewModel.Rate? vm = new IntroViewModel.Rate();
+            vm = _TestInfoService.GetEditDataIMG(44);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ContactInfoIndex(IntroViewModel.Rate vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataIMG(vm, 44);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("ContactInfoIndex");
+        }
+        #endregion
+
+        #region 收費標準
+        public IActionResult RateIndex()
+        {
+            IntroViewModel.Rate? vm = new IntroViewModel.Rate();
+            vm = _TestInfoService.GetEditDataIMG(45);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult RateIndex(IntroViewModel.Rate vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataIMG(vm, 45);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("RateIndex");
+        }
+        #endregion
+
+        #region 辦理梯次
+        public IActionResult LadderIndex()
+        {
+            IntroViewModel.Rate? vm = new IntroViewModel.Rate();
+            vm = _TestInfoService.GetEditDataIMG(46);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult LadderIndex(IntroViewModel.Rate vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataIMG(vm, 46);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("LadderIndex");
+        }
+        #endregion
+
+        #region 報檢資格
+        public IActionResult QualifyIndex()
+        {
+            IntroViewModel.Rate? vm = new IntroViewModel.Rate();
+            vm = _TestInfoService.GetEditDataIMG(47);
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult QualifyIndex(IntroViewModel.Rate vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataIMG(vm, 47);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("QualifyIndex");
         }
         #endregion
 

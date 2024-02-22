@@ -1,0 +1,264 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Clea_Web.ViewModels.BtnViewModel.Modify
+@{
+    Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+}
+
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("NewsModify","B_CIS")" onsubmit="return validateForm()" enctype='multipart/form-data'>
+        <div class="mb-2 mt-2">
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("NewsIndex","B_CIS")" class="btn btn-secondary">取消</a>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            公佈欄管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳模組*@
+                        @Html.HiddenFor(x => x.NType)
+                        @*回傳NewsId*@
+                        @Html.HiddenFor(x => x.NewsId)
+                        @* <p class="card-description">
+                        公佈欄管理-編輯
+                        </p> *@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.NTitle, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @* <input type="text" class="form-control" /> *@
+                                        @Html.TextBoxFor(x => x.NTitle, new { @class = "form-control form-control", placeholder = "公告標題" })
+                                        @Html.ValidationMessageFor(x=>x.NTitle)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @*@Html.CheckBoxFor(x => x.N_IsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios" }) *@
+                                            @Html.CheckBoxFor(x => x.NIsTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios", @checked = Model.NIsTop ? "checked" : "" })
+                                            @Html.LabelFor(x => x.NIsTop, new { @class = "col-sm-12 control-label" })
+                                            @*  <label for="S1">
+                                            是否置頂
+                                            </label>*@
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.NIsShow, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios",@checked = Model.NIsShow ? "checked" : "" })
+                                            @Html.LabelFor(x => x.NIsShow, new { @class = "col-sm-12 control-label" })
+                                            @*<label for="S0">
+                                            是否顯示
+                                            </label>*@
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">公告類型</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.NClass, Model.DropDownListType, new { @class = "form-control form-control" })
+                                        @Html.ValidationMessageFor(x=>x.NClass)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">公告權限</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.Level, Model.DropDownListLevel, new { @class = "form-control form-control" })
+                                        @Html.ValidationMessageFor(x=>x.Level)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.NStartDate, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.NStartDate, "{0:yyyy-MM-dd}", new { @class = "form-control form-control date-picker", type = "date" })
+                                        @Html.ValidationMessageFor(x=>x.NStartDate)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.NEndDate, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.NEndDate, "{0:yyyy-MM-dd}", new { @class = "form-control form-control date-picker", type = "date" })
+                                        @Html.ValidationMessageFor(x=>x.NEndDate)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.NContent, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextAreaFor(x => x.NContent, 20, 150, new { @class = "form-control form-control", placeholder = "公告內容" })
+                                        @Html.ValidationMessageFor(x => x.NContent)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">已上傳檔案</label>
+                                    <div id="uploadedFiles" class="col-sm-9">
+                                        @if (Model.fileModels != null)
+                                        {
+                                            foreach (var item in Model.fileModels)
+                                            {
+                                                <div>
+                                                    <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = item.FilePath,FileName = item.FileName})" class="btn btn-success">@item.FileName</a>
+                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@item.FileID')"></button>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                無檔案
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.file, new { @class="form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload", multiple = "multiple", onchange = "displayUploadedFiles(this)" })
+                                        @Html.ValidationMessageFor(x => x.file)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function displayUploadedFiles(input) {
+        var files = input.files;
+        var uploadedFilesDiv = document.getElementById('uploadedFiles');
+        uploadedFilesDiv.innerHTML = '';
+
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var fileName = files[i].name;
+                var fileLink = document.createElement('a');
+                fileLink.href = "#"; // Replace with the appropriate URL
+                fileLink.innerText = fileName;
+                uploadedFilesDiv.appendChild(fileLink);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.type = "button";
+                deleteButton.className = "ti-close btn-icon btn btn-danger btn-rounded";
+                deleteButton.onclick = function () { /* Handle delete functionality here */ };
+                uploadedFilesDiv.appendChild(deleteButton);
+
+                uploadedFilesDiv.appendChild(document.createElement('br'));
+            }
+        } else {
+            uploadedFilesDiv.innerHTML = '無檔案';
+        }
+    }
+
+    function del(Uid) {
+        //刪除按紐
+        Swal.fire({
+            title: '是否確定要刪除檔案？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            heightAuto: false
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '../B_Btn/DeleteFile',
+                    data: { Uid: Uid },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.chk) {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'success',
+                                title: '刪除成功'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'warning',
+                                title: '刪除失敗',
+                                text: response.msg
+                            });
+                        }
+                    },
+                    error: function (thrownError) {
+                        Swal.fire({
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '確定',
+                            heightAuto: false,
+                            icon: 'warning',
+                            title: '刪除失敗',
+                            text: '系統異常，請洽管理員'
+                        });
+                    }
+                });
+            }
+
+        })
+    }
+    function pageLoad() {
+        init();
+    }
+    function init() {
+        debugger;
+        datetime();
+    }  
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#PersonID').select2({
+            placeholder: "展開後可使用下方搜尋框搜尋",
+            allowClear: true,
+        });
+    });
+</script>
+

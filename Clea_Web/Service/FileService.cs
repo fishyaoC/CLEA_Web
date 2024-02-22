@@ -407,6 +407,10 @@ namespace Clea_Web.Service
             {
                 ModuleStr = "B_Skill/News";
             }
+            else if (MID == 41)
+            {
+                ModuleStr = "B_CIS/News";
+            }
 
 
             //搜尋檔案資料表
@@ -768,6 +772,34 @@ namespace Clea_Web.Service
             else if (FModule == 71)
             {
                 FModuleStr = "B_Skill/DMIndex";
+            }
+            else if (FModule == 72)
+            {
+                FModuleStr = "B_CIS/DMIndex";
+            }
+            else if (FModule == 42)
+            {
+                FModuleStr = "B_CIS/ApprovedIndex";
+            }
+            else if (FModule == 43)
+            {
+                FModuleStr = "B_CIS/SignPlaceIndex";
+            }
+            else if (FModule == 44)
+            {
+                FModuleStr = "B_CIS/ContactInfoIndex";
+            }
+            else if (FModule == 45)
+            {
+                FModuleStr = "B_CIS/RateIndex";
+            }
+            else if (FModule == 46)
+            {
+                FModuleStr = "B_CIS/LadderIndex";
+            }
+            else if (FModule == 47)
+            {
+                FModuleStr = "B_CIS/QualifyIndex";
             }
             else
             {

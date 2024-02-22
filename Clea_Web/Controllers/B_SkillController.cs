@@ -357,7 +357,7 @@ namespace Clea_Web.Controllers
         {
             _TestInfoService.user = User;
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _TestInfoService.SaveDataDM(vm);
+            error = _TestInfoService.SaveDataDM(vm,71);
 
             //SWAL儲存成功
             if (error.CheckMsg)

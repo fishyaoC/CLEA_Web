@@ -656,7 +656,7 @@ namespace Clea_Web.Service
         #endregion
 
         #region 儲存
-        public BaseViewModel.errorMsg SaveDataDM(IntroViewModel.Rate vm)
+        public BaseViewModel.errorMsg SaveDataDM(IntroViewModel.Rate vm,int Type)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
             try
@@ -678,7 +678,7 @@ namespace Clea_Web.Service
                     pFile = new PFile();
                     pFile.FileId = Guid.NewGuid();
                     pFile.FTitle = vm.Title;
-                    pFile.FType = 71;
+                    pFile.FType = Type;
                     pFile.FIsTop = false;
                     pFile.FOrder = 0;
                     //pFile.FMemo = vm.Memo;
@@ -696,7 +696,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 71);
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, Type);
                     if (result.CheckMsg)
                     {
 
@@ -721,6 +721,109 @@ namespace Clea_Web.Service
         #endregion
 
         #region 圖片上傳
+
+        #region 編輯
+        public IntroViewModel.Rate GetEditDataIMG(int Type)
+        {
+            //撈資料
+            PFile? pFile = db.PFiles.Where(x => x.FType.Equals(Type)).FirstOrDefault();
+            vmForm = new IntroViewModel.Rate();
+
+            if (pFile != null)
+            {
+                vmForm.Uid = pFile.FileId;
+                vmForm.Title = pFile.FTitle;
+                //vmForm.Memo = pFile.FMemo;
+                //vmForm.Status = pFile.FStatus;
+                SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(pFile.FileId)).FirstOrDefault();
+                if (sf != null)
+                {
+                    string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                    string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                    byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                    vmForm.IMG = Convert.ToBase64String(imageBytes);
+                    //vmForm.FilePath = filePath;
+                    //vmForm.FileName = fileNameDL;
+                    //vmForm.FileID = sf.FileId;
+                }
+                vmForm.IsEdit = true;
+            }
+            else
+            {
+                //新增
+                vmForm.IsEdit = false;
+                String filePath = "./SampleFile/1920x680.gif";
+                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                vmForm.IMG = Convert.ToBase64String(imageBytes);
+            }
+            return vmForm;
+        }
+        #endregion
+
+        #region 儲存
+        public BaseViewModel.errorMsg SaveDataIMG(IntroViewModel.Rate vm, int Type)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                PFile? pFile = db.PFiles.Find(vm.Uid);
+
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    pFile.FTitle = vm.Title;
+                    //pFile.FMemo = vm.Memo;
+                    //pFile.FStatus = vm.Status;
+                    pFile.Upduser = Guid.Parse(GetUserID(user));
+                    pFile.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    pFile = new PFile();
+                    pFile.FileId = Guid.NewGuid();
+                    pFile.FTitle = vm.Title;
+                    pFile.FType = Type;
+                    pFile.FIsTop = false;
+                    pFile.FOrder = 0;
+                    //pFile.FMemo = vm.Memo;
+                    pFile.FStatus = true;
+                    pFile.Creuser = Guid.Parse(GetUserID(user));
+                    pFile.Credate = DateTime.Now;
+                    db.PFiles.Add(pFile);
+                }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, Type);
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
+
         #endregion
 
     }
