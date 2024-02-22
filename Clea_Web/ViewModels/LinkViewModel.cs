@@ -61,6 +61,12 @@ namespace Clea_Web.ViewModels
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }
 
+            /// <summary>
+            /// 模組代馬
+            /// </summary>
+            [DisplayName("模組代馬")]
+            public int LType { get; set; }
+
         }
         #endregion
 

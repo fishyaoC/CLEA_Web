@@ -17,7 +17,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Clea_Web.Service
 {
-    //一般會員管理
+    //檔案下載管理
     public class FileDownloadService : BaseService
     {
         private FileDownloadViewModel.Modify vm = new FileDownloadViewModel.Modify();

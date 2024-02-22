@@ -23,7 +23,7 @@ namespace Clea_Web.ViewModels
         #region 編輯頁面
         public class Modify
         {
-            public List<ChildList>? modifies = new List<ChildList>();
+            public List<ChildList> modifies { get; set; }
             [DisplayName("Uid")]
 
             public Guid Uid { get; set; }

@@ -39,7 +39,6 @@ namespace Clea_Web.Controllers
             {
                 //編輯
                 vm = _codeService.GetEditData(Uid);
-                //vm.modifies = 
                 vm.IsEdit = true;
                 
             }
@@ -55,7 +54,7 @@ namespace Clea_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Modify(SysCodeViewModel.Modify vm)
+        public IActionResult Modify([FromForm] SysCodeViewModel.Modify vm)
         {
             _codeService.user = User;
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();

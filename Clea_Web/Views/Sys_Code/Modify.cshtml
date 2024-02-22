@@ -100,14 +100,14 @@
                                         <div class="card">
                                             <div class="card-body" style="background-color:#D0D0D0; border-radius:8px">
                                                 <button type="button" class="btn btn-info" id="addNew">+新增</button>
-                                                <div id="modifyContainer">                                                   
+                                                <div id="modifyContainer">
                                                     @if (Model.modifies != null)
                                                     {
                                                         var count = 1;
                                                         @foreach (var child in Model.modifies)
                                                         {
                                                             @Html.HiddenFor(x => x.modifies[count-1].Order)
-                                                            @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { hidden = "hidden" })
+                                                            @* @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { hidden = "hidden" }) *@
                                                             <div class="col-md-8">
                                                                 <!-- Combined the columns into one -->
                                                                 <div class="form-group row">

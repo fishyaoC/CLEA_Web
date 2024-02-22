@@ -38,7 +38,8 @@ namespace Clea_Web.Service
                       where
                       (
                       (string.IsNullOrEmpty(data.Title) || pLink.LTitle.Contains(data.Title)) &&
-                      (string.IsNullOrEmpty(data.Class) || pLink.LClass == data.Class)
+                      (string.IsNullOrEmpty(data.Class) || pLink.LClass == data.Class)  &&
+                      pLink.LType == 26
                       )
                       select new LinkViewModel.schPageList
                       {

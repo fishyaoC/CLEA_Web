@@ -21,6 +21,8 @@ namespace Clea_Web.ViewModels
             public String? FileName { get; set; }
             [DisplayName("檔案PK")]
             public Guid? FileID { get; set; }
+            [DisplayName("檔案備註")]
+            public string? FileMemo { get; set; }
         }
 
         #region Index
@@ -87,6 +89,13 @@ namespace Clea_Web.ViewModels
             public string Class { get; set; }
 
             /// <summary>
+            /// 內容備註
+            /// </summary>
+            [DisplayName("內容備註")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string Memo { get; set; }
+
+            /// <summary>
             /// 選擇權限
             /// </summary>
             [DisplayName("選擇權限")]
@@ -116,15 +125,21 @@ namespace Clea_Web.ViewModels
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }
 
+            [DisplayName("模組")]
+            public int Type { get; set; }
+
             [DisplayName("上傳檔案")]
-            public List<IFormFile>? file { get; set; }
-            [DisplayName("檔案路徑")]
-            public String? FilePath { get; set; }
-            [DisplayName("檔案名稱")]
-            public String? FileName { get; set; }
-            [DisplayName("檔案PK")]
-            public Guid? FileID { get; set; }
+            public List<IFormFile> file { get; set; }
             public List<FileModel> fileModels { get; set; } = new List<FileModel>();
+
+
+            #region 表單下載用
+            [DisplayName("上傳檔案")]
+            public IFormFile file1 { get; set; }
+            [DisplayName("檔案範本")]
+            public IFormFile file2 { get; set; }
+            #endregion
+
 
         }
         #endregion

@@ -1,0 +1,123 @@
+﻿@using Clea_Web.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Clea_Web.ViewModels.IntroViewModel.Rate
+@{
+    Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+    dbContext db = new dbContext();
+}
+
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("DMIndex","B_Skill")" enctype='multipart/form-data'>
+        <div class="mb-2 mt-2">
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("Index","B_Home")" class="btn btn-secondary">取消</a>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            簡章上傳管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.Uid)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Title, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "標題" })
+                                        @Html.ValidationMessageFor(x=>x.Title)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @* <div class="row">
+                        <div class="col-md-6">
+                        <div class="form-group row">
+                        <label class="col-sm-3 col-form-label">是否上架</label>
+                        <div class="col-sm-9 d-flex justify-content-around">
+                        <div class="form-check">
+                        @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
+                        <label for="TypeY">
+                        是
+                        </label>
+                        </div>
+                        <div class="form-check">
+                        @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
+                        <label for="TypeN">
+                        否
+                        </label>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div> *@
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">簡章上傳</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload", onchange = "displayUploadedFiles(this)" })
+                                        @Html.ValidationMessageFor(x => x.file)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">已上傳檔案</label>
+                                    <div id="uploadedFiles" class="col-sm-9">
+                                        @if (@Model.FilePath != null)
+                                        {
+                                            <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = @Model.FilePath,FileName = Model.FileName})" class="btn btn-success">@Model.FileName </a>
+                                            @* <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@Model.NewsId')"></button> *@
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                無檔案
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function displayUploadedFiles(input) {
+        var files = input.files;
+        var uploadedFilesDiv = document.getElementById('uploadedFiles');
+        uploadedFilesDiv.innerHTML = '';
+
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var fileName = files[i].name;
+                var fileLink = document.createElement('a');
+                fileLink.href = "#"; // Replace with the appropriate URL
+                fileLink.innerText = fileName;
+                uploadedFilesDiv.appendChild(fileLink);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.type = "button";
+                deleteButton.className = "ti-close btn-icon btn btn-danger btn-rounded";
+                deleteButton.onclick = function () { /* Handle delete functionality here */ };
+                uploadedFilesDiv.appendChild(deleteButton);
+
+                uploadedFilesDiv.appendChild(document.createElement('br'));
+            }
+        } else {
+            uploadedFilesDiv.innerHTML = '無檔案';
+        }
+    }
+</script>

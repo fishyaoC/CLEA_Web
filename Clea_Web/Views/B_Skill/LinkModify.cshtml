@@ -9,22 +9,24 @@
 }
 
 <div class="content-wrapper">
-    <form class="form-sample" method="post" action="@Url.Action("Modify","B_Link")">
+    <form class="form-sample" method="post" action="@Url.Action("LinkModify","B_Skill")">
         <div class="mb-2 mt-2">
             <button type="submit" class="btn btn-info">儲存</button>
             @* <button type="button" class="btn btn-secondary">取消</button> *@
-            <a href="@Url.Action("Index","B_Link")" class="btn btn-secondary">取消</a>
+            <a href="@Url.Action("LinkIndex","B_Skill")" class="btn btn-secondary">取消</a>
         </div>
         <div class="row">
             <div class="col-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            相關連結管理 - @(Model.IsEdit ? "編輯" : "新增")
+                            全國技能檢定 友善連結管理 - @(Model.IsEdit ? "編輯" : "新增")
                         </h4>
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
                         @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳模組代碼*@
+                        @Html.HiddenFor(x => x.LType)
                         @*回傳Uid*@
                         @Html.HiddenFor(x => x.Uid)
                         @* <p class="card-description">

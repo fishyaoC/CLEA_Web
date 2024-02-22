@@ -232,10 +232,12 @@ namespace Clea_Web.Service
 
             //撈資料
             PNews _PNews = db.PNews.Where(x => x.NewsId == NewsId).FirstOrDefault();
+            PNewsReadLog _PNewsReadLog = db.PNewsReadLogs.Where(x => x.NewsId.Equals(NewsId)).FirstOrDefault();
             vm = new BtnViewModel.Modify();
 
             try
             {
+                db.PNewsReadLogs.Remove(_PNewsReadLog);
                 db.PNews.Remove(_PNews);
             }
             catch (Exception e)

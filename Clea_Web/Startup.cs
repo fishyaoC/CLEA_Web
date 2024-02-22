@@ -51,6 +51,8 @@ namespace Clea_Web
             services.AddTransient<IntroService>();
             services.AddTransient<BtnService>();
             services.AddTransient<FileDownloadService>();
+            services.AddTransient<TestInfoService>();
+
 
 
 

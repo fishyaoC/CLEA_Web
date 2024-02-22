@@ -1,0 +1,266 @@
+﻿@using Clea_Web.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Clea_Web.ViewModels.FileDownloadViewModel.Modify
+@{
+    Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+    dbContext db = new dbContext();
+}
+
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("FormModify","B_Skill")" enctype='multipart/form-data'>
+        <div class="mb-2 mt-2">
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("FormIndex","B_Skill")" class="btn btn-secondary">取消</a>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            檔案下載管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳模組代碼*@
+                        @Html.HiddenFor(x => x.Type)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.Uid)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Title, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "標題" })
+                                        @Html.ValidationMessageFor(x=>x.Title)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.isTop, new { id = "optionsRadios1", @class = "form-check-input", @name = "optionsRadios", @checked = Model.isTop ? "checked" : "" })
+                                            @Html.LabelFor(x => x.isTop, new { @class = "col-sm-12 control-label" })
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(x => x.Status, new { id = "optionsRadios12", @class = "form-check-input", @name = "optionsRadios",@checked = Model.Status ? "checked" : "" })
+                                            @Html.LabelFor(x => x.Status, new { @class = "col-sm-12 control-label" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">分類</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.Class, Model.DropDownClass, new { @class = "form-control form-control" })
+                                        @Html.ValidationMessageFor(x=>x.Class)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">內容備註</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Memo, new { @class = "form-control form-control", placeholder = "內容備註" })
+                                        @Html.ValidationMessageFor(x=>x.Memo)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳檔案</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.file1, new { @class="form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload", onchange = "displayUploadedFiles(this)" })
+                                        @Html.ValidationMessageFor(x => x.file1)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">已上傳檔案</label>
+                                    <div id="uploadedFiles" class="col-sm-9">
+                                        @if (Model.fileModels != null)
+                                        {
+                                            foreach (var item in Model.fileModels.Where(x => x.FileMemo.Equals("1")))
+                                            {
+                                                <div>
+                                                    <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = item.FilePath,FileName = item.FileName})" class="btn btn-success">@item.FileName</a>
+                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@item.FileID')"></button>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                無檔案
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">上傳範本</label>
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.file2, new { @class="form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload2", onchange = "displayUploadedFiles2(this)" })
+                                        @Html.ValidationMessageFor(x => x.file2)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="exampleInputName" class="col-sm-3 col-form-label">已上傳檔案(範本)</label>
+                                    <div id="uploadedFiles2" class="col-sm-9">
+                                        @if (Model.fileModels != null)
+                                        {
+                                            foreach (var item in Model.fileModels.Where(x=>x.FileMemo.Equals("2")))
+                                            {
+                                                <div>
+                                                    <a href="@Url.Action("DownloadFile","B_LectorAdv", new{FilePath = item.FilePath,FileName = item.FileName})" class="btn btn-success">@item.FileName</a>
+                                                    <button type="button" class="ti-close btn-icon btn btn-danger btn-rounded" onclick="del('@item.FileID')"></button>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div>
+                                                無檔案
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function displayUploadedFiles(input) {
+        var files = input.files;
+        var uploadedFilesDiv = document.getElementById('uploadedFiles');
+        uploadedFilesDiv.innerHTML = '';
+
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var fileName = files[i].name;
+                var fileLink = document.createElement('a');
+                fileLink.href = "#"; // Replace with the appropriate URL
+                fileLink.innerText = fileName;
+                uploadedFilesDiv.appendChild(fileLink);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.type = "button";
+                deleteButton.className = "ti-close btn-icon btn btn-danger btn-rounded";
+                deleteButton.onclick = function () { /* Handle delete functionality here */ };
+                uploadedFilesDiv.appendChild(deleteButton);
+
+                uploadedFilesDiv.appendChild(document.createElement('br'));
+            }
+        } else {
+            uploadedFilesDiv.innerHTML = '無檔案';
+        }
+    }
+
+    function displayUploadedFiles2(input) {
+        var files = input.files;
+        var uploadedFilesDiv = document.getElementById('uploadedFiles2');
+        uploadedFilesDiv.innerHTML = '';
+
+        if (files.length > 0) {
+            for (var i = 0; i < files.length; i++) {
+                var fileName = files[i].name;
+                var fileLink = document.createElement('a');
+                fileLink.href = "#"; // Replace with the appropriate URL
+                fileLink.innerText = fileName;
+                uploadedFilesDiv.appendChild(fileLink);
+
+                var deleteButton = document.createElement('button');
+                deleteButton.type = "button";
+                deleteButton.className = "ti-close btn-icon btn btn-danger btn-rounded";
+                deleteButton.onclick = function () { /* Handle delete functionality here */ };
+                uploadedFilesDiv.appendChild(deleteButton);
+
+                uploadedFilesDiv.appendChild(document.createElement('br'));
+            }
+        } else {
+            uploadedFilesDiv.innerHTML = '無檔案';
+        }
+    }
+
+    function del(Uid) {
+        //刪除按紐
+        Swal.fire({
+            title: '是否確定要刪除檔案？',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '是',
+            cancelButtonText: '否',
+            heightAuto: false
+        }).then((result) => {
+            if (!result.isConfirmed) {
+                return;
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: '../B_File/DeleteFile',
+                    data: { Uid: Uid },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.chk) {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'success',
+                                title: '刪除成功'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            Swal.fire({
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: '確定',
+                                heightAuto: false,
+                                icon: 'warning',
+                                title: '刪除失敗',
+                                text: response.msg
+                            });
+                        }
+                    },
+                    error: function (thrownError) {
+                        Swal.fire({
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: '確定',
+                            heightAuto: false,
+                            icon: 'warning',
+                            title: '刪除失敗',
+                            text: '系統異常，請洽管理員'
+                        });
+                    }
+                });
+            }
+
+        })
+    }
+</script>

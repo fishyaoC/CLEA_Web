@@ -7,7 +7,7 @@ using MathNet.Numerics.RootFinding;
 
 namespace Clea_Web.ViewModels
 {
-    public class TestInfoViewModel : BaseViewModel
+    public class IntroViewModel : BaseViewModel
     {
         public Rate rate { get; set; }
 
@@ -24,6 +24,13 @@ namespace Clea_Web.ViewModels
 
             [DisplayName("上傳檔案")]
             public IFormFile? file { get; set; }
+
+            [DisplayName("檔案路徑")]
+            public String? FilePath { get; set; }
+            [DisplayName("檔案名稱")]
+            public String? FileName { get; set; }
+            [DisplayName("檔案PK")]
+            public Guid? FileID { get; set; }
 
             /// <summary>
             /// 標題

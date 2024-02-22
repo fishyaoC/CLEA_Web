@@ -133,7 +133,7 @@ namespace Clea_Web.Service
                 vm.IsShow = sysCode.IsShow;
                 vm.IsEdit = true;
                 List<SysCode> sc = db.SysCodes.Where(x=>x.CParentCode.Equals(sysCode.CItemCode)).OrderBy(x=>x.CItemOrder).ToList();
-
+                vm.modifies = new List<SysCodeViewModel.ChildList>();
                 foreach (var item in sc)
                 {
                     SysCodeViewModel.ChildList childList = new SysCodeViewModel.ChildList();
