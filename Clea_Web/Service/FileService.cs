@@ -801,6 +801,14 @@ namespace Clea_Web.Service
             {
                 FModuleStr = "B_CIS/QualifyIndex";
             }
+            else if (FModule == 52)
+            {
+                FModuleStr = "B_CIS/B_ETest/TypeIndex";
+            }
+            else if (FModule == 53)
+            {
+                FModuleStr = "B_CIS/RateIndex";
+            }
             else
             {
                 FModuleStr = null;
