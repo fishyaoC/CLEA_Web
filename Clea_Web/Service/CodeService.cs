@@ -68,48 +68,115 @@ namespace Clea_Web.Service
         public BaseViewModel.errorMsg SaveData(SysCodeViewModel.Modify vm)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
-            //try
-            //{
-            //    SysCode? sysCode = db.SysCodes.Find(vm.Uid);
+            try
+            {
+                SysCode? sysCode = db.SysCodes.Find(vm.Uid);
 
-            //    if (sysCode is null)
-            //    {
-            //        sysCode = new SysCode();
-            //    }
+                if (sysCode is null)
+                {
+                    sysCode = new SysCode();
+                }
 
-            //    userRole.RId = vm.RId;
-            //    userRole.RName = vm.RName;
-            //    userRole.ROrder = Convert.ToByte(vm.ROrder);
-            //    //userRole.RBackEnd = vm.RBackEnd;
 
-            //    userRole.RStatus = vm.RStatus;
 
-            //    if (vm != null && vm.IsEdit == true)
-            //    {
-            //        //編輯
-            //        userRole.Upduser = Guid.Parse(GetUserID(user));
-            //        userRole.Upddate = DateTime.Now;
-                    
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    sysCode.Upduser = Guid.Parse(GetUserID(user));
+                    sysCode.Upddate = DateTime.Now;
 
-            //    }
-            //    else if (vm != null && vm.IsEdit == false)
-            //    {
-            //        //新增
-            //        userRole.RUid = Guid.NewGuid();
-            //        userRole.RBackEnd = vm.IsBack;
-            //        userRole.Creuser = Guid.Parse(GetUserID(user));
-            //        userRole.Credate = DateTime.Now;
-            //        db.SysRoles.Add(userRole);
+                    int index = 1;
+                    foreach (var item in vm.modifies)
+                    {
+                        SysCode sc = db.SysCodes.Find(item.Uid);
 
-            //    }
+                        if (sc != null)
+                        {
+                            //edit
+                            //sysCodeChild.Uid = Guid.NewGuid();
+                            //sysCodeChild.CParentUid = vm.Uid;
+                            //sysCodeChild.CParentCode = vm.CItemCode;
+                            sc.CItemOrder = index;
+                            //sysCode.CItemCode = index.ToString();
+                            sc.CItemName = item.CItemName;
+                            //sysCodeChild.IsShow = true;
+                            //sysCodeChild.IsActive = true;
+                            sc.Upduser = Guid.Parse(GetUserID(user));
+                            sc.Upddate = DateTime.Now;
+                            //db.SysCodes.Add(sc);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            //create
+                            SysCode sysCodeChild = new SysCode();
+                            sysCodeChild.Uid = Guid.NewGuid();
+                            sysCodeChild.CParentUid = vm.Uid;
+                            sysCodeChild.CParentCode = sysCode.CItemCode;
+                            sysCodeChild.CItemOrder = index;
+                            sysCodeChild.CItemCode = index.ToString();
+                            sysCodeChild.CItemName = item.CItemName;
+                            sysCodeChild.IsShow = true;
+                            sysCodeChild.IsActive = true;
+                            sysCodeChild.Creuser = Guid.Parse(GetUserID(user));
+                            sysCodeChild.Credate = DateTime.Now;
+                            db.SysCodes.Add(sysCodeChild);
+                            db.SaveChanges();
 
-            //    result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
-            //}
-            //catch (Exception e)
-            //{
-            //    result.ErrorMsg = e.Message;
-            //    //return false;
-            //}
+
+                        }
+
+                        index++;
+                    }
+
+                    result.CheckMsg = true;
+                    return result;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    sysCode.Uid = Guid.NewGuid();
+                    sysCode.CItemName = vm.CItemName;
+                    sysCode.CItemCode = vm.CItemCode;
+                    sysCode.IsActive = vm.IsActive;
+                    sysCode.IsShow = vm.IsShow;
+                    sysCode.IsEdit = true;
+                    sysCode.Creuser = Guid.Parse(GetUserID(user));
+                    sysCode.Credate = DateTime.Now;
+                    db.SysCodes.Add(sysCode);
+
+                    //處理子項目
+                    int index = 1;
+                    List<SysCode> sysCodeList = new List<SysCode>();
+                    foreach (var item in vm.modifies)
+                    {
+
+                        SysCode sysCodeChild = new SysCode();
+                        sysCodeChild.Uid = Guid.NewGuid();
+                        sysCodeChild.CParentUid = sysCode.Uid;
+                        sysCodeChild.CParentCode = sysCode.CItemCode;
+                        sysCodeChild.CItemOrder = index;
+                        sysCodeChild.CItemCode = index.ToString();
+                        sysCodeChild.CItemName = item.CItemName;
+                        sysCodeChild.IsShow = true;
+                        sysCodeChild.IsActive = true;
+                        sysCodeChild.Creuser = Guid.Parse(GetUserID(user));
+                        sysCodeChild.Credate = DateTime.Now;
+                        db.SysCodes.Add(sysCodeChild);
+
+                        index++;
+                    }
+
+
+                }
+
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
             return result;
 
         }
@@ -132,22 +199,25 @@ namespace Clea_Web.Service
                 vm.IsActive = sysCode.IsActive;
                 vm.IsShow = sysCode.IsShow;
                 vm.IsEdit = true;
-                List<SysCode> sc = db.SysCodes.Where(x=>x.CParentCode.Equals(sysCode.CItemCode)).OrderBy(x=>x.CItemOrder).ToList();
+                List<SysCode> sc = db.SysCodes.Where(x => x.CParentCode.Equals(sysCode.CItemCode)).OrderBy(x => x.CItemOrder).ToList();
                 vm.modifies = new List<SysCodeViewModel.ChildList>();
                 foreach (var item in sc)
                 {
                     SysCodeViewModel.ChildList childList = new SysCodeViewModel.ChildList();
+                    childList.Uid = item.Uid;
                     childList.Order = item.CItemOrder;
                     childList.CItemName = item.CItemName;
                     vm.modifies.Add(childList);
                 }
+                vm.IsEdit = true;
             }
             else
             {
                 //新增
                 vm.IsEdit = false;
                 SysCodeViewModel.ChildList childList = new SysCodeViewModel.ChildList();
-                childList.Order = 0;
+                vm.modifies = new List<SysCodeViewModel.ChildList>();
+                childList.Order = 1;
                 childList.CItemName = "";
                 vm.modifies.Add(childList);
             }
@@ -161,20 +231,19 @@ namespace Clea_Web.Service
         #endregion
 
         #region 刪除
-        public BaseViewModel.errorMsg DelData(Guid R_UID)
+        public BaseViewModel.errorMsg DelData(Guid UID)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            SysRole sysRole = db.SysRoles.Find(R_UID);
-            List<SysPower> sysPower = db.SysPowers.Where(x => x.RUid == R_UID).ToList();
-            vm = new SysCodeViewModel.Modify();
+            SysCode sysCode = db.SysCodes.Find(UID);
+            List<SysCode> sysCodeList = db.SysCodes.Where(x => x.CParentUid.Equals(UID)).ToList();
 
             try
             {
-                db.SysPowers.RemoveRange(sysPower);
+                db.SysCodes.Remove(sysCode);
+                db.SysCodes.RemoveRange(sysCodeList);
                 db.SaveChanges();
-                db.SysRoles.Remove(sysRole);
 
             }
             catch (Exception e)

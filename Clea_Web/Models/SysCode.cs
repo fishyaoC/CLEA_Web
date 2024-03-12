@@ -10,7 +10,7 @@ public partial class SysCode
     /// <summary>
     /// 父層Uid
     /// </summary>
-    public string? CParentUid { get; set; }
+    public Guid? CParentUid { get; set; }
 
     /// <summary>
     /// 父層代號

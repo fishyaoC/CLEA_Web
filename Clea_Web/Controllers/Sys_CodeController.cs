@@ -39,7 +39,7 @@ namespace Clea_Web.Controllers
             {
                 //編輯
                 vm = _codeService.GetEditData(Uid);
-                vm.IsEdit = true;
+                //vm.IsEdit = true;
                 
             }
             else

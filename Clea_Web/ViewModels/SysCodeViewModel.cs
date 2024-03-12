@@ -14,7 +14,10 @@ namespace Clea_Web.ViewModels
 
         public class ChildList 
         {
+            public Guid? Uid { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
             public int Order { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
             public string CItemName { get; set; }
 
 
@@ -32,25 +35,29 @@ namespace Clea_Web.ViewModels
             /// 代號
             /// </summary>
             [DisplayName("選單代碼")]
+            [Required(ErrorMessage = "必填項目!")]
             public string CItemCode { get; set; } = null!;
 
             /// <summary>
             /// 代碼名稱
             /// </summary>
             [DisplayName("選單名稱")]
+            [Required(ErrorMessage = "必填項目!")]
             public string CItemName { get; set; } = null!;
 
             /// <summary>
             /// 開啟狀態
             /// </summary>
             [DisplayName("開啟狀態")]
-            public bool? IsActive { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
+            public bool? IsActive { get; set; } = true;
 
             /// <summary>
             /// 顯示狀態
             /// </summary>
             [DisplayName("顯示狀態")]
-            public bool? IsShow { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
+            public bool? IsShow { get; set; } = true;
 
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }

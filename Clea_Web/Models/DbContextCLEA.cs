@@ -39,6 +39,10 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<EEvaluationSche> EEvaluationSches { get; set; }
 
+    public virtual DbSet<PAlbum> PAlbums { get; set; }
+
+    public virtual DbSet<PAlbumDetail> PAlbumDetails { get; set; }
+
     public virtual DbSet<PBanner> PBanners { get; set; }
 
     public virtual DbSet<PClassInfo> PClassInfos { get; set; }
@@ -102,6 +106,8 @@ public partial class DbContextCLEA : DbContext
     public virtual DbSet<ViewBridgeCClassSubject> ViewBridgeCClassSubjects { get; set; }
 
     public virtual DbSet<ViewBridgeCLector> ViewBridgeCLectors { get; set; }
+
+    public virtual DbSet<ViewBridgeClassRecord> ViewBridgeClassRecords { get; set; }
 
     public virtual DbSet<ViewBridgePublishT> ViewBridgePublishTs { get; set; }
 
@@ -618,6 +624,71 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.MatchKey).HasColumnName("matchKey");
             entity.Property(e => e.Reception).HasComment("講師");
             entity.Property(e => e.ScheNum).HasComment("評鑑序");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PAlbum>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("P_Album");
+
+            entity.Property(e => e.AIsTop)
+                .HasComment("是否置頂")
+                .HasColumnName("A_IsTop");
+            entity.Property(e => e.AMemo)
+                .HasMaxLength(150)
+                .IsUnicode(false)
+                .HasColumnName("A_Memo");
+            entity.Property(e => e.AName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("A_Name");
+            entity.Property(e => e.AOrder)
+                .HasComment("排序")
+                .HasColumnName("A_Order");
+            entity.Property(e => e.AStatus)
+                .HasComment("啟用狀態")
+                .HasColumnName("A_Status");
+            entity.Property(e => e.AlbumId).HasColumnName("Album_Id");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PAlbumDetail>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("P_AlbumDetail");
+
+            entity.Property(e => e.AdId).HasColumnName("AD_Id");
+            entity.Property(e => e.AdIsTop)
+                .HasComment("是否置頂")
+                .HasColumnName("AD_IsTop");
+            entity.Property(e => e.AdMemo)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("AD_Memo");
+            entity.Property(e => e.AdOrder)
+                .HasComment("排序")
+                .HasColumnName("AD_Order");
+            entity.Property(e => e.AdStatus)
+                .HasComment("啟用狀態")
+                .HasColumnName("AD_Status");
+            entity.Property(e => e.AlbumId).HasColumnName("Album_Id");
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
@@ -1178,8 +1249,6 @@ public partial class DbContextCLEA : DbContext
                 .HasComment("父層代號")
                 .HasColumnName("C_ParentCode");
             entity.Property(e => e.CParentUid)
-                .HasMaxLength(50)
-                .IsUnicode(false)
                 .HasComment("父層Uid")
                 .HasColumnName("C_ParentUid");
             entity.Property(e => e.Credate)
@@ -2011,6 +2080,34 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.Upduser)
                 .HasMaxLength(20)
                 .HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<ViewBridgeClassRecord>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("View_Bridge_ClassRecords");
+
+            entity.Property(e => e.Brithday).HasColumnType("date");
+            entity.Property(e => e.CertificateNum)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.ClassName)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.EndDate).HasColumnType("date");
+            entity.Property(e => e.Id)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("ID");
+            entity.Property(e => e.Name)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.StartDate).HasColumnType("date");
+            entity.Property(e => e.Term)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.Uid).HasColumnName("UID");
         });
 
         modelBuilder.Entity<ViewBridgePublishT>(entity =>

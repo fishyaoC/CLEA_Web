@@ -36,6 +36,7 @@
                                     @Html.LabelFor(x => x.CItemName, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.CItemName, new { @class = "form-control form-control", placeholder = "選單名稱" })
+                                        @Html.ValidationMessageFor(x=>x.CItemName)
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +44,16 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.CItemCode, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.CItemCode, new { @class = "form-control form-control", placeholder = "選單代碼" })
+                                        @if (Model.IsEdit)
+                                        {
+                                            @Html.TextBoxFor(x => x.CItemCode, new { @class = "form-control form-control", placeholder = "選單代碼", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(x=>x.CItemCode)
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBoxFor(x => x.CItemCode, new { @class = "form-control form-control", placeholder = "選單代碼" })
+                                            @Html.ValidationMessageFor(x=>x.CItemCode)
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +76,7 @@
                                             <label for="MTypeP">
                                                 否
                                             </label>
-                                        </div>
+                                        </div>                                     
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +84,6 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">是否上架</label>
                                     @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
-
                                     <div class="col-sm-9 d-flex justify-content-around">
                                         <div class="form-check">
                                             @Html.RadioButtonFor(x => x.IsShow, true, new {@class = "form-check-input", @name = "IsShow" })
@@ -87,7 +96,7 @@
                                             <label for="S0">
                                                 否
                                             </label>
-                                        </div>
+                                        </div>                                       
                                     </div>
                                 </div>
                             </div>
@@ -95,30 +104,38 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">選單內容</label>
+                                    <label class="col-sm-3 col-form-label">選單內容(選項)</label>
                                     <div class="col-12 grid-margin stretch-card">
                                         <div class="card">
                                             <div class="card-body" style="background-color:#D0D0D0; border-radius:8px">
-                                                <button type="button" class="btn btn-info" id="addNew">+新增</button>
-                                                <div id="modifyContainer">
+                                                <div class="form-group">
+                                                <button  type="button" class="btn btn-info" id="addNew">+新增</button>
+                                                </div>
+                                                <div>
+                                                <h4 style="color:red;">若要刪除選項，請聯繫系統管理員</h4>
+                                                </div>
+                                                <div id="modifyContainer" class="form-group row">
                                                     @if (Model.modifies != null)
                                                     {
                                                         var count = 1;
                                                         @foreach (var child in Model.modifies)
                                                         {
-                                                            @Html.HiddenFor(x => x.modifies[count-1].Order)
-                                                            @* @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { hidden = "hidden" }) *@
+                                                            @* @Html.HiddenFor(x => x.modifies[count-1].Order) *@
                                                             <div class="col-md-8">
                                                                 <!-- Combined the columns into one -->
-                                                                <div class="form-group row">
-                                                                    <label class="col-sm-1 col-form-label count">@Model.modifies[count-1].Order</label>
+                                                                <div class="form-group row modifies">
+                                                                    @Html.HiddenFor(x => x.modifies[count-1].Uid)
+                                                                    <div class="col-sm-1">
+                                                                        @* <label class="col-sm-1 col-form-label count">@Model.modifies[count-1].Order</label> *@
+                                                                        @Html.TextBoxFor(x => x.modifies[count-1].Order, new { @class = "form-control form-control", @readonly = "readonly"})
+                                                                    </div>
                                                                     <div class="col-sm-8">
                                                                         @Html.TextBoxFor(x => x.modifies[count-1].CItemName, new { @class = "form-control form-control", placeholder = "選單內容" })
                                                                     </div>
-                                                                    <div class="col-sm-3">
+@*                                                                     <div class="col-sm-3">
                                                                         <button type="button" style="border-radius:50%;" class="ti-plus btn-icon btn btn-primary btn-rounded addButton"></button>
                                                                         <button type="button" style="border-radius:50%;" class="ti-close btn-icon btn btn-danger btn-rounded removeButton"></button>
-                                                                    </div>
+                                                                    </div> *@
                                                                 </div>
                                                             </div>
                                                             count++;
@@ -140,25 +157,51 @@
 
 
 <script>
-    function addRemoveButtonListener() {
-        var removeButtons = document.querySelectorAll(".removeButton");
-        removeButtons.forEach(function (button) {
-            button.addEventListener("click", function () {
-                var container = document.getElementById("modifyContainer");
-                var rowToRemove = this.parentNode.parentNode.parentNode;
-                var rows = container.querySelectorAll('.col-md-8');
+    document.addEventListener("DOMContentLoaded", function() {
+        var addNewButton = document.getElementById("addNew");
+        addNewButton.addEventListener("click", function() {
+            var modifyContainer = document.getElementById("modifyContainer");
+            var count = modifyContainer.querySelectorAll(".modifies").length + 1;
 
+            var newDiv = document.createElement("div");
+            newDiv.className = "col-md-8";
+
+            var innerHTML = '<div class="form-group row modifies">' +
+                                '<div class="col-sm-1">' +
+                                    '<input type="text" class="form-control form-control" readonly="readonly" name="modifies[' + (count-1) + '].Order" value="' + count + '">' +
+                                '</div>' +
+                                '<div class="col-sm-8">' +
+                                    '<input type="text" class="form-control form-control" name="modifies[' + (count-1) + '].CItemName" placeholder="選單內容">' +
+                                '</div>' +
+                                @* '<div class="col-sm-3">' +
+                                    '<button type="button" style="border-radius:50%;" class="ti-plus btn-icon btn btn-primary btn-rounded addButton"></button>' +
+                                    '<button type="button" style="border-radius:50%;" class="ti-close btn-icon btn btn-danger btn-rounded removeButton"></button>' +
+                                '</div>' + *@
+                            '</div>';
+
+            newDiv.innerHTML = innerHTML;
+
+            modifyContainer.appendChild(newDiv);
+        });
+
+            document.addEventListener("click", function(event) {
+            if (event.target.classList.contains("removeButton")) {
+                var rowToRemove = event.target.closest(".col-md-8");
                 rowToRemove.remove();
 
-                rows.forEach(function (row, index) {
-                    var label = row.querySelector('.col-form-label');
-                    label.textContent = index + 1;
+                var modifyContainer = document.getElementById("modifyContainer");
+                var rows = modifyContainer.querySelectorAll(".modifies");
+                rows.forEach(function(row, index) {
+                    var orderInput = row.querySelector("input[name^='modifies']");
+                    orderInput.value = index + 1;
                 });
-            });
+            }
         });
-    }
+    });
 
-    document.getElementById("addNew").addEventListener("click", function () {
+
+
+    @* document.getElementById("addNew").addEventListener("click", function () {
         var container = document.getElementById("modifyContainer");
         var count = container.querySelectorAll(".col-md-8").length + 1;
 
@@ -169,7 +212,7 @@
         newFormGroup.classList.add("form-group", "row");
 
         var label = document.createElement("label");
-        label.classList.add("col-sm-1", "col-form-label","count");
+        label.classList.add("col-sm-1", "col-form-label", "count");
         label.textContent = count;
 
         var inputDiv = document.createElement("div");
@@ -206,8 +249,22 @@
 
         container.appendChild(newRow);
 
+        updateHiddenFieldOrder(container); // Update hidden field order
+
         addRemoveButtonListener();
     });
+
+    function updateHiddenFieldOrder(container) {
+        var rows = container.querySelectorAll('.col-md-8');
+        rows.forEach(function (row, index) {
+            var label = row.querySelector('.col-form-label');
+            label.textContent = index + 1;
+
+            // Update HiddenFor value
+            var hiddenField = row.querySelector('input[type="hidden"]');
+            hiddenField.value = index + 1;
+        });
+    }
 
     document.addEventListener("click", function (event) {
         if (event.target.classList.contains('addButton')) {
@@ -221,7 +278,7 @@
             newFormGroup.classList.add("form-group", "row");
 
             var label = document.createElement("label");
-            label.classList.add("col-sm-1", "col-form-label","count");
+            label.classList.add("col-sm-1", "col-form-label", "count");
             label.textContent = count;
 
             var inputDiv = document.createElement("div");
@@ -259,15 +316,27 @@
             var row = event.target.closest('.col-md-8');
             container.insertBefore(newRow, row.nextSibling);
 
-            addRemoveButtonListener();
+            updateHiddenFieldOrder(container); // Update hidden field order
 
-            var rows = container.querySelectorAll('.col-md-8');
-            rows.forEach(function (row, index) {
-                var label = row.querySelector('.col-form-label');
-                label.textContent = index + 1;
-            });
+            addRemoveButtonListener();
         }
     });
 
-    addRemoveButtonListener(); // Adding listener initially
+    function addRemoveButtonListener() {
+        var removeButtons = document.querySelectorAll(".removeButton");
+        removeButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                var container = document.getElementById("modifyContainer");
+                var rowToRemove = this.parentNode.parentNode.parentNode;
+                var rows = container.querySelectorAll('.col-md-8');
+
+                rowToRemove.remove();
+
+                updateHiddenFieldOrder(container); // Update hidden field order
+            });
+        });
+    }
+
+    addRemoveButtonListener(); // Adding listener initially *@
+
 </script>
