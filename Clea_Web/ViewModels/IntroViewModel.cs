@@ -12,10 +12,56 @@ namespace Clea_Web.ViewModels
         public Rate rate { get; set; }
 
         public Nav nav { get; set; }
+
+        public PListModify list { get; set; }
+        public ChildList childList { get; set; }
+        public class ChildList
+        {
+            public Guid? Uid { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
+            public int Order { get; set; }
+            [Required(ErrorMessage = "必填項目!")]
+            public string Title { get; set; }
+
+        }
         public SchModel schModel { get; set; }
 
 
         #region 編輯頁面
+        #region 報檢資格編輯頁面
+        public class PListModify
+        {
+            public List<ChildList> modifies { get; set; }
+            [DisplayName("Uid")]
+
+            public Guid Uid { get; set; }
+
+            /// <summary>
+            /// 標題
+            /// </summary>
+            [DisplayName("標題")]
+            [Required(ErrorMessage = "必填項目!")]
+            public String Title { get; set; }
+
+            /// <summary>
+            /// 排序
+            /// </summary>
+            [DisplayName("排序")]
+            [Required(ErrorMessage = "必填項目!")]
+            public int Order { get; set; }
+
+            /// <summary>
+            /// 是否上架
+            /// </summary>
+            [DisplayName("是否上架")]
+            [Required(ErrorMessage = "必填項目!")]
+            public bool Status { get; set; } = true;
+
+            [DisplayName("編輯狀態")]
+            public Boolean IsEdit { get; set; }
+
+        }
+        #endregion
         public class Rate
         {
 

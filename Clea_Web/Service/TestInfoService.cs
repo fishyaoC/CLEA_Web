@@ -21,6 +21,8 @@ namespace Clea_Web.Service
         private BtnViewModel.Modify vmBtn = new BtnViewModel.Modify();
         private FileDownloadViewModel.Modify vmFile = new FileDownloadViewModel.Modify();
         private IntroViewModel.Rate vmForm = new IntroViewModel.Rate();
+        private TestInfoViewModel.PListModify? vmList = new TestInfoViewModel.PListModify();
+
 
 
 
@@ -239,6 +241,221 @@ namespace Clea_Web.Service
         #endregion
 
         #region List 標題配條列內容
+        #region 查詢
+        public IPagedList<SysCodeViewModel.schPageList> schPages(SysCodeViewModel.SchItem data, Int32 page, Int32 pagesize)
+        {
+            return GetPageLists(data).ToPagedList(page, pagesize);
+        }
+
+        public List<SysCodeViewModel.schPageList> GetPageLists(SysCodeViewModel.SchItem data)
+        {
+            List<SysCodeViewModel.schPageList> result = new List<SysCodeViewModel.schPageList>();
+
+
+            result = (from PList in db.PLists
+                      where
+                      (
+                      (string.IsNullOrEmpty(data.itemName) || PList.LTitle.Contains(data.itemName)) && PList.LParentUid == null
+                      )
+                      select new SysCodeViewModel.schPageList
+                      {
+                          Uid = PList.Uid.ToString(),
+                          itemName = PList.LTitle,
+                          isActive = PList.LStatus == true ? "是" : "否",
+                          itemOrder = PList.LOrder,
+                          //creDate = r.Credate.ToShortDateString(),
+                          //creUser = r.Creuser,
+                          updDate = PList.Upddate == null ? PList.Credate.ToShortDateString() : PList.Upddate.Value.ToShortDateString(),
+                          updUser = (from user in db.SysUsers where (PList.Upduser == null ? PList.Creuser : PList.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
+                      }).OrderBy(x => x.itemOrder).ToList();
+
+            return result;
+        }
+        #endregion
+
+        #region 新增/編輯
+        public TestInfoViewModel.PListModify GetEditDataList(Guid Uid)
+        {
+            //撈資料
+            PList? pList = db.PLists.Where(x => x.Uid.Equals(Uid)).FirstOrDefault();
+            vmList = new TestInfoViewModel.PListModify();
+            if (pList != null)
+            {
+                vmList.Uid = pList.Uid;
+                vmList.Title = pList.LTitle;
+                vmList.Order = pList.LOrder;
+                vmList.Status = pList.LStatus;
+                List<PList> pLists = db.PLists.Where(x => x.LParentUid.Equals(pList.Uid)).OrderBy(x => x.LOrder).ToList();
+                vmList.modifies = new List<TestInfoViewModel.ChildList>();
+                foreach (var item in pLists)
+                {
+                    TestInfoViewModel.ChildList childList = new TestInfoViewModel.ChildList();
+                    childList.Uid = item.Uid;
+                    childList.Order = item.LOrder;
+                    childList.Title = item.LTitle;
+                    vmList.modifies.Add(childList);
+                }
+                vmList.IsEdit = true;
+            }
+            else
+            {
+                //新增
+                vmList.IsEdit = false;
+                TestInfoViewModel.ChildList childList = new TestInfoViewModel.ChildList();
+                vmList.modifies = new List<TestInfoViewModel.ChildList>();
+                childList.Order = 1;
+                childList.Title = "";
+                vmList.modifies.Add(childList);
+            }
+
+
+
+
+
+            return vmList;
+        }
+        #endregion
+
+        #region 儲存
+        public BaseViewModel.errorMsg SaveDataList(TestInfoViewModel.PListModify vmList)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                PList? pList = db.PLists.Find(vmList.Uid);
+
+                if (pList is null)
+                {
+                    pList = new PList();
+                }
+
+
+
+                if (vmList != null && vmList.IsEdit == true)
+                {
+                    //編輯
+                    pList.LTitle = vmList.Title;
+                    pList.LOrder = vmList.Order;
+                    pList.LStatus = vmList.Status;
+                    pList.Upduser = Guid.Parse(GetUserID(user));
+                    pList.Upddate = DateTime.Now;
+
+                    int index = 1;
+
+
+                    List<PList> pLists = db.PLists.Where(x=>x.LParentUid.Equals(vmList.Uid)).ToList();
+
+                    // 找出在 pLists 中存在但在 vmList.modifies 中不存在的項目
+                    var itemsToRemove = pLists.Where(p => !vmList.modifies.Any(m => m.Uid == p.Uid)).ToList();
+
+                    foreach (var itemToRemove in itemsToRemove)
+                    {
+                        db.PLists.Remove(itemToRemove);
+                    }
+
+                    foreach (var item in vmList.modifies)
+                    {
+                        PList list = db.PLists.Find(item.Uid);
+
+                        if (list != null)
+                        {
+                            //edit
+                            list.LTitle = item.Title;
+                            list.LOrder = index;
+                            list.Upduser = Guid.Parse(GetUserID(user));
+                            list.Upddate = DateTime.Now;
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            //create
+                            PList pListChild = new PList();
+                            pListChild.Uid = Guid.NewGuid();
+                            pListChild.LParentUid = vmList.Uid;
+                            pListChild.LTitle = item.Title;
+                            pListChild.LOrder = index;
+                            pListChild.LStatus = true;
+                            pListChild.Creuser = Guid.Parse(GetUserID(user));
+                            pListChild.Credate = DateTime.Now;
+                            db.PLists.Add(pListChild);
+                            db.SaveChanges();
+                        }
+
+                        index++;
+                    }
+
+                    result.CheckMsg = true;
+                    return result;
+                }
+                else if (vmList != null && vmList.IsEdit == false)
+                {
+                    //新增
+                    pList.Uid = Guid.NewGuid();
+                    pList.LTitle = vmList.Title;
+                    pList.LOrder = vmList.Order;
+                    pList.LStatus = true;
+                    pList.Creuser = Guid.Parse(GetUserID(user));
+                    pList.Credate = DateTime.Now;
+                    db.PLists.Add(pList);
+
+                    //處理子項目
+                    int index = 1;
+                    foreach (var item in vmList.modifies)
+                    {
+
+                        PList pListList = new PList();
+                        pListList.Uid = Guid.NewGuid();
+                        pListList.LParentUid = pList.Uid;
+                        pListList.LTitle = item.Title;
+                        pListList.LOrder = index;
+                        pListList.Creuser = Guid.Parse(GetUserID(user));
+                        pListList.Credate = DateTime.Now;
+                        db.PLists.Add(pListList);
+
+                        index++;
+                    }
+
+
+                }
+
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
+
+        #region 刪除
+        public BaseViewModel.errorMsg DelData(Guid UID)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            SysCode sysCode = db.SysCodes.Find(UID);
+            List<SysCode> sysCodeList = db.SysCodes.Where(x => x.CParentUid.Equals(UID)).ToList();
+
+            try
+            {
+                db.SysCodes.Remove(sysCode);
+                db.SysCodes.RemoveRange(sysCodeList);
+                db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
         #endregion
 
         #region 表單下載(含下載及範本)

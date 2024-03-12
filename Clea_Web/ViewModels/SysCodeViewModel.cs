@@ -20,7 +20,6 @@ namespace Clea_Web.ViewModels
             [Required(ErrorMessage = "必填項目!")]
             public string CItemName { get; set; }
 
-
         }
 
         #region 編輯頁面

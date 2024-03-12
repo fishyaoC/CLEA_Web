@@ -82,6 +82,9 @@ namespace Clea_Web.Service
                 if (vm != null && vm.IsEdit == true)
                 {
                     //編輯
+                    sysCode.CItemName = vm.CItemName;
+                    sysCode.IsActive = vm.IsActive;
+                    sysCode.IsShow = vm.IsShow;
                     sysCode.Upduser = Guid.Parse(GetUserID(user));
                     sysCode.Upddate = DateTime.Now;
 

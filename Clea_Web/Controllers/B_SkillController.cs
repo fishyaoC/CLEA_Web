@@ -171,6 +171,99 @@ namespace Clea_Web.Controllers
         #endregion
 
         #region 報檢資格
+
+        #region 查詢
+        public IActionResult QualifyIndex(String? data, Int32? page)
+        {
+            SysCodeViewModel.SchModel vmd = new SysCodeViewModel.SchModel();
+            page = page ?? 1;
+
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<SysCodeViewModel.SchItem>(value: data);
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new SysCodeViewModel.SchItem();
+            }
+
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15);
+
+            return View(vmd);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Index(SysCodeViewModel.SchModel vmd)
+        {
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15);
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            return View(vmd);
+        }
+        #endregion
+
+        #region 新增、編輯
+        public IActionResult QualifyModify(Guid Uid)
+        {
+            TestInfoViewModel.PListModify? vm = new TestInfoViewModel.PListModify();
+
+
+            if (!string.IsNullOrEmpty(Uid.ToString()))
+            {
+                //編輯
+                vm = _TestInfoService.GetEditDataList(Uid);
+                //vm.IsEdit = true;
+
+            }
+            else
+            {
+                //新增
+                vm = new TestInfoViewModel.PListModify();
+            }
+
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult QualifyModify([FromForm] TestInfoViewModel.PListModify vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataList(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("QualifyIndex");
+        }
+        #endregion
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult Delete(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.DelData(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+
         #endregion
 
         #region 表單下載(含下載及範本)

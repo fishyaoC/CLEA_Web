@@ -55,6 +55,8 @@ public partial class DbContextCLEA : DbContext
 
     public virtual DbSet<PLink> PLinks { get; set; }
 
+    public virtual DbSet<PList> PLists { get; set; }
+
     public virtual DbSet<PMember> PMembers { get; set; }
 
     public virtual DbSet<PNav> PNavs { get; set; }
@@ -983,6 +985,34 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("連結網址")
                 .HasColumnName("L_URL");
+            entity.Property(e => e.Upddate)
+                .HasColumnType("datetime")
+                .HasColumnName("UPDDATE");
+            entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
+        });
+
+        modelBuilder.Entity<PList>(entity =>
+        {
+            entity.HasKey(e => e.Uid);
+
+            entity.ToTable("P_List");
+
+            entity.Property(e => e.Uid).ValueGeneratedNever();
+            entity.Property(e => e.Credate)
+                .HasColumnType("datetime")
+                .HasColumnName("CREDATE");
+            entity.Property(e => e.Creuser).HasColumnName("CREUSER");
+            entity.Property(e => e.LMemo)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("L_Memo");
+            entity.Property(e => e.LOrder).HasColumnName("L_Order");
+            entity.Property(e => e.LParentUid).HasColumnName("L_ParentUid");
+            entity.Property(e => e.LStatus).HasColumnName("L_Status");
+            entity.Property(e => e.LTitle)
+                .HasMaxLength(1000)
+                .IsUnicode(false)
+                .HasColumnName("L_Title");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
