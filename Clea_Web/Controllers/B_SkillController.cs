@@ -195,7 +195,7 @@ namespace Clea_Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(SysCodeViewModel.SchModel vmd)
+        public IActionResult QualifyIndex(SysCodeViewModel.SchModel vmd)
         {
             vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15);
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
@@ -254,10 +254,10 @@ namespace Clea_Web.Controllers
         #region 刪除
 
         [HttpPost]
-        public IActionResult Delete(Guid Uid)
+        public IActionResult DeletePList(Guid Uid)
         {
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _TestInfoService.DelData(Uid);
+            error = _TestInfoService.DelDataPList(Uid);
 
             return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
             //return RedirectToAction("Index", new { msg = error });

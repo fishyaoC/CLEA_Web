@@ -18,7 +18,7 @@
                 </h2>
                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                     <div class="accordion-body">
-                        <form class="forms-sample" id="search-form" method="post" action="@Url.Action("Index","Sys_Code")">
+                        <form class="forms-sample" id="search-form" method="post" action="@Url.Action("QualifyIndex","B_Skill")">
                             @Html.AntiForgeryToken()
                             <div class="row">
                                 <div class="col-md-6">
@@ -126,7 +126,7 @@
             else {
                 $.ajax({
                     type: "POST",
-                    url: '../B_Skill/Delete',
+                    url: '../Sys_Code/DeletePList',
                     data: { Uid: Uid },
                     dataType: "json",
                     success: function (response) {

@@ -255,7 +255,7 @@ namespace Clea_Web.Service
             result = (from PList in db.PLists
                       where
                       (
-                      (string.IsNullOrEmpty(data.itemName) || PList.LTitle.Contains(data.itemName)) && PList.LParentUid == null
+                      (string.IsNullOrEmpty(data.itemName) || PList.LTitle.Contains(data.itemName)) && PList.LParentUid == null && PList.LType == 35 
                       )
                       select new SysCodeViewModel.schPageList
                       {
@@ -333,7 +333,7 @@ namespace Clea_Web.Service
 
                 if (vmList != null && vmList.IsEdit == true)
                 {
-                    //編輯
+                    //編輯35
                     pList.LTitle = vmList.Title;
                     pList.LOrder = vmList.Order;
                     pList.LStatus = vmList.Status;
@@ -374,6 +374,7 @@ namespace Clea_Web.Service
                             pListChild.LParentUid = vmList.Uid;
                             pListChild.LTitle = item.Title;
                             pListChild.LOrder = index;
+                            pListChild.LType = 35;
                             pListChild.LStatus = true;
                             pListChild.Creuser = Guid.Parse(GetUserID(user));
                             pListChild.Credate = DateTime.Now;
@@ -393,6 +394,7 @@ namespace Clea_Web.Service
                     pList.Uid = Guid.NewGuid();
                     pList.LTitle = vmList.Title;
                     pList.LOrder = vmList.Order;
+                    pList.LType = 35;
                     pList.LStatus = true;
                     pList.Creuser = Guid.Parse(GetUserID(user));
                     pList.Credate = DateTime.Now;
@@ -408,6 +410,8 @@ namespace Clea_Web.Service
                         pListList.LParentUid = pList.Uid;
                         pListList.LTitle = item.Title;
                         pListList.LOrder = index;
+                        pListList.LType = 35;
+                        pListList.LStatus = true;
                         pListList.Creuser = Guid.Parse(GetUserID(user));
                         pListList.Credate = DateTime.Now;
                         db.PLists.Add(pListList);
@@ -431,18 +435,18 @@ namespace Clea_Web.Service
         #endregion
 
         #region 刪除
-        public BaseViewModel.errorMsg DelData(Guid UID)
+        public BaseViewModel.errorMsg DelDataPList(Guid UID)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
 
             //撈資料
-            SysCode sysCode = db.SysCodes.Find(UID);
-            List<SysCode> sysCodeList = db.SysCodes.Where(x => x.CParentUid.Equals(UID)).ToList();
+            PList pList = db.PLists.Find(UID);
+            List<PList> pListList = db.PLists.Where(x => x.LParentUid.Equals(UID)).ToList();
 
             try
             {
-                db.SysCodes.Remove(sysCode);
-                db.SysCodes.RemoveRange(sysCodeList);
+                db.PLists.Remove(pList);
+                db.PLists.RemoveRange(pListList);
                 db.SaveChanges();
 
             }

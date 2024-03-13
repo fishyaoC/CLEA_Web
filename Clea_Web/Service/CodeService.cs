@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using Clea_Web.Models;
 using Clea_Web.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 using NPOI.POIFS.Crypt.Dsig;
 using NPOI.SS.Formula.Functions;
 using X.PagedList;
@@ -246,7 +247,7 @@ namespace Clea_Web.Service
             {
                 db.SysCodes.Remove(sysCode);
                 db.SysCodes.RemoveRange(sysCodeList);
-                db.SaveChanges();
+                //db.SaveChanges();
 
             }
             catch (Exception e)
@@ -260,6 +261,32 @@ namespace Clea_Web.Service
 
         #endregion
 
+        #region 刪除
+        public BaseViewModel.errorMsg DelDataPList(Guid UID)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            PList pList = db.PLists.Find(UID);
+            List<PList> pListList = db.PLists.Where(x => x.LParentUid.Equals(UID)).ToList();
+
+            try
+            {
+                db.PLists.Remove(pList);
+                db.PLists.RemoveRange(pListList);
+                //db.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
     }
 }
 

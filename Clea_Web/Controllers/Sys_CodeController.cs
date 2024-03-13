@@ -120,5 +120,18 @@ namespace Clea_Web.Controllers
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult DeletePList(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _codeService.DelDataPList(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
     }
 }

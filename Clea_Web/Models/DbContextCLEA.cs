@@ -1005,14 +1005,25 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.LMemo)
                 .HasMaxLength(1000)
                 .IsUnicode(false)
+                .HasComment("說明")
                 .HasColumnName("L_Memo");
-            entity.Property(e => e.LOrder).HasColumnName("L_Order");
-            entity.Property(e => e.LParentUid).HasColumnName("L_ParentUid");
-            entity.Property(e => e.LStatus).HasColumnName("L_Status");
+            entity.Property(e => e.LOrder)
+                .HasComment("排序")
+                .HasColumnName("L_Order");
+            entity.Property(e => e.LParentUid)
+                .HasComment("子項目UID")
+                .HasColumnName("L_ParentUid");
+            entity.Property(e => e.LStatus)
+                .HasComment("是否上架")
+                .HasColumnName("L_Status");
             entity.Property(e => e.LTitle)
                 .HasMaxLength(1000)
                 .IsUnicode(false)
+                .HasComment("標題")
                 .HasColumnName("L_Title");
+            entity.Property(e => e.LType)
+                .HasComment("功能模組")
+                .HasColumnName("L_Type");
             entity.Property(e => e.Upddate)
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
