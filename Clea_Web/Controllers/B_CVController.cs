@@ -44,6 +44,8 @@ namespace Clea_Web.Controllers
                 vm = new CVViewModel.Modify();
             }
             vm.DropDownApprove = _CVService.getApprovedItem();
+            vm.DropDownCompany = _CVService.getCompanyItem();
+
 
 
             return View(vm);

@@ -60,7 +60,14 @@ namespace Clea_Web.ViewModels
             /// </summary>
             [DisplayName("求才機構")]
             [Required(ErrorMessage = "必填項目!")]
-            public string Company { get; set; }
+            public Guid? Company { get; set; }
+
+            /// <summary>
+            /// 求才機構
+            /// </summary>
+            [DisplayName("求才機構")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string? CompanyCName { get; set; }
 
             /// <summary>
             /// 聯絡人
@@ -136,6 +143,7 @@ namespace Clea_Web.ViewModels
             public Boolean IsEdit { get; set; }
 
             public List<SelectListItem> DropDownApprove { get; set; }
+            public List<SelectListItem> DropDownCompany { get; set; }
 
         }
         #endregion

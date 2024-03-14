@@ -45,8 +45,8 @@ namespace Clea_Web.Service
                       {
                           Uid = CV.CvUid.ToString(),
                           ApplyDate = CV.CvExp.ToShortDateString(),
-                          //Company = (from member in db.PMembers where (CV.CvCompanyName.Equals(member.Uid)) select member).FirstOrDefault().MName,
-                          Company = CV.CvCompanyName,
+                          Company = (from member in db.PMembers where (CV.CvCompanyName.Equals(member.Uid.ToString())) select member).FirstOrDefault().MName,
+                          //Company = CV.CvCompanyName,
                           Title = CV.CvTitle,
                           Approve = (from code in db.SysCodes where code.CParentCode.Equals("CV_Approved") && CV.IsApprove.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Status = CV.CvStatus == true ? "是" : "否",
@@ -78,7 +78,7 @@ namespace Clea_Web.Service
                     pCompanyCv.CvNum = vm.Num;
                     pCompanyCv.CvExp = vm.Exp;
                     pCompanyCv.CvPay = vm.Pay;
-                    pCompanyCv.CvCompanyName = vm.Company;
+                    pCompanyCv.CvCompanyName = vm.Company.ToString();
                     pCompanyCv.CvContact = vm.Contact;
                     pCompanyCv.CvPhone = vm.Phone;
                     pCompanyCv.CvAddress = vm.Address;
@@ -101,7 +101,7 @@ namespace Clea_Web.Service
                     pCompanyCv.CvNum = vm.Num;
                     pCompanyCv.CvExp = vm.Exp;
                     pCompanyCv.CvPay = vm.Pay;
-                    pCompanyCv.CvCompanyName = vm.Company;
+                    pCompanyCv.CvCompanyName = vm.Company.ToString();
                     pCompanyCv.CvContact = vm.Contact;
                     pCompanyCv.CvPhone = vm.Phone;
                     pCompanyCv.CvAddress = vm.Address;
@@ -143,8 +143,8 @@ namespace Clea_Web.Service
                 vm.Num = pCompanyCv.CvNum;
                 vm.Exp = pCompanyCv.CvExp;
                 vm.Pay = pCompanyCv.CvPay;
-                //vm.Company = db.PMembers.Where(x=>x.Uid.Equals(pCompanyCv.CvCompanyName)).FirstOrDefault().MName ;
-                vm.Company = pCompanyCv.CvCompanyName;
+                vm.CompanyCName = db.PMembers.Where(x=>x.Uid.Equals(Guid.Parse(pCompanyCv.CvCompanyName))).FirstOrDefault().MName ;
+                vm.Company = Guid.Parse(pCompanyCv.CvCompanyName);
                 vm.Contact = pCompanyCv.CvContact;
                 vm.Phone = pCompanyCv.CvPhone;
                 vm.Address = pCompanyCv.CvAddress;
