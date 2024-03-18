@@ -37,12 +37,31 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            @* <div class="col-md-6">
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.Phone, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.Phone, new { @class = "form-control form-control", placeholder = "聯絡資訊" })
                                         @Html.ValidationMessageFor(x=>x.Phone)
+                                    </div>
+                                </div>
+                            </div> *@
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">是否上架</label>
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
+                                            <label for="TypeY">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
+                                            <label for="TypeN">
+                                                否
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -70,20 +89,10 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">是否上架</label>
-                                    <div class="col-sm-9 d-flex justify-content-around">
-                                        <div class="form-check">
-                                            @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
-                                            <label for="TypeY">
-                                                是
-                                            </label>
-                                        </div>
-                                        <div class="form-check">
-                                            @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
-                                            <label for="TypeN">
-                                                否
-                                            </label>
-                                        </div>
+                                    @Html.LabelFor(x => x.LineLink, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.LineLink, new { @class = "form-control form-control", placeholder = "Line好友連結" })
+                                        @Html.ValidationMessageFor(x=>x.LineLink)
                                     </div>
                                 </div>
                             </div>
@@ -100,30 +109,20 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
-                                    @Html.LabelFor(x => x.LineLink, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.LineLink, new { @class = "form-control form-control", placeholder = "Line好友連結" })
-                                        @Html.ValidationMessageFor(x=>x.LineLink)
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    @Html.LabelFor(x => x.IMG, new { @class = "col-sm-3 col-form-label" })
-                                    <div class="col-sm-9">
-                                        <img id="imagePreview" style="width: 768px; height:272px; border-radius:0px" src="data:image/jpeg;base64,@Model.IMG" />
-                                        @Html.ValidationMessageFor(x => x.IMG)
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">LINE QRCORD上傳</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload" })
                                         @Html.ValidationMessageFor(x => x.file)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">LINE QRCORD預覽</label>
+                                    @* @Html.LabelFor(x => x.IMG, new { @class = "col-sm-3 col-form-label" }) *@
+                                    <div class="col-sm-9">
+                                        <img id="imagePreview" style="width: 200px; height:200px; border-radius:0px" src="data:image/jpeg;base64,@Model.IMG" />
+                                        @Html.ValidationMessageFor(x => x.IMG)
                                     </div>
                                 </div>
                             </div>

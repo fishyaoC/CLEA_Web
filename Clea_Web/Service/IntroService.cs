@@ -13,9 +13,13 @@ namespace Clea_Web.Service
     //收退費標準管理
     public class IntroService : BaseService
     {
+
         private IntroViewModel.Rate vm = new IntroViewModel.Rate();
         private IntroViewModel.Nav vmNav = new IntroViewModel.Nav();
         private IntroViewModel.ClassInfo vmClassInfo = new IntroViewModel.ClassInfo();
+        private IntroViewModel.Env vmEnv = new IntroViewModel.Env();
+        private IntroViewModel.PAlbumList pAlbum = new IntroViewModel.PAlbumList();
+
 
 
         private FileService _fileservice;
@@ -75,7 +79,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file,58);
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 58);
                     if (result.CheckMsg)
                     {
 
@@ -215,7 +219,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file,59);
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 59);
                     if (result.CheckMsg)
                     {
 
@@ -449,6 +453,194 @@ namespace Clea_Web.Service
 
         #endregion
 
+        #region 環境介紹 Env
+
+        #region 查詢
+        public IPagedList<IntroViewModel.schPageList> schPagesEnv(IntroViewModel.SchItem data, Int32 page, Int32 pagesize)
+        {
+            //var result = GetPageLists(data);
+
+            //return result.ToPagedList(page, pagesize);
+            return GetPageListsEnv(data).ToPagedList(page, pagesize);
+
+        }
+
+        public List<IntroViewModel.schPageList> GetPageListsEnv(IntroViewModel.SchItem data)
+        {
+            List<IntroViewModel.schPageList> result = new List<IntroViewModel.schPageList>();
+
+            result = (from pList in db.PLists
+                      where
+                      (
+                      (string.IsNullOrEmpty(data.Title) || pList.LTitle.Contains(data.Title)) && pList.LType == 62
+                      )
+                      select new IntroViewModel.schPageList
+                      {
+                          Uid = pList.Uid.ToString(),
+                          Title = pList.LTitle,
+                          Order = pList.LOrder,
+                          Status = pList.LStatus == true ? "是" : "否",
+                          //IMG = pList.LStatus == true ? "是" : "否",
+                          updDate = pList.Upddate == null ? pList.Credate.ToShortDateString() : pList.Upddate.Value.ToShortDateString(),
+                          updUser = (from user in db.SysUsers where (pList.Upduser == null ? pList.Creuser : pList.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
+                          //BannerIMG = (from file in db.SysFiles where (Banner.BannerId.Equals(file.FMatchKey)) select file).FirstOrDefault().UName,
+                      }).OrderByDescending(x => x.Order).ToList();
+
+            return result;
+        }
+        #endregion
+
+        #region 新增/編輯
+        public IntroViewModel.Env GetEditDataEnv(Guid Uid)
+        {
+            //撈資料
+            PList? pList = db.PLists.Where(x => x.Uid.Equals(Uid)).FirstOrDefault();
+            vmEnv = new IntroViewModel.Env();
+
+            if (pList != null)
+            {
+                vmEnv.Uid = pList.Uid;
+                vmEnv.Title = pList.LTitle;
+                vmEnv.Memo = pList.LMemo;
+                vmEnv.Order = pList.LOrder;
+                vmEnv.Status = pList.LStatus;
+                List<SysFile> sfList = db.SysFiles.Where(x => x.FMatchKey.Equals(pList.Uid)).ToList();
+                if (sfList != null)
+                {
+                    vmEnv.IMGList = new List<PAlbumList>();
+                    foreach (SysFile sf in sfList)
+                    {
+                        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                        //vmNav.IMG = Convert.ToBase64String(imageBytes);
+
+                        pAlbum = new PAlbumList();
+                        pAlbum.Uid = sf.FileId;
+                        if (sf.FDescription == "1")
+                        {
+                            pAlbum.thum = true; //首圖
+                        }
+                        else { 
+                            pAlbum.thum = false; //首圖                           
+                        }
+                        pAlbum.Memo = sf.FRemark; //圖片說明
+                        pAlbum.IMG = Convert.ToBase64String(imageBytes);
+
+                        vmEnv.IMGList.Add(pAlbum);
+                    }
+                }
+                vmEnv.IsEdit = true;
+            }
+            else
+            {
+                //新增
+                vmEnv.IsEdit = false;
+                String filePath = "./SampleFile/1920x680.gif";
+                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                //vmEnv.IMGList.Add(Convert.ToBase64String(imageBytes));
+            }
+            //vmClassInfo.DropDownRegionItem = getRegionItem();
+            return vmEnv;
+        }
+        #endregion
+
+        #region 儲存
+        public BaseViewModel.errorMsg SaveDataEnv(IntroViewModel.Env vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                PClassInfo? pClassInfo = db.PClassInfos.Find(vm.Uid);
+
+                //if (vm != null && vm.IsEdit == true)
+                //{
+                //    //編輯
+                //    pClassInfo.CName = vm.Name;
+                //    pClassInfo.CWork = vm.Work;
+                //    pClassInfo.CWorkPlace = vm.WorkPlace;
+                //    pClassInfo.CLinelink = vm.LineLink;
+                //    pClassInfo.CPhone = vm.Phone;
+                //    pClassInfo.CStatus = vm.Status;
+                //    pClassInfo.COrder = vm.Order;
+                //    pClassInfo.Upduser = Guid.Parse(GetUserID(user));
+                //    pClassInfo.Upddate = DateTime.Now;
+                //}
+                //else if (vm != null && vm.IsEdit == false)
+                //{
+                //    //新增
+                //    pClassInfo = new PClassInfo();
+                //    pClassInfo.Uid = Guid.NewGuid();
+                //    pClassInfo.CName = vm.Name;
+                //    pClassInfo.CWork = vm.Work;
+                //    pClassInfo.CWorkPlace = vm.WorkPlace;
+                //    pClassInfo.CLinelink = vm.LineLink;
+                //    pClassInfo.CPhone = vm.Phone;
+                //    pClassInfo.CStatus = vm.Status;
+                //    pClassInfo.COrder = vm.Order;
+                //    pClassInfo.Creuser = Guid.Parse(GetUserID(user));
+                //    pClassInfo.Credate = DateTime.Now;
+                //    db.PClassInfos.Add(pClassInfo);
+                //}
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    //result.CheckMsg = _fileservice.UploadIntro(pClassInfo.Uid, vm.file, 63);
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
+
+        #region 刪除
+        public BaseViewModel.errorMsg DelDataEnv(Guid Uid)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+
+            //撈資料
+            PClassInfo pClassInfo = db.PClassInfos.Find(Uid);
+            vm = new IntroViewModel.Rate();
+
+            try
+            {
+                db.PClassInfos.Remove(pClassInfo);
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+            }
+            result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+            return result;
+        }
+
+        #endregion
+
+
+        #endregion
+
         #region 課程及承辦資訊 ClassInfo
 
         #region 查詢
@@ -499,7 +691,7 @@ namespace Clea_Web.Service
                 vmClassInfo.Work = pClassInfo.CWork;
                 //vmClassInfo.WorkPlace = db.SysCodes.Where(x=>x.CParentCode.Equals("region") && x.CItemCode.Equals(pClassInfo.CWorkPlace)).FirstOrDefault().CItemName;
                 vmClassInfo.WorkPlace = pClassInfo.CWorkPlace;
-                vmClassInfo.Phone = pClassInfo.CPhone;
+                //vmClassInfo.Phone = pClassInfo.CPhone;
                 vmClassInfo.LineLink = pClassInfo.CLinelink;
                 vmClassInfo.Order = pClassInfo.COrder;
                 vmClassInfo.Status = pClassInfo.CStatus;
@@ -541,7 +733,7 @@ namespace Clea_Web.Service
                     pClassInfo.CWork = vm.Work;
                     pClassInfo.CWorkPlace = vm.WorkPlace;
                     pClassInfo.CLinelink = vm.LineLink;
-                    pClassInfo.CPhone = vm.Phone;
+                    //pClassInfo.CPhone = vm.Phone;
                     pClassInfo.CStatus = vm.Status;
                     pClassInfo.COrder = vm.Order;
                     pClassInfo.Upduser = Guid.Parse(GetUserID(user));
@@ -556,7 +748,7 @@ namespace Clea_Web.Service
                     pClassInfo.CWork = vm.Work;
                     pClassInfo.CWorkPlace = vm.WorkPlace;
                     pClassInfo.CLinelink = vm.LineLink;
-                    pClassInfo.CPhone = vm.Phone;
+                    //pClassInfo.CPhone = vm.Phone;
                     pClassInfo.CStatus = vm.Status;
                     pClassInfo.COrder = vm.Order;
                     pClassInfo.Creuser = Guid.Parse(GetUserID(user));
