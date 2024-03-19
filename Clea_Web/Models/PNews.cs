@@ -64,6 +64,8 @@ public partial class PNews
 
     public string? NLevel { get; set; }
 
+    public int? NClick { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }

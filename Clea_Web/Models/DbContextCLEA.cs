@@ -1191,6 +1191,7 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.NClass)
                 .HasComment("分類")
                 .HasColumnName("N_Class");
+            entity.Property(e => e.NClick).HasColumnName("N_Click");
             entity.Property(e => e.NContent)
                 .HasMaxLength(1000)
                 .HasComment("內文")

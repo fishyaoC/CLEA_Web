@@ -74,6 +74,7 @@ namespace Clea_Web.Service
                     pNews.NTitle = vm.Title;
                     pNews.NStartDate = vm.StartDate;
                     pNews.NStatus = vm.Status;
+                    pNews.NClick = vm.Click;
                     pNews.Upduser = Guid.Parse(GetUserID(user));
                     pNews.Upddate = DateTime.Now;
                 }
@@ -88,6 +89,7 @@ namespace Clea_Web.Service
                     pNews.NType = "28";
                     pNews.NIsShow = true;
                     pNews.NIsTop = true;
+                    pNews.NClick = vm.Click;
                     pNews.Creuser = Guid.Parse(GetUserID(user));
                     pNews.Credate = DateTime.Now;
                     db.PNews.Add(pNews);
@@ -145,6 +147,7 @@ namespace Clea_Web.Service
                 vm.Title = pNews.NTitle;
                 vm.StartDate = pNews.NStartDate;
                 vm.Status = pNews.NStatus;
+                vm.Click = pNews.NClick;
 
                 SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(pNews.NewsId)).FirstOrDefault();
                 if (sf != null)

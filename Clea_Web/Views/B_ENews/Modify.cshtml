@@ -32,7 +32,7 @@
                                 <div class="form-group row">
                                     @Html.LabelFor(x => x.Title, new { @class = "col-sm-3 col-form-label" })
                                     <div class="col-sm-9">
-                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "輪播圖名稱" })
+                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "標題" })
                                         @Html.ValidationMessageFor(x=>x.Title)
                                     </div>
                                 </div>
@@ -67,6 +67,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Click, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Click, new { @class = "form-control form-control", placeholder = "下載次數" })
+                                        @Html.ValidationMessageFor(x=>x.StartDate)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -74,7 +83,7 @@
                                     <label class="col-sm-3 col-form-label">電子報上傳(上傳覆蓋)</label>
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.file, new { @class="form-control form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload" })
-                                        @Html.ValidationMessageFor(x => x.file)
+@*                                         @Html.ValidationMessageFor(x => x.file) *@
                                     </div>
                                 </div>
                             </div>

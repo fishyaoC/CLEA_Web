@@ -21,7 +21,6 @@ namespace Clea_Web.ViewModels
             public Guid Uid { get; set; }
 
             [DisplayName("上傳檔案")]
-            [Required(ErrorMessage = "必填項目!")]
             public IFormFile? file { get; set; }
 
             [DisplayName("檔案路徑")]
@@ -51,6 +50,12 @@ namespace Clea_Web.ViewModels
             [DisplayName("是否上架")]
             [Required(ErrorMessage = "必填項目!")]
             public bool Status { get; set; } = true;
+
+            /// <summary>
+            /// 可調整之點閱次數
+            /// </summary>
+            [DisplayName("可調整之點閱次數")]
+            public int? Click { get; set; }
 
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }
