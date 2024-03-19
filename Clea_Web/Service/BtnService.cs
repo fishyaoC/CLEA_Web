@@ -108,6 +108,7 @@ namespace Clea_Web.Service
             model.NIsShow = _PNews.NIsShow;
             model.NIsTop = _PNews.NIsTop;
             model.NClass = _PNews.NClass;
+            model.Click = _PNews.NClick;
             //model.NType = _PNews.NType;
             model.Level = _PNews.NLevel;
             if (sfList != null)
@@ -156,6 +157,7 @@ namespace Clea_Web.Service
                     }
                     PNews.NStatus = vm.NStatus;
                     PNews.NContent = vm.NContent;
+                    PNews.NClick = vm.Click;
                     PNews.Upduser = Guid.Parse(GetUserID(user));
                     PNews.Upddate = DateTime.Now;
                 }
@@ -181,6 +183,7 @@ namespace Clea_Web.Service
                     }
                     PNews.NStatus = vm.NStatus;
                     PNews.NContent = vm.NContent;
+                    PNews.NClick = vm.Click;
                     PNews.Creuser = Guid.Parse(GetUserID(user));
                     PNews.Credate = DateTime.Now;
                     db.PNews.Add(PNews);

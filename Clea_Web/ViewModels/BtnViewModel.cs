@@ -117,6 +117,12 @@ namespace Clea_Web.ViewModels
             [DisplayName("會員等級")]
             public string Level { get; set; } = null!;
 
+            /// <summary>
+            /// 可調整之點閱次數
+            /// </summary>
+            [DisplayName("可調整之點閱次數")]
+            public int? Click { get; set; }
+
             public Guid Creuser { get; set; }
 
             public DateTime Credate { get; set; }
