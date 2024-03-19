@@ -68,6 +68,10 @@ public partial class PCompanyCv
 
     public bool CvStatus { get; set; }
 
+    public bool? CvClose { get; set; }
+
+    public DateTime? CvCloseTime { get; set; }
+
     /// <summary>
     /// 核准狀態
     /// </summary>

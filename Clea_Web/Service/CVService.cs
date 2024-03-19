@@ -156,6 +156,8 @@ namespace Clea_Web.Service
                 vm.Status = pCompanyCv.CvStatus;
                 vm.Memo = pCompanyCv.ApproveMemo;
                 vm.IsEdit = true;
+                vm.Close = pCompanyCv.CvClose == null ? "無" : (pCompanyCv.CvClose == true ? "上架中" : "下架中");
+                vm.CloseTime = pCompanyCv.CvCloseTime.ToString();
             }
             else
             {

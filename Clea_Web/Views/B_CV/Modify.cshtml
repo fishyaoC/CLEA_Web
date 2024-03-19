@@ -188,7 +188,7 @@
                             <div class="col-12 grid-margin stretch-card">
                                 <div class="card" style="background-color:#E0E0E0; border-radius:7px">
                                     <h4 class="card-title">
-                                        後台審核區域
+                                        後台審核區域、廠商上下架記錄
                                     </h4>
                                     <div class="card-body">
                                         <div class="row">
@@ -233,6 +233,32 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @if (Model.IsEdit == true)
+                                        {
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group row">
+                                                        @Html.LabelFor(x => x.Close, new { @class = "col-sm-3 col-form-label" })
+                                                        <div class="col-sm-9">
+                                                            @Html.TextBoxFor(x => x.Close, new { @class = "form-control form-control", @readonly = "readonly" })
+                                                            @* @Html.ValidationMessageFor(x=>x.Memo) *@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @if (Model.Close != "無")
+                                                {
+                                                    <div class="col-md-6">
+                                                        <div class="form-group row">
+                                                            @Html.LabelFor(x => x.CloseTime, new { @class = "col-sm-3 col-form-label" })
+                                                            <div class="col-sm-9">
+                                                                @Html.TextBoxFor(x => x.CloseTime, new { @class = "form-control form-control", @readonly = "readonly" })
+                                                                @* @Html.ValidationMessageFor(x=>x.Memo) *@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>

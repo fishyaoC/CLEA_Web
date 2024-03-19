@@ -138,6 +138,18 @@ namespace Clea_Web.ViewModels
             [Required(ErrorMessage = "必填項目!")]
             public bool Status { get; set; } = true;
 
+            /// <summary>
+            /// 廠商上下架狀態
+            /// </summary>
+            [DisplayName("廠商上下架狀態")]
+            public string? Close { get; set; }
+
+            /// <summary>
+            /// 廠商上下架時間
+            /// </summary>
+            [DisplayName("廠商上下架時間")]
+            public string? CloseTime { get; set; }
+
 
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }

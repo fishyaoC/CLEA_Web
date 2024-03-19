@@ -828,6 +828,10 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("地址")
                 .HasColumnName("CV_Address");
+            entity.Property(e => e.CvClose).HasColumnName("CV_Close");
+            entity.Property(e => e.CvCloseTime)
+                .HasColumnType("datetime")
+                .HasColumnName("CV_CloseTime");
             entity.Property(e => e.CvCompanyName)
                 .HasMaxLength(100)
                 .IsUnicode(false)
