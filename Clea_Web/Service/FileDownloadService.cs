@@ -60,6 +60,7 @@ namespace Clea_Web.Service
                           Class = (from code in db.SysCodes where code.CParentCode.Equals("fileDownload") && pFile.FClass.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Level = (from code in db.SysCodes where code.CParentCode.Equals("MemberLevel") && pFile.FLevel.ToString().Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Status = pFile.FStatus == true ? "是" : "否",
+                          ViewCount = (from Log in db.PNewsReadLogs where Log.NewsId.Equals(pFile.FileId) select Log).FirstOrDefault().NewsViews,
                           updDate = pFile.Upddate == null ? pFile.Credate.ToShortDateString() : pFile.Upddate.Value.ToShortDateString(),
                           updUser = (from user in db.SysUsers where (pFile.Upduser == null ? pFile.Creuser : pFile.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
                           StartD = pFile.Credate,
@@ -86,6 +87,7 @@ namespace Clea_Web.Service
                     pFile.FIsTop = vm.isTop;
                     pFile.FLevel = vm.Level;
                     pFile.FClassId = vm.ClassID;
+                    pFile.FClick = vm.Click;
                     pFile.Upduser = Guid.Parse(GetUserID(user));
                     pFile.Upddate = DateTime.Now;
                 }
@@ -101,6 +103,7 @@ namespace Clea_Web.Service
                     pFile.FIsTop = vm.isTop;
                     pFile.FLevel = vm.Level;
                     pFile.FClassId = vm.ClassID;
+                    pFile.FClick = vm.Click;
                     pFile.Creuser = Guid.Parse(GetUserID(user));
                     pFile.Credate = DateTime.Now;
                     db.PFiles.Add(pFile);
@@ -155,7 +158,7 @@ namespace Clea_Web.Service
                 vm.Status = pFile.FStatus;
                 vm.Level = pFile.FLevel;
                 vm.isTop = pFile.FIsTop;
-
+                vm.Click = pFile.FClick;
                 vm.IsEdit = true;
             }
             else

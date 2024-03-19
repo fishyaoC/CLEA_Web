@@ -53,6 +53,7 @@ namespace Clea_Web.ViewModels
             public String? Title { get; set; }
             public String? Class { get; set; }
             public String Level { get; set; }
+            public int? ViewCount { get; set; }
             public String? Status { get; set; }
             public String creDate { get; set; }
             public String updUser { get; set; }
@@ -122,6 +123,12 @@ namespace Clea_Web.ViewModels
             [Required(ErrorMessage = "必填項目!")]
             public bool isTop { get; set; } = false;
 
+            /// <summary>
+            /// 可調整之點閱次數
+            /// </summary>
+            [DisplayName("可調整之點閱次數")]
+            public int? Click { get; set; }
+
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }
 
@@ -135,9 +142,9 @@ namespace Clea_Web.ViewModels
 
             #region 表單下載用
             [DisplayName("上傳檔案")]
-            public IFormFile file1 { get; set; }
+            public IFormFile? file1 { get; set; }
             [DisplayName("檔案範本")]
-            public IFormFile file2 { get; set; }
+            public IFormFile? file2 { get; set; }
             #endregion
 
 

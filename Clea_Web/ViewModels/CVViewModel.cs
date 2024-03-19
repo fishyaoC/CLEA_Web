@@ -150,6 +150,12 @@ namespace Clea_Web.ViewModels
             [DisplayName("廠商上下架時間")]
             public string? CloseTime { get; set; }
 
+            /// <summary>
+            /// 可調整之點閱次數
+            /// </summary>
+            [DisplayName("可調整之點閱次數")]
+            public int? Click { get; set; }
+
 
             [DisplayName("編輯狀態")]
             public Boolean IsEdit { get; set; }
@@ -190,6 +196,7 @@ namespace Clea_Web.ViewModels
             public String? Approve { get; set; }
             public String? Status { get; set; }
             public String? Memo { get; set; }
+            public int? ViewCount { get; set; }
             public String creDate { get; set; }
             public String updUser { get; set; }
             public String updDate { get; set; }

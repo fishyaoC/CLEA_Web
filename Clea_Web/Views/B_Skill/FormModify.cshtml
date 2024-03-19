@@ -20,7 +20,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            檔案下載管理 - @(Model.IsEdit ? "編輯" : "新增")
+                            表單下載管理 - @(Model.IsEdit ? "編輯" : "新增")
                         </h4>
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
@@ -143,7 +143,16 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Click, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Click, new { @class = "form-control form-control", placeholder = "下載次數" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">
-                            公佈欄管理 - @(Model.IsEdit ? "編輯" : "新增")
+                            全國技能檢定_最新消息管理 - @(Model.IsEdit ? "編輯" : "新增")
                         </h4>
                         @Html.AntiForgeryToken()
                         @*回傳狀態*@
@@ -146,6 +146,14 @@
                                     <div class="col-sm-9">
                                         @Html.TextBoxFor(x => x.file, new { @class="form-control", placeholder = "上傳檔案", @type = "file", id = "fileUpload", multiple = "multiple", onchange = "displayUploadedFiles(this)" })
                                         @Html.ValidationMessageFor(x => x.file)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Click, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Click, new { @class = "form-control form-control", placeholder = "點閱次數" })
                                     </div>
                                 </div>
                             </div>

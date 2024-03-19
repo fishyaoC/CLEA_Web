@@ -51,6 +51,7 @@ namespace Clea_Web.Service
                           Approve = (from code in db.SysCodes where code.CParentCode.Equals("CV_Approved") && CV.IsApprove.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Status = CV.CvStatus == true ? "是" : "否",
                           Memo = string.IsNullOrEmpty(CV.ApproveMemo) ? "無備註" : CV.ApproveMemo,
+                          ViewCount = (from Log in db.PNewsReadLogs where Log.NewsId.Equals(CV.CvUid) select Log).FirstOrDefault().NewsViews,
                           updDate = CV.Upddate == null ? CV.Credate.ToShortDateString() : CV.Upddate.Value.ToShortDateString(),
                           updUser = (from user in db.SysUsers where (CV.Upduser == null ? CV.Creuser : CV.Upduser).Equals(user.UId) select user).FirstOrDefault().UName != null
                           ? (from user in db.SysUsers where (CV.Upduser == null ? CV.Creuser : CV.Upduser).Equals(user.UId) select user).FirstOrDefault().UName
@@ -88,6 +89,7 @@ namespace Clea_Web.Service
                     pCompanyCv.CvRequire = vm.Require;
                     pCompanyCv.IsApprove = vm.Approve;
                     pCompanyCv.ApproveMemo = vm.Memo;
+                    pCompanyCv.CvClick = vm.Click;
                     pCompanyCv.Upduser = Guid.Parse(GetUserID(user));
                     pCompanyCv.Upddate = DateTime.Now;
                 }
@@ -111,6 +113,7 @@ namespace Clea_Web.Service
                     pCompanyCv.CvRequire = vm.Require;
                     pCompanyCv.IsApprove = "1";
                     pCompanyCv.ApproveMemo = vm.Memo;
+                    pCompanyCv.CvClick = vm.Click;
                     pCompanyCv.Creuser = Guid.Parse(GetUserID(user));
                     pCompanyCv.Credate = DateTime.Now;
                     db.PCompanyCvs.Add(pCompanyCv);
@@ -158,6 +161,7 @@ namespace Clea_Web.Service
                 vm.IsEdit = true;
                 vm.Close = pCompanyCv.CvClose == null ? "無" : (pCompanyCv.CvClose == true ? "上架中" : "下架中");
                 vm.CloseTime = pCompanyCv.CvCloseTime.ToString();
+                vm.Click = pCompanyCv.CvClick;
             }
             else
             {

@@ -123,6 +123,7 @@ namespace Clea_Web.Service
             model.NClass = _PNews.NClass;
             model.NType = Convert.ToInt32(_PNews.NType);
             model.Level = _PNews.NLevel;
+            model.Click = _PNews.NClick;
             if (sfList != null)
             {
                 foreach (var sf in sfList)
@@ -169,6 +170,7 @@ namespace Clea_Web.Service
                     }
                     PNews.NStatus = vm.NStatus;
                     PNews.NContent = vm.NContent;
+                    PNews.NClick = vm.Click;
                     PNews.Upduser = Guid.Parse(GetUserID(user));
                     PNews.Upddate = DateTime.Now;
                 }
@@ -194,6 +196,7 @@ namespace Clea_Web.Service
                     }
                     PNews.NStatus = vm.NStatus;
                     PNews.NContent = vm.NContent;
+                    PNews.NClick = vm.Click;
                     PNews.Creuser = Guid.Parse(GetUserID(user));
                     PNews.Credate = DateTime.Now;
                     db.PNews.Add(PNews);
@@ -493,6 +496,7 @@ namespace Clea_Web.Service
                           Class = (from code in db.SysCodes where code.CParentCode.Equals("fileDownload") && pFile.FClass.Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Level = (from code in db.SysCodes where code.CParentCode.Equals("MemberLevel") && pFile.FLevel.ToString().Equals(code.CItemCode) select code).FirstOrDefault().CItemName,
                           Status = pFile.FStatus == true ? "是" : "否",
+                          ViewCount = (from Log in db.PNewsReadLogs where Log.NewsId.Equals(pFile.FileId) select Log).FirstOrDefault().NewsViews,
                           updDate = pFile.Upddate == null ? pFile.Credate.ToShortDateString() : pFile.Upddate.Value.ToShortDateString(),
                           updUser = (from user in db.SysUsers where (pFile.Upduser == null ? pFile.Creuser : pFile.Upduser).Equals(user.UId) select user).FirstOrDefault().UName,
                           StartD = pFile.Credate,
@@ -520,6 +524,7 @@ namespace Clea_Web.Service
                 vmFile.Level = pFile.FLevel;
                 vmFile.isTop = pFile.FIsTop;
                 vmFile.Memo = pFile.FMemo;
+                vmFile.Click = pFile.FClick;
                 vmFile.IsEdit = true;
             }
             else
@@ -547,6 +552,8 @@ namespace Clea_Web.Service
                 }
             }
 
+
+
             return vmFile;
         }
         #endregion
@@ -569,6 +576,7 @@ namespace Clea_Web.Service
                     pFile.FLevel = vm.Level;
                     pFile.FClassId = vm.ClassID;
                     pFile.FMemo = vm.Memo;
+                    pFile.FClick = vm.Click;
                     pFile.Upduser = Guid.Parse(GetUserID(user));
                     pFile.Upddate = DateTime.Now;
                 }
@@ -585,9 +593,17 @@ namespace Clea_Web.Service
                     pFile.FLevel = vm.Level;
                     pFile.FClassId = vm.ClassID;
                     pFile.FMemo = vm.Memo;
+                    pFile.FClick = vm.Click;
                     pFile.Creuser = Guid.Parse(GetUserID(user));
                     pFile.Credate = DateTime.Now;
                     db.PFiles.Add(pFile);
+
+                    PNewsReadLog pNewsReadLog = new PNewsReadLog();
+                    pNewsReadLog.NewsId = pFile.FileId;
+                    pNewsReadLog.NewsViews = 0;
+                    pNewsReadLog.Creuser = Guid.Parse(GetUserID(user));
+                    pNewsReadLog.Credate = DateTime.Now;
+                    db.PNewsReadLogs.Add(pNewsReadLog);
                 }
                 result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
 

@@ -64,6 +64,9 @@ public partial class PNews
 
     public string? NLevel { get; set; }
 
+    /// <summary>
+    /// 可調整之點閱次數
+    /// </summary>
     public int? NClick { get; set; }
 
     public Guid Creuser { get; set; }
@@ -73,6 +76,4 @@ public partial class PNews
     public Guid? Upduser { get; set; }
 
     public DateTime? Upddate { get; set; }
-
-    public virtual ICollection<PNewsReadLog> PNewsReadLogs { get; set; } = new List<PNewsReadLog>();
 }

@@ -72,6 +72,8 @@ public partial class PCompanyCv
 
     public DateTime? CvCloseTime { get; set; }
 
+    public int? CvClick { get; set; }
+
     /// <summary>
     /// 核准狀態
     /// </summary>

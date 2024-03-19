@@ -24,6 +24,4 @@ public partial class PNewsReadLog
     public Guid? Upduser { get; set; }
 
     public DateTime? Upddate { get; set; }
-
-    public virtual PNews News { get; set; } = null!;
 }

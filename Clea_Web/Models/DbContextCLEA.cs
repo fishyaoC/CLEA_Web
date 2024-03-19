@@ -828,6 +828,7 @@ public partial class DbContextCLEA : DbContext
                 .IsUnicode(false)
                 .HasComment("地址")
                 .HasColumnName("CV_Address");
+            entity.Property(e => e.CvClick).HasColumnName("CV_Click");
             entity.Property(e => e.CvClose).HasColumnName("CV_Close");
             entity.Property(e => e.CvCloseTime)
                 .HasColumnType("datetime")
@@ -922,6 +923,9 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.FClassId)
                 .HasComment("課程UID")
                 .HasColumnName("F_ClassID");
+            entity.Property(e => e.FClick)
+                .HasComment("可調整之點閱次數")
+                .HasColumnName("F_Click");
             entity.Property(e => e.FIsTop)
                 .HasComment("是否置頂")
                 .HasColumnName("F_IsTop");
@@ -1191,7 +1195,9 @@ public partial class DbContextCLEA : DbContext
             entity.Property(e => e.NClass)
                 .HasComment("分類")
                 .HasColumnName("N_Class");
-            entity.Property(e => e.NClick).HasColumnName("N_Click");
+            entity.Property(e => e.NClick)
+                .HasComment("可調整之點閱次數")
+                .HasColumnName("N_Click");
             entity.Property(e => e.NContent)
                 .HasMaxLength(1000)
                 .HasComment("內文")
@@ -1262,11 +1268,6 @@ public partial class DbContextCLEA : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("UPDDATE");
             entity.Property(e => e.Upduser).HasColumnName("UPDUSER");
-
-            entity.HasOne(d => d.News).WithMany(p => p.PNewsReadLogs)
-                .HasForeignKey(d => d.NewsId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_P_NewsReadLog_P_News");
         });
 
         modelBuilder.Entity<SysCode>(entity =>

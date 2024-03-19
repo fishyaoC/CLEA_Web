@@ -46,6 +46,11 @@ public partial class PFile
     /// </summary>
     public Guid? FClassId { get; set; }
 
+    /// <summary>
+    /// 可調整之點閱次數
+    /// </summary>
+    public int? FClick { get; set; }
+
     public Guid Creuser { get; set; }
 
     public DateTime Credate { get; set; }
