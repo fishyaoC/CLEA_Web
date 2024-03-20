@@ -15,6 +15,8 @@ namespace Clea_Web.Service
     {
 
         private IntroViewModel.Rate vm = new IntroViewModel.Rate();
+        private List<IntroViewModel.Rate> vmFare = new List<IntroViewModel.Rate>();
+
         private IntroViewModel.Nav vmNav = new IntroViewModel.Nav();
         private IntroViewModel.ClassInfo vmClassInfo = new IntroViewModel.ClassInfo();
         private IntroViewModel.Env vmEnv = new IntroViewModel.Env();
@@ -33,9 +35,141 @@ namespace Clea_Web.Service
         }
 
 
+        #region 收費標準 fare
+
+        #region 儲存
+        public BaseViewModel.errorMsg SaveFareData(IntroViewModel.Rate vm)
+        {
+            BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
+            try
+            {
+                PFile? pFile = db.PFiles.Find(vm.Uid);
+                PFile? pFile2 = db.PFiles.Find(vm.Uid2);
 
 
-        #region 收退費標準 rate
+                if (vm != null && vm.IsEdit == true)
+                {
+                    //編輯
+                    //pFile.FTitle = vm.Title;
+                    //pFile.FMemo = vm.Memo;
+                    pFile.FStatus = vm.Status;
+                    pFile.Upduser = Guid.Parse(GetUserID(user));
+                    pFile.Upddate = DateTime.Now;
+
+                    pFile2.FStatus = vm.Status2;
+                    pFile2.Upduser = Guid.Parse(GetUserID(user));
+                    pFile2.Upddate = DateTime.Now;
+                }
+                else if (vm != null && vm.IsEdit == false)
+                {
+                    //新增
+                    //pFile = new PFile();
+                    //pFile.FileId = Guid.NewGuid();
+                    //pFile.FTitle = vm.Title;
+                    //pFile.FType = 59;
+                    //pFile.FIsTop = false;
+                    //pFile.FOrder = 0;
+                    //pFile.FMemo = vm.Memo;
+                    //pFile.FStatus = vm.Status;
+                    //pFile.FStatus = vm.Status;
+                    //pFile.Creuser = Guid.Parse(GetUserID(user));
+                    //pFile.Credate = DateTime.Now;
+                    //db.PFiles.Add(pFile);
+                }
+                result.CheckMsg = Convert.ToBoolean(db.SaveChanges());
+
+                if (vm.file == null)
+                {
+                    result.CheckMsg = true;
+                }
+                else if (vm.file != null)
+                {
+                    _fileservice.user = user;
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 58);
+                    result.CheckMsg = _fileservice.UploadIntro(pFile2.FileId, vm.file2, 58);
+
+                    if (result.CheckMsg)
+                    {
+
+                    }
+                    else
+                    {
+                        result.CheckMsg = false;
+                        result.ErrorMsg = "檔案上傳失敗";
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                result.ErrorMsg = e.Message;
+                //return false;
+            }
+            return result;
+
+        }
+        #endregion
+
+        #region 編輯
+        public IntroViewModel.Rate GetEditDataFare()
+        {
+            //撈資料
+            List<PFile?> pFile = db.PFiles.Where(x => x.FType.Equals(58)).ToList();
+            vm = new IntroViewModel.Rate();
+
+
+            if (pFile != null)
+            {
+                foreach (var item in pFile)
+                {
+                    if (item.FTitle == "台中")
+                    {
+                        vm.Uid = item.FileId;
+                        vm.Title = item.FTitle;
+                        //vm.Memo = item.FMemo;
+                        vm.Status = item.FStatus;
+                        SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(item.FileId)).FirstOrDefault();
+                        if (sf != null)
+                        {
+                            string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                            string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                            byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                            vm.IMG = Convert.ToBase64String(imageBytes);
+                        }
+                    }
+                    else if (item.FTitle == "彰化") {
+                        vm.Uid2 = item.FileId;
+                        vm.Title2 = item.FTitle;
+                        //vm.Memo = item.FMemo;
+                        vm.Status2 = item.FStatus;
+                        SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(item.FileId)).FirstOrDefault();
+                        if (sf != null)
+                        {
+                            string fileNameDL = sf.FNameDl + "." + sf.FExt;
+                            string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+                            byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                            vm.IMG2 = Convert.ToBase64String(imageBytes);
+                        }
+                    }
+
+                }
+                vm.IsEdit = true;
+            }
+            else
+            {
+                //新增
+                vm.IsEdit = false;
+                String filePath = "./SampleFile/1920x680.gif";
+                byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+                vm.IMG = Convert.ToBase64String(imageBytes);
+            }
+            return vm;
+        }
+        #endregion
+
+        #endregion
+
+        #region 退費標準 rate
 
         #region 儲存
         public BaseViewModel.errorMsg SaveData(IntroViewModel.Rate vm)
@@ -472,7 +606,7 @@ namespace Clea_Web.Service
             result = (from pList in db.PLists
                       where
                       (
-                      (string.IsNullOrEmpty(data.Title) || pList.LTitle.Contains(data.Title)) && pList.LType == 64
+                      (string.IsNullOrEmpty(data.Title) || pList.LTitle.Contains(data.Title)) && pList.LType == 65
                       )
                       select new IntroViewModel.schPageList
                       {
@@ -521,7 +655,8 @@ namespace Clea_Web.Service
                         {
                             pAlbum.thum = true; //首圖
                         }
-                        else { 
+                        else
+                        {
                             pAlbum.thum = false; //首圖                           
                         }
                         pAlbum.Memo = sf.FRemark; //圖片說明

@@ -245,12 +245,12 @@ namespace Clea_Web.Service
 
         #region List 標題配條列內容
         #region 查詢
-        public IPagedList<SysCodeViewModel.schPageList> schPages(SysCodeViewModel.SchItem data, Int32 page, Int32 pagesize)
+        public IPagedList<SysCodeViewModel.schPageList> schPages(SysCodeViewModel.SchItem data, Int32 page, Int32 pagesize,Int32 LType)
         {
-            return GetPageLists(data).ToPagedList(page, pagesize);
+            return GetPageLists(data, LType).ToPagedList(page, pagesize);
         }
 
-        public List<SysCodeViewModel.schPageList> GetPageLists(SysCodeViewModel.SchItem data)
+        public List<SysCodeViewModel.schPageList> GetPageLists(SysCodeViewModel.SchItem data, Int32 LType)
         {
             List<SysCodeViewModel.schPageList> result = new List<SysCodeViewModel.schPageList>();
 
@@ -258,7 +258,7 @@ namespace Clea_Web.Service
             result = (from PList in db.PLists
                       where
                       (
-                      (string.IsNullOrEmpty(data.itemName) || PList.LTitle.Contains(data.itemName)) && PList.LParentUid == null && PList.LType == 35 
+                      (string.IsNullOrEmpty(data.itemName) || PList.LTitle.Contains(data.itemName)) && PList.LParentUid == null && PList.LType == LType
                       )
                       select new SysCodeViewModel.schPageList
                       {
@@ -277,10 +277,10 @@ namespace Clea_Web.Service
         #endregion
 
         #region 新增/編輯
-        public TestInfoViewModel.PListModify GetEditDataList(Guid Uid)
+        public TestInfoViewModel.PListModify GetEditDataList(Guid Uid,Int32 LType)
         {
             //撈資料
-            PList? pList = db.PLists.Where(x => x.Uid.Equals(Uid)).FirstOrDefault();
+            PList? pList = db.PLists.Where(x => x.Uid.Equals(Uid) && x.LType == LType).FirstOrDefault();
             vmList = new TestInfoViewModel.PListModify();
             if (pList != null)
             {
@@ -320,7 +320,7 @@ namespace Clea_Web.Service
         #endregion
 
         #region 儲存
-        public BaseViewModel.errorMsg SaveDataList(TestInfoViewModel.PListModify vmList)
+        public BaseViewModel.errorMsg SaveDataList(TestInfoViewModel.PListModify vmList,Int32 LType)
         {
             BaseViewModel.errorMsg? result = new BaseViewModel.errorMsg();
             try
@@ -336,7 +336,6 @@ namespace Clea_Web.Service
 
                 if (vmList != null && vmList.IsEdit == true)
                 {
-                    //編輯35
                     pList.LTitle = vmList.Title;
                     pList.LOrder = vmList.Order;
                     pList.LStatus = vmList.Status;
@@ -377,7 +376,7 @@ namespace Clea_Web.Service
                             pListChild.LParentUid = vmList.Uid;
                             pListChild.LTitle = item.Title;
                             pListChild.LOrder = index;
-                            pListChild.LType = 35;
+                            pListChild.LType = LType;
                             pListChild.LStatus = true;
                             pListChild.Creuser = Guid.Parse(GetUserID(user));
                             pListChild.Credate = DateTime.Now;
@@ -397,7 +396,7 @@ namespace Clea_Web.Service
                     pList.Uid = Guid.NewGuid();
                     pList.LTitle = vmList.Title;
                     pList.LOrder = vmList.Order;
-                    pList.LType = 35;
+                    pList.LType = LType;
                     pList.LStatus = true;
                     pList.Creuser = Guid.Parse(GetUserID(user));
                     pList.Credate = DateTime.Now;
@@ -413,7 +412,7 @@ namespace Clea_Web.Service
                         pListList.LParentUid = pList.Uid;
                         pListList.LTitle = item.Title;
                         pListList.LOrder = index;
-                        pListList.LType = 35;
+                        pListList.LType = LType;
                         pListList.LStatus = true;
                         pListList.Creuser = Guid.Parse(GetUserID(user));
                         pListList.Credate = DateTime.Now;

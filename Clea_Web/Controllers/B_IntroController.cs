@@ -20,19 +20,59 @@ namespace Clea_Web.Controllers
     {
         private readonly ILogger<B_IntroController> _logger;
         private IntroService _IntroService;
+        private TestInfoService _TestInfoService;
         private FileService _fileservice;
         private IConfiguration configuration;
 
-        public B_IntroController(ILogger<B_IntroController> logger, dbContext dbCLEA, IntroService Service, FileService fileservice, IConfiguration configuration)
+        public B_IntroController(ILogger<B_IntroController> logger, dbContext dbCLEA, IntroService Service, TestInfoService ServiceT, FileService fileservice, IConfiguration configuration)
         {
             _logger = logger;
             db = dbCLEA;
             _IntroService = Service;
+            _TestInfoService = ServiceT;
             _fileservice = fileservice;
             this.configuration = configuration;
         }
 
-        #region 收退費標準編輯Rate
+        #region 收費標準編輯Fare
+        public IActionResult FareIndex()
+        {
+            IntroViewModel.Rate? vm = new IntroViewModel.Rate();
+
+
+            vm = _IntroService.GetEditDataFare();
+
+
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult FareIndex(IntroViewModel.Rate vm)
+        {
+            _IntroService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.SaveFareData(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("FareIndex");
+        }
+        #endregion
+
+        #region 退費標準編輯Rate
         public IActionResult RateIndex()
         {
             IntroViewModel.Rate? vm = new IntroViewModel.Rate();
@@ -182,6 +222,186 @@ namespace Clea_Web.Controllers
             //return RedirectToAction("Index", new { msg = error });
         }
         #endregion
+
+        #endregion
+
+        #region 本會願景與使命Idea
+
+        #region 查詢
+        public IActionResult IdeaIndex(String? data, Int32? page)
+        {
+            SysCodeViewModel.SchModel vmd = new SysCodeViewModel.SchModel();
+            page = page ?? 1;
+
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<SysCodeViewModel.SchItem>(value: data);
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new SysCodeViewModel.SchItem();
+            }
+            //type=61
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15,61);
+
+            return View(vmd);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult IdeaIndex(SysCodeViewModel.SchModel vmd)
+        {
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15,61);
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            return View(vmd);
+        }
+        #endregion
+
+        #region 新增、編輯
+        public IActionResult IdeaModify(Guid Uid)
+        {
+            TestInfoViewModel.PListModify? vm = new TestInfoViewModel.PListModify();
+
+
+            if (!string.IsNullOrEmpty(Uid.ToString()))
+            {
+                //編輯
+                vm = _TestInfoService.GetEditDataList(Uid,61);
+                //vm.IsEdit = true;
+
+            }
+            else
+            {
+                //新增
+                vm = new TestInfoViewModel.PListModify();
+            }
+
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult IdeaModify([FromForm] TestInfoViewModel.PListModify vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataList(vm,61);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("IdeaIndex");
+        }
+        #endregion
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult DeletePList(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.DelDataPList(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+
+        #endregion
+
+        #region 本會訓練目標與發展政策Goal
+
+        #region 查詢
+        public IActionResult GoalIndex(String? data, Int32? page)
+        {
+            SysCodeViewModel.SchModel vmd = new SysCodeViewModel.SchModel();
+            page = page ?? 1;
+
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<SysCodeViewModel.SchItem>(value: data);
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new SysCodeViewModel.SchItem();
+            }
+            //type=61
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15, 62);
+
+            return View(vmd);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GoalIndex(SysCodeViewModel.SchModel vmd)
+        {
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15, 62);
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            return View(vmd);
+        }
+        #endregion
+
+        #region 新增、編輯
+        public IActionResult GoalModify(Guid Uid)
+        {
+            TestInfoViewModel.PListModify? vm = new TestInfoViewModel.PListModify();
+
+
+            if (!string.IsNullOrEmpty(Uid.ToString()))
+            {
+                //編輯
+                vm = _TestInfoService.GetEditDataList(Uid, 62);
+                //vm.IsEdit = true;
+
+            }
+            else
+            {
+                //新增
+                vm = new TestInfoViewModel.PListModify();
+            }
+
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult GoalModify([FromForm] TestInfoViewModel.PListModify vm)
+        {
+            _TestInfoService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _TestInfoService.SaveDataList(vm, 62);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("GoalIndex");
+        }
+        #endregion
+
 
         #endregion
 

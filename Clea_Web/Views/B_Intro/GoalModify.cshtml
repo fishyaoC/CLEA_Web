@@ -1,0 +1,165 @@
+﻿@using Clea_Web.Models;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Clea_Web.ViewModels.TestInfoViewModel.PListModify
+@{
+    Layout = "~/Views/Shared/_LayoutBackEnd.cshtml";
+    dbContext db = new dbContext();
+}
+
+<div class="content-wrapper">
+    <form class="form-sample" method="post" action="@Url.Action("GoalModify","B_Intro")">
+        <div class="mb-2 mt-2">
+            <button type="submit" class="btn btn-info">儲存</button>
+            @* <button type="button" class="btn btn-secondary">取消</button> *@
+            <a href="@Url.Action("GoalIndex","B_Intro")" class="btn btn-secondary">取消</a>
+        </div>
+        <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            本會訓練目標與發展政策管理 - @(Model.IsEdit ? "編輯" : "新增")
+                        </h4>
+                        @Html.AntiForgeryToken()
+                        @*回傳狀態*@
+                        @Html.HiddenFor(x => x.IsEdit)
+                        @*回傳Uid*@
+                        @Html.HiddenFor(x => x.Uid)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Title, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Title, new { @class = "form-control form-control", placeholder = "標題" })
+                                        @Html.ValidationMessageFor(x=>x.Title)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">是否上架</label>
+                                    @* @Html.LabelFor(x=> x.RStatus, new { @class="col-sm-3 col-form-label" }) *@
+
+                                    <div class="col-sm-9 d-flex justify-content-around">
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.Status, true, new { @class = "form-check-input", @name = "Status" })
+                                            <label for="MTypeB">
+                                                是
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            @Html.RadioButtonFor(x => x.Status, false, new {@class = "form-check-input", @name = "Status" })
+                                            <label for="MTypeP">
+                                                否
+                                            </label>
+                                        </div>                                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    @Html.LabelFor(x => x.Order, new { @class = "col-sm-3 col-form-label" })
+                                    <div class="col-sm-9">
+                                        @Html.TextBoxFor(x => x.Order, new { @class = "form-control form-control", placeholder = "排序" })
+                                        @Html.ValidationMessageFor(x=>x.Order)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">子項目</label>
+                                    <div class="col-12 grid-margin stretch-card">
+                                        <div class="card">
+                                            <div class="card-body" style="background-color:#D0D0D0; border-radius:8px">
+                                                <div class="form-group">
+                                                <button  type="button" class="btn btn-info" id="addNew">+新增</button>
+                                                <button  type="button" class="btn btn-danger" id="Remove">-刪除</button>
+                                                </div>
+@*                                                 <div>
+                                                <h4 style="color:red;">若要刪除選項，請聯繫系統管理員</h4>
+                                                </div> *@
+                                                <div id="modifyContainer" class="form-group row">
+                                                    @if (Model.modifies != null)
+                                                    {
+                                                        var count = 1;
+                                                        @foreach (var child in Model.modifies)
+                                                        {
+                                                            @* @Html.HiddenFor(x => x.modifies[count-1].Order) *@
+                                                            <div class="col-md-8">
+                                                                <!-- Combined the columns into one -->
+                                                                <div class="form-group row modifies">
+                                                                    @Html.HiddenFor(x => x.modifies[count-1].Uid)
+                                                                    <div class="col-sm-1">
+                                                                        @* <label class="col-sm-1 col-form-label count">@Model.modifies[count-1].Order</label> *@
+                                                                        @Html.TextBoxFor(x => x.modifies[count-1].Order, new { @class = "form-control form-control", @readonly = "readonly"})
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        @Html.TextBoxFor(x => x.modifies[count-1].Title, new { @class = "form-control form-control", placeholder = "本會訓練目標與發展政策管理" })
+                                                                    </div>
+@*                                                                     <div class="col-sm-3">
+                                                                        <button type="button" style="border-radius:50%;" class="ti-plus btn-icon btn btn-primary btn-rounded addButton"></button>
+                                                                        <button type="button" style="border-radius:50%;" class="ti-close btn-icon btn btn-danger btn-rounded removeButton"></button>
+                                                                    </div> *@
+                                                                </div>
+                                                            </div>
+                                                            count++;
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+        var addNewButton = document.getElementById("addNew");
+        addNewButton.addEventListener("click", function() {
+            var modifyContainer = document.getElementById("modifyContainer");
+            var count = modifyContainer.querySelectorAll(".modifies").length + 1;
+
+            var newDiv = document.createElement("div");
+            newDiv.className = "col-md-8";
+
+            var innerHTML = '<div class="form-group row modifies">' +
+                                '<div class="col-sm-1">' +
+                                    '<input type="text" class="form-control form-control" readonly="readonly" name="modifies[' + (count-1) + '].Order" value="' + count + '">' +
+                                '</div>' +
+                                '<div class="col-sm-8">' +
+                                    '<input type="text" class="form-control form-control" name="modifies[' + (count-1) + '].Title" placeholder="選單內容">' +
+                                '</div>' +
+                            '</div>';
+
+            newDiv.innerHTML = innerHTML;
+
+            modifyContainer.appendChild(newDiv);
+        });
+
+        var removeButton = document.getElementById("Remove");
+        removeButton.addEventListener("click", function() {
+            var modifyContainer = document.getElementById("modifyContainer");
+            var rows = modifyContainer.querySelectorAll(".modifies");
+
+            // 只有存在行时才移除最后一行
+            if (rows.length > 0) {
+                var lastRow = rows[rows.length - 1];
+                lastRow.remove();
+            }
+        });
+    });
+</script>

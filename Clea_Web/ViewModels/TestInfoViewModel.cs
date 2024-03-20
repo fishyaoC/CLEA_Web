@@ -35,8 +35,13 @@ namespace Clea_Web.ViewModels
             [DisplayName("Uid")]
             public Guid Uid { get; set; }
 
+            [DisplayName("Uid")]
+            public Guid Uid2 { get; set; }
+
             [DisplayName("上傳檔案")]
             public IFormFile? file { get; set; }
+            [DisplayName("上傳檔案")]
+            public IFormFile? file2 { get; set; }
 
             [DisplayName("檔案路徑")]
             public String? FilePath { get; set; }
@@ -45,12 +50,26 @@ namespace Clea_Web.ViewModels
             [DisplayName("檔案PK")]
             public Guid? FileID { get; set; }
 
+            [DisplayName("檔案路徑")]
+            public String? FilePath2 { get; set; }
+            [DisplayName("檔案名稱")]
+            public String? FileName2 { get; set; }
+            [DisplayName("檔案PK")]
+            public Guid? FileID2 { get; set; }
+
             /// <summary>
             /// 標題
             /// </summary>
             [DisplayName("標題")]
             [Required(ErrorMessage = "必填項目!")]
             public string Title { get; set; }
+
+            /// <summary>
+            /// 標題
+            /// </summary>
+            [DisplayName("標題")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string Title2 { get; set; }
 
             /// <summary>
             /// 備註文字
@@ -74,11 +93,25 @@ namespace Clea_Web.ViewModels
             public bool Status { get; set; }
 
             /// <summary>
+            /// 是否上架
+            /// </summary>
+            [DisplayName("是否上架")]
+            [Required(ErrorMessage = "必填項目!")]
+            public bool Status2 { get; set; }
+
+            /// <summary>
             /// 輪播圖檔案
             /// </summary>
             [DisplayName("圖片預覽")]
             [Required(ErrorMessage = "必填項目!")]
             public string IMG { get; set; }
+
+            /// <summary>
+            /// 輪播圖檔案
+            /// </summary>
+            [DisplayName("圖片預覽")]
+            [Required(ErrorMessage = "必填項目!")]
+            public string IMG2 { get; set; }
 
 
 

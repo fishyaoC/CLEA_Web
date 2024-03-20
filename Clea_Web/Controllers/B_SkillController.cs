@@ -188,7 +188,7 @@ namespace Clea_Web.Controllers
                 vmd.schItem = new SysCodeViewModel.SchItem();
             }
 
-            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15);
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, page.Value, 15,35);
 
             return View(vmd);
         }
@@ -197,7 +197,7 @@ namespace Clea_Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult QualifyIndex(SysCodeViewModel.SchModel vmd)
         {
-            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15);
+            vmd.schPageList2 = _TestInfoService.schPages(vmd.schItem, 1, 15,35);
             ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
             return View(vmd);
         }
@@ -212,7 +212,7 @@ namespace Clea_Web.Controllers
             if (!string.IsNullOrEmpty(Uid.ToString()))
             {
                 //編輯
-                vm = _TestInfoService.GetEditDataList(Uid);
+                vm = _TestInfoService.GetEditDataList(Uid,35);
                 //vm.IsEdit = true;
 
             }
@@ -232,7 +232,7 @@ namespace Clea_Web.Controllers
         {
             _TestInfoService.user = User;
             BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
-            error = _TestInfoService.SaveDataList(vm);
+            error = _TestInfoService.SaveDataList(vm,35);
 
             //SWAL儲存成功
             if (error.CheckMsg)

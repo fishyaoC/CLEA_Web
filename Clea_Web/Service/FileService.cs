@@ -753,7 +753,11 @@ namespace Clea_Web.Service
         public bool UploadIntro(Guid matchKey, IFormFile file, int FModule, bool overwrite = true)
         {
             string FModuleStr = string.Empty;
-            if (FModule == 59)
+            if (FModule == 58)
+            {
+                FModuleStr = "B_Intro/Fare";
+            }
+            else if (FModule == 59)
             {
                 FModuleStr = "B_Intro/Rate";
             }
