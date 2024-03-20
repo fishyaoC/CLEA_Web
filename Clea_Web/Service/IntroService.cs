@@ -60,7 +60,7 @@ namespace Clea_Web.Service
                     pFile = new PFile();
                     pFile.FileId = Guid.NewGuid();
                     pFile.FTitle = vm.Title;
-                    pFile.FType = 58;
+                    pFile.FType = 59;
                     pFile.FIsTop = false;
                     pFile.FOrder = 0;
                     pFile.FMemo = vm.Memo;
@@ -79,7 +79,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 58);
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 59);
                     if (result.CheckMsg)
                     {
 
@@ -106,7 +106,7 @@ namespace Clea_Web.Service
         public IntroViewModel.Rate GetEditData()
         {
             //撈資料
-            PFile? pFile = db.PFiles.Where(x => x.FType.Equals(58)).FirstOrDefault();
+            PFile? pFile = db.PFiles.Where(x => x.FType.Equals(59)).FirstOrDefault();
             vm = new IntroViewModel.Rate();
 
             if (pFile != null)
@@ -159,7 +159,7 @@ namespace Clea_Web.Service
                       where
                       (
                       (string.IsNullOrEmpty(data.Title) || pFile.FTitle.Contains(data.Title)) &&
-                      (pFile.FType == 59)
+                      (pFile.FType == 60)
                       )
                       select new IntroViewModel.schPageList
                       {
@@ -200,7 +200,7 @@ namespace Clea_Web.Service
                     pFile = new PFile();
                     pFile.FileId = Guid.NewGuid();
                     pFile.FTitle = vm.Title;
-                    pFile.FType = 59;
+                    pFile.FType = 60;
                     pFile.FIsTop = false;
                     pFile.FOrder = vm.Order;
                     pFile.FMemo = vm.Memo;
@@ -219,7 +219,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 59);
+                    result.CheckMsg = _fileservice.UploadIntro(pFile.FileId, vm.file, 60);
                     if (result.CheckMsg)
                     {
 
@@ -246,7 +246,7 @@ namespace Clea_Web.Service
         public IntroViewModel.Rate GetEditDataGP(Guid Uid)
         {
             //撈資料
-            PFile? pFile = db.PFiles.Where(x => x.FType.Equals(59) && x.FileId.Equals(Uid)).FirstOrDefault();
+            PFile? pFile = db.PFiles.Where(x => x.FType.Equals(60) && x.FileId.Equals(Uid)).FirstOrDefault();
             vm = new IntroViewModel.Rate();
 
             if (pFile != null)
@@ -364,7 +364,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pNav.Uid, vm.file, 61);
+                    result.CheckMsg = _fileservice.UploadIntro(pNav.Uid, vm.file, 63);
                     if (result.CheckMsg)
                     {
 
@@ -472,7 +472,7 @@ namespace Clea_Web.Service
             result = (from pList in db.PLists
                       where
                       (
-                      (string.IsNullOrEmpty(data.Title) || pList.LTitle.Contains(data.Title)) && pList.LType == 62
+                      (string.IsNullOrEmpty(data.Title) || pList.LTitle.Contains(data.Title)) && pList.LType == 64
                       )
                       select new IntroViewModel.schPageList
                       {
@@ -764,7 +764,7 @@ namespace Clea_Web.Service
                 else if (vm.file != null)
                 {
                     _fileservice.user = user;
-                    result.CheckMsg = _fileservice.UploadIntro(pClassInfo.Uid, vm.file, 63);
+                    result.CheckMsg = _fileservice.UploadIntro(pClassInfo.Uid, vm.file, 65);
                     if (result.CheckMsg)
                     {
 
