@@ -300,6 +300,123 @@ namespace Clea_Web.Controllers
 
         #endregion
 
+        #region 環境介紹Env
+
+        #region 查詢
+        public IActionResult EnvIndex(String? data, Int32? page)
+        {
+            IntroViewModel.SchModel vmd = new IntroViewModel.SchModel();
+            page = page ?? 1;
+
+            if (!(page is null) && !string.IsNullOrEmpty(data))
+            {
+                vmd.schItem = JsonConvert.DeserializeObject<IntroViewModel.SchItem>(value: data);
+
+                ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            }
+            else
+            {
+                vmd.schItem = new IntroViewModel.SchItem();
+            }
+
+            vmd.schPageList2 = _IntroService.schPagesEnv(vmd.schItem, page.Value, 15);
+            //foreach (var item in vmd.schPageList2)
+            //{
+            //    SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(Guid.Parse(item.Uid))).FirstOrDefault();
+            //    if (sf != null)
+            //    {
+            //        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            //        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+            //        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+            //        item.IMG = Convert.ToBase64String(imageBytes);
+            //    }
+            //}
+
+            return View(vmd);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EnvIndex(IntroViewModel.SchModel vmd)
+        {
+            vmd.schPageList2 = _IntroService.schPagesEnv(vmd.schItem, 1, 15);
+            ViewBag.schPageList = JsonConvert.SerializeObject(vmd.schItem);
+            //foreach (var item in vmd.schPageList2)
+            //{
+            //    SysFile sf = db.SysFiles.Where(x => x.FMatchKey.Equals(Guid.Parse(item.Uid))).FirstOrDefault();
+            //    if (sf != null)
+            //    {
+            //        string fileNameDL = sf.FNameDl + "." + sf.FExt;
+            //        string filePath = Path.Combine(configuration.GetValue<String>("FileRootPath"), sf.FPath, fileNameDL);
+            //        byte[] imageBytes = System.IO.File.ReadAllBytes(filePath);
+            //        item.IMG = Convert.ToBase64String(imageBytes);
+            //    }
+            //}
+            return View(vmd);
+        }
+        #endregion
+
+        #region 新增/編輯
+        public IActionResult EnvModify(Guid Uid)
+        {
+            IntroViewModel.Env? vm = new IntroViewModel.Env();
+
+            if (Uid != null)
+            {
+                //編輯
+                vm = _IntroService.GetEditDataEnv(Uid);
+            }
+            else
+            {
+                //新增
+                vm = new IntroViewModel.Env();
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EnvModify(IntroViewModel.Env vm)
+        {
+            _IntroService.user = User;
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.SaveDataEnv(vm);
+
+            //SWAL儲存成功
+            if (error.CheckMsg)
+            {
+                TempData["TempMsgType"] = "success";
+                TempData["TempMsgTitle"] = "儲存成功";
+            }
+            else
+            {
+                TempData["TempMsgType"] = "error";
+                TempData["TempMsgTitle"] = "儲存失敗";
+                TempData["TempMsg"] = error.ErrorMsg;
+            }
+
+            return RedirectToAction("ClassInfoIndex");
+        }
+
+
+        #endregion
+
+        #region 刪除
+
+        [HttpPost]
+        public IActionResult DeleteEnv(Guid Uid)
+        {
+            BaseViewModel.errorMsg error = new BaseViewModel.errorMsg();
+            error = _IntroService.DelDataEnv(Uid);
+
+            return Json(new { chk = error.CheckMsg, msg = error.ErrorMsg });
+            //return RedirectToAction("Index", new { msg = error });
+        }
+        #endregion
+
+        #endregion
+
         #region 課程及承辦資訊 ClassInfo
         #region 查詢
         public IActionResult ClassInfoIndex(String? data, Int32? page)

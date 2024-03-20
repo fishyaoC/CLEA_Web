@@ -9,11 +9,24 @@ namespace Clea_Web.ViewModels
 {
     public class IntroViewModel : BaseViewModel
     {
+        //簡介vm
         public Rate rate { get; set; }
 
         public Nav nav { get; set; }
+        public Env env { get; set; }
         public SchModel schModel { get; set; }
 
+
+        public class PAlbumList
+        {
+            public Guid Uid { get; set; }
+            public String? Memo { get; set; }
+
+            public bool thum { get; set; }
+
+            public String IMG { get; set; }
+
+        }
 
         #region 編輯頁面
         public class Rate
@@ -129,14 +142,14 @@ namespace Clea_Web.ViewModels
             /// <summary>
             /// 電話
             /// </summary>
-            [DisplayName("地址")]
+            [DisplayName("電話")]
             [Required(ErrorMessage = "必填項目!")]
             public string Phone { get; set; }
 
             /// <summary>
             /// 傳真
             /// </summary>
-            [DisplayName("地址")]
+            [DisplayName("傳真")]
             [Required(ErrorMessage = "必填項目!")]
             public string Fax { get; set; }
 
@@ -152,6 +165,55 @@ namespace Clea_Web.ViewModels
 
         }
 
+        public class Env {
+            //public List<ChildList> modifies { get; set; }
+            [DisplayName("Uid")]
+            public Guid Uid { get; set; }
+
+            /// <summary>
+            /// 標題
+            /// </summary>
+            [DisplayName("標題")]
+            [Required(ErrorMessage = "必填項目!")]
+            public String Title { get; set; }
+
+            /// <summary>
+            /// 相簿說明
+            /// </summary>
+            [DisplayName("相簿說明")]
+            public String Memo { get; set; }
+
+            /// <summary>
+            /// 排序
+            /// </summary>
+            [DisplayName("排序")]
+            [Required(ErrorMessage = "必填項目!")]
+            public int Order { get; set; }
+
+            /// <summary>
+            /// 是否上架
+            /// </summary>
+            [DisplayName("是否上架")]
+            [Required(ErrorMessage = "必填項目!")]
+            public bool Status { get; set; } = true;
+
+            /// <summary>
+            /// 圖片預覽
+            /// </summary>
+            ///[DisplayName("圖片預覽")]
+            ///[Required(ErrorMessage = "必填項目!")]
+            ///public List<string> IMGList { get; set; }
+
+            [DisplayName("圖片列表")]
+            public List<PAlbumList>? IMGList { get; set; }
+
+            [DisplayName("上傳檔案")]
+            public List<IFormFile>? file { get; set; }
+
+            [DisplayName("編輯狀態")]
+            public Boolean IsEdit { get; set; }
+
+        }
         public class ClassInfo
         {
             public List<SelectListItem> DropDownRegionItem { get; set; }

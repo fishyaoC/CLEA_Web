@@ -9,6 +9,7 @@ namespace Clea_Web.ViewModels
 {
     public class TestInfoViewModel : BaseViewModel
     {
+        //考試資訊vm
         public Rate rate { get; set; }
 
         public Nav nav { get; set; }
